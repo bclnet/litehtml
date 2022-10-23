@@ -27,7 +27,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="prefix">The prefix.</param>
 	/// <returns></returns>
-	tstring Node::lookupNamespaceURI(tstring prefix) //: Node
+	string Node::lookupNamespaceURI(string prefix) //: Node
 	{
 		return nullptr;
 	}
@@ -37,7 +37,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="namespaceURI">The namespace URI.</param>
 	/// <returns></returns>
-	tstring Node::lookupPrefix(tstring namespaceURI) //: Node
+	string Node::lookupPrefix(string namespaceURI) //: Node
 	{
 		return nullptr;
 	}
@@ -48,11 +48,11 @@ namespace litehtml
 	/// <value>
 	/// The prefix.
 	/// </value>
-	tstring Node::prefix() //: Node
+	string Node::prefix() //: Node
 	{
 		return nullptr;
 	}
-	void Node::prefix(tstring value) //: Node
+	void Node::prefix(string value) //: Node
 	{
 	}
 }
@@ -62,7 +62,7 @@ namespace litehtml
 /// </summary>
 namespace litehtml
 {
-	Attr::Attr(string_map* attrs, tstring name) : _attrs(attrs), _name(name) { }
+	Attr::Attr(string_map* attrs, string name) : _attrs(attrs), _name(name) { }
 
 	/// <summary>
 	/// Adds a new child node, to an element, as the last child node
@@ -88,7 +88,7 @@ namespace litehtml
 	/// <value>
 	/// The base URI.
 	/// </value>
-	tstring Attr::baseURI() { return _t("base"); } //: Node
+	string Attr::baseURI() { return "base"; } //: Node
 
 	/// <summary>
 	/// Returns a collection of an element's child nodes (including text and comment nodes)
@@ -146,7 +146,7 @@ namespace litehtml
 	/// <returns>
 	///   <c>true</c> if [is default namespace] [the specified namespace URI]; otherwise, <c>false</c>.
 	/// </returns>
-	bool Attr::isDefaultNamespace(tstring namespaceURI) //: Node
+	bool Attr::isDefaultNamespace(string namespaceURI) //: Node
 	{
 		return false;
 	}
@@ -197,7 +197,7 @@ namespace litehtml
 	/// <value>
 	/// The name of the node.
 	/// </value>
-	tstring Attr::nodeName() { return _name; } //: Node
+	string Attr::nodeName() { return _name; } //: Node
 
 	/// <summary>
 	/// Returns the node type of a node
@@ -213,8 +213,8 @@ namespace litehtml
 	/// <value>
 	/// The node value.
 	/// </value>
-	tstring Attr::nodeValue() { return (*_attrs)[_name]; } //: Node
-	void Attr::nodeValue(tstring value) { (*_attrs)[_name] = value; } //: Node
+	string Attr::nodeValue() { return (*_attrs)[_name]; } //: Node
+	void Attr::nodeValue(string value) { (*_attrs)[_name] = value; } //: Node
 
 	/// <summary>
 	/// Joins adjacent text nodes and removes empty text nodes in an element
@@ -281,11 +281,11 @@ namespace litehtml
 	/// <value>
 	/// The content of the text.
 	/// </value>
-	tstring Attr::textContent() //: Node
+	string Attr::textContent() //: Node
 	{
 		return nullptr;
 	}
-	void Attr::textContent(tstring value) //: Node
+	void Attr::textContent(string value) //: Node
 	{
 	}
 
@@ -295,7 +295,7 @@ namespace litehtml
 	/// <value>
 	/// The name.
 	/// </value>
-	tstring Attr::name() { return _name; }
+	string Attr::name() { return _name; }
 
 	/// <summary>
 	/// Sets or returns the value of the attribute
@@ -303,8 +303,8 @@ namespace litehtml
 	/// <value>
 	/// The value.
 	/// </value>
-	tstring Attr::value() { return (*_attrs)[_name]; }
-	void Attr::value(tstring value) { (*_attrs)[_name] = value; }
+	string Attr::value() { return (*_attrs)[_name]; }
+	void Attr::value(string value) { (*_attrs)[_name] = value; }
 
 	/// <summary>
 	/// Returns true if the attribute has been specified, otherwise it returns false
@@ -352,7 +352,7 @@ namespace litehtml
 	/// <summary>
 	/// Returns a specified attribute node from a NamedNodeMap
 	/// </summary>
-	Attr::ptr NamedNodeMap::getNamedItem(tstring nodename) { return m_attrs.find(nodename) != m_attrs.end() ? std::make_shared<Attr>(&m_attrs, nodename) : nullptr; }
+	Attr::ptr NamedNodeMap::getNamedItem(string nodename) { return m_attrs.find(nodename) != m_attrs.end() ? std::make_shared<Attr>(&m_attrs, nodename) : nullptr; }
 
 	/// <summary>
 	/// Gets the <see cref="Node"/> with the specified index.
@@ -385,7 +385,7 @@ namespace litehtml
 	/// <param name="nodename">The nodename.</param>
 	/// <returns></returns>
 	/// <exception cref="NotImplementedException"></exception>
-	Attr::ptr NamedNodeMap::removeNamedItem(tstring nodename)
+	Attr::ptr NamedNodeMap::removeNamedItem(string nodename)
 	{
 		string_map::const_iterator attr = m_attrs.find(nodename);
 		if (attr == m_attrs.end())
@@ -440,7 +440,7 @@ namespace litehtml
 	/// <returns>
 	///   <c>true</c> if [contains] [the specified class]; otherwise, <c>false</c>.
 	/// </returns>
-	bool DOMTokenList::contains(tstring class_)
+	bool DOMTokenList::contains(string class_)
 	{
 		return true;
 	}
@@ -450,7 +450,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="index">The index.</param>
 	/// <returns></returns>
-	tstring DOMTokenList::item(int index)
+	string DOMTokenList::item(int index)
 	{
 		return nullptr;
 	}
@@ -468,7 +468,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="class">The class.</param>
 	/// <param name="value">if set to <c>true</c> [value].</param>
-	void DOMTokenList::toggle(tstring class_, bool value)
+	void DOMTokenList::toggle(string class_, bool value)
 	{
 	}
 }

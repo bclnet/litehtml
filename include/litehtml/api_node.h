@@ -11,7 +11,7 @@ namespace litehtml
 	class NamedNodeMap;
 	class element;
 	class html_tag;
-	typedef std::map<litehtml::tstring, litehtml::tstring> string_map;
+	typedef std::map<string, string> string_map;
 	typedef std::vector<std::shared_ptr<litehtml::element>> elements_vector;
 
 	/// <summary>
@@ -43,7 +43,7 @@ namespace litehtml
 		/// <value>
 		/// The base URI.
 		/// </value>
-		virtual tstring baseURI() = 0;
+		virtual string baseURI() = 0;
 
 		/// <summary>
 		/// Returns a collection of an element's child nodes (including text and comment nodes)
@@ -95,7 +95,7 @@ namespace litehtml
 		/// <returns>
 		///   <c>true</c> if [is default namespace] [the specified namespace URI]; otherwise, <c>false</c>.
 		/// </returns>
-		virtual bool isDefaultNamespace(tstring namespaceURI) = 0;
+		virtual bool isDefaultNamespace(string namespaceURI) = 0;
 
 		/// <summary>
 		/// Checks if two elements are equal
@@ -128,14 +128,14 @@ namespace litehtml
 		/// </summary>
 		/// <param name="prefix">The prefix.</param>
 		/// <returns></returns>
-		tstring lookupNamespaceURI(tstring prefix); //: Base
+		string lookupNamespaceURI(string prefix); //: Base
 
 		/// <summary>
 		/// Returns the prefix associated with a given namespace URI
 		/// </summary>
 		/// <param name="namespaceURI">The namespace URI.</param>
 		/// <returns></returns>
-		tstring lookupPrefix(tstring namespaceURI); //: Base
+		string lookupPrefix(string namespaceURI); //: Base
 
 		/// <summary>
 		/// Returns the next node at the same node tree level
@@ -151,7 +151,7 @@ namespace litehtml
 		/// <value>
 		/// The name of the node.
 		/// </value>
-		virtual tstring nodeName() = 0;
+		virtual string nodeName() = 0;
 
 		/// <summary>
 		/// Returns the node type of a node
@@ -167,8 +167,8 @@ namespace litehtml
 		/// <value>
 		/// The node value.
 		/// </value>
-		virtual tstring nodeValue() = 0;
-		virtual void nodeValue(tstring value) = 0;
+		virtual string nodeValue() = 0;
+		virtual void nodeValue(string value) = 0;
 
 		/// <summary>
 		/// Joins adjacent text nodes and removes empty text nodes in an element
@@ -197,8 +197,8 @@ namespace litehtml
 		/// <value>
 		/// The prefix.
 		/// </value>
-		tstring prefix(); //: Base
-		void prefix(tstring value); //: Base
+		string prefix(); //: Base
+		void prefix(string value); //: Base
 
 		/// <summary>
 		/// Returns the previous node at the same node tree level
@@ -229,8 +229,8 @@ namespace litehtml
 		/// <value>
 		/// The content of the text.
 		/// </value>
-		virtual tstring textContent() = 0;
-		virtual void textContent(tstring value) = 0;
+		virtual string textContent() = 0;
+		virtual void textContent(string value) = 0;
 	};
 
 	/// <summary>
@@ -240,11 +240,11 @@ namespace litehtml
 	class Attr : public Node
 	{
 		string_map* _attrs;
-		tstring _name;
+		string _name;
 	public:
 		typedef std::shared_ptr<Attr> ptr;
 	public:
-		Attr(string_map* attrs, tstring name);
+		Attr(string_map* attrs, string name);
 
 		/// <summary>
 		/// Adds a new child node, to an element, as the last child node
@@ -267,7 +267,7 @@ namespace litehtml
 		/// <value>
 		/// The base URI.
 		/// </value>
-		virtual tstring baseURI() override; //: Node
+		virtual string baseURI() override; //: Node
 
 		/// <summary>
 		/// Returns a collection of an element's child nodes (including text and comment nodes)
@@ -319,7 +319,7 @@ namespace litehtml
 		/// <returns>
 		///   <c>true</c> if [is default namespace] [the specified namespace URI]; otherwise, <c>false</c>.
 		/// </returns>
-		virtual bool isDefaultNamespace(tstring namespaceURI) override; //: Node
+		virtual bool isDefaultNamespace(string namespaceURI) override; //: Node
 
 		/// <summary>
 		/// Checks if two elements are equal
@@ -352,14 +352,14 @@ namespace litehtml
 		///// </summary>
 		///// <param name="prefix">The prefix.</param>
 		///// <returns></returns>
-		//virtual tstring lookupNamespaceURI(tstring prefix) override; //: Node
+		//virtual string lookupNamespaceURI(string prefix) override; //: Node
 
 		///// <summary>
 		///// Returns the prefix associated with a given namespace URI
 		///// </summary>
 		///// <param name="namespaceURI">The namespace URI.</param>
 		///// <returns></returns>
-		//virtual tstring lookupPrefix(tstring namespaceURI) override; //: Node
+		//virtual string lookupPrefix(string namespaceURI) override; //: Node
 
 		/// <summary>
 		/// Returns the next node at the same node tree level
@@ -375,7 +375,7 @@ namespace litehtml
 		/// <value>
 		/// The name of the node.
 		/// </value>
-		virtual tstring nodeName() override; //: Node
+		virtual string nodeName() override; //: Node
 
 		/// <summary>
 		/// Returns the node type of a node
@@ -391,8 +391,8 @@ namespace litehtml
 		/// <value>
 		/// The node value.
 		/// </value>
-		virtual tstring nodeValue() override; //: Node
-		virtual void nodeValue(tstring value) override; //: Node
+		virtual string nodeValue() override; //: Node
+		virtual void nodeValue(string value) override; //: Node
 
 		/// <summary>
 		/// Joins adjacent text nodes and removes empty text nodes in an element
@@ -421,8 +421,8 @@ namespace litehtml
 		///// <value>
 		///// The prefix.
 		///// </value>
-		//virtual tstring prefix() override; //: Node
-		//virtual void prefix(tstring value) override; //: Node
+		//virtual string prefix() override; //: Node
+		//virtual void prefix(string value) override; //: Node
 
 		/// <summary>
 		/// Returns the previous node at the same node tree level
@@ -453,8 +453,8 @@ namespace litehtml
 		/// <value>
 		/// The content of the text.
 		/// </value>
-		virtual tstring textContent() override; //: Node
-		virtual void textContent(tstring value) override; //: Node
+		virtual string textContent() override; //: Node
+		virtual void textContent(string value) override; //: Node
 
 		/// <summary>
 		/// Returns the name of an attribute
@@ -462,7 +462,7 @@ namespace litehtml
 		/// <value>
 		/// The name.
 		/// </value>
-		tstring name();
+		string name();
 
 		/// <summary>
 		/// Sets or returns the value of the attribute
@@ -470,8 +470,8 @@ namespace litehtml
 		/// <value>
 		/// The value.
 		/// </value>
-		tstring value();
-		void value(tstring value);
+		string value();
+		void value(string value);
 
 		/// <summary>
 		/// Returns true if the attribute has been specified, otherwise it returns false
@@ -511,7 +511,7 @@ namespace litehtml
 		/// <summary>
 		/// Returns a specified attribute node from a NamedNodeMap
 		/// </summary>
-		Attr::ptr getNamedItem(tstring nodename);
+		Attr::ptr getNamedItem(string nodename);
 
 		/// <summary>
 		/// Gets the <see cref="Node"/> with the specified index.
@@ -545,7 +545,7 @@ namespace litehtml
 		/// <param name="nodename">The nodename.</param>
 		/// <returns></returns>
 		/// <exception cref="NotImplementedException"></exception>
-		Attr::ptr removeNamedItem(tstring nodename);
+		Attr::ptr removeNamedItem(string nodename);
 
 		/// <summary>
 		/// Sets the specified attribute node (by name)
@@ -583,14 +583,14 @@ namespace litehtml
 		/// <returns>
 		///   <c>true</c> if [contains] [the specified class]; otherwise, <c>false</c>.
 		/// </returns>
-		bool contains(tstring class_);
+		bool contains(string class_);
 
 		/// <summary>
 		/// Returns the class name with a specified index number from an element
 		/// </summary>
 		/// <param name="index">The index.</param>
 		/// <returns></returns>
-		tstring item(int index);
+		string item(int index);
 
 		/// <summary>
 		/// Removes one or more class names from an element.
@@ -603,7 +603,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="class">The class.</param>
 		/// <param name="value">if set to <c>true</c> [value].</param>
-		void toggle(tstring class_, bool value);
+		void toggle(string class_, bool value);
 	};
 }
 

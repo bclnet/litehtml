@@ -38,7 +38,7 @@ namespace litehtml
 	/// <param name="async">true (asynchronous) or false (synchronous)</param>
 	/// <param name="user">optional user name</param>
 	/// <param name="psw">optional password</param>
-	void XMLHttpRequest::open(tstring method, tstring url, bool async /*= true*/, tstring user /*= _tdefault*/, tstring psw /*= _tdefault*/) { }
+	void XMLHttpRequest::open(string method, string url, bool async /*= true*/, string user /*= _tdefault*/, string psw /*= _tdefault*/) { }
 
 	/// <summary>
 	/// Holds the status of the XMLHttpRequest.
@@ -53,7 +53,7 @@ namespace litehtml
 	/// <summary>
 	/// Returns the response data as a string
 	/// </summary>
-	tstring XMLHttpRequest::responseText() { return nullptr; }
+	string XMLHttpRequest::responseText() { return nullptr; }
 
 	/// <summary>
 	/// Returns the response data as XML data
@@ -63,7 +63,7 @@ namespace litehtml
 	/// <summary>
 	/// Sends the request to the server
 	/// </summary>
-	void XMLHttpRequest::send(tstring body /*= _tdefault*/) { }
+	void XMLHttpRequest::send(string body /*= _tdefault*/) { }
 
 	/// <summary>
 	/// Adds a label/value pair to the header to be sent
@@ -78,5 +78,5 @@ namespace litehtml
 	/// <summary>
 	/// Returns the status-text
 	/// </summary>
-	tstring XMLHttpRequest::statusText() { return nullptr; }
+	string XMLHttpRequest::statusText() { return nullptr; }
 }

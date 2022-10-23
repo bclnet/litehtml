@@ -2,7 +2,6 @@
 #include "context.h"
 #include "stylesheet.h"
 
-
 void litehtml::context::load_master_stylesheet( const char* str )
 {
 	media_query_list::ptr media;

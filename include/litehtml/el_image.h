@@ -5,7 +5,6 @@
 
 namespace litehtml
 {
-
 	class el_image : public html_tag
 	{
 		string	m_src;

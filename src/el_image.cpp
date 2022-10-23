@@ -33,10 +33,10 @@ void litehtml::el_image::parse_attributes()
 		m_style.add_property("width", attr_width, 0, false, this);
 	}
 	#if H3ML
-	const tchar_t* attr_depth = get_attr(_t("depth"));
+	const char* attr_depth = get_attr("depth");
 	if(attr_depth)
 	{
-		m_style.add_property(_t("depth"), attr_depth, 0, false, this);
+		m_style.add_property("depth", attr_depth, 0, false, this);
 	}
 	#endif
 }

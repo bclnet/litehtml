@@ -5,10 +5,9 @@
 
 namespace litehtml
 {
-
 	class el_asset : public html_tag
 	{
-		tstring	m_src;
+		string	m_src;
 	public:
 		el_asset(const std::shared_ptr<litehtml::document>& doc);
 
@@ -17,7 +16,7 @@ namespace litehtml
 		void	parse_styles(bool is_reparse = false) override;
 		void	draw(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri) override;
 		void	get_content_size(size& sz, int max_width) override;
-        tstring dump_get_name() override;
+        string	dump_get_name() override;
 
         std::shared_ptr<render_item> create_render_item(const std::shared_ptr<render_item>& parent_ri) override;
 

@@ -9,8 +9,8 @@ namespace litehtml
 	class script_engine
 	{
 	public:
-		void addScript(const Document* doc, const tchar_t* function);
-		void addEvent(const Element* el, const tchar_t* event, const tchar_t* function);
+		void addScript(const Document* doc, const char* function);
+		void addEvent(const Element* el, const char* event, const char* function);
 	};
 }
 

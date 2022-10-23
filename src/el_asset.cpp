@@ -20,23 +20,23 @@ bool litehtml::el_asset::is_replaced() const
 
 void litehtml::el_asset::parse_attributes()
 {
-	m_src = get_attr(_t("src"), _t(""));
+	m_src = get_attr("src", "");
 
-	const tchar_t* attr_height = get_attr(_t("height"));
+	const char* attr_height = get_attr("height");
 	if(attr_height)
 	{
-		m_style.add_property(_t("height"), attr_height, 0, false, this);
+		m_style.add_property("height", attr_height, 0, false, this);
 	}
-	const tchar_t* attr_width = get_attr(_t("width"));
+	const char* attr_width = get_attr("width");
 	if(attr_width)
 	{
-		m_style.add_property(_t("width"), attr_width, 0, false, this);
+		m_style.add_property("width", attr_width, 0, false, this);
 	}
 	#if H3ML
-	const tchar_t* attr_depth = get_attr(_t("depth"));
+	const char* attr_depth = get_attr("depth");
 	if(attr_depth)
 	{
-		m_style.add_property(_t("depth"), attr_depth, 0, false, this);
+		m_style.add_property("depth", attr_depth, 0, false, this);
 	}
 	#endif
 }
@@ -121,9 +121,9 @@ void litehtml::el_asset::parse_styles( bool is_reparse /*= false*/ )
 	}
 }
 
-litehtml::tstring litehtml::el_asset::dump_get_name()
+litehtml::string litehtml::el_asset::dump_get_name()
 {
-    return _t("asset src=\"") + m_src + _t("\"");
+    return "asset src=\"" + m_src + "\"";
 }
 
 std::shared_ptr<litehtml::render_item> litehtml::el_asset::create_render_item(const std::shared_ptr<render_item>& parent_ri)

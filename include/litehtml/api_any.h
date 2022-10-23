@@ -6,10 +6,10 @@ namespace litehtml
 	struct tany_t {
 		char type[3];
 		void* value0;
-		tany_t(const wchar_t value[]) { }
-		tany_t(tstring value) { }
-		tany_t(tstring value[]) { }
-		tany_t(std::map<tstring, tstring> v) { }
+		tany_t(const char* value) { }
+		tany_t(string value) { }
+		tany_t(string value[]) { }
+		tany_t(std::map<string, string> v) { }
 		tany_t(char* t, void* value) { }
 	};
 	typedef tany_t tany;

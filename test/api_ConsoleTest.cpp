@@ -7,7 +7,7 @@ using namespace litehtml;
 
 static context ctx;
 static container_test container;
-static document::ptr MakeDocument(wchar_t* source) { return document::createFromString(source, &container, &ctx); }
+static document::ptr MakeDocument(char* source) { return document::createFromString(source, &container, &ctx); }
 
 TEST(Console, Test) {
 	auto console = new Console();
@@ -18,17 +18,17 @@ TEST(Console, Test) {
 		{
 			auto x = 5;
 			auto y = 5;
-			console->assert_(x + y == 11, _t("Expression returned false"));
+			console->assert_(x + y == 11, "Expression returned false");
 		}
 		//: Write an object to the console:
 		{
 			auto x = 5;
 			auto y = 5;
-			std::map<tstring, tstring> myObj = { {_t("firstname"), _t("John")}, {_t("lastname"), _t("Doe")} };
+			std::map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
 			console->assert_(x + y == 11, myObj);
 		}
 
-		auto document = MakeDocument(LR"xyz(
+		auto document = MakeDocument(R"xyz(
 <html>
 <body>
 <p id="demo"></p>
@@ -36,13 +36,13 @@ TEST(Console, Test) {
 </html>)xyz");
 		//: Check for an element:
 		{
-			console->assert_(document->getElementById(_t("demo")), _t("You have no element with ID 'demo'"));
+			console->assert_(document->getElementById("demo"), "You have no element with ID 'demo'");
 		}
 		//: Write an array to the console:
 		{
 			auto x = 5;
 			auto y = 5;
-			tstring myArr[] = { _t("Orange"), _t("Banana"), _t("Mango"), _t("Kiwi") };
+			string myArr[] = { "Orange", "Banana", "Mango", "Kiwi" };
 			console->assert_(x + y == 11, myArr);
 		}
 	}
@@ -68,7 +68,7 @@ TEST(Console, Test) {
 		{
 			for (auto i = 0; i < 5; i++)
 			{
-				console->count(_t("myLabel"));
+				console->count("myLabel");
 			}
 		}
 		//: Call console.count() two times:
@@ -78,13 +78,13 @@ TEST(Console, Test) {
 		}
 		// Call console.count two times, with a label:
 		{
-			console->count(_t("myLabel"));
-			console->count(_t("myLabel"));
+			console->count("myLabel");
+			console->count("myLabel");
 		}
 		//: To remove the label, use "" as a parameter:
 		{
-			console->count(_t(""));
-			console->count(_t(""));
+			console->count("");
+			console->count("");
 		}
 	}
 
@@ -92,16 +92,16 @@ TEST(Console, Test) {
 	{
 		//: Write an error to the console:
 		{
-			console->error(_t("You made a mistake"));
+			console->error("You made a mistake");
 		}
 		//: Use an object as the error message:
 		{
-			std::map<tstring, tstring> myObj = { {_t("firstname"), _t("John")}, {_t("lastname"), _t("Doe")} };
+			std::map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
 			console->error(myObj);
 		}
 		//: Use an array as the error message:
 		{
-			tstring myArr[] = { _t("Orange"), _t("Banana"), _t("Mango"), _t("Kiwi") };
+			string myArr[] = { "Orange", "Banana", "Mango", "Kiwi" };
 			console->error(myArr);
 		}
 	}
@@ -110,23 +110,23 @@ TEST(Console, Test) {
 	{
 		//: Create a group of messages in the console:
 		{
-			console->log(_t("Hello world!"));
+			console->log("Hello world!");
 			console->group();
-			console->log(_t("Hello again, this time inside a group!"));
+			console->log("Hello again, this time inside a group!");
 		}
 		//: End a group with console.groupEnd():
 		{
-			console->log(_t("Hello world!"));
+			console->log("Hello world!");
 			console->group();
-			console->log(_t("Hello again, this time inside a group!"));
+			console->log("Hello again, this time inside a group!");
 			console->groupEnd();
-			console->log(_t("and we are back."));
+			console->log("and we are back.");
 		}
 		//: Specify a label for the group:
 		{
-			console->log(_t("Hello world!"));
-			console->group(_t("myLabel"));
-			console->log(_t("Hello again, this time inside a group, with a label!"));
+			console->log("Hello world!");
+			console->group("myLabel");
+			console->log("Hello again, this time inside a group, with a label!");
 		}
 	}
 
@@ -134,23 +134,23 @@ TEST(Console, Test) {
 	{
 		//: Create a collapsed group of messages in the console:
 		{
-			console->log(_t("Hello world!"));
+			console->log("Hello world!");
 			console->groupCollapsed();
-			console->log(_t("Hello again, this time inside a collapsed group!"));
+			console->log("Hello again, this time inside a collapsed group!");
 		}
 		//: End a group with console.groupEnd():
 		{
-			console->log(_t("Hello world!"));
+			console->log("Hello world!");
 			console->groupCollapsed();
-			console->log(_t("Hello again, this time inside a collapsed group!"));
+			console->log("Hello again, this time inside a collapsed group!");
 			console->groupEnd();
-			console->log(_t("and we are back."));
+			console->log("and we are back.");
 		}
 		//: Specify a label for the collapsed group:
 		{
-			console->log(_t("Hello world!"));
-			console->groupCollapsed(_t("myLabel"));
-			console->log(_t("Hello again, this time inside a collapsed group, with a label!"));
+			console->log("Hello world!");
+			console->groupCollapsed("myLabel");
+			console->log("Hello again, this time inside a collapsed group, with a label!");
 		}
 	}
 
@@ -158,11 +158,11 @@ TEST(Console, Test) {
 	{
 		//: End a message group with console.groupEnd():
 		{
-			console->log(_t("Hello world!"));
+			console->log("Hello world!");
 			console->group();
-			console->log(_t("Hello again, this time inside a group!"));
+			console->log("Hello again, this time inside a group!");
 			console->groupEnd();
-			console->log(_t("and we are back."));
+			console->log("and we are back.");
 		}
 	}
 
@@ -170,16 +170,16 @@ TEST(Console, Test) {
 	{
 		//: Write a message to the console:
 		{
-			console->info(_t("Hello world!"));
+			console->info("Hello world!");
 		}
 		//: Using an object as the message:
 		{
-			std::map<tstring, tstring> myObj = { {_t("firstname"), _t("John")}, {_t("lastname"), _t("Doe")} };
+			std::map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
 			console->info(myObj);
 		}
 		//: Using an array as the message:
 		{
-			tstring myArr[] = { _t("Orange"), _t("Banana"), _t("Mango"), _t("Kiwi") };
+			string myArr[] = { "Orange", "Banana", "Mango", "Kiwi" };
 			console->info(myArr);
 		}
 	}
@@ -188,16 +188,16 @@ TEST(Console, Test) {
 	{
 		//: Write to the console:
 		{
-			console->log(_t("Hello world!"));
+			console->log("Hello world!");
 		}
 		//: Write an object to the console:
 		{
-			std::map<tstring, tstring> myObj = { {_t("firstname"), _t("John")}, {_t("lastname"), _t("Doe")} };
+			std::map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
 			console->log(myObj);
 		}
 		//: Write an array to the console:
 		{
-			tstring myArr[] = { _t("Orange"), _t("Banana"), _t("Mango"), _t("Kiwi") };
+			string myArr[] = { "Orange", "Banana", "Mango", "Kiwi" };
 			console->log(myArr);
 		}
 	}
@@ -206,30 +206,30 @@ TEST(Console, Test) {
 	{
 		//: Write an array as a table in the console:
 		{
-			tstring p0[] = { _t("Audi"), _t("Volvo"), _t("Ford") };
+			string p0[] = { "Audi", "Volvo", "Ford" };
 			console->table(p0);
 		}
 		//: Write an object as a table in the console:
 		{
-			std::map<tstring, tstring> myObj = { { _t("firstname"), _t("John") }, { _t("lastname"), _t("Doe") } };
+			std::map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
 			console->table(&myObj);
 		}
 		//: Using an array of objects:
 		{
-			std::map<tstring, tstring> car1 = { {_t("name"), _t("Audi")}, {_t("model"), _t("A4")} };
-			std::map<tstring, tstring> car2 = { {_t("name"), _t("Volvo")}, {_t("model"), _t("XC90")} };
-			std::map<tstring, tstring> car3 = { {_t("name"), _t("Ford")}, {_t("model"), _t("Fusion")} };
+			std::map<string, string> car1 = { {"name", "Audi"}, {"model", "A4"} };
+			std::map<string, string> car2 = { {"name", "Volvo"}, {"model", "XC90"} };
+			std::map<string, string> car3 = { {"name", "Ford"}, {"model", "Fusion"} };
 
-			std::map<tstring, tstring> p0[] = { car1, car2, car3 };
+			std::map<string, string> p0[] = { car1, car2, car3 };
 			console->table(p0);
 		}
 		//: Only include the "model" column in the table:
 		{
-			std::map<tstring, tstring> car1 = { {_t("name"), _t("Audi")}, {_t("model"), _t("A4")} };
-			std::map<tstring, tstring> car2 = { {_t("name"), _t("Volvo")}, {_t("model"), _t("XC90")} };
-			std::map<tstring, tstring> car3 = { {_t("name"), _t("Ford")}, {_t("model"), _t("Fusion")} };
+			std::map<string, string> car1 = { {"name", "Audi"}, {"model", "A4"} };
+			std::map<string, string> car2 = { {"name", "Volvo"}, {"model", "XC90"} };
+			std::map<string, string> car3 = { {"name", "Ford"}, {"model", "Fusion"} };
 
-			std::map<tstring, tstring> p0[] = { car1, car2, car3 }; tstring p1[] = { _t("model") };
+			std::map<string, string> p0[] = { car1, car2, car3 }; string p1[] = { "model" };
 			console->table(p0, p1);
 		}
 	}
@@ -245,29 +245,29 @@ TEST(Console, Test) {
 			console->timeEnd();
 		}
 		{
-			console->time(_t("test1"));
+			console->time("test1");
 			for (int i = 0; i < 100000; i++)
 			{
 				// some code
 			}
-			console->timeEnd(_t("test1"));
+			console->timeEnd("test1");
 		}
 		{
 			int i;
-			console->time(_t("test for loop"));
+			console->time("test for loop");
 			for (i = 0; i < 100000; i++)
 			{
 				// some code
 			}
-			console->timeEnd(_t("test for loop"));
+			console->timeEnd("test for loop");
 
 			i = 0;
-			console->time(_t("test while loop"));
+			console->time("test while loop");
 			while (i < 1000000)
 			{
 				i++;
 			}
-			console->timeEnd(_t("test while loop"));
+			console->timeEnd("test while loop");
 		}
 	}
 
@@ -282,29 +282,29 @@ TEST(Console, Test) {
 			console->timeEnd();
 		}
 		{
-			console->time(_t("test1"));
+			console->time("test1");
 			for (int i = 0; i < 100000; i++)
 			{
 				// some code
 			}
-			console->timeEnd(_t("test1"));
+			console->timeEnd("test1");
 		}
 		{
 			int i;
-			console->time(_t("test for loop"));
+			console->time("test for loop");
 			for (i = 0; i < 100000; i++)
 			{
 				// some code
 			}
-			console->timeEnd(_t("test for loop"));
+			console->timeEnd("test for loop");
 
 			i = 0;
-			console->time(_t("test while loop"));
+			console->time("test while loop");
 			while (i < 1000000)
 			{
 				i++;
 			}
-			console->timeEnd(_t("test while loop"));
+			console->timeEnd("test while loop");
 		}
 	}
 
@@ -330,14 +330,14 @@ TEST(Console, Test) {
 	// https://www.w3schools.com/jsref/met_console_warn.asp
 	{
 		{
-			console->warn(_t("This is a warning!"));
+			console->warn("This is a warning!");
 		}
 		{
-			std::map<tstring, tstring> myObj = { { _t("firstname"), _t("John") }, { _t("lastname"), _t("Doe") } };
+			std::map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
 			console->warn(myObj);
 		}
 		{
-			tstring myArr[] = { _t("Orange"), _t("Banana"), _t("Mango"), _t("Kiwi") };
+			string myArr[] = { "Orange", "Banana", "Mango", "Kiwi" };
 			console->warn(myArr);
 		}
 	}

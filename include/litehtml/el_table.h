@@ -11,7 +11,6 @@ namespace litehtml
 		bool	is_auto;
 	};
 
-
 	class el_table : public html_tag
 	{
 	public:

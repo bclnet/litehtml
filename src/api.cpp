@@ -22,7 +22,7 @@ namespace litehtml
 	/// Logs the number of times that this particular call to count() has been called
 	/// </summary>
 	/// <param name="label">The label.</param>
-	void Console::count(tstring label /*= _tdefault*/) { }
+	void Console::count(string label /*= _tdefault*/) { }
 
 	/// <summary>
 	/// Outputs an error message to the console
@@ -34,13 +34,13 @@ namespace litehtml
 	/// Creates a new inline group in the console. This indents following console messages by an additional level, until console.groupEnd() is called
 	/// </summary>
 	/// <param name="label">The label.</param>
-	void Console::group(tstring label /*= _tdefault*/) { }
+	void Console::group(string label /*= _tdefault*/) { }
 
 	/// <summary>
 	/// Creates a new inline group in the console. However, the new group is created collapsed. The user will need to use the disclosure button to expand it
 	/// </summary>
 	/// <param name="label">The label.</param>
-	void Console::groupCollapsed(tstring label /*= _tdefault*/) { }
+	void Console::groupCollapsed(string label /*= _tdefault*/) { }
 
 	/// <summary>
 	/// Exits the current inline group in the console
@@ -64,25 +64,25 @@ namespace litehtml
 	/// </summary>
 	/// <param name="tabledata">The tabledata.</param>
 	/// <param name="tablecolumns">The tablecolumns.</param>
-	void Console::table(void* tabledata, tstring tablecolumns[] /*= nullptr*/) { }
+	void Console::table(void* tabledata, string tablecolumns[] /*= nullptr*/) { }
 
 	/// <summary>
 	/// Starts a timer (can track how long an operation takes)
 	/// </summary>
 	/// <param name="label">The label.</param>
-	void Console::time(tstring label /*= _tdefault*/) { }
+	void Console::time(string label /*= _tdefault*/) { }
 
 	/// <summary>
 	/// Stops a timer that was previously started by console.time()
 	/// </summary>
 	/// <param name="label">The label.</param>
-	void Console::timeEnd(tstring label /*= _tdefault*/) { }
+	void Console::timeEnd(string label /*= _tdefault*/) { }
 
 	/// <summary>
 	/// Outputs a stack trace to the console
 	/// </summary>
 	/// <param name="label">The label.</param>
-	void Console::trace(tstring label /*= _tdefault*/) { }
+	void Console::trace(string label /*= _tdefault*/) { }
 
 	/// <summary>
 	/// Outputs a warning message to the console
@@ -112,7 +112,7 @@ namespace litehtml
 	/// <param name="event">The event.</param>
 	/// <param name="function">The function.</param>
 	/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-	void Document::addEventListener(tstring event, tstring function, bool useCapture) { }
+	void Document::addEventListener(string event, string function, bool useCapture) { }
 
 	/// <summary>
 	/// Adopts a node from another document
@@ -161,7 +161,7 @@ namespace litehtml
 	/// <value>
 	/// The base URI.
 	/// </value>
-	tstring Document::baseURI() { return nullptr; } //: Node
+	string Document::baseURI() { return nullptr; } //: Node
 
 	/// <summary>
 	/// Sets or returns the document's body (the <body> element)
@@ -178,7 +178,7 @@ namespace litehtml
 	/// <value>
 	/// The character set.
 	/// </value>
-	tstring Document::characterSet() { return _t("UTF-8"); }
+	string Document::characterSet() { return "UTF-8"; }
 
 	/// <summary>
 	/// Returns a collection of an element's child nodes (including text and comment nodes)
@@ -210,22 +210,22 @@ namespace litehtml
 	/// <value>
 	/// The cookie.
 	/// </value>
-	tstring Document::cookie() { return nullptr; }
-	void Document::cookie(tstring value) { }
+	string Document::cookie() { return nullptr; }
+	void Document::cookie(string value) { }
 
 	/// <summary>
 	/// Creates an attribute node
 	/// </summary>
 	/// <param name="attributename">The attributename.</param>
 	/// <returns></returns>
-	Attr::ptr Document::createAttribute(tstring attributename) { return std::make_shared<Attr>(nullptr, attributename.c_str()); }
+	Attr::ptr Document::createAttribute(string attributename) { return std::make_shared<Attr>(nullptr, attributename.c_str()); }
 
 	/// <summary>
 	/// Creates a Comment node with the specified text
 	/// </summary>
 	/// <param name="text">The text.</param>
 	/// <returns></returns>
-	Node* Document::createComment(tstring text) { return nullptr; } //: IComment
+	Node* Document::createComment(string text) { return nullptr; } //: IComment
 
 	/// <summary>
 	/// Creates an empty DocumentFragment node
@@ -238,21 +238,21 @@ namespace litehtml
 	/// </summary>
 	/// <param name="nodename">The nodename.</param>
 	/// <returns></returns>
-	Element* Document::createElement(tstring nodename) { return nullptr; }
+	Element* Document::createElement(string nodename) { return nullptr; }
 
 	/// <summary>
 	/// Creates a new event
 	/// </summary>
 	/// <param name="type">The type.</param>
 	/// <returns></returns>
-	Event* Document::createEvent(tstring type) { return nullptr; }
+	Event* Document::createEvent(string type) { return nullptr; }
 
 	/// <summary>
 	/// Creates a Text node
 	/// </summary>
 	/// <param name="text">The text.</param>
 	/// <returns></returns>
-	Node* Document::createTextNode(tstring text) { return nullptr; } //: IText
+	Node* Document::createTextNode(string text) { return nullptr; } //: IText
 
 	/// <summary>
 	/// Returns the window object associated with a document, or nullptr if none is available.
@@ -268,8 +268,8 @@ namespace litehtml
 	/// <value>
 	/// The design mode.
 	/// </value>
-	tstring Document::designMode() { return _t("off"); }
-	void Document::designMode(tstring value) { throw; }
+	string Document::designMode() { return "off"; }
+	void Document::designMode(string value) { throw; }
 
 	/// <summary>
 	/// Returns the Document Type Declaration associated with the document
@@ -293,8 +293,8 @@ namespace litehtml
 	/// <value>
 	/// The document URI.
 	/// </value>
-	tstring Document::documentURI() { return nullptr; }
-	void Document::documentURI(tstring value) { }
+	string Document::documentURI() { return nullptr; }
+	void Document::documentURI(string value) { }
 
 	/// <summary>
 	/// Returns the domain name of the server that loaded the document
@@ -302,7 +302,7 @@ namespace litehtml
 	/// <value>
 	/// The domain.
 	/// </value>
-	tstring Document::domain() { return nullptr; }
+	string Document::domain() { return nullptr; }
 
 	/// <summary>
 	/// Returns a collection of all <embed> elements the document
@@ -319,7 +319,7 @@ namespace litehtml
 	/// <param name="showUI">if set to <c>true</c> [show UI].</param>
 	/// <param name="value">The value.</param>
 	/// <returns></returns>
-	bool Document::execCommand(tstring command, bool showUI, void* value) { return false; }
+	bool Document::execCommand(string command, bool showUI, void* value) { return false; }
 
 	/// <summary>
 	/// Returns the first child node of an element
@@ -356,13 +356,13 @@ namespace litehtml
 	/// </summary>
 	/// <param name="elementID">The element identifier.</param>
 	/// <returns></returns>
-	Element* Document::getElementById(tstring elementID)
+	Element* Document::getElementById(string elementID)
 	{
 		css_element_selector elem;
 		css_attribute_selector attr;
 		attr.val = elementID;
 		attr.condition = select_equal;
-		attr.attribute = _t("id");
+		attr.attribute = "id";
 		elem.m_attrs.push_back(attr);
 		css_selector sel(elem);
 		return _doc->m_root->select_one(sel).get();
@@ -373,20 +373,20 @@ namespace litehtml
 	/// </summary>
 	/// <param name="classname">The classname.</param>
 	/// <returns></returns>
-	NodeList<Element> Document::getElementsByClassName(tstring classname) { return _doc->m_root->getElementsByClassName(classname); }
+	NodeList<Element> Document::getElementsByClassName(string classname) { return _doc->m_root->getElementsByClassName(classname); }
 
 	/// <summary>
 	/// Returns a NodeList containing all elements with a specified name
 	/// </summary>
 	/// <param name="name">The name.</param>
 	/// <returns></returns>
-	NodeList<Element> Document::getElementsByName(tstring name)
+	NodeList<Element> Document::getElementsByName(string name)
 	{
 		css_element_selector elem;
 		css_attribute_selector attr;
 		attr.val = name;
 		attr.condition = select_equal;
-		attr.attribute = _t("name");
+		attr.attribute = "name";
 		elem.m_attrs.push_back(attr);
 		css_selector sel(elem);
 		return NodeList<Element>(_doc->m_root->select_all(sel));
@@ -397,7 +397,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="tagname">The tagname.</param>
 	/// <returns></returns>
-	NodeList<Element> Document::getElementsByTagName(tstring tagname) { return _doc->m_root->getElementsByTagName(tagname); }
+	NodeList<Element> Document::getElementsByTagName(string tagname) { return _doc->m_root->getElementsByTagName(tagname); }
 
 	/// <summary>
 	/// Not Supported - Returns true if the specified node has any attributes, otherwise false
@@ -461,7 +461,7 @@ namespace litehtml
 	/// <value>
 	/// The input encoding.
 	/// </value>
-	tstring Document::inputEncoding() { return _t("UTF-8"); }
+	string Document::inputEncoding() { return "UTF-8"; }
 
 	/// <summary>
 	/// Returns true if a specified namespaceURI is the default, otherwise false
@@ -470,7 +470,7 @@ namespace litehtml
 	/// <returns>
 	///   <c>true</c> if [is default namespace] [the specified namespace URI]; otherwise, <c>false</c>.
 	/// </returns>
-	bool Document::isDefaultNamespace(tstring namespaceURI) { return false; } //: Node
+	bool Document::isDefaultNamespace(string namespaceURI) { return false; } //: Node
 
 	/// <summary>
 	/// Checks if two elements are equal
@@ -528,7 +528,7 @@ namespace litehtml
 	/// <value>
 	/// The name of the node.
 	/// </value>
-	tstring Document::nodeName() { return _t("#document"); } //: Node
+	string Document::nodeName() { return "#document"; } //: Node
 
 	/// <summary>
 	/// Returns the node type of a node
@@ -544,8 +544,8 @@ namespace litehtml
 	/// <value>
 	/// The node value.
 	/// </value>
-	tstring Document::nodeValue() { return nullptr; }  //: Node
-	void Document::nodeValue(tstring value) { } //: Node
+	string Document::nodeValue() { return nullptr; }  //: Node
+	void Document::nodeValue(string value) { } //: Node
 
 	/// <summary>
 	/// Removes empty Text nodes, and joins adjacent nodes
@@ -557,7 +557,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="MIMEtype">The mim etype.</param>
 	/// <param name="replace">The replace.</param>
-	void Document::open(tstring MIMEtype, tstring replace) { }
+	void Document::open(string MIMEtype, string replace) { }
 
 	/// <summary>
 	/// Returns the root element (document object) for an element
@@ -588,14 +588,14 @@ namespace litehtml
 	/// </summary>
 	/// <param name="selectors">The selectors.</param>
 	/// <returns></returns>
-	Element* Document::querySelector(tstring selectors) { return nullptr; }
+	Element* Document::querySelector(string selectors) { return nullptr; }
 
 	/// <summary>
 	/// Returns a static NodeList containing all elements that matches a specified CSS selector(s) in the document
 	/// </summary>
 	/// <param name="selectors">The selectors.</param>
 	/// <returns></returns>
-	NodeList<Element> Document::querySelectorAll(tstring selectors) { return NodeList<Element>(); }
+	NodeList<Element> Document::querySelectorAll(string selectors) { return NodeList<Element>(); }
 
 	/// <summary>
 	/// Returns the (loading) status of the document
@@ -603,7 +603,7 @@ namespace litehtml
 	/// <value>
 	/// The state of the ready.
 	/// </value>
-	tstring Document::readyState() { return nullptr; }
+	string Document::readyState() { return nullptr; }
 
 	/// <summary>
 	/// Returns the URL of the document that loaded the current document
@@ -611,7 +611,7 @@ namespace litehtml
 	/// <value>
 	/// The referrer.
 	/// </value>
-	tstring Document::referrer() { return nullptr; }
+	string Document::referrer() { return nullptr; }
 
 	/// <summary>
 	/// Removes a child node from an element
@@ -626,7 +626,7 @@ namespace litehtml
 	/// <param name="event">The event.</param>
 	/// <param name="function">The function.</param>
 	/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-	void Document::removeEventListener(tstring event, tstring function, bool useCapture) { }
+	void Document::removeEventListener(string event, string function, bool useCapture) { }
 
 	/// <summary>
 	/// NotSupported - Renames the specified node
@@ -635,7 +635,7 @@ namespace litehtml
 	/// <param name="namespaceURI">The namespace URI.</param>
 	/// <param name="nodename">The nodename.</param>
 	/// <returns></returns>
-	Node* Document::renameNode(Node* node, tstring namespaceURI, tstring nodename) { return nullptr; }
+	Node* Document::renameNode(Node* node, string namespaceURI, string nodename) { return nullptr; }
 
 	/// <summary>
 	/// Replaces a child node in an element
@@ -659,8 +659,8 @@ namespace litehtml
 	/// <value>
 	/// The content of the text.
 	/// </value>
-	tstring Document::textContent() { return nullptr; } //: Node
-	void Document::textContent(tstring value) { } //: Node
+	string Document::textContent() { return nullptr; } //: Node
+	void Document::textContent(string value) { } //: Node
 
 	/// <summary>
 	/// Sets or returns the title of the document
@@ -668,8 +668,8 @@ namespace litehtml
 	/// <value>
 	/// The title.
 	/// </value>
-	tstring Document::title() { return nullptr; }
-	void Document::title(tstring value) { }
+	string Document::title() { return nullptr; }
+	void Document::title(string value) { }
 
 	/// <summary>
 	/// Returns the full URL of the HTML document
@@ -677,7 +677,7 @@ namespace litehtml
 	/// <value>
 	/// The URL.
 	/// </value>
-	tstring Document::URL() { return nullptr; }
+	string Document::URL() { return nullptr; }
 
 	/// <summary>
 	/// Writes HTML expressions or JavaScript code to a document
@@ -714,7 +714,7 @@ namespace litehtml
 	/// <param name="event">The event.</param>
 	/// <param name="function">The function.</param>
 	/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-	void Element::addEventListener(tstring event, tstring function, bool useCapture) { }
+	void Element::addEventListener(string event, string function, bool useCapture) { }
 
 	/// <summary>
 	/// Adds a new child node, to an element, as the last child node
@@ -740,7 +740,7 @@ namespace litehtml
 	/// <value>
 	/// The base URI.
 	/// </value>
-	tstring Element::baseURI() { return _t("base"); } //: Node
+	string Element::baseURI() { return "base"; } //: Node
 
 	/// <summary>
 	/// Removes focus from an element
@@ -781,8 +781,8 @@ namespace litehtml
 	/// <value>
 	/// The name of the class.
 	/// </value>
-	tstring Element::className() { return _elem->get_attr(_t("class")); }
-	void Element::className(tstring value) { _elem->set_attr(_t("class"), value.c_str()); }
+	string Element::className() { return _elem->get_attr("class"); }
+	void Element::className(string value) { _elem->set_attr("class", value.c_str()); }
 
 	/// <summary>
 	/// Simulates a mouse-click on an element
@@ -856,8 +856,8 @@ namespace litehtml
 	/// <value>
 	/// The content editable.
 	/// </value>
-	tstring Element::contentEditable() { return nullptr; }
-	void Element::contentEditable(tstring value) { }
+	string Element::contentEditable() { return nullptr; }
+	void Element::contentEditable(string value) { }
 
 	/// <summary>
 	/// Sets or returns the value of the dir attribute of an element
@@ -865,8 +865,8 @@ namespace litehtml
 	/// <value>
 	/// The dir.
 	/// </value>
-	tstring Element::dir() { return nullptr; }
-	void Element::dir(tstring value) { }
+	string Element::dir() { return nullptr; }
+	void Element::dir(string value) { }
 
 	/// <summary>
 	/// Cancels an element in fullscreen mode
@@ -899,14 +899,14 @@ namespace litehtml
 	/// </summary>
 	/// <param name="attributename">The attributename.</param>
 	/// <returns></returns>
-	tstring Element::getAttribute(tstring attributename) { return _elem->get_attr(attributename.c_str()); }
+	string Element::getAttribute(string attributename) { return _elem->get_attr(attributename.c_str()); }
 
 	/// <summary>
 	/// Returns the specified attribute node
 	/// </summary>
 	/// <param name="attributename">The attributename.</param>
 	/// <returns></returns>
-	Attr::ptr Element::getAttributeNode(tstring attributename) { return std::make_shared<Attr>(&dynamic_cast<html_tag*>(_elem)->m_attrs, attributename); }
+	Attr::ptr Element::getAttributeNode(string attributename) { return std::make_shared<Attr>(&dynamic_cast<html_tag*>(_elem)->m_attrs, attributename); }
 
 	/// <summary>
 	/// Returns the size of an element and its position relative to the viewport
@@ -919,13 +919,13 @@ namespace litehtml
 	/// </summary>
 	/// <param name="classname">The classname.</param>
 	/// <returns></returns>
-	NodeList<Element> Element::getElementsByClassName(tstring classname)
+	NodeList<Element> Element::getElementsByClassName(string classname)
 	{
 		css_element_selector elem;
 		css_attribute_selector attr;
 		attr.val = classname;
 		attr.condition = select_equal;
-		attr.attribute = _t("class");
+		attr.attribute = "class";
 		elem.m_attrs.push_back(attr);
 		css_selector sel(elem);
 		return NodeList<Element>(_elem->select_all(sel));
@@ -936,7 +936,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="tagname">The tagname.</param>
 	/// <returns></returns>
-	NodeList<Element> Element::getElementsByTagName(tstring tagname)
+	NodeList<Element> Element::getElementsByTagName(string tagname)
 	{
 		css_element_selector elem;
 		elem.m_tag = tagname;
@@ -952,7 +952,7 @@ namespace litehtml
 	/// <returns>
 	///   <c>true</c> if the specified attributename has attribute; otherwise, <c>false</c>.
 	/// </returns>
-	bool Element::hasAttribute(tstring attributename) { return false; } //: Node
+	bool Element::hasAttribute(string attributename) { return false; } //: Node
 	
 
 	/// <summary>
@@ -977,8 +977,8 @@ namespace litehtml
 	/// <value>
 	/// The identifier.
 	/// </value>
-	tstring Element::id() { return _elem->get_attr(_t("id")); }
-	void Element::id(tstring value) { _elem->set_attr(_t("id"), value.c_str()); }
+	string Element::id() { return _elem->get_attr("id"); }
+	void Element::id(string value) { _elem->set_attr("id", value.c_str()); }
 
 	/// <summary>
 	/// Sets or returns the content of an element
@@ -986,8 +986,8 @@ namespace litehtml
 	/// <value>
 	/// The inner HTML.
 	/// </value>
-	tstring Element::innerHTML() { return nullptr; }
-	void Element::innerHTML(tstring value) { }
+	string Element::innerHTML() { return nullptr; }
+	void Element::innerHTML(string value) { }
 
 	/// <summary>
 	/// Sets or returns the text content of a node and its descendants
@@ -995,29 +995,29 @@ namespace litehtml
 	/// <value>
 	/// The inner text.
 	/// </value>
-	tstring Element::innerText() { return nullptr; }
-	void Element::innerText(tstring value) { }
+	string Element::innerText() { return nullptr; }
+	void Element::innerText(string value) { }
 
 	/// <summary>
 	/// Inserts a HTML element at the specified position relative to the current element
 	/// </summary>
 	/// <param name="position">The position.</param>
 	/// <param name="element">The element.</param>
-	void Element::insertAdjacentElement(tstring position, Element* element) { }
+	void Element::insertAdjacentElement(string position, Element* element) { }
 
 	/// <summary>
 	/// Inserts a HTML formatted text at the specified position relative to the current element
 	/// </summary>
 	/// <param name="position">The position.</param>
 	/// <param name="text">The text.</param>
-	void Element::insertAdjacentHTML(tstring position, tstring text) { }
+	void Element::insertAdjacentHTML(string position, string text) { }
 
 	/// <summary>
 	/// Inserts text into the specified position relative to the current element
 	/// </summary>
 	/// <param name="position">The position.</param>
 	/// <param name="text">The text.</param>
-	void Element::insertAdjacentText(tstring position, tstring text) { }
+	void Element::insertAdjacentText(string position, string text) { }
 
 	/// <summary>
 	/// Inserts a new child node before a specified, existing, child node
@@ -1041,7 +1041,7 @@ namespace litehtml
 	/// <returns>
 	///   <c>true</c> if [is default namespace] [the specified namespace URI]; otherwise, <c>false</c>.
 	/// </returns>
-	bool Element::isDefaultNamespace(tstring namespaceURI) { return false; } //: Node
+	bool Element::isDefaultNamespace(string namespaceURI) { return false; } //: Node
 
 	/// <summary>
 	/// Checks if two elements are equal
@@ -1067,8 +1067,8 @@ namespace litehtml
 	/// <value>
 	/// The language.
 	/// </value>
-	tstring Element::lang() { return nullptr; }
-	void Element::lang(tstring value) { }
+	string Element::lang() { return nullptr; }
+	void Element::lang(string value) { }
 
 	/// <summary>
 	/// Returns the last child node of an element
@@ -1092,7 +1092,7 @@ namespace litehtml
 	/// <value>
 	/// The namespace URI.
 	/// </value>
-	tstring Element::namespaceURI() { return nullptr; }
+	string Element::namespaceURI() { return nullptr; }
 
 	/// <summary>
 	/// Returns the next node at the same node tree level
@@ -1116,7 +1116,7 @@ namespace litehtml
 	/// <value>
 	/// The name of the node.
 	/// </value>
-	tstring Element::nodeName() { return nullptr; } //: Node
+	string Element::nodeName() { return nullptr; } //: Node
 
 	/// <summary>
 	/// Returns the node type of a node
@@ -1132,8 +1132,8 @@ namespace litehtml
 	/// <value>
 	/// The node value.
 	/// </value>
-	tstring Element::nodeValue() { return nullptr; } //: Node
-	void Element::nodeValue(tstring value) { } //: Node
+	string Element::nodeValue() { return nullptr; } //: Node
+	void Element::nodeValue(string value) { } //: Node
 
 	/// <summary>
 	/// Joins adjacent text nodes and removes empty text nodes in an element
@@ -1225,20 +1225,20 @@ namespace litehtml
 	/// </summary>
 	/// <param name="selectors">The selectors.</param>
 	/// <returns></returns>
-	Element* Element::querySelector(tstring selectors) { return _elem->select_one(selectors).get(); }
+	Element* Element::querySelector(string selectors) { return _elem->select_one(selectors).get(); }
 
 	/// <summary>
 	/// Returns all child elements that matches a specified CSS selector(s) of an element
 	/// </summary>
 	/// <param name="selectors">The selectors.</param>
 	/// <returns></returns>
-	NodeList<Element> Element::querySelectorAll(tstring selectors) { return NodeList<Element>(); }
+	NodeList<Element> Element::querySelectorAll(string selectors) { return NodeList<Element>(); }
 
 	/// <summary>
 	/// Removes a specified attribute from an element
 	/// </summary>
 	/// <param name="attributename">The attributename.</param>
-	void Element::removeAttribute(tstring attributename) { }
+	void Element::removeAttribute(string attributename) { }
 
 	/// <summary>
 	/// Removes a specified attribute node, and returns the removed node
@@ -1260,7 +1260,7 @@ namespace litehtml
 	/// <param name="event">The event.</param>
 	/// <param name="function">The function.</param>
 	/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-	void Element::removeEventListener(tstring event, tstring function, bool useCapture) { }
+	void Element::removeEventListener(string event, string function, bool useCapture) { }
 
 	/// <summary>
 	/// Shows an element in fullscreen mode
@@ -1320,7 +1320,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="attributename">The attributename.</param>
 	/// <param name="attributevalue">The attributevalue.</param>
-	void Element::setAttribute(tstring attributename, tstring attributevalue) { }
+	void Element::setAttribute(string attributename, string attributevalue) { }
 
 	/// <summary>
 	/// Sets or changes the specified attribute node
@@ -1343,8 +1343,8 @@ namespace litehtml
 	/// <value>
 	/// The index of the tab.
 	/// </value>
-	tstring Element::tabIndex() { return 0; }
-	void Element::tabIndex(tstring value) { }
+	string Element::tabIndex() { return 0; }
+	void Element::tabIndex(string value) { }
 
 	/// <summary>
 	/// Returns the tag name of an element
@@ -1352,7 +1352,7 @@ namespace litehtml
 	/// <value>
 	/// The name of the tag.
 	/// </value>
-	tstring Element::tagName() { return nullptr; }
+	string Element::tagName() { return nullptr; }
 
 	/// <summary>
 	/// Sets or returns the textual content of a node and its descendants
@@ -1360,8 +1360,8 @@ namespace litehtml
 	/// <value>
 	/// The content of the text.
 	/// </value>
-	tstring Element::textContent() { return nullptr; } //: Node
-	void Element::textContent(tstring value) { } //: Node
+	string Element::textContent() { return nullptr; } //: Node
+	void Element::textContent(string value) { } //: Node
 
 	/// <summary>
 	/// Sets or returns the value of the title attribute of an element
@@ -1369,11 +1369,11 @@ namespace litehtml
 	/// <value>
 	/// The title.
 	/// </value>
-	tstring Element::title() { return nullptr; }
-	void Element::title(tstring value) { }
+	string Element::title() { return nullptr; }
+	void Element::title(string value) { }
 
 	/// <summary>
 	/// Converts an element to a string
 	/// </summary>
-	tstring Element::toString() { return nullptr; }
+	string Element::toString() { return nullptr; }
 }

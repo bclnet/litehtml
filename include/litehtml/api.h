@@ -76,7 +76,7 @@ namespace litehtml
 		/// Logs the number of times that this particular call to count() has been called
 		/// </summary>
 		/// <param name="label">The label.</param>
-		void count(tstring label = _tdefault);
+		void count(string label = _tdefault);
 
 		/// <summary>
 		/// Outputs an error message to the console
@@ -88,13 +88,13 @@ namespace litehtml
 		/// Creates a new inline group in the console. This indents following console messages by an additional level, until console.groupEnd() is called
 		/// </summary>
 		/// <param name="label">The label.</param>
-		void group(tstring label = _tdefault);
+		void group(string label = _tdefault);
 
 		/// <summary>
 		/// Creates a new inline group in the console. However, the new group is created collapsed. The user will need to use the disclosure button to expand it
 		/// </summary>
 		/// <param name="label">The label.</param>
-		void groupCollapsed(tstring label = _tdefault);
+		void groupCollapsed(string label = _tdefault);
 
 		/// <summary>
 		/// Exits the current inline group in the console
@@ -118,25 +118,25 @@ namespace litehtml
 		/// </summary>
 		/// <param name="tabledata">The tabledata.</param>
 		/// <param name="tablecolumns">The tablecolumns.</param>
-		void table(void* tabledata, tstring tablecolumns[] = nullptr);
+		void table(void* tabledata, string tablecolumns[] = nullptr);
 
 		/// <summary>
 		/// Starts a timer (can track how long an operation takes)
 		/// </summary>
 		/// <param name="label">The label.</param>
-		void time(tstring label = _tdefault);
+		void time(string label = _tdefault);
 
 		/// <summary>
 		/// Stops a timer that was previously started by console.time()
 		/// </summary>
 		/// <param name="label">The label.</param>
-		void timeEnd(tstring label = _tdefault);
+		void timeEnd(string label = _tdefault);
 
 		/// <summary>
 		/// Outputs a stack trace to the console
 		/// </summary>
 		/// <param name="label">The label.</param>
-		void trace(tstring label = _tdefault);
+		void trace(string label = _tdefault);
 
 		/// <summary>
 		/// Outputs a warning message to the console
@@ -170,7 +170,7 @@ namespace litehtml
 		/// <param name="event">The event.</param>
 		/// <param name="function">The function.</param>
 		/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-		void addEventListener(tstring event, tstring function, bool useCapture = false);
+		void addEventListener(string event, string function, bool useCapture = false);
 
 		/// <summary>
 		/// Adopts a node from another document
@@ -216,7 +216,7 @@ namespace litehtml
 		/// <value>
 		/// The base URI.
 		/// </value>
-		virtual tstring baseURI() override; //: Node
+		virtual string baseURI() override; //: Node
 
 		/// <summary>
 		/// Sets or returns the document's body (the <body> element)
@@ -233,7 +233,7 @@ namespace litehtml
 		/// <value>
 		/// The character set.
 		/// </value>
-		tstring characterSet();
+		string characterSet();
 
 		/// <summary>
 		/// Returns a collection of an element's child nodes (including text and comment nodes)
@@ -265,22 +265,22 @@ namespace litehtml
 		/// <value>
 		/// The cookie.
 		/// </value>
-		tstring cookie();
-		void cookie(tstring value);
+		string cookie();
+		void cookie(string value);
 
 		/// <summary>
 		/// Creates an attribute node
 		/// </summary>
 		/// <param name="attributename">The attributename.</param>
 		/// <returns></returns>
-		Attr::ptr createAttribute(tstring attributename);
+		Attr::ptr createAttribute(string attributename);
 
 		/// <summary>
 		/// Creates a Comment node with the specified text
 		/// </summary>
 		/// <param name="text">The text.</param>
 		/// <returns></returns>
-		Node* createComment(tstring text); //: IComment
+		Node* createComment(string text); //: IComment
 
 		/// <summary>
 		/// Creates an empty DocumentFragment node
@@ -293,21 +293,21 @@ namespace litehtml
 		/// </summary>
 		/// <param name="nodename">The nodename.</param>
 		/// <returns></returns>
-		Element* createElement(tstring nodename);
+		Element* createElement(string nodename);
 
 		/// <summary>
 		/// Creates a new event
 		/// </summary>
 		/// <param name="type">The type.</param>
 		/// <returns></returns>
-		Event* createEvent(tstring type);
+		Event* createEvent(string type);
 
 		/// <summary>
 		/// Creates a Text node
 		/// </summary>
 		/// <param name="text">The text.</param>
 		/// <returns></returns>
-		Node* createTextNode(tstring text); //: IText
+		Node* createTextNode(string text); //: IText
 
 		/// <summary>
 		/// Returns the window object associated with a document, or nullptr if none is available.
@@ -323,8 +323,8 @@ namespace litehtml
 		/// <value>
 		/// The design mode.
 		/// </value>
-		tstring designMode(); //= "off"
-		void designMode(tstring value);
+		string designMode(); //= "off"
+		void designMode(string value);
 
 		/// <summary>
 		/// Returns the Document Type Declaration associated with the document
@@ -348,8 +348,8 @@ namespace litehtml
 		/// <value>
 		/// The document URI.
 		/// </value>
-		tstring documentURI();
-		void documentURI(tstring value);
+		string documentURI();
+		void documentURI(string value);
 
 		/// <summary>
 		/// Returns the domain name of the server that loaded the document
@@ -357,7 +357,7 @@ namespace litehtml
 		/// <value>
 		/// The domain.
 		/// </value>
-		tstring domain();
+		string domain();
 
 		/// <summary>
 		/// Returns a collection of all <embed> elements the document
@@ -374,7 +374,7 @@ namespace litehtml
 		/// <param name="showUI">if set to <c>true</c> [show UI].</param>
 		/// <param name="value">The value.</param>
 		/// <returns></returns>
-		bool execCommand(tstring command, bool showUI, void* value = nullptr);
+		bool execCommand(string command, bool showUI, void* value = nullptr);
 
 		/// <summary>
 		/// Returns the first child node of an element
@@ -411,28 +411,28 @@ namespace litehtml
 		/// </summary>
 		/// <param name="elementID">The element identifier.</param>
 		/// <returns></returns>
-		Element* getElementById(tstring elementID);
+		Element* getElementById(string elementID);
 
 		/// <summary>
 		/// Returns a NodeList containing all elements with the specified class name
 		/// </summary>
 		/// <param name="classname">The classname.</param>
 		/// <returns></returns>
-		NodeList<Element> getElementsByClassName(tstring classname);
+		NodeList<Element> getElementsByClassName(string classname);
 
 		/// <summary>
 		/// Returns a NodeList containing all elements with a specified name
 		/// </summary>
 		/// <param name="name">The name.</param>
 		/// <returns></returns>
-		NodeList<Element> getElementsByName(tstring name);
+		NodeList<Element> getElementsByName(string name);
 
 		/// <summary>
 		/// Returns a NodeList containing all elements with the specified tag name
 		/// </summary>
 		/// <param name="tagname">The tagname.</param>
 		/// <returns></returns>
-		NodeList<Element> getElementsByTagName(tstring tagname);
+		NodeList<Element> getElementsByTagName(string tagname);
 
 		/// <summary>
 		/// Not Supported - Returns true if the specified node has any attributes, otherwise false
@@ -496,7 +496,7 @@ namespace litehtml
 		/// <value>
 		/// The input encoding.
 		/// </value>
-		tstring inputEncoding();
+		string inputEncoding();
 
 		/// <summary>
 		/// Returns true if a specified namespaceURI is the default, otherwise false
@@ -505,7 +505,7 @@ namespace litehtml
 		/// <returns>
 		///   <c>true</c> if [is default namespace] [the specified namespace URI]; otherwise, <c>false</c>.
 		/// </returns>
-		virtual bool isDefaultNamespace(tstring namespaceURI) override; //: Node
+		virtual bool isDefaultNamespace(string namespaceURI) override; //: Node
 
 		/// <summary>
 		/// Checks if two elements are equal
@@ -563,7 +563,7 @@ namespace litehtml
 		/// <value>
 		/// The name of the node.
 		/// </value>
-		virtual tstring nodeName() override; //: Node
+		virtual string nodeName() override; //: Node
 
 		/// <summary>
 		/// Returns the node type of a node
@@ -579,8 +579,8 @@ namespace litehtml
 		/// <value>
 		/// The node value.
 		/// </value>
-		virtual tstring nodeValue() override; //: Node
-		virtual void nodeValue(tstring value) override; //: Node
+		virtual string nodeValue() override; //: Node
+		virtual void nodeValue(string value) override; //: Node
 
 		/// <summary>
 		/// Removes empty Text nodes, and joins adjacent nodes
@@ -592,7 +592,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="MIMEtype">The mim etype.</param>
 		/// <param name="replace">The replace.</param>
-		void open(tstring MIMEtype = nullptr, tstring replace = nullptr);
+		void open(string MIMEtype = nullptr, string replace = nullptr);
 
 		/// <summary>
 		/// Returns the root element (document object) for an element
@@ -623,14 +623,14 @@ namespace litehtml
 		/// </summary>
 		/// <param name="selectors">The selectors.</param>
 		/// <returns></returns>
-		Element* querySelector(tstring selectors);
+		Element* querySelector(string selectors);
 
 		/// <summary>
 		/// Returns a static NodeList containing all elements that matches a specified CSS selector(s) in the document
 		/// </summary>
 		/// <param name="selectors">The selectors.</param>
 		/// <returns></returns>
-		NodeList<Element> querySelectorAll(tstring selectors);
+		NodeList<Element> querySelectorAll(string selectors);
 
 		/// <summary>
 		/// Returns the (loading) status of the document
@@ -638,7 +638,7 @@ namespace litehtml
 		/// <value>
 		/// The state of the ready.
 		/// </value>
-		tstring readyState();
+		string readyState();
 
 		/// <summary>
 		/// Returns the URL of the document that loaded the current document
@@ -646,7 +646,7 @@ namespace litehtml
 		/// <value>
 		/// The referrer.
 		/// </value>
-		tstring referrer();
+		string referrer();
 
 		/// <summary>
 		/// Removes a child node from an element
@@ -661,7 +661,7 @@ namespace litehtml
 		/// <param name="event">The event.</param>
 		/// <param name="function">The function.</param>
 		/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-		void removeEventListener(tstring event, tstring function, bool useCapture = false);
+		void removeEventListener(string event, string function, bool useCapture = false);
 
 		/// <summary>
 		/// NotSupported - Renames the specified node
@@ -670,7 +670,7 @@ namespace litehtml
 		/// <param name="namespaceURI">The namespace URI.</param>
 		/// <param name="nodename">The nodename.</param>
 		/// <returns></returns>
-		Node* renameNode(Node* node, tstring namespaceURI, tstring nodename);
+		Node* renameNode(Node* node, string namespaceURI, string nodename);
 
 		/// <summary>
 		/// Replaces a child node in an element
@@ -694,8 +694,8 @@ namespace litehtml
 		/// <value>
 		/// The content of the text.
 		/// </value>
-		virtual tstring textContent() override; //: Node
-		virtual void textContent(tstring value) override; //: Node
+		virtual string textContent() override; //: Node
+		virtual void textContent(string value) override; //: Node
 
 		/// <summary>
 		/// Sets or returns the title of the document
@@ -703,8 +703,8 @@ namespace litehtml
 		/// <value>
 		/// The title.
 		/// </value>
-		tstring title();
-		void title(tstring value);
+		string title();
+		void title(string value);
 
 		/// <summary>
 		/// Returns the full URL of the HTML document
@@ -712,7 +712,7 @@ namespace litehtml
 		/// <value>
 		/// The URL.
 		/// </value>
-		tstring URL();
+		string URL();
 
 		/// <summary>
 		/// Writes HTML expressions or JavaScript code to a document
@@ -753,7 +753,7 @@ namespace litehtml
 		/// <param name="event">The event.</param>
 		/// <param name="function">The function.</param>
 		/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-		void addEventListener(tstring event, tstring function, bool useCapture = false);
+		void addEventListener(string event, string function, bool useCapture = false);
 
 		/// <summary>
 		/// Adds a new child node, to an element, as the last child node
@@ -776,7 +776,7 @@ namespace litehtml
 		/// <value>
 		/// The base URI.
 		/// </value>
-		virtual tstring baseURI() override; //: Node
+		virtual string baseURI() override; //: Node
 
 		/// <summary>
 		/// Removes focus from an element
@@ -815,8 +815,8 @@ namespace litehtml
 		/// <value>
 		/// The name of the class.
 		/// </value>
-		tstring className();
-		void className(tstring value);
+		string className();
+		void className(string value);
 
 		/// <summary>
 		/// Simulates a mouse-click on an element
@@ -884,8 +884,8 @@ namespace litehtml
 		/// <value>
 		/// The content editable.
 		/// </value>
-		tstring contentEditable();
-		void contentEditable(tstring value);
+		string contentEditable();
+		void contentEditable(string value);
 
 		/// <summary>
 		/// Sets or returns the value of the dir attribute of an element
@@ -893,8 +893,8 @@ namespace litehtml
 		/// <value>
 		/// The dir.
 		/// </value>
-		tstring dir();
-		void dir(tstring value);
+		string dir();
+		void dir(string value);
 
 		/// <summary>
 		/// Cancels an element in fullscreen mode
@@ -927,14 +927,14 @@ namespace litehtml
 		/// </summary>
 		/// <param name="attributename">The attributename.</param>
 		/// <returns></returns>
-		tstring getAttribute(tstring attributename);
+		string getAttribute(string attributename);
 
 		/// <summary>
 		/// Returns the specified attribute node
 		/// </summary>
 		/// <param name="attributename">The attributename.</param>
 		/// <returns></returns>
-		Attr::ptr getAttributeNode(tstring attributename);
+		Attr::ptr getAttributeNode(string attributename);
 
 		/// <summary>
 		/// Returns the size of an element and its position relative to the viewport
@@ -947,14 +947,14 @@ namespace litehtml
 		/// </summary>
 		/// <param name="classname">The classname.</param>
 		/// <returns></returns>
-		NodeList<Element> getElementsByClassName(tstring classname);
+		NodeList<Element> getElementsByClassName(string classname);
 
 		/// <summary>
 		/// Returns a collection of all child elements with the specified tag name
 		/// </summary>
 		/// <param name="tagname">The tagname.</param>
 		/// <returns></returns>
-		NodeList<Element> getElementsByTagName(tstring tagname);
+		NodeList<Element> getElementsByTagName(string tagname);
 
 		/// <summary>
 		/// Returns true if an element has the specified attribute, otherwise false
@@ -963,7 +963,7 @@ namespace litehtml
 		/// <returns>
 		///   <c>true</c> if the specified attributename has attribute; otherwise, <c>false</c>.
 		/// </returns>
-		bool hasAttribute(tstring attributename);
+		bool hasAttribute(string attributename);
 
 		/// <summary>
 		/// Returns true if an element has any attributes, otherwise false
@@ -987,8 +987,8 @@ namespace litehtml
 		/// <value>
 		/// The identifier.
 		/// </value>
-		tstring id();
-		void id(tstring value);
+		string id();
+		void id(string value);
 
 		/// <summary>
 		/// Sets or returns the content of an element
@@ -996,8 +996,8 @@ namespace litehtml
 		/// <value>
 		/// The inner HTML.
 		/// </value>
-		tstring innerHTML();
-		void innerHTML(tstring value);
+		string innerHTML();
+		void innerHTML(string value);
 
 		/// <summary>
 		/// Sets or returns the text content of a node and its descendants
@@ -1005,29 +1005,29 @@ namespace litehtml
 		/// <value>
 		/// The inner text.
 		/// </value>
-		tstring innerText();
-		void innerText(tstring value);
+		string innerText();
+		void innerText(string value);
 
 		/// <summary>
 		/// Inserts a HTML element at the specified position relative to the current element
 		/// </summary>
 		/// <param name="position">The position.</param>
 		/// <param name="element">The element.</param>
-		void insertAdjacentElement(tstring position, Element* element);
+		void insertAdjacentElement(string position, Element* element);
 
 		/// <summary>
 		/// Inserts a HTML formatted text at the specified position relative to the current element
 		/// </summary>
 		/// <param name="position">The position.</param>
 		/// <param name="text">The text.</param>
-		void insertAdjacentHTML(tstring position, tstring text);
+		void insertAdjacentHTML(string position, string text);
 
 		/// <summary>
 		/// Inserts text into the specified position relative to the current element
 		/// </summary>
 		/// <param name="position">The position.</param>
 		/// <param name="text">The text.</param>
-		void insertAdjacentText(tstring position, tstring text);
+		void insertAdjacentText(string position, string text);
 
 		/// <summary>
 		/// Inserts a new child node before a specified, existing, child node
@@ -1051,7 +1051,7 @@ namespace litehtml
 		/// <returns>
 		///   <c>true</c> if [is default namespace] [the specified namespace URI]; otherwise, <c>false</c>.
 		/// </returns>
-		virtual bool isDefaultNamespace(tstring namespaceURI) override; //: Node
+		virtual bool isDefaultNamespace(string namespaceURI) override; //: Node
 
 		/// <summary>
 		/// Checks if two elements are equal
@@ -1077,8 +1077,8 @@ namespace litehtml
 		/// <value>
 		/// The language.
 		/// </value>
-		tstring lang();
-		void lang(tstring value);
+		string lang();
+		void lang(string value);
 
 		/// <summary>
 		/// Returns the last child node of an element
@@ -1102,7 +1102,7 @@ namespace litehtml
 		/// <value>
 		/// The namespace URI.
 		/// </value>
-		tstring namespaceURI();
+		string namespaceURI();
 
 		/// <summary>
 		/// Returns the next node at the same node tree level
@@ -1126,7 +1126,7 @@ namespace litehtml
 		/// <value>
 		/// The name of the node.
 		/// </value>
-		virtual tstring nodeName() override; //: Node
+		virtual string nodeName() override; //: Node
 
 		/// <summary>
 		/// Returns the node type of a node
@@ -1142,8 +1142,8 @@ namespace litehtml
 		/// <value>
 		/// The node value.
 		/// </value>
-		virtual tstring nodeValue() override; //: Node
-		virtual void nodeValue(tstring value) override; //: Node
+		virtual string nodeValue() override; //: Node
+		virtual void nodeValue(string value) override; //: Node
 
 		/// <summary>
 		/// Joins adjacent text nodes and removes empty text nodes in an element
@@ -1235,20 +1235,20 @@ namespace litehtml
 		/// </summary>
 		/// <param name="selectors">The selectors.</param>
 		/// <returns></returns>
-		Element* querySelector(tstring selectors);
+		Element* querySelector(string selectors);
 
 		/// <summary>
 		/// Returns all child elements that matches a specified CSS selector(s) of an element
 		/// </summary>
 		/// <param name="selectors">The selectors.</param>
 		/// <returns></returns>
-		NodeList<Element> querySelectorAll(tstring selectors);
+		NodeList<Element> querySelectorAll(string selectors);
 
 		/// <summary>
 		/// Removes a specified attribute from an element
 		/// </summary>
 		/// <param name="attributename">The attributename.</param>
-		void removeAttribute(tstring attributename);
+		void removeAttribute(string attributename);
 
 		/// <summary>
 		/// Removes a specified attribute node, and returns the removed node
@@ -1270,7 +1270,7 @@ namespace litehtml
 		/// <param name="event">The event.</param>
 		/// <param name="function">The function.</param>
 		/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-		void removeEventListener(tstring event, tstring function, bool useCapture = false);
+		void removeEventListener(string event, string function, bool useCapture = false);
 
 		/// <summary>
 		/// Replaces a child node in an element
@@ -1330,7 +1330,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="attributename">The attributename.</param>
 		/// <param name="attributevalue">The attributevalue.</param>
-		void setAttribute(tstring attributename, tstring attributevalue);
+		void setAttribute(string attributename, string attributevalue);
 
 		/// <summary>
 		/// Sets or changes the specified attribute node
@@ -1353,8 +1353,8 @@ namespace litehtml
 		/// <value>
 		/// The index of the tab.
 		/// </value>
-		tstring tabIndex();
-		void tabIndex(tstring value);
+		string tabIndex();
+		void tabIndex(string value);
 
 		/// <summary>
 		/// Returns the tag name of an element
@@ -1362,7 +1362,7 @@ namespace litehtml
 		/// <value>
 		/// The name of the tag.
 		/// </value>
-		tstring tagName();
+		string tagName();
 
 		/// <summary>
 		/// Sets or returns the textual content of a node and its descendants
@@ -1370,8 +1370,8 @@ namespace litehtml
 		/// <value>
 		/// The content of the text.
 		/// </value>
-		virtual tstring textContent() override; //: Node
-		virtual void textContent(tstring value) override; //: Node
+		virtual string textContent() override; //: Node
+		virtual void textContent(string value) override; //: Node
 
 		/// <summary>
 		/// Sets or returns the value of the title attribute of an element
@@ -1379,13 +1379,13 @@ namespace litehtml
 		/// <value>
 		/// The title.
 		/// </value>
-		tstring title();
-		void title(tstring value);
+		string title();
+		void title(string value);
 
 		/// <summary>
 		/// Converts an element to a string
 		/// </summary>
-		tstring toString();
+		string toString();
 	};
 
 	/// <summary>
@@ -1413,7 +1413,7 @@ namespace litehtml
 		/// Returns the reason of an error occurring when using the geolocating device
 		/// </summary>
 		/// <value>The position error.</value>
-		tstring positionError();
+		string positionError();
 
 		/// <summary>
 		/// Describes an object containing option properties to pass as a parameter of Geolocation.getCurrentPosition() and Geolocation.watchPosition()
@@ -1507,7 +1507,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="name">The name.</param>
 		/// <returns></returns>
-		Element* namedItem(tstring name);
+		Element* namedItem(string name);
 	};
 
 	/// <summary>
@@ -1523,8 +1523,8 @@ namespace litehtml
 		/// <value>
 		/// The hash.
 		/// </value>
-		tstring hash();
-		void hash(tstring value);
+		string hash();
+		void hash(string value);
 
 		/// <summary>
 		/// Sets or returns the hostname and port number of a URL
@@ -1532,8 +1532,8 @@ namespace litehtml
 		/// <value>
 		/// The host.
 		/// </value>
-		tstring host();
-		void host(tstring value);
+		string host();
+		void host(string value);
 
 		/// <summary>
 		/// Sets or returns the hostname of a URL
@@ -1541,8 +1541,8 @@ namespace litehtml
 		/// <value>
 		/// The hostname.
 		/// </value>
-		tstring hostname();
-		void hostname(tstring value);
+		string hostname();
+		void hostname(string value);
 
 		/// <summary>
 		/// Sets or returns the entire URL
@@ -1550,8 +1550,8 @@ namespace litehtml
 		/// <value>
 		/// The href.
 		/// </value>
-		tstring href();
-		void href(tstring value);
+		string href();
+		void href(string value);
 
 		/// <summary>
 		/// Returns the protocol, hostname and port number of a URL
@@ -1559,7 +1559,7 @@ namespace litehtml
 		/// <value>
 		/// The origin.
 		/// </value>
-		tstring origin();
+		string origin();
 
 		/// <summary>
 		/// Sets or returns the path name of a URL
@@ -1567,8 +1567,8 @@ namespace litehtml
 		/// <value>
 		/// The pathname.
 		/// </value>
-		tstring pathname();
-		void pathname(tstring value);
+		string pathname();
+		void pathname(string value);
 
 		/// <summary>
 		/// Sets or returns the port number of a URL
@@ -1576,8 +1576,8 @@ namespace litehtml
 		/// <value>
 		/// The port.
 		/// </value>
-		tstring port();
-		void port(tstring value);
+		string port();
+		void port(string value);
 
 		/// <summary>
 		/// Sets or returns the protocol of a URL
@@ -1585,8 +1585,8 @@ namespace litehtml
 		/// <value>
 		/// The protocol.
 		/// </value>
-		tstring protocol();
-		void protocol(tstring value);
+		string protocol();
+		void protocol(string value);
 
 		/// <summary>
 		/// Sets or returns the querystring part of a URL
@@ -1594,14 +1594,14 @@ namespace litehtml
 		/// <value>
 		/// The search.
 		/// </value>
-		tstring search();
-		void search(tstring value);
+		string search();
+		void search(string value);
 
 		/// <summary>
 		/// Loads a new document
 		/// </summary>
 		/// <param name="URL">The URL.</param>
-		void assign(tstring URL);
+		void assign(string URL);
 
 		/// <summary>
 		/// Reloads the current document
@@ -1613,7 +1613,7 @@ namespace litehtml
 		/// Replaces the current document with a new one
 		/// </summary>
 		/// <param name="newURL">The new URL.</param>
-		void replace(tstring newURL);
+		void replace(string newURL);
 	};
 
 	/// <summary>
@@ -1637,7 +1637,7 @@ namespace litehtml
 		/// <value>
 		/// The media.
 		/// </value>
-		tstring media();
+		string media();
 
 		/// <summary>
 		/// Adds a new listener function, which is executed whenever the media query's evaluated result changes
@@ -1667,7 +1667,7 @@ namespace litehtml
 	   /// <value>
 	   /// The name of the application code.
 	   /// </value>
-		tstring appCodeName();
+		string appCodeName();
 
 		/// <summary>
 		/// Returns the name of the browser
@@ -1675,7 +1675,7 @@ namespace litehtml
 		/// <value>
 		/// The name of the application.
 		/// </value>
-		tstring appName();
+		string appName();
 
 		/// <summary>
 		/// Returns the version information of the browser
@@ -1683,7 +1683,7 @@ namespace litehtml
 		/// <value>
 		/// The application version.
 		/// </value>
-		tstring appVersion();
+		string appVersion();
 
 		/// <summary>
 		/// Determines whether cookies are enabled in the browser
@@ -1707,7 +1707,7 @@ namespace litehtml
 		/// <value>
 		/// The language.
 		/// </value>
-		tstring language();
+		string language();
 
 		/// <summary>
 		/// Determines whether the browser is online
@@ -1723,7 +1723,7 @@ namespace litehtml
 		/// <value>
 		/// The platform.
 		/// </value>
-		tstring platform();
+		string platform();
 
 		/// <summary>
 		/// Returns the engine name of the browser
@@ -1731,7 +1731,7 @@ namespace litehtml
 		/// <value>
 		/// The product.
 		/// </value>
-		tstring product();
+		string product();
 
 		/// <summary>
 		/// Returns the user-agent header sent by the browser to the server
@@ -1739,7 +1739,7 @@ namespace litehtml
 		/// <value>
 		/// The user agent.
 		/// </value>
-		tstring userAgent();
+		string userAgent();
 
 		/// <summary>
 		/// Specifies whether or not the browser has Java enabled
@@ -1815,8 +1815,8 @@ namespace litehtml
 		/// Sets or returns the alignment between the lines inside a flexible container when the items do not use all available space
 		/// </summary>
 		/// <value>The content of the align.</value>
-		tstring alignContent();
-		void alignContent(tstring value);
+		string alignContent();
+		void alignContent(string value);
 
 		/// <summary>
 		/// Sets or returns the alignment for items inside a flexible container
@@ -1824,8 +1824,8 @@ namespace litehtml
 		/// <value>
 		/// The align items.
 		/// </value>
-		tstring alignItems();
-		void alignItems(tstring value);
+		string alignItems();
+		void alignItems(string value);
 
 		/// <summary>
 		/// Sets or returns the alignment for selected items inside a flexible container
@@ -1833,8 +1833,8 @@ namespace litehtml
 		/// <value>
 		/// The align self.
 		/// </value>
-		tstring alignSelf();
-		void alignSelf(tstring value);
+		string alignSelf();
+		void alignSelf(string value);
 
 		/// <summary>
 		/// A shorthand property for all the animation properties below, except the animationPlayState property
@@ -1842,8 +1842,8 @@ namespace litehtml
 		/// <value>
 		/// The animation.
 		/// </value>
-		tstring animation();
-		void animation(tstring value);
+		string animation();
+		void animation(string value);
 
 		/// <summary>
 		/// Sets or returns when the animation will start
@@ -1851,8 +1851,8 @@ namespace litehtml
 		/// <value>
 		/// The animation delay.
 		/// </value>
-		tstring animationDelay();
-		void animationDelay(tstring value);
+		string animationDelay();
+		void animationDelay(string value);
 
 		/// <summary>
 		/// Sets or returns whether or not the animation should play in reverse on alternate cycles
@@ -1860,8 +1860,8 @@ namespace litehtml
 		/// <value>
 		/// The animation direction.
 		/// </value>
-		tstring animationDirection();
-		void animationDirection(tstring value);
+		string animationDirection();
+		void animationDirection(string value);
 
 		/// <summary>
 		/// Sets or returns how many seconds or milliseconds an animation takes to complete one cycle
@@ -1869,8 +1869,8 @@ namespace litehtml
 		/// <value>
 		/// The duration of the animation.
 		/// </value>
-		tstring animationDuration();
-		void animationDuration(tstring value);
+		string animationDuration();
+		void animationDuration(string value);
 
 		/// <summary>
 		/// Sets or returns what values are applied by the animation outside the time it is executing
@@ -1878,8 +1878,8 @@ namespace litehtml
 		/// <value>
 		/// The animation fill mode.
 		/// </value>
-		tstring animationFillMode();
-		void animationFillMode(tstring value);
+		string animationFillMode();
+		void animationFillMode(string value);
 
 		/// <summary>
 		/// Sets or returns the number of times an animation should be played
@@ -1887,8 +1887,8 @@ namespace litehtml
 		/// <value>
 		/// The animation iteration count.
 		/// </value>
-		tstring animationIterationCount();
-		void animationIterationCount(tstring value);
+		string animationIterationCount();
+		void animationIterationCount(string value);
 
 		/// <summary>
 		/// Sets or returns a name for the @keyframes animation
@@ -1896,8 +1896,8 @@ namespace litehtml
 		/// <value>
 		/// The name of the animation.
 		/// </value>
-		tstring animationName();
-		void animationName(tstring value);
+		string animationName();
+		void animationName(string value);
 
 		/// <summary>
 		/// Sets or returns the speed curve of the animation
@@ -1905,8 +1905,8 @@ namespace litehtml
 		/// <value>
 		/// The animation timing function.
 		/// </value>
-		tstring animationTimingFunction();
-		void animationTimingFunction(tstring value);
+		string animationTimingFunction();
+		void animationTimingFunction(string value);
 
 		/// <summary>
 		/// Sets or returns whether the animation is running or paused
@@ -1914,8 +1914,8 @@ namespace litehtml
 		/// <value>
 		/// The state of the animation play.
 		/// </value>
-		tstring animationPlayState();
-		void animationPlayState(tstring value);
+		string animationPlayState();
+		void animationPlayState(string value);
 
 		/// <summary>
 		/// Sets or returns all the background properties in one declaration
@@ -1923,8 +1923,8 @@ namespace litehtml
 		/// <value>
 		/// The background.
 		/// </value>
-		tstring background();
-		void background(tstring value);
+		string background();
+		void background(string value);
 
 		/// <summary>
 		/// Sets or returns whether a background-image is fixed or scrolls with the page
@@ -1932,8 +1932,8 @@ namespace litehtml
 		/// <value>
 		/// The background attachment.
 		/// </value>
-		tstring backgroundAttachment();
-		void backgroundAttachment(tstring value);
+		string backgroundAttachment();
+		void backgroundAttachment(string value);
 
 		/// <summary>
 		/// Sets or returns the background-color of an element
@@ -1941,8 +1941,8 @@ namespace litehtml
 		/// <value>
 		/// The color of the background.
 		/// </value>
-		tstring backgroundColor();
-		void backgroundColor(tstring value);
+		string backgroundColor();
+		void backgroundColor(string value);
 
 		/// <summary>
 		/// Sets or returns the background-image for an element
@@ -1950,8 +1950,8 @@ namespace litehtml
 		/// <value>
 		/// The background image.
 		/// </value>
-		tstring backgroundImage();
-		void backgroundImage(tstring value);
+		string backgroundImage();
+		void backgroundImage(string value);
 
 		/// <summary>
 		/// Sets or returns the starting position of a background-image
@@ -1959,8 +1959,8 @@ namespace litehtml
 		/// <value>
 		/// The background position.
 		/// </value>
-		tstring backgroundPosition();
-		void backgroundPosition(tstring value);
+		string backgroundPosition();
+		void backgroundPosition(string value);
 
 		/// <summary>
 		/// Sets or returns how to repeat (tile) a background-image
@@ -1968,8 +1968,8 @@ namespace litehtml
 		/// <value>
 		/// The background repeat.
 		/// </value>
-		tstring backgroundRepeat();
-		void backgroundRepeat(tstring value);
+		string backgroundRepeat();
+		void backgroundRepeat(string value);
 
 		/// <summary>
 		/// Sets or returns the painting area of the background
@@ -1977,8 +1977,8 @@ namespace litehtml
 		/// <value>
 		/// The background clip.
 		/// </value>
-		tstring backgroundClip();
-		void backgroundClip(tstring value);
+		string backgroundClip();
+		void backgroundClip(string value);
 
 		/// <summary>
 		/// Sets or returns the positioning area of the background images
@@ -1986,8 +1986,8 @@ namespace litehtml
 		/// <value>
 		/// The background origin.
 		/// </value>
-		tstring backgroundOrigin();
-		void backgroundOrigin(tstring value);
+		string backgroundOrigin();
+		void backgroundOrigin(string value);
 
 		/// <summary>
 		/// Sets or returns the size of the background image
@@ -1995,8 +1995,8 @@ namespace litehtml
 		/// <value>
 		/// The size of the background.
 		/// </value>
-		tstring backgroundSize();
-		void backgroundSize(tstring value);
+		string backgroundSize();
+		void backgroundSize(string value);
 
 		/// <summary>
 		/// Sets or returns whether or not an element should be visible when not facing the screen
@@ -2004,8 +2004,8 @@ namespace litehtml
 		/// <value>
 		/// The backface visibility.
 		/// </value>
-		tstring backfaceVisibility();
-		void backfaceVisibility(tstring value);
+		string backfaceVisibility();
+		void backfaceVisibility(string value);
 
 		/// <summary>
 		/// Sets or returns borderWidth, borderStyle, and borderColor in one declaration
@@ -2013,8 +2013,8 @@ namespace litehtml
 		/// <value>
 		/// The border.
 		/// </value>
-		tstring border();
-		void border(tstring value);
+		string border();
+		void border(string value);
 
 		/// <summary>
 		/// Sets or returns all the borderBottom properties in one declaration
@@ -2022,8 +2022,8 @@ namespace litehtml
 		/// <value>
 		/// The border bottom.
 		/// </value>
-		tstring borderBottom();
-		void borderBottom(tstring value);
+		string borderBottom();
+		void borderBottom(string value);
 
 		/// <summary>
 		/// Sets or returns the color of the bottom border
@@ -2031,8 +2031,8 @@ namespace litehtml
 		/// <value>
 		/// The border bottom.
 		/// </value>
-		tstring borderBottomColor();
-		void borderBottomColor(tstring value);
+		string borderBottomColor();
+		void borderBottomColor(string value);
 
 		/// <summary>
 		/// Sets or returns the shape of the border of the bottom-left corner
@@ -2040,8 +2040,8 @@ namespace litehtml
 		/// <value>
 		/// The border bottom.
 		/// </value>
-		tstring borderBottomLeftRadius();
-		void borderBottomLeftRadius(tstring value);
+		string borderBottomLeftRadius();
+		void borderBottomLeftRadius(string value);
 
 		/// <summary>
 		/// Sets or returns the shape of the border of the bottom-right corner
@@ -2049,8 +2049,8 @@ namespace litehtml
 		/// <value>
 		/// The border bottom.
 		/// </value>
-		tstring borderBottomRightRadius();
-		void borderBottomRightRadius(tstring value);
+		string borderBottomRightRadius();
+		void borderBottomRightRadius(string value);
 
 		/// <summary>
 		/// Sets or returns the style of the bottom border
@@ -2058,8 +2058,8 @@ namespace litehtml
 		/// <value>
 		/// The border bottom.
 		/// </value>
-		tstring borderBottomStyle();
-		void borderBottomStyle(tstring value);
+		string borderBottomStyle();
+		void borderBottomStyle(string value);
 
 		/// <summary>
 		/// Sets or returns the width of the bottom border
@@ -2067,8 +2067,8 @@ namespace litehtml
 		/// <value>
 		/// The border bottom.
 		/// </value>
-		tstring borderBottomWidth();
-		void borderBottomWidth(tstring value);
+		string borderBottomWidth();
+		void borderBottomWidth(string value);
 
 		/// <summary>
 		/// Sets or returns whether the table border should be collapsed into a single border, or not
@@ -2076,8 +2076,8 @@ namespace litehtml
 		/// <value>
 		/// The border collapse.
 		/// </value>
-		tstring borderCollapse();
-		void borderCollapse(tstring value);
+		string borderCollapse();
+		void borderCollapse(string value);
 
 		/// <summary>
 		/// Sets or returns the color of an element's border (can have up to four values)
@@ -2085,8 +2085,8 @@ namespace litehtml
 		/// <value>
 		/// The color of the border.
 		/// </value>
-		tstring borderColor();
-		void borderColor(tstring value);
+		string borderColor();
+		void borderColor(string value);
 
 		/// <summary>
 		/// A shorthand property for setting or returning all the borderImage properties
@@ -2094,8 +2094,8 @@ namespace litehtml
 		/// <value>
 		/// The border image.
 		/// </value>
-		tstring borderImage();
-		void borderImage(tstring value);
+		string borderImage();
+		void borderImage(string value);
 
 		/// <summary>
 		/// Sets or returns the amount by which the border image area extends beyond the border box
@@ -2103,8 +2103,8 @@ namespace litehtml
 		/// <value>
 		/// The border image outset.
 		/// </value>
-		tstring borderImageOutset();
-		void borderImageOutset(tstring value);
+		string borderImageOutset();
+		void borderImageOutset(string value);
 
 		/// <summary>
 		/// Sets or returns whether the image-border should be repeated, rounded or stretched
@@ -2112,8 +2112,8 @@ namespace litehtml
 		/// <value>
 		/// The border image repeat.
 		/// </value>
-		tstring borderImageRepeat();
-		void borderImageRepeat(tstring value);
+		string borderImageRepeat();
+		void borderImageRepeat(string value);
 
 		/// <summary>
 		/// Sets or returns the inward offsets of the image-border
@@ -2121,8 +2121,8 @@ namespace litehtml
 		/// <value>
 		/// The border image slice.
 		/// </value>
-		tstring borderImageSlice();
-		void borderImageSlice(tstring value);
+		string borderImageSlice();
+		void borderImageSlice(string value);
 
 		/// <summary>
 		/// Sets or returns the image to be used as a border
@@ -2130,8 +2130,8 @@ namespace litehtml
 		/// <value>
 		/// The border image source.
 		/// </value>
-		tstring borderImageSource();
-		void borderImageSource(tstring value);
+		string borderImageSource();
+		void borderImageSource(string value);
 
 		/// <summary>
 		/// Sets or returns the widths of the image-border
@@ -2139,8 +2139,8 @@ namespace litehtml
 		/// <value>
 		/// The width of the border image.
 		/// </value>
-		tstring borderImageWidth();
-		void borderImageWidth(tstring value);
+		string borderImageWidth();
+		void borderImageWidth(string value);
 
 		/// <summary>
 		/// Sets or returns all the borderLeft properties in one declaration
@@ -2148,8 +2148,8 @@ namespace litehtml
 		/// <value>
 		/// The border left.
 		/// </value>
-		tstring borderLeft();
-		void borderLeft(tstring value);
+		string borderLeft();
+		void borderLeft(string value);
 
 		/// <summary>
 		/// Sets or returns the color of the left border
@@ -2157,8 +2157,8 @@ namespace litehtml
 		/// <value>
 		/// The color of the border left.
 		/// </value>
-		tstring borderLeftColor();
-		void borderLeftColor(tstring value);
+		string borderLeftColor();
+		void borderLeftColor(string value);
 
 		/// <summary>
 		/// Sets or returns the style of the left border
@@ -2166,8 +2166,8 @@ namespace litehtml
 		/// <value>
 		/// The border left style.
 		/// </value>
-		tstring borderLeftStyle();
-		void borderLeftStyle(tstring value);
+		string borderLeftStyle();
+		void borderLeftStyle(string value);
 
 		/// <summary>
 		/// Sets or returns the width of the left border
@@ -2175,8 +2175,8 @@ namespace litehtml
 		/// <value>
 		/// The width of the border left.
 		/// </value>
-		tstring borderLeftWidth();
-		void borderLeftWidth(tstring value);
+		string borderLeftWidth();
+		void borderLeftWidth(string value);
 
 		/// <summary>
 		/// A shorthand property for setting or returning all the four borderRadius properties
@@ -2184,8 +2184,8 @@ namespace litehtml
 		/// <value>
 		/// The border radius.
 		/// </value>
-		tstring borderRadius();
-		void borderRadius(tstring value);
+		string borderRadius();
+		void borderRadius(string value);
 
 		/// <summary>
 		/// Sets or returns all the borderRight properties in one declaration
@@ -2193,8 +2193,8 @@ namespace litehtml
 		/// <value>
 		/// The border right.
 		/// </value>
-		tstring borderRight();
-		void borderRight(tstring value);
+		string borderRight();
+		void borderRight(string value);
 
 		/// <summary>
 		/// Sets or returns the color of the right border
@@ -2202,8 +2202,8 @@ namespace litehtml
 		/// <value>
 		/// The color of the border right.
 		/// </value>
-		tstring borderRightColor();
-		void borderRightColor(tstring value);
+		string borderRightColor();
+		void borderRightColor(string value);
 
 		/// <summary>
 		/// Sets or returns the style of the right border
@@ -2211,8 +2211,8 @@ namespace litehtml
 		/// <value>
 		/// The border right style.
 		/// </value>
-		tstring borderRightStyle();
-		void borderRightStyle(tstring value);
+		string borderRightStyle();
+		void borderRightStyle(string value);
 
 		/// <summary>
 		/// Sets or returns the width of the right border
@@ -2220,8 +2220,8 @@ namespace litehtml
 		/// <value>
 		/// The width of the border right.
 		/// </value>
-		tstring borderRightWidth();
-		void borderRightWidth(tstring value);
+		string borderRightWidth();
+		void borderRightWidth(string value);
 
 		/// <summary>
 		/// Sets or returns the space between cells in a table
@@ -2229,8 +2229,8 @@ namespace litehtml
 		/// <value>
 		/// The border spacing.
 		/// </value>
-		tstring borderSpacing();
-		void borderSpacing(tstring value);
+		string borderSpacing();
+		void borderSpacing(string value);
 
 		/// <summary>
 		/// Sets or returns the style of an element's border (can have up to four values)
@@ -2238,8 +2238,8 @@ namespace litehtml
 		/// <value>
 		/// The border style.
 		/// </value>
-		tstring borderStyle();
-		void borderStyle(tstring value);
+		string borderStyle();
+		void borderStyle(string value);
 
 		/// <summary>
 		/// Sets or returns all the borderTop properties in one declaration
@@ -2247,8 +2247,8 @@ namespace litehtml
 		/// <value>
 		/// The border top.
 		/// </value>
-		tstring borderTop();
-		void borderTop(tstring value);
+		string borderTop();
+		void borderTop(string value);
 
 		/// <summary>
 		/// Sets or returns the color of the top border
@@ -2256,8 +2256,8 @@ namespace litehtml
 		/// <value>
 		/// The color of the border top.
 		/// </value>
-		tstring borderTopColor();
-		void borderTopColor(tstring value);
+		string borderTopColor();
+		void borderTopColor(string value);
 
 		/// <summary>
 		/// Sets or returns the shape of the border of the top-left corner
@@ -2265,8 +2265,8 @@ namespace litehtml
 		/// <value>
 		/// The border top left radius.
 		/// </value>
-		tstring borderTopLeftRadius();
-		void borderTopLeftRadius(tstring value);
+		string borderTopLeftRadius();
+		void borderTopLeftRadius(string value);
 
 		/// <summary>
 		/// Sets or returns the shape of the border of the top-right corner
@@ -2274,8 +2274,8 @@ namespace litehtml
 		/// <value>
 		/// The border top right radius.
 		/// </value>
-		tstring borderTopRightRadius();
-		void borderTopRightRadius(tstring value);
+		string borderTopRightRadius();
+		void borderTopRightRadius(string value);
 
 		/// <summary>
 		/// Sets or returns the style of the top border
@@ -2283,8 +2283,8 @@ namespace litehtml
 		/// <value>
 		/// The border top style.
 		/// </value>
-		tstring borderTopStyle();
-		void borderTopStyle(tstring value);
+		string borderTopStyle();
+		void borderTopStyle(string value);
 
 		/// <summary>
 		/// Sets or returns the width of the top border
@@ -2292,8 +2292,8 @@ namespace litehtml
 		/// <value>
 		/// The width of the border top.
 		/// </value>
-		tstring borderTopWidth();
-		void borderTopWidth(tstring value);
+		string borderTopWidth();
+		void borderTopWidth(string value);
 
 		/// <summary>
 		/// Sets or returns the width of an element's border (can have up to four values)
@@ -2301,8 +2301,8 @@ namespace litehtml
 		/// <value>
 		/// The width of the border.
 		/// </value>
-		tstring borderWidth();
-		void borderWidth(tstring value);
+		string borderWidth();
+		void borderWidth(string value);
 
 		/// <summary>
 		/// Sets or returns the bottom position of a positioned element
@@ -2310,8 +2310,8 @@ namespace litehtml
 		/// <value>
 		/// The bottom.
 		/// </value>
-		tstring bottom();
-		void bottom(tstring value);
+		string bottom();
+		void bottom(string value);
 
 		/// <summary>
 		/// Sets or returns the behaviour of the background and border of an element at page-break, or, for in-line elements, at line-break.
@@ -2319,8 +2319,8 @@ namespace litehtml
 		/// <value>
 		/// The box decoration break.
 		/// </value>
-		tstring boxDecorationBreak();
-		void boxDecorationBreak(tstring value);
+		string boxDecorationBreak();
+		void boxDecorationBreak(string value);
 
 		/// <summary>
 		/// Attaches one or more drop-shadows to the box
@@ -2328,8 +2328,8 @@ namespace litehtml
 		/// <value>
 		/// The box shadow.
 		/// </value>
-		tstring boxShadow();
-		void boxShadow(tstring value);
+		string boxShadow();
+		void boxShadow(string value);
 
 		/// <summary>
 		/// Allows you to define certain elements to fit an area in a certain way
@@ -2337,8 +2337,8 @@ namespace litehtml
 		/// <value>
 		/// The box sizing.
 		/// </value>
-		tstring boxSizing();
-		void boxSizing(tstring value);
+		string boxSizing();
+		void boxSizing(string value);
 
 		/// <summary>
 		/// Sets or returns the position of the table caption
@@ -2346,8 +2346,8 @@ namespace litehtml
 		/// <value>
 		/// The caption side.
 		/// </value>
-		tstring captionSide();
-		void captionSide(tstring value);
+		string captionSide();
+		void captionSide(string value);
 
 		/// <summary>
 		/// Sets or returns the position of the element relative to floating objects
@@ -2355,8 +2355,8 @@ namespace litehtml
 		/// <value>
 		/// The clear.
 		/// </value>
-		tstring clear();
-		void clear(tstring value);
+		string clear();
+		void clear(string value);
 
 		/// <summary>
 		/// Sets or returns which part of a positioned element is visible
@@ -2364,8 +2364,8 @@ namespace litehtml
 		/// <value>
 		/// The clip.
 		/// </value>
-		tstring clip();
-		void clip(tstring value);
+		string clip();
+		void clip(string value);
 
 		/// <summary>
 		/// Sets or returns the color of the text
@@ -2373,8 +2373,8 @@ namespace litehtml
 		/// <value>
 		/// The color.
 		/// </value>
-		tstring color();
-		void color(tstring value);
+		string color();
+		void color(string value);
 
 		/// <summary>
 		/// Sets or returns the number of columns an element should be divided into
@@ -2382,8 +2382,8 @@ namespace litehtml
 		/// <value>
 		/// The column count.
 		/// </value>
-		tstring columnCount();
-		void columnCount(tstring value);
+		string columnCount();
+		void columnCount(string value);
 
 		/// <summary>
 		/// Sets or returns how to fill columns
@@ -2391,8 +2391,8 @@ namespace litehtml
 		/// <value>
 		/// The column fill.
 		/// </value>
-		tstring columnFill();
-		void columnFill(tstring value);
+		string columnFill();
+		void columnFill(string value);
 
 		/// <summary>
 		/// Sets or returns the gap between the columns
@@ -2400,8 +2400,8 @@ namespace litehtml
 		/// <value>
 		/// The column gap.
 		/// </value>
-		tstring columnGap();
-		void columnGap(tstring value);
+		string columnGap();
+		void columnGap(string value);
 
 		/// <summary>
 		/// A shorthand property for setting or returning all the columnRule properties
@@ -2409,8 +2409,8 @@ namespace litehtml
 		/// <value>
 		/// The column rule.
 		/// </value>
-		tstring columnRule();
-		void columnRule(tstring value);
+		string columnRule();
+		void columnRule(string value);
 
 		/// <summary>
 		/// Sets or returns the color of the rule between columns
@@ -2418,8 +2418,8 @@ namespace litehtml
 		/// <value>
 		/// The color of the column rule.
 		/// </value>
-		tstring columnRuleColor();
-		void columnRuleColor(tstring value);
+		string columnRuleColor();
+		void columnRuleColor(string value);
 
 		/// <summary>
 		/// Sets or returns the style of the rule between columns
@@ -2427,8 +2427,8 @@ namespace litehtml
 		/// <value>
 		/// The column rule style.
 		/// </value>
-		tstring columnRuleStyle();
-		void columnRuleStyle(tstring value);
+		string columnRuleStyle();
+		void columnRuleStyle(string value);
 
 		/// <summary>
 		/// Sets or returns the width of the rule between columns
@@ -2436,8 +2436,8 @@ namespace litehtml
 		/// <value>
 		/// The width of the column rule.
 		/// </value>
-		tstring columnRuleWidth();
-		void columnRuleWidth(tstring value);
+		string columnRuleWidth();
+		void columnRuleWidth(string value);
 
 		/// <summary>
 		/// A shorthand property for setting or returning columnWidth and columnCount
@@ -2445,8 +2445,8 @@ namespace litehtml
 		/// <value>
 		/// The columns.
 		/// </value>
-		tstring columns();
-		void columns(tstring value);
+		string columns();
+		void columns(string value);
 
 		/// <summary>
 		/// Sets or returns how many columns an element should span across
@@ -2454,8 +2454,8 @@ namespace litehtml
 		/// <value>
 		/// The column span.
 		/// </value>
-		tstring columnSpan();
-		void columnSpan(tstring value);
+		string columnSpan();
+		void columnSpan(string value);
 
 		/// <summary>
 		/// Sets or returns the width of the columns
@@ -2463,8 +2463,8 @@ namespace litehtml
 		/// <value>
 		/// The width of the column.
 		/// </value>
-		tstring columnWidth();
-		void columnWidth(tstring value);
+		string columnWidth();
+		void columnWidth(string value);
 
 		/// <summary>
 		/// Used with the :before and :after pseudo-elements, to insert generated content
@@ -2472,8 +2472,8 @@ namespace litehtml
 		/// <value>
 		/// The content.
 		/// </value>
-		tstring content();
-		void content(tstring value);
+		string content();
+		void content(string value);
 
 		/// <summary>
 		/// Increments one or more counters
@@ -2481,8 +2481,8 @@ namespace litehtml
 		/// <value>
 		/// The counter increment.
 		/// </value>
-		tstring counterIncrement();
-		void counterIncrement(tstring value);
+		string counterIncrement();
+		void counterIncrement(string value);
 
 		/// <summary>
 		/// Creates or resets one or more counters
@@ -2490,8 +2490,8 @@ namespace litehtml
 		/// <value>
 		/// The counter reset.
 		/// </value>
-		tstring counterReset();
-		void counterReset(tstring value);
+		string counterReset();
+		void counterReset(string value);
 
 		/// <summary>
 		/// Sets or returns the type of cursor to display for the mouse pointer
@@ -2499,8 +2499,8 @@ namespace litehtml
 		/// <value>
 		/// The cursor.
 		/// </value>
-		tstring cursor();
-		void cursor(tstring value);
+		string cursor();
+		void cursor(string value);
 
 		/// <summary>
 		/// Sets or returns the text direction
@@ -2508,8 +2508,8 @@ namespace litehtml
 		/// <value>
 		/// The direction.
 		/// </value>
-		tstring direction();
-		void direction(tstring value);
+		string direction();
+		void direction(string value);
 
 		/// <summary>
 		/// Sets or returns an element's display type
@@ -2517,8 +2517,8 @@ namespace litehtml
 		/// <value>
 		/// The display.
 		/// </value>
-		tstring display();
-		void display(tstring value);
+		string display();
+		void display(string value);
 
 		/// <summary>
 		/// Sets or returns whether to show the border and background of empty cells, or not
@@ -2526,8 +2526,8 @@ namespace litehtml
 		/// <value>
 		/// The empty cells.
 		/// </value>
-		tstring emptyCells();
-		void emptyCells(tstring value);
+		string emptyCells();
+		void emptyCells(string value);
 
 		/// <summary>
 		/// Sets or returns image filters (visual effects, like blur and saturation)
@@ -2535,8 +2535,8 @@ namespace litehtml
 		/// <value>
 		/// The filter.
 		/// </value>
-		tstring filter();
-		void filter(tstring value);
+		string filter();
+		void filter(string value);
 
 		/// <summary>
 		/// Sets or returns the length of the item, relative to the rest
@@ -2544,8 +2544,8 @@ namespace litehtml
 		/// <value>
 		/// The flex.
 		/// </value>
-		tstring flex();
-		void flex(tstring value);
+		string flex();
+		void flex(string value);
 
 		/// <summary>
 		/// Sets or returns the initial length of a flexible item
@@ -2553,8 +2553,8 @@ namespace litehtml
 		/// <value>
 		/// The flex basis.
 		/// </value>
-		tstring flexBasis();
-		void flexBasis(tstring value);
+		string flexBasis();
+		void flexBasis(string value);
 
 		/// <summary>
 		/// Sets or returns the direction of the flexible items
@@ -2562,8 +2562,8 @@ namespace litehtml
 		/// <value>
 		/// The flex direction.
 		/// </value>
-		tstring flexDirection();
-		void flexDirection(tstring value);
+		string flexDirection();
+		void flexDirection(string value);
 
 		/// <summary>
 		/// A shorthand property for the flexDirection and the flexWrap properties
@@ -2571,8 +2571,8 @@ namespace litehtml
 		/// <value>
 		/// The flex flow.
 		/// </value>
-		tstring flexFlow();
-		void flexFlow(tstring value);
+		string flexFlow();
+		void flexFlow(string value);
 
 		/// <summary>
 		/// Sets or returns how much the item will grow relative to the rest
@@ -2580,8 +2580,8 @@ namespace litehtml
 		/// <value>
 		/// The flex grow.
 		/// </value>
-		tstring flexGrow();
-		void flexGrow(tstring value);
+		string flexGrow();
+		void flexGrow(string value);
 
 		/// <summary>
 		/// Sets or returns how the item will shrink relative to the rest
@@ -2589,8 +2589,8 @@ namespace litehtml
 		/// <value>
 		/// The flex shrink.
 		/// </value>
-		tstring flexShrink();
-		void flexShrink(tstring value);
+		string flexShrink();
+		void flexShrink(string value);
 
 		/// <summary>
 		/// Sets or returns whether the flexible items should wrap or not
@@ -2598,8 +2598,8 @@ namespace litehtml
 		/// <value>
 		/// The flex wrap.
 		/// </value>
-		tstring flexWrap();
-		void flexWrap(tstring value);
+		string flexWrap();
+		void flexWrap(string value);
 
 		/// <summary>
 		/// Sets or returns the horizontal alignment of an element
@@ -2607,8 +2607,8 @@ namespace litehtml
 		/// <value>
 		/// The CSS float.
 		/// </value>
-		tstring cssFloat();
-		void cssFloat(tstring value);
+		string cssFloat();
+		void cssFloat(string value);
 
 		/// <summary>
 		/// Sets or returns fontStyle, fontVariant, fontWeight, fontSize, lineHeight, and fontFamily in one declaration
@@ -2616,8 +2616,8 @@ namespace litehtml
 		/// <value>
 		/// The font.
 		/// </value>
-		tstring font();
-		void font(tstring value);
+		string font();
+		void font(string value);
 
 		/// <summary>
 		/// Sets or returns the font family for text
@@ -2625,8 +2625,8 @@ namespace litehtml
 		/// <value>
 		/// The font family.
 		/// </value>
-		tstring fontFamily();
-		void fontFamily(tstring value);
+		string fontFamily();
+		void fontFamily(string value);
 
 		/// <summary>
 		/// Sets or returns the font size of the text
@@ -2634,8 +2634,8 @@ namespace litehtml
 		/// <value>
 		/// The size of the font.
 		/// </value>
-		tstring fontSize();
-		void fontSize(tstring value);
+		string fontSize();
+		void fontSize(string value);
 
 		/// <summary>
 		/// Sets or returns whether the style of the font is normal, italic or oblique
@@ -2643,8 +2643,8 @@ namespace litehtml
 		/// <value>
 		/// The font style.
 		/// </value>
-		tstring fontStyle();
-		void fontStyle(tstring value);
+		string fontStyle();
+		void fontStyle(string value);
 
 		/// <summary>
 		/// Sets or returns whether the font should be displayed in small capital letters
@@ -2652,8 +2652,8 @@ namespace litehtml
 		/// <value>
 		/// The font variant.
 		/// </value>
-		tstring fontVariant();
-		void fontVariant(tstring value);
+		string fontVariant();
+		void fontVariant(string value);
 
 		/// <summary>
 		/// Sets or returns the boldness of the font
@@ -2661,8 +2661,8 @@ namespace litehtml
 		/// <value>
 		/// The font weight.
 		/// </value>
-		tstring fontWeight();
-		void fontWeight(tstring value);
+		string fontWeight();
+		void fontWeight(string value);
 
 		/// <summary>
 		/// Preserves the readability of text when font fallback occurs
@@ -2670,8 +2670,8 @@ namespace litehtml
 		/// <value>
 		/// The font size adjust.
 		/// </value>
-		tstring fontSizeAdjust();
-		void fontSizeAdjust(tstring value);
+		string fontSizeAdjust();
+		void fontSizeAdjust(string value);
 
 		/// <summary>
 		/// Selects a normal, condensed, or expanded face from a font family
@@ -2679,8 +2679,8 @@ namespace litehtml
 		/// <value>
 		/// The font stretch.
 		/// </value>
-		tstring fontStretch();
-		void fontStretch(tstring value);
+		string fontStretch();
+		void fontStretch(string value);
 
 		/// <summary>
 		/// Specifies whether a punctuation character may be placed outside the line box
@@ -2688,8 +2688,8 @@ namespace litehtml
 		/// <value>
 		/// The hanging punctuation.
 		/// </value>
-		tstring hangingPunctuation();
-		void hangingPunctuation(tstring value);
+		string hangingPunctuation();
+		void hangingPunctuation(string value);
 
 		/// <summary>
 		/// Sets or returns the height of an element
@@ -2697,8 +2697,8 @@ namespace litehtml
 		/// <value>
 		/// The height.
 		/// </value>
-		tstring height();
-		void height(tstring value);
+		string height();
+		void height(string value);
 
 		/// <summary>
 		/// Sets how to split words to improve the layout of paragraphs
@@ -2706,8 +2706,8 @@ namespace litehtml
 		/// <value>
 		/// The hyphens.
 		/// </value>
-		tstring hyphens();
-		void hyphens(tstring value);
+		string hyphens();
+		void hyphens(string value);
 
 		/// <summary>
 		/// Provides the author the ability to style an element with an iconic equivalent
@@ -2715,8 +2715,8 @@ namespace litehtml
 		/// <value>
 		/// The icon.
 		/// </value>
-		tstring icon();
-		void icon(tstring value);
+		string icon();
+		void icon(string value);
 
 		/// <summary>
 		/// Specifies a rotation in the right or clockwise direction that a user agent applies to an image
@@ -2724,8 +2724,8 @@ namespace litehtml
 		/// <value>
 		/// The image orientation.
 		/// </value>
-		tstring imageOrientation();
-		void imageOrientation(tstring value);
+		string imageOrientation();
+		void imageOrientation(string value);
 
 		/// <summary>
 		/// Defines whether an element must create a new stacking content
@@ -2733,8 +2733,8 @@ namespace litehtml
 		/// <value>
 		/// The isolation.
 		/// </value>
-		tstring isolation();
-		void isolation(tstring value);
+		string isolation();
+		void isolation(string value);
 
 		/// <summary>
 		/// Sets or returns the alignment between the items inside a flexible container when the items do not use all available space.
@@ -2742,8 +2742,8 @@ namespace litehtml
 		/// <value>
 		/// The content of the justify.
 		/// </value>
-		tstring justifyContent();
-		void justifyContent(tstring value);
+		string justifyContent();
+		void justifyContent(string value);
 
 		/// <summary>
 		/// Sets or returns the left position of a positioned element
@@ -2751,8 +2751,8 @@ namespace litehtml
 		/// <value>
 		/// The left.
 		/// </value>
-		tstring left();
-		void left(tstring value);
+		string left();
+		void left(string value);
 
 		/// <summary>
 		/// Sets or returns the space between characters in a text
@@ -2760,8 +2760,8 @@ namespace litehtml
 		/// <value>
 		/// The letter spacing.
 		/// </value>
-		tstring letterSpacing();
-		void letterSpacing(tstring value);
+		string letterSpacing();
+		void letterSpacing(string value);
 
 		/// <summary>
 		/// Sets or returns the distance between lines in a text
@@ -2769,8 +2769,8 @@ namespace litehtml
 		/// <value>
 		/// The height of the line.
 		/// </value>
-		tstring lineHeight();
-		void lineHeight(tstring value);
+		string lineHeight();
+		void lineHeight(string value);
 
 		/// <summary>
 		/// Sets or returns listStyleImage, listStylePosition, and listStyleType in one declaration
@@ -2778,8 +2778,8 @@ namespace litehtml
 		/// <value>
 		/// The list style.
 		/// </value>
-		tstring listStyle();
-		void listStyle(tstring value);
+		string listStyle();
+		void listStyle(string value);
 
 		/// <summary>
 		/// Sets or returns an image as the list-item marker
@@ -2787,8 +2787,8 @@ namespace litehtml
 		/// <value>
 		/// The list style image.
 		/// </value>
-		tstring listStyleImage();
-		void listStyleImage(tstring value);
+		string listStyleImage();
+		void listStyleImage(string value);
 
 		/// <summary>
 		/// Sets or returns the position of the list-item marker
@@ -2796,8 +2796,8 @@ namespace litehtml
 		/// <value>
 		/// The list style position.
 		/// </value>
-		tstring listStylePosition();
-		void listStylePosition(tstring value);
+		string listStylePosition();
+		void listStylePosition(string value);
 
 		/// <summary>
 		/// Sets or returns the list-item marker type
@@ -2805,8 +2805,8 @@ namespace litehtml
 		/// <value>
 		/// The type of the list style.
 		/// </value>
-		tstring listStyleType();
-		void listStyleType(tstring value);
+		string listStyleType();
+		void listStyleType(string value);
 
 		/// <summary>
 		/// Sets or returns the margins of an element (can have up to four values)
@@ -2814,8 +2814,8 @@ namespace litehtml
 		/// <value>
 		/// The margin.
 		/// </value>
-		tstring margin();
-		void margin(tstring value);
+		string margin();
+		void margin(string value);
 
 		/// <summary>
 		/// Sets or returns the bottom margin of an element
@@ -2823,8 +2823,8 @@ namespace litehtml
 		/// <value>
 		/// The margin bottom.
 		/// </value>
-		tstring marginBottom();
-		void marginBottom(tstring value);
+		string marginBottom();
+		void marginBottom(string value);
 
 		/// <summary>
 		/// Sets or returns the left margin of an element
@@ -2832,8 +2832,8 @@ namespace litehtml
 		/// <value>
 		/// The margin left.
 		/// </value>
-		tstring marginLeft();
-		void marginLeft(tstring value);
+		string marginLeft();
+		void marginLeft(string value);
 
 		/// <summary>
 		/// Sets or returns the right margin of an element
@@ -2841,8 +2841,8 @@ namespace litehtml
 		/// <value>
 		/// The margin right.
 		/// </value>
-		tstring marginRight();
-		void marginRight(tstring value);
+		string marginRight();
+		void marginRight(string value);
 
 		/// <summary>
 		/// Sets or returns the top margin of an element
@@ -2850,8 +2850,8 @@ namespace litehtml
 		/// <value>
 		/// The margin top.
 		/// </value>
-		tstring marginTop();
-		void marginTop(tstring value);
+		string marginTop();
+		void marginTop(string value);
 
 		/// <summary>
 		/// Sets or returns the maximum height of an element
@@ -2859,8 +2859,8 @@ namespace litehtml
 		/// <value>
 		/// The maximum height.
 		/// </value>
-		tstring maxHeight();
-		void maxHeight(tstring value);
+		string maxHeight();
+		void maxHeight(string value);
 
 		/// <summary>
 		/// Sets or returns the maximum width of an element
@@ -2868,8 +2868,8 @@ namespace litehtml
 		/// <value>
 		/// The maximum width.
 		/// </value>
-		tstring maxWidth();
-		void maxWidth(tstring value);
+		string maxWidth();
+		void maxWidth(string value);
 
 		/// <summary>
 		/// Sets or returns the minimum height of an element
@@ -2877,8 +2877,8 @@ namespace litehtml
 		/// <value>
 		/// The minimum height.
 		/// </value>
-		tstring minHeight();
-		void minHeight(tstring value);
+		string minHeight();
+		void minHeight(string value);
 
 		/// <summary>
 		/// Sets or returns the minimum width of an element
@@ -2886,8 +2886,8 @@ namespace litehtml
 		/// <value>
 		/// The minimum width.
 		/// </value>
-		tstring minWidth();
-		void minWidth(tstring value);
+		string minWidth();
+		void minWidth(string value);
 
 		/// <summary>
 		/// Sets or returns where to navigate when using the arrow-down navigation key
@@ -2895,8 +2895,8 @@ namespace litehtml
 		/// <value>
 		/// The nav down.
 		/// </value>
-		tstring navDown();
-		void navDown(tstring value);
+		string navDown();
+		void navDown(string value);
 
 		/// <summary>
 		/// Sets or returns the tabbing order for an element
@@ -2904,8 +2904,8 @@ namespace litehtml
 		/// <value>
 		/// The index of the nav.
 		/// </value>
-		tstring navIndex();
-		void navIndex(tstring value);
+		string navIndex();
+		void navIndex(string value);
 
 		/// <summary>
 		/// Sets or returns where to navigate when using the arrow-left navigation key
@@ -2913,8 +2913,8 @@ namespace litehtml
 		/// <value>
 		/// The nav left.
 		/// </value>
-		tstring navLeft();
-		void navLeft(tstring value);
+		string navLeft();
+		void navLeft(string value);
 
 		/// <summary>
 		/// Sets or returns where to navigate when using the arrow-right navigation key
@@ -2922,8 +2922,8 @@ namespace litehtml
 		/// <value>
 		/// The nav right.
 		/// </value>
-		tstring navRight();
-		void navRight(tstring value);
+		string navRight();
+		void navRight(string value);
 
 		/// <summary>
 		/// Sets or returns where to navigate when using the arrow-up navigation key
@@ -2931,8 +2931,8 @@ namespace litehtml
 		/// <value>
 		/// The nav up.
 		/// </value>
-		tstring navUp();
-		void navUp(tstring value);
+		string navUp();
+		void navUp(string value);
 
 		/// <summary>
 		/// Specifies how the contents of a replaced element should be fitted to the box established by its used height and width
@@ -2940,8 +2940,8 @@ namespace litehtml
 		/// <value>
 		/// The object fit.
 		/// </value>
-		tstring objectFit();
-		void objectFit(tstring value);
+		string objectFit();
+		void objectFit(string value);
 
 		/// <summary>
 		/// Specifies the alignment of the replaced element inside its box
@@ -2949,8 +2949,8 @@ namespace litehtml
 		/// <value>
 		/// The object position.
 		/// </value>
-		tstring objectPosition();
-		void objectPosition(tstring value);
+		string objectPosition();
+		void objectPosition(string value);
 
 		/// <summary>
 		/// Sets or returns the opacity level for an element
@@ -2958,8 +2958,8 @@ namespace litehtml
 		/// <value>
 		/// The opacity.
 		/// </value>
-		tstring opacity();
-		void opacity(tstring value);
+		string opacity();
+		void opacity(string value);
 
 		/// <summary>
 		/// Sets or returns the order of the flexible item, relative to the rest
@@ -2967,8 +2967,8 @@ namespace litehtml
 		/// <value>
 		/// The order.
 		/// </value>
-		tstring order();
-		void order(tstring value);
+		string order();
+		void order(string value);
 
 		/// <summary>
 		/// Sets or returns the minimum number of lines for an element that must be left at the bottom of a page when a page break occurs inside an element
@@ -2976,8 +2976,8 @@ namespace litehtml
 		/// <value>
 		/// The orphans.
 		/// </value>
-		tstring orphans();
-		void orphans(tstring value);
+		string orphans();
+		void orphans(string value);
 
 		/// <summary>
 		/// Sets or returns all the outline properties in one declaration
@@ -2985,8 +2985,8 @@ namespace litehtml
 		/// <value>
 		/// The outline.
 		/// </value>
-		tstring outline();
-		void outline(tstring);
+		string outline();
+		void outline(string);
 
 		/// <summary>
 		/// Sets or returns the color of the outline around a element
@@ -2994,8 +2994,8 @@ namespace litehtml
 		/// <value>
 		/// The color of the outline.
 		/// </value>
-		tstring outlineColor();
-		void outlineColor(tstring value);
+		string outlineColor();
+		void outlineColor(string value);
 
 		/// <summary>
 		/// Offsets an outline, and draws it beyond the border edge
@@ -3003,8 +3003,8 @@ namespace litehtml
 		/// <value>
 		/// The outline offset.
 		/// </value>
-		tstring outlineOffset();
-		void outlineOffset(tstring value);
+		string outlineOffset();
+		void outlineOffset(string value);
 
 		/// <summary>
 		/// Sets or returns the style of the outline around an element
@@ -3012,8 +3012,8 @@ namespace litehtml
 		/// <value>
 		/// The outline style.
 		/// </value>
-		tstring outlineStyle();
-		void outlineStyle(tstring value);
+		string outlineStyle();
+		void outlineStyle(string value);
 
 		/// <summary>
 		/// Sets or returns the width of the outline around an element
@@ -3021,8 +3021,8 @@ namespace litehtml
 		/// <value>
 		/// The width of the outline.
 		/// </value>
-		tstring outlineWidth();
-		void outlineWidth(tstring value);
+		string outlineWidth();
+		void outlineWidth(string value);
 
 		/// <summary>
 		/// Sets or returns what to do with content that renders outside the element box
@@ -3030,8 +3030,8 @@ namespace litehtml
 		/// <value>
 		/// The overflow.
 		/// </value>
-		tstring overflow();
-		void overflow(tstring value);
+		string overflow();
+		void overflow(string value);
 
 		/// <summary>
 		/// Specifies what to do with the left/right edges of the content, if it overflows the element's content area
@@ -3039,8 +3039,8 @@ namespace litehtml
 		/// <value>
 		/// The overflow x.
 		/// </value>
-		tstring overflowX();
-		void overflowX(tstring value);
+		string overflowX();
+		void overflowX(string value);
 
 		/// <summary>
 		/// Specifies what to do with the top/bottom edges of the content, if it overflows the element's content area
@@ -3048,8 +3048,8 @@ namespace litehtml
 		/// <value>
 		/// The overflow y.
 		/// </value>
-		tstring overflowY();
-		void overflowY(tstring value);
+		string overflowY();
+		void overflowY(string value);
 
 		/// <summary>
 		/// Sets or returns the padding of an element (can have up to four values)
@@ -3057,8 +3057,8 @@ namespace litehtml
 		/// <value>
 		/// The padding.
 		/// </value>
-		tstring padding();
-		void padding(tstring value);
+		string padding();
+		void padding(string value);
 
 		/// <summary>
 		/// Sets or returns the bottom padding of an element
@@ -3066,8 +3066,8 @@ namespace litehtml
 		/// <value>
 		/// The padding bottom.
 		/// </value>
-		tstring paddingBottom();
-		void paddingBottom(tstring value);
+		string paddingBottom();
+		void paddingBottom(string value);
 
 		/// <summary>
 		/// Sets or returns the left padding of an element
@@ -3075,8 +3075,8 @@ namespace litehtml
 		/// <value>
 		/// The padding left.
 		/// </value>
-		tstring paddingLeft();
-		void paddingLeft(tstring value);
+		string paddingLeft();
+		void paddingLeft(string value);
 
 		/// <summary>
 		/// Sets or returns the right padding of an element
@@ -3084,8 +3084,8 @@ namespace litehtml
 		/// <value>
 		/// The padding right.
 		/// </value>
-		tstring paddingRight();
-		void paddingRight(tstring value);
+		string paddingRight();
+		void paddingRight(string value);
 
 		/// <summary>
 		/// Sets or returns the top padding of an element
@@ -3093,8 +3093,8 @@ namespace litehtml
 		/// <value>
 		/// The padding top.
 		/// </value>
-		tstring paddingTop();
-		void paddingTop(tstring value);
+		string paddingTop();
+		void paddingTop(string value);
 
 		/// <summary>
 		/// Sets or returns the page-break behavior after an element
@@ -3102,8 +3102,8 @@ namespace litehtml
 		/// <value>
 		/// The page break after.
 		/// </value>
-		tstring pageBreakAfter();
-		void pageBreakAfter(tstring value);
+		string pageBreakAfter();
+		void pageBreakAfter(string value);
 
 		/// <summary>
 		/// Sets or returns the page-break behavior before an element
@@ -3111,8 +3111,8 @@ namespace litehtml
 		/// <value>
 		/// The page break before.
 		/// </value>
-		tstring pageBreakBefore();
-		void pageBreakBefore(tstring value);
+		string pageBreakBefore();
+		void pageBreakBefore(string value);
 
 		/// <summary>
 		/// Sets or returns the page-break behavior inside an element
@@ -3120,8 +3120,8 @@ namespace litehtml
 		/// <value>
 		/// The page break inside.
 		/// </value>
-		tstring pageBreakInside();
-		void pageBreakInside(tstring value);
+		string pageBreakInside();
+		void pageBreakInside(string value);
 
 		/// <summary>
 		/// Sets or returns the perspective on how 3D elements are viewed
@@ -3129,8 +3129,8 @@ namespace litehtml
 		/// <value>
 		/// The perspective.
 		/// </value>
-		tstring perspective();
-		void perspective(tstring value);
+		string perspective();
+		void perspective(string value);
 
 		/// <summary>
 		/// Sets or returns the bottom position of 3D elements
@@ -3138,8 +3138,8 @@ namespace litehtml
 		/// <value>
 		/// The perspective origin.
 		/// </value>
-		tstring perspectiveOrigin();
-		void perspectiveOrigin(tstring value);
+		string perspectiveOrigin();
+		void perspectiveOrigin(string value);
 
 		/// <summary>
 		/// Sets or returns the type of positioning method used for an element (static, relative, absolute or fixed)
@@ -3147,8 +3147,8 @@ namespace litehtml
 		/// <value>
 		/// The position.
 		/// </value>
-		tstring position();
-		void position(tstring value);
+		string position();
+		void position(string value);
 
 		/// <summary>
 		/// Sets or returns the type of quotation marks for embedded quotations
@@ -3156,8 +3156,8 @@ namespace litehtml
 		/// <value>
 		/// The quotes.
 		/// </value>
-		tstring quotes();
-		void quotes(tstring value);
+		string quotes();
+		void quotes(string value);
 
 		/// <summary>
 		/// Sets or returns whether or not an element is resizable by the user
@@ -3165,8 +3165,8 @@ namespace litehtml
 		/// <value>
 		/// The resize.
 		/// </value>
-		tstring resize();
-		void resize(tstring value);
+		string resize();
+		void resize(string value);
 
 		/// <summary>
 		/// Sets or returns the right position of a positioned element
@@ -3174,8 +3174,8 @@ namespace litehtml
 		/// <value>
 		/// The right.
 		/// </value>
-		tstring right();
-		void right(tstring value);
+		string right();
+		void right(string value);
 
 		/// <summary>
 		/// Sets or returns the way to lay out table cells, rows, and columns
@@ -3183,8 +3183,8 @@ namespace litehtml
 		/// <value>
 		/// The table layout.
 		/// </value>
-		tstring tableLayout();
-		void tableLayout(tstring value);
+		string tableLayout();
+		void tableLayout(string value);
 
 		/// <summary>
 		/// Sets or returns the length of the tab-character
@@ -3192,8 +3192,8 @@ namespace litehtml
 		/// <value>
 		/// The size of the tab.
 		/// </value>
-		tstring tabSize();
-		void tabSize(tstring value);
+		string tabSize();
+		void tabSize(string value);
 
 		/// <summary>
 		/// Sets or returns the horizontal alignment of text
@@ -3201,8 +3201,8 @@ namespace litehtml
 		/// <value>
 		/// The text align.
 		/// </value>
-		tstring textAlign();
-		void textAlign(tstring value);
+		string textAlign();
+		void textAlign(string value);
 
 		/// <summary>
 		/// Sets or returns how the last line of a block or a line right before a forced line break is aligned when text-align is "justify"
@@ -3210,8 +3210,8 @@ namespace litehtml
 		/// <value>
 		/// The text align last.
 		/// </value>
-		tstring textAlignLast();
-		void textAlignLast(tstring value);
+		string textAlignLast();
+		void textAlignLast(string value);
 
 		/// <summary>
 		/// Sets or returns the decoration of a text
@@ -3219,8 +3219,8 @@ namespace litehtml
 		/// <value>
 		/// The text decoration.
 		/// </value>
-		tstring textDecoration();
-		void textDecoration(tstring value);
+		string textDecoration();
+		void textDecoration(string value);
 
 		/// <summary>
 		/// Sets or returns the color of the text-decoration
@@ -3228,8 +3228,8 @@ namespace litehtml
 		/// <value>
 		/// The color of the text decoration.
 		/// </value>
-		tstring textDecorationColor();
-		void textDecorationColor(tstring value);
+		string textDecorationColor();
+		void textDecorationColor(string value);
 
 		/// <summary>
 		/// Sets or returns the type of line in a text-decoration
@@ -3237,8 +3237,8 @@ namespace litehtml
 		/// <value>
 		/// The text decoration line.
 		/// </value>
-		tstring textDecorationLine();
-		void textDecorationLine(tstring value);
+		string textDecorationLine();
+		void textDecorationLine(string value);
 
 		/// <summary>
 		/// Sets or returns the style of the line in a text decoration
@@ -3246,8 +3246,8 @@ namespace litehtml
 		/// <value>
 		/// The text decoration style.
 		/// </value>
-		tstring textDecorationStyle();
-		void textDecorationStyle(tstring value);
+		string textDecorationStyle();
+		void textDecorationStyle(string value);
 
 		/// <summary>
 		/// Sets or returns the indentation of the first line of text
@@ -3255,8 +3255,8 @@ namespace litehtml
 		/// <value>
 		/// The text indent.
 		/// </value>
-		tstring textIndent();
-		void textIndent(tstring value);
+		string textIndent();
+		void textIndent(string value);
 
 		/// <summary>
 		/// Sets or returns the justification method used when text-align is "justify"
@@ -3264,8 +3264,8 @@ namespace litehtml
 		/// <value>
 		/// The text justify.
 		/// </value>
-		tstring textJustify();
-		void textJustify(tstring value);
+		string textJustify();
+		void textJustify(string value);
 
 		/// <summary>
 		/// Sets or returns what should happen when text overflows the containing element
@@ -3273,8 +3273,8 @@ namespace litehtml
 		/// <value>
 		/// The text overflow.
 		/// </value>
-		tstring textOverflow();
-		void textOverflow(tstring value);
+		string textOverflow();
+		void textOverflow(string value);
 
 		/// <summary>
 		/// Sets or returns the shadow effect of a text
@@ -3282,8 +3282,8 @@ namespace litehtml
 		/// <value>
 		/// The text shadow.
 		/// </value>
-		tstring textShadow();
-		void textShadow(tstring value);
+		string textShadow();
+		void textShadow(string value);
 
 		/// <summary>
 		/// Sets or returns the capitalization of a text
@@ -3291,8 +3291,8 @@ namespace litehtml
 		/// <value>
 		/// The text transform.
 		/// </value>
-		tstring textTransform();
-		void textTransform(tstring value);
+		string textTransform();
+		void textTransform(string value);
 
 		/// <summary>
 		/// Sets or returns the top position of a positioned element
@@ -3300,8 +3300,8 @@ namespace litehtml
 		/// <value>
 		/// The top.
 		/// </value>
-		tstring top();
-		void top(tstring value);
+		string top();
+		void top(string value);
 
 		/// <summary>
 		/// Applies a 2D or 3D transformation to an element
@@ -3309,8 +3309,8 @@ namespace litehtml
 		/// <value>
 		/// The transform.
 		/// </value>
-		tstring transform();
-		void transform(tstring value);
+		string transform();
+		void transform(string value);
 
 		/// <summary>
 		/// Sets or returns the position of transformed elements
@@ -3318,8 +3318,8 @@ namespace litehtml
 		/// <value>
 		/// The transform origin.
 		/// </value>
-		tstring transformOrigin();
-		void transformOrigin(tstring value);
+		string transformOrigin();
+		void transformOrigin(string value);
 
 		/// <summary>
 		/// Sets or returns how nested elements are rendered in 3D space
@@ -3327,8 +3327,8 @@ namespace litehtml
 		/// <value>
 		/// The transform style.
 		/// </value>
-		tstring transformStyle();
-		void transformStyle(tstring value);
+		string transformStyle();
+		void transformStyle(string value);
 
 		/// <summary>
 		/// A shorthand property for setting or returning the four transition properties
@@ -3336,8 +3336,8 @@ namespace litehtml
 		/// <value>
 		/// The transition.
 		/// </value>
-		tstring transition();
-		void transition(tstring value);
+		string transition();
+		void transition(string value);
 
 		/// <summary>
 		/// Sets or returns the CSS property that the transition effect is for
@@ -3345,8 +3345,8 @@ namespace litehtml
 		/// <value>
 		/// The transition property.
 		/// </value>
-		tstring transitionProperty();
-		void transitionProperty(tstring value);
+		string transitionProperty();
+		void transitionProperty(string value);
 
 		/// <summary>
 		/// Sets or returns how many seconds or milliseconds a transition effect takes to complete
@@ -3354,8 +3354,8 @@ namespace litehtml
 		/// <value>
 		/// The duration of the transition.
 		/// </value>
-		tstring transitionDuration();
-		void transitionDuration(tstring value);
+		string transitionDuration();
+		void transitionDuration(string value);
 
 		/// <summary>
 		/// Sets or returns the speed curve of the transition effect
@@ -3363,8 +3363,8 @@ namespace litehtml
 		/// <value>
 		/// The transition timing function.
 		/// </value>
-		tstring transitionTimingFunction();
-		void transitionTimingFunction(tstring value);
+		string transitionTimingFunction();
+		void transitionTimingFunction(string value);
 
 		/// <summary>
 		/// Sets or returns when the transition effect will start
@@ -3372,8 +3372,8 @@ namespace litehtml
 		/// <value>
 		/// The transition delay.
 		/// </value>
-		tstring transitionDelay();
-		void transitionDelay(tstring value);
+		string transitionDelay();
+		void transitionDelay(string value);
 
 		/// <summary>
 		/// Sets or returns whether the text should be overridden to support multiple languages in the same document
@@ -3381,8 +3381,8 @@ namespace litehtml
 		/// <value>
 		/// The unicode bidi.
 		/// </value>
-		tstring unicodeBidi();
-		void unicodeBidi(tstring value);
+		string unicodeBidi();
+		void unicodeBidi(string value);
 
 		/// <summary>
 		/// Sets or returns whether the text of an element can be selected or not
@@ -3390,8 +3390,8 @@ namespace litehtml
 		/// <value>
 		/// The user select.
 		/// </value>
-		tstring userSelect();
-		void userSelect(tstring value);
+		string userSelect();
+		void userSelect(string value);
 
 		/// <summary>
 		/// Sets or returns the vertical alignment of the content in an element
@@ -3399,8 +3399,8 @@ namespace litehtml
 		/// <value>
 		/// The vertical align.
 		/// </value>
-		tstring verticalAlign();
-		void verticalAlign(tstring value);
+		string verticalAlign();
+		void verticalAlign(string value);
 
 		/// <summary>
 		/// Sets or returns whether an element should be visible
@@ -3408,8 +3408,8 @@ namespace litehtml
 		/// <value>
 		/// The visibility.
 		/// </value>
-		tstring visibility();
-		void visibility(tstring value);
+		string visibility();
+		void visibility(string value);
 
 		/// <summary>
 		/// Sets or returns how to handle tabs, line breaks and whitespace in a text
@@ -3417,8 +3417,8 @@ namespace litehtml
 		/// <value>
 		/// The white space.
 		/// </value>
-		tstring whiteSpace();
-		void whiteSpace(tstring value);
+		string whiteSpace();
+		void whiteSpace(string value);
 
 		/// <summary>
 		/// Sets or returns the width of an element
@@ -3426,8 +3426,8 @@ namespace litehtml
 		/// <value>
 		/// The width.
 		/// </value>
-		tstring width();
-		void width(tstring value);
+		string width();
+		void width(string value);
 
 		/// <summary>
 		/// Sets or returns line breaking rules for non-CJK scripts
@@ -3435,8 +3435,8 @@ namespace litehtml
 		/// <value>
 		/// The word break.
 		/// </value>
-		tstring wordBreak();
-		void wordBreak(tstring value);
+		string wordBreak();
+		void wordBreak(string value);
 
 		/// <summary>
 		/// Sets or returns the spacing between words in a text
@@ -3444,8 +3444,8 @@ namespace litehtml
 		/// <value>
 		/// The word spacing.
 		/// </value>
-		tstring wordSpacing();
-		void wordSpacing(tstring value);
+		string wordSpacing();
+		void wordSpacing(string value);
 
 		/// <summary>
 		/// Allows long, unbreakable words to be broken and wrap to the next line
@@ -3453,8 +3453,8 @@ namespace litehtml
 		/// <value>
 		/// The word wrap.
 		/// </value>
-		tstring wordWrap();
-		void wordWrap(tstring value);
+		string wordWrap();
+		void wordWrap(string value);
 
 		/// <summary>
 		/// Sets or returns the minimum number of lines for an element that must be visible at the top of a page
@@ -3462,8 +3462,8 @@ namespace litehtml
 		/// <value>
 		/// The widows.
 		/// </value>
-		tstring widows();
-		void widows(tstring value);
+		string widows();
+		void widows(string value);
 
 		/// <summary>
 		/// Sets or returns the stack order of a positioned element
@@ -3471,8 +3471,8 @@ namespace litehtml
 		/// <value>
 		/// The index of the z.
 		/// </value>
-		tstring zIndex();
-		void zIndex(tstring value);
+		string zIndex();
+		void zIndex(string value);
 	};
 
 	/// <summary>
@@ -3504,8 +3504,8 @@ namespace litehtml
 		/// <value>
 		/// The default status.
 		/// </value>
-		tstring defaultStatus();
-		void defaultStatus(tstring value);
+		string defaultStatus();
+		void defaultStatus(string value);
 
 		/// <summary>
 		/// Returns the Document object for the window (See Document object)
@@ -3585,8 +3585,8 @@ namespace litehtml
 		/// <value>
 		/// The name.
 		/// </value>
-		tstring name();
-		void name(tstring value);
+		string name();
+		void name(string value);
 
 		/// <summary>
 		/// Returns the Navigator object for the window (See Navigator object)
@@ -3722,8 +3722,8 @@ namespace litehtml
 		/// <value>
 		/// The status.
 		/// </value>
-		tstring status();
-		void status(tstring value);
+		string status();
+		void status(string value);
 
 		/// <summary>
 		/// Returns the topmost browser window
@@ -3737,14 +3737,14 @@ namespace litehtml
 		/// Displays an alert box with a message and an OK button
 		/// </summary>
 		/// <param name="message">The message.</param>
-		void alert(tstring message);
+		void alert(string message);
 
 		/// <summary>
 		/// Decodes a base-64 encoded string
 		/// </summary>
 		/// <param name="encodedStr">The encoded string.</param>
 		/// <returns></returns>
-		tstring atob(tstring encodedStr);
+		string atob(string encodedStr);
 
 		/// <summary>
 		/// Removes focus from the current window
@@ -3756,19 +3756,19 @@ namespace litehtml
 		/// </summary>
 		/// <param name="str">The string.</param>
 		/// <returns></returns>
-		tstring btoa(tstring str);
+		string btoa(string str);
 
 		/// <summary>
 		/// Clears a timer set with setInterval()
 		/// </summary>
 		/// <param name="var">The variable.</param>
-		void clearInterval(tstring var);
+		void clearInterval(string var);
 
 		/// <summary>
 		/// Clears a timer set with setTimeout()
 		/// </summary>
 		/// <param name="id_of_settimeout">The identifier of settimeout.</param>
-		void clearTimeout(tstring id_of_settimeout);
+		void clearTimeout(string id_of_settimeout);
 
 		/// <summary>
 		/// Closes the current window
@@ -3780,7 +3780,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="message">The message.</param>
 		/// <returns></returns>
-		bool confirm(tstring message);
+		bool confirm(string message);
 
 		/// <summary>
 		/// Sets focus to the current window
@@ -3793,7 +3793,7 @@ namespace litehtml
 		/// <param name="element">The element.</param>
 		/// <param name="pseudoElement">The pseudo element.</param>
 		/// <returns></returns>
-		Style* getComputedStyle(tstring element, tstring pseudoElement);
+		Style* getComputedStyle(string element, string pseudoElement);
 
 		/// <summary>
 		/// Returns a Selection object representing the range of text selected by the user
@@ -3806,7 +3806,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="mediaQueryString">The media query string.</param>
 		/// <returns></returns>
-		MediaQueryList& matchMedia(tstring mediaQueryString);
+		MediaQueryList& matchMedia(string mediaQueryString);
 
 		/// <summary>
 		/// Moves a window relative to its current position
@@ -3830,7 +3830,7 @@ namespace litehtml
 		/// <param name="specs">The specs.</param>
 		/// <param name="replace">The replace.</param>
 		/// <returns></returns>
-		Window* open(tstring URL = nullptr, tstring name = nullptr, tstring specs = nullptr, bool replace = true);
+		Window* open(string URL = nullptr, string name = nullptr, string specs = nullptr, bool replace = true);
 
 		/// <summary>
 		/// Prints the content of the current window
@@ -3843,7 +3843,7 @@ namespace litehtml
 		/// <param name="text">The text.</param>
 		/// <param name="defaultText">The default text.</param>
 		/// <returns></returns>
-		tstring prompt(tstring text, tstring defaultText = nullptr);
+		string prompt(string text, string defaultText = nullptr);
 
 		/// <summary>
 		/// Requests the browser to call a function to update an animation before the next repaint
@@ -3886,7 +3886,7 @@ namespace litehtml
 		/// <param name="milliseconds">The milliseconds.</param>
 		/// <param name="args">The arguments.</param>
 		/// <returns></returns>
-		int setInterval(tstring function, int milliseconds, ...);
+		int setInterval(string function, int milliseconds, ...);
 
 		/// <summary>
 		/// Calls a function or evaluates an expression after a specified number of milliseconds
@@ -3895,7 +3895,7 @@ namespace litehtml
 		/// <param name="milliseconds">The milliseconds.</param>
 		/// <param name="args">The arguments.</param>
 		/// <returns></returns>
-		int setTimeout(tstring function, int milliseconds, ...);
+		int setTimeout(string function, int milliseconds, ...);
 
 		/// <summary>
 		/// Stops the window from loading
@@ -3915,7 +3915,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="index">The index.</param>
 		/// <returns></returns>
-		tstring key(int index);
+		string key(int index);
 
 		/// <summary>
 		/// Returns the number of data items stored in the Storage object
@@ -3930,7 +3930,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="keyname">The keyname.</param>
 		/// <returns></returns>
-		tstring getItem(tstring keyname);
+		string getItem(string keyname);
 
 		/// <summary>
 		/// Adds that key to the storage, or update that key's value if it already exists
@@ -3938,13 +3938,13 @@ namespace litehtml
 		/// <param name="keyname">The keyname.</param>
 		/// <param name="value">The value.</param>
 		/// <returns></returns>
-		tstring setItem(tstring keyname, tstring value);
+		string setItem(string keyname, string value);
 
 		/// <summary>
 		/// Removes that key from the storage
 		/// </summary>
 		/// <param name="keyname">The keyname.</param>
-		void removeItem(tstring keyname);
+		void removeItem(string keyname);
 
 		/// <summary>
 		/// Empty all key out of the storage

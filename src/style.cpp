@@ -173,7 +173,7 @@ void litehtml::style::add_property( const char* name, const char* _val, const ch
 	} else if(!strcmp(name, "border-left")	||
 		!strcmp(name, "border-right")		||
 		!strcmp(name, "border-top")			||
-		!strcmp(name, "border-bottom"))
+		!strcmp(name, "border-bottom")
 		#if H3ML
 		|| !strcmp(name, "border-front") 	||
 		!strcmp(name, "border-back")
@@ -371,7 +371,7 @@ void litehtml::style::add_property( const char* name, const char* _val, const ch
 			add_property("border-bottom-left-radius-y",		tokens[3].c_str(), baseurl, important, el);
 		}
 	#if H3ML
-	} else if (!t_strcmp(name, "border-radius-z"))
+	} else if (!strcmp(name, "border-radius-z"))
 	{
 		string_vector tokens;
 		split_string(val, tokens, " ");

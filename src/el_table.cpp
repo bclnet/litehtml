@@ -3,11 +3,9 @@
 #include "document.h"
 #include "iterators.h"
 
-
 litehtml::el_table::el_table(const std::shared_ptr<document>& doc) : html_tag(doc)
 {
 }
-
 
 bool litehtml::el_table::appendChild(const element::ptr& el)
 {

@@ -8,10 +8,10 @@ using namespace litehtml;
 
 static context ctx;
 static container_test container;
-static document::ptr MakeDocument(wchar_t* source) { return document::createFromString(source, &container, &ctx); }
+static document::ptr MakeDocument(char* source) { return document::createFromString(source, &container, &ctx); }
 
 TEST(Node, Attrib) {
-	auto document = MakeDocument(LR"xyz(
+	auto document = MakeDocument(R"xyz(
 <html>
 <body>
     <button onclick="myFunction()">Try it</button>
@@ -24,30 +24,30 @@ TEST(Node, Attrib) {
 
 	// https://www.w3schools.com/jsref/prop_attr_name.asp
 	{
-		auto x = document->getElementsByTagName(_t("BUTTON"))[0]->attributes()[0]->name();
-		assert(!t_strcmp(_t("onclick"), x.c_str()));
+		auto x = document->getElementsByTagName("BUTTON")[0]->attributes()[0]->name();
+		assert(!strcmp("onclick", x.c_str()));
 	}
 
 	// https://www.w3schools.com/jsref/prop_attr_value.asp
 	{
-		auto x = document->getElementsByTagName(_t("BUTTON"))[0]->attributes()[0]->value();
-		assert(!t_strcmp(_t("myFunction()"), x.c_str()));
+		auto x = document->getElementsByTagName("BUTTON")[0]->attributes()[0]->value();
+		assert(!strcmp("myFunction()", x.c_str()));
 	}
 	{
-		auto x = document->getElementsByTagName(_t("IMG"))[0];
-		x->getAttributeNode(_t("src"))->value(_t("pic_bulbon.gif"));
-		assert(!t_strcmp(_t("pic_bulbon.gif"), x->getAttributeNode(_t("src"))->value().c_str()));
+		auto x = document->getElementsByTagName("IMG")[0];
+		x->getAttributeNode("src")->value("pic_bulbon.gif");
+		assert(!strcmp("pic_bulbon.gif", x->getAttributeNode("src")->value().c_str()));
 	}
 
 	// https://www.w3schools.com/jsref/prop_attr_specified.asp
 	{
-		auto x = document->getElementById(_t("demo"))->attributes()[0]->specified();
+		auto x = document->getElementById("demo")->attributes()[0]->specified();
 		assert(x);
 	}
 }
 
 TEST(Node, Nodemap) {
-	auto document = MakeDocument(LR"xyz(
+	auto document = MakeDocument(R"xyz(
 <html>
 <body>
 	<h1>Hello World</h1>
@@ -60,75 +60,75 @@ TEST(Node, Nodemap) {
 
 	// https://www.w3schools.com/jsref/met_namednodemap_getnameditem.asp
 	{
-		auto btn = document->getElementsByTagName(_t("BUTTON"))[0];
-		auto x = btn->attributes().getNamedItem(_t("onclick"))->value();
-		assert(!t_strcmp(_t("myFunction()"), x.c_str()));
+		auto btn = document->getElementsByTagName("BUTTON")[0];
+		auto x = btn->attributes().getNamedItem("onclick")->value();
+		assert(!strcmp("myFunction()", x.c_str()));
 	}
 
 	// https://www.w3schools.com/jsref/met_namednodemap_item.asp
 	{
-		auto x = document->getElementsByTagName(_t("BUTTON"))[0]->attributes().item(0)->nodeName();
-		assert(!t_strcmp(_t("class"), x.c_str()));
+		auto x = document->getElementsByTagName("BUTTON")[0]->attributes().item(0)->nodeName();
+		assert(!strcmp("class", x.c_str()));
 	}
 	{
-		auto x = document->getElementsByTagName(_t("BUTTON"))[0]->attributes().item(1);   // The 2nd attribute
+		auto x = document->getElementsByTagName("BUTTON")[0]->attributes().item(1);   // The 2nd attribute
 		assert(x != nullptr);
 	}
 	{
-		auto x = document->getElementsByTagName(_t("BUTTON"))[0]->attributes()[1];        // The 2nd attribute
+		auto x = document->getElementsByTagName("BUTTON")[0]->attributes()[1];        // The 2nd attribute
 		assert(x != nullptr);
 	}
 	{
-		document->getElementsByTagName(_t("BUTTON"))[0]->attributes()[1]->value(_t("newClass"));
+		document->getElementsByTagName("BUTTON")[0]->attributes()[1]->value("newClass");
 	}
 
 	// https://www.w3schools.com/jsref/prop_namednodemap_length.asp
 	{
-		auto x = document->getElementsByTagName(_t("BUTTON"))[0]->attributes().length();
+		auto x = document->getElementsByTagName("BUTTON")[0]->attributes().length();
 		assert(x == 3);
 	}
 	{
-		auto txt = wstring();
-		auto x = document->getElementById(_t("myBtn"))->attributes();
+		auto txt = string();
+		auto x = document->getElementById("myBtn")->attributes();
 
 		for (auto i = 0; i < x.length(); i++)
 		{
-			txt += _t("Attribute name: ") + tstring(x[i]->name()) + _t("<br>");
+			txt += "Attribute name: " + string(x[i]->name()) + "<br>";
 		}
-		assert(!t_strcmp(_t("Attribute name: class<br>Attribute name: id<br>Attribute name: onclick<br>"), txt.c_str()));
+		assert(!strcmp("Attribute name: class<br>Attribute name: id<br>Attribute name: onclick<br>", txt.c_str()));
 	}
 	{
-		auto x = document->getElementById(_t("myImg"))->attributes().length();
+		auto x = document->getElementById("myImg")->attributes().length();
 		assert(x == 5);
 	}
 	{
-		auto txt = wstring();
-		auto x = document->getElementById(_t("myImg"));
+		auto txt = string();
+		auto x = document->getElementById("myImg");
 
 		for (auto i = 0; i < x->attributes().length(); i++)
 		{
-			txt = txt + wstring(x->attributes()[i]->name()) + _t(" = ") + tstring(x->attributes()[i]->value()) + _t("<br>");
+			txt = txt + string(x->attributes()[i]->name()) + " = " + string(x->attributes()[i]->value()) + "<br>";
 		}
-		assert(!t_strcmp(_t("alt = Flower<br>height = 113<br>id = myImg<br>src = klematis.jpg<br>width = 150<br>"), txt.c_str()));
+		assert(!strcmp("alt = Flower<br>height = 113<br>id = myImg<br>src = klematis.jpg<br>width = 150<br>", txt.c_str()));
 	}
 
 	// https://www.w3schools.com/jsref/met_namednodemap_removenameditem.asp
 	{
-		auto btn = document->getElementsByTagName(_t("INPUT"))[0];
-		btn->attributes().removeNamedItem(_t("type"));
+		auto btn = document->getElementsByTagName("INPUT")[0];
+		btn->attributes().removeNamedItem("type");
 	}
 
 	// https://www.w3schools.com/jsref/met_namednodemap_setnameditem.asp
 	{
-		auto h = document->getElementsByTagName(_t("H1"))[0];
-		auto typ = document->createAttribute(_t("class"));
-		//typ->value(_t("democlass"));
+		auto h = document->getElementsByTagName("H1")[0];
+		auto typ = document->createAttribute("class");
+		//typ->value("democlass");
 		//h->attributes().setNamedItem(typ);
 	}
 }
 
 TEST(Node, Property) {
-	auto document = MakeDocument(LR"xyz(
+	auto document = MakeDocument(R"xyz(
 <html>
 <body>
     <p id="demo"></p>
@@ -147,27 +147,27 @@ TEST(Node, Property) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books_ns.xml"), true);
+		xhttp->open("GET", "books_ns.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
-			NodeList<Element> x; int i; Document* xmlDoc; tstring txt;
+			NodeList<Element> x; int i; Document* xmlDoc; string txt;
 			xmlDoc = xml->responseXML();
-			txt = _t("");
-			x = xmlDoc->getElementsByTagName(_t("title"));
+			txt = "";
+			x = xmlDoc->getElementsByTagName("title");
 			for (i = 0; i < x.length(); i++)
 			{
-				txt += _t("Base URI: ") + x.item(i)->baseURI() + _t("<br>");
+				txt += "Base URI: " + x.item(i)->baseURI() + "<br>";
 			}
-			document->getElementById(_t("demo"))->innerHTML(txt);
+			document->getElementById("demo")->innerHTML(txt);
 		};
 
 		//wait
 //		assert(!t_strcmp(
-//			_t(R"xyz(Base URI: https://www.w3schools.com/xml/books_ns.xml
+//			R"xyz(Base URI: https://www.w3schools.com/xml/books_ns.xml
 //Base URI : https://www.w3schools.com/xml/books_ns.xml
-//")xyz"), document.getElementById("demo").innerHTML.c_str()));
+//")xyz"), document.getElementById("demo").innerHTML.c_str());
 	}
 
 	// https://www.w3schools.com/xml/prop_node_childnodes.asp
@@ -182,21 +182,21 @@ TEST(Node, Property) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
-			NodeList<Node> x; int i; Document* xmlDoc; tstring txt;
+			NodeList<Node> x; int i; Document* xmlDoc; string txt;
 			xmlDoc = xml->responseXML();
-			txt = _t("");
+			txt = "";
 			x = xmlDoc->childNodes();
 			for (i = 0; i < x.length(); i++)
 			{
-				txt += _t("Nodename: ") + x[i]->nodeName() +
-					_t(" (nodetype: ") + std::to_wstring(x[i]->nodeType()) + _t(")");
+				txt += "Nodename: " + x[i]->nodeName() +
+					" (nodetype: " + std::to_string(x[i]->nodeType()) + ")";
 			}
-			document->getElementById(_t("demo"))->innerHTML(txt);
+			document->getElementById("demo")->innerHTML(txt);
 		};
 
 		//wait
@@ -216,7 +216,7 @@ TEST(Node, Property) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		// Check if the first node is an element node
@@ -234,9 +234,9 @@ TEST(Node, Property) {
 		{
 			auto xmlDoc = xml->responseXML();
 			auto x = get_firstchild(xmlDoc);
-			document->getElementById(_t("demo"))->innerHTML(
-				_t("Nodename: ") + x->nodeName() +
-				_t(" (nodetype: ") + std::to_wstring(x->nodeType()) + _t(")<br>"));
+			document->getElementById("demo")->innerHTML(
+				"Nodename: " + x->nodeName() +
+				" (nodetype: " + std::to_string(x->nodeType()) + ")<br>");
 		};
 
 		//wait
@@ -256,7 +256,7 @@ TEST(Node, Property) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		// Check if the last node is an element node
@@ -274,9 +274,9 @@ TEST(Node, Property) {
 		{
 			auto xmlDoc = xml->responseXML();
 			auto x = get_lastchild(xmlDoc);
-			document->getElementById(_t("demo"))->innerHTML(
-				_t("Nodename: ") + x->nodeName() +
-				_t(" (nodetype: ") + std::to_wstring(x->nodeType()) + _t(")<br>"));
+			document->getElementById("demo")->innerHTML(
+				"Nodename: " + x->nodeName() +
+				" (nodetype: " + std::to_string(x->nodeType()) + ")<br>");
 		};
 
 		//wait
@@ -296,7 +296,7 @@ TEST(Node, Property) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		// Check if the next sibling node is an element node
@@ -313,11 +313,11 @@ TEST(Node, Property) {
 		myFunction = [get_nextsibling, document](XMLHttpRequest* xml)
 		{
 			auto xmlDoc = xml->responseXML();
-			auto x = xmlDoc->getElementsByTagName(_t("title"))[0];
+			auto x = xmlDoc->getElementsByTagName("title")[0];
 			auto y = get_nextsibling(x);
-			document->getElementById(_t("demo"))->innerHTML(x->nodeName() + _t(" = ") +
+			document->getElementById("demo")->innerHTML(x->nodeName() + " = " +
 				x->childNodes()[0]->nodeValue() +
-				_t("<br>Next sibling: ") + y->nodeName() + _t(" = ") +
+				"<br>Next sibling: " + y->nodeName() + " = " +
 				y->childNodes()[0]->nodeValue());
 		};
 
@@ -339,15 +339,15 @@ TEST(Node, Property) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
 			auto xmlDoc = xml->responseXML();
-			document->getElementById(_t("demo"))->innerHTML(
-				_t("Nodename: ") + xmlDoc->nodeName() +
-				_t(" (nodetype: ") + std::to_wstring(xmlDoc->nodeType()) + _t(")"));
+			document->getElementById("demo")->innerHTML(
+				"Nodename: " + xmlDoc->nodeName() +
+				" (nodetype: " + std::to_string(xmlDoc->nodeType()) + ")");
 		};
 
 		//wait
@@ -366,15 +366,15 @@ TEST(Node, Property) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
 			auto xmlDoc = xml->responseXML();
-			document->getElementById(_t("demo"))->innerHTML(
-				_t("Nodename: ") + xmlDoc->nodeName() +
-				_t(" (nodetype: ") + std::to_wstring(xmlDoc->nodeType()) + _t(")"));
+			document->getElementById("demo")->innerHTML(
+				"Nodename: " + xmlDoc->nodeName() +
+				" (nodetype: " + std::to_string(xmlDoc->nodeType()) + ")");
 		};
 
 		//wait
@@ -393,15 +393,15 @@ TEST(Node, Property) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
 			auto xmlDoc = xml->responseXML();
-			document->getElementById(_t("demo"))->innerHTML(
-				_t("Nodename: ") + xmlDoc->nodeName() +
-				(_t(" (value: ") + xmlDoc->childNodes()[0]->nodeValue()) + _t(")"));
+			document->getElementById("demo")->innerHTML(
+				"Nodename: " + xmlDoc->nodeName() +
+				(" (value: " + xmlDoc->childNodes()[0]->nodeValue()) + ")");
 		};
 
 		//wait
@@ -420,16 +420,16 @@ TEST(Node, Property) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
 			auto xmlDoc = xml->responseXML();
-			auto x = xmlDoc->getElementsByTagName(_t("title"))[0]->ownerDocument();
-			document->getElementById(_t("demo"))->innerHTML(
-				_t("Nodename: ") + x->nodeName() +
-				_t(" (nodetype: ") + std::to_wstring(x->nodeType()) + _t(")"));
+			auto x = xmlDoc->getElementsByTagName("title")[0]->ownerDocument();
+			document->getElementById("demo")->innerHTML(
+				"Nodename: " + x->nodeName() +
+				" (nodetype: " + std::to_string(x->nodeType()) + ")");
 		};
 
 		//wait
@@ -448,15 +448,15 @@ TEST(Node, Property) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
 			auto xmlDoc = xml->responseXML();
-			auto x = xmlDoc->getElementsByTagName(_t("title"))[0];
-			document->getElementById(_t("demo"))->innerHTML(
-				_t("Parent node: ") + x->parentNode()->nodeName());
+			auto x = xmlDoc->getElementsByTagName("title")[0];
+			document->getElementById("demo")->innerHTML(
+				"Parent node: " + x->parentNode()->nodeName());
 		};
 
 		//wait
@@ -475,20 +475,20 @@ TEST(Node, Property) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books_ns.xml"), true);
+		xhttp->open("GET", "books_ns.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
-			NodeList<Element> x; int i; Document* xmlDoc; tstring txt;
+			NodeList<Element> x; int i; Document* xmlDoc; string txt;
 			xmlDoc = xml->responseXML();
-			txt = _t("");
-			x = xmlDoc->getElementsByTagName(_t("title"));
+			txt = "";
+			x = xmlDoc->getElementsByTagName("title");
 			for (i = 0; i < x.length(); i++)
 			{
-				txt += _t("Prefix: ") + x.item(i)->prefix() + _t("<br>");
+				txt += "Prefix: " + x.item(i)->prefix() + "<br>";
 			}
-			document->getElementById(_t("demo"))->innerHTML(txt);
+			document->getElementById("demo")->innerHTML(txt);
 		};
 
 		//wait
@@ -511,7 +511,7 @@ TEST(Node, Property) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		// Check if the previous sibling node is an element node
@@ -528,11 +528,11 @@ TEST(Node, Property) {
 		myFunction = [get_previoussibling, document](XMLHttpRequest* xml)
 		{
 			auto xmlDoc = xml->responseXML();
-			auto x = xmlDoc->getElementsByTagName(_t("author"))[0];
+			auto x = xmlDoc->getElementsByTagName("author")[0];
 			auto y = get_previoussibling(x);
-			document->getElementById(_t("demo"))->innerHTML(x->nodeName() + _t(" = ") +
+			document->getElementById("demo")->innerHTML(x->nodeName() + " = " +
 				x->childNodes()[0]->nodeValue() +
-				_t("<br>Previous sibling: ") + y->nodeName() + _t(" = ") +
+				"<br>Previous sibling: " + y->nodeName() + " = " +
 				y->childNodes()[0]->nodeValue());
 		};
 
@@ -554,20 +554,20 @@ TEST(Node, Property) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
-			NodeList<Element> x; int i; Document* xmlDoc; tstring txt;
+			NodeList<Element> x; int i; Document* xmlDoc; string txt;
 			xmlDoc = xml->responseXML();
-			txt = _t("");
-			x = xmlDoc->getElementsByTagName(_t("book"));
+			txt = "";
+			x = xmlDoc->getElementsByTagName("book");
 			for (i = 0; i < x.length(); i++)
 			{
-				txt += x.item(i)->textContent() + _t("<br>");
+				txt += x.item(i)->textContent() + "<br>";
 			}
-			document->getElementById(_t("demo"))->innerHTML(txt);
+			document->getElementById("demo")->innerHTML(txt);
 		};
 
 		//wait
@@ -582,7 +582,7 @@ TEST(Node, Property) {
 }
 
 TEST(Node, Method) {
-	auto document = MakeDocument(LR"xyz(
+	auto document = MakeDocument(R"xyz(
 <html>
 <body>
     <p id="demo"></p>
@@ -601,17 +601,17 @@ TEST(Node, Method) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
 			auto xmlDoc = xml->responseXML();
-			auto newel = xmlDoc->createElement(_t("edition"));
-			auto x = (Element*)xmlDoc->getElementsByTagName(_t("book"))[0];
+			auto newel = xmlDoc->createElement("edition");
+			auto x = (Element*)xmlDoc->getElementsByTagName("book")[0];
 			x->appendChild(newel);
-			document->getElementById(_t("demo"))->innerHTML(
-				x->getElementsByTagName(_t("edition"))[0]->nodeName());
+			document->getElementById("demo")->innerHTML(
+				x->getElementsByTagName("edition")[0]->nodeName());
 		};
 
 		//wait
@@ -630,25 +630,25 @@ TEST(Node, Method) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
-			Node* x; NodeList<Element> y; Node* cloneNode; int i; Document* xmlDoc; tstring txt;
+			Node* x; NodeList<Element> y; Node* cloneNode; int i; Document* xmlDoc; string txt;
 			xmlDoc = xml->responseXML();
-			txt = _t("");
-			x = xmlDoc->getElementsByTagName(_t("book"))[0];
+			txt = "";
+			x = xmlDoc->getElementsByTagName("book")[0];
 			cloneNode = x->cloneNode(true);
 			xmlDoc->documentElement()->appendChild(cloneNode);
 
 			// Output all titles
-			y = xmlDoc->getElementsByTagName(_t("title"));
+			y = xmlDoc->getElementsByTagName("title");
 			for (i = 0; i < y.length(); i++)
 			{
-				txt += y[i]->childNodes()[0]->nodeValue() + _t("<br>");
+				txt += y[i]->childNodes()[0]->nodeValue() + "<br>";
 			}
-			document->getElementById(_t("demo"))->innerHTML(txt);
+			document->getElementById("demo")->innerHTML(txt);
 		};
 
 		//wait
@@ -673,16 +673,16 @@ TEST(Node, Method) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
 			auto xmlDoc = xml->responseXML();
-			auto x = xmlDoc->getElementsByTagName(_t("book"))[0];
-			auto y = xmlDoc->getElementsByTagName(_t("book"))[2];
-			document->getElementById(_t("demo"))->innerHTML(
-				std::to_wstring(x->compareDocumentPosition(y)));
+			auto x = xmlDoc->getElementsByTagName("book")[0];
+			auto y = xmlDoc->getElementsByTagName("book")[2];
+			document->getElementById("demo")->innerHTML(
+				std::to_string(x->compareDocumentPosition(y)));
 		};
 
 		//wait
@@ -701,15 +701,15 @@ TEST(Node, Method) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
 			auto xmlDoc = xml->responseXML();
-			auto x = xmlDoc->getElementsByTagName(_t("book"))[0];
-			document->getElementById(_t("demo"))->innerHTML(
-				x->hasAttributes() ? _t("true") : _t("false"));
+			auto x = xmlDoc->getElementsByTagName("book")[0];
+			document->getElementById("demo")->innerHTML(
+				x->hasAttributes() ? "true" : "false");
 		};
 
 		//wait
@@ -728,15 +728,15 @@ TEST(Node, Method) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
 			auto xmlDoc = xml->responseXML();
-			auto x = xmlDoc->getElementsByTagName(_t("book"))[0];
-			document->getElementById(_t("demo"))->innerHTML(
-				x->hasChildNodes() ? _t("true") : _t("false"));
+			auto x = xmlDoc->getElementsByTagName("book")[0];
+			document->getElementById("demo")->innerHTML(
+				x->hasChildNodes() ? "true" : "false");
 		};
 
 		//wait
@@ -755,21 +755,21 @@ TEST(Node, Method) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
 			auto xmlDoc = xml->responseXML();
-			auto newNode = xmlDoc->createElement(_t("book"));
+			auto newNode = xmlDoc->createElement("book");
 			auto x = xmlDoc->documentElement();
-			auto y = xmlDoc->getElementsByTagName(_t("book"));
-			document->getElementById(_t("demo"))->innerHTML(
-				_t("Book elements before: ") + std::to_wstring(y.length()) + _t("<br>"));
+			auto y = xmlDoc->getElementsByTagName("book");
+			document->getElementById("demo")->innerHTML(
+				"Book elements before: " + std::to_string(y.length()) + "<br>");
 
 			x->insertBefore(newNode, y[3]);
-			document->getElementById(_t("demo"))->innerHTML(document->getElementById(_t("demo"))->innerHTML() +
-				_t("Book elements after: ") + std::to_wstring(y.length()));
+			document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() +
+				"Book elements after: " + std::to_string(y.length()));
 		};
 
 		//wait
@@ -795,16 +795,16 @@ TEST(Node, Method) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
 			auto xmlDoc = xml->responseXML();
-			auto x = xmlDoc->getElementsByTagName(_t("book"))[0];
-			auto y = xmlDoc->getElementsByTagName(_t("book"))[2];
-			document->getElementById(_t("demo"))->innerHTML(
-				x->isEqualNode(y) ? _t("true") : _t("false"));
+			auto x = xmlDoc->getElementsByTagName("book")[0];
+			auto y = xmlDoc->getElementsByTagName("book")[2];
+			document->getElementById("demo")->innerHTML(
+				x->isEqualNode(y) ? "true" : "false");
 		};
 
 		//wait
@@ -823,16 +823,16 @@ TEST(Node, Method) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
 			auto xmlDoc = xml->responseXML();
-			auto x = xmlDoc->getElementsByTagName(_t("book"))[1];
-			auto y = xmlDoc->getElementsByTagName(_t("book"))[1];
-			document->getElementById(_t("demo"))->innerHTML(
-				x->isSameNode(y) ? _t("true") : _t("false"));
+			auto x = xmlDoc->getElementsByTagName("book")[1];
+			auto y = xmlDoc->getElementsByTagName("book")[1];
+			document->getElementById("demo")->innerHTML(
+				x->isSameNode(y) ? "true" : "false");
 		};
 
 		//wait
@@ -851,15 +851,15 @@ TEST(Node, Method) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books_ns.xml"), true);
+		xhttp->open("GET", "books_ns.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
 			auto xmlDoc = xml->responseXML();
-			auto x = xmlDoc->getElementsByTagName(_t("book"))[0];
-			document->getElementById(_t("demo"))->innerHTML(
-				x->lookupNamespaceURI(_t("c")));
+			auto x = xmlDoc->getElementsByTagName("book")[0];
+			document->getElementById("demo")->innerHTML(
+				x->lookupNamespaceURI("c"));
 		};
 
 		//wait
@@ -878,15 +878,15 @@ TEST(Node, Method) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books_ns.xml"), true);
+		xhttp->open("GET", "books_ns.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
 			auto xmlDoc = xml->responseXML();
-			auto x = xmlDoc->getElementsByTagName(_t("book"))[0];
-			document->getElementById(_t("demo"))->innerHTML(
-				x->lookupPrefix(_t("https://www.w3schools.com/children/")));
+			auto x = xmlDoc->getElementsByTagName("book")[0];
+			document->getElementById("demo")->innerHTML(
+				x->lookupPrefix("https://www.w3schools.com/children/"));
 		};
 
 		//wait
@@ -910,7 +910,7 @@ TEST(Node, Method) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
@@ -919,8 +919,8 @@ TEST(Node, Method) {
 			auto root = xmlDoc->documentElement();
 			auto currNode = root->childNodes()[1];
 			auto removedNode = currNode->removeChild(currNode->childNodes()[1]);
-			document->getElementById(_t("demo"))->innerHTML(
-				_t("Removed node: ") + removedNode->nodeName());
+			document->getElementById("demo")->innerHTML(
+				"Removed node: " + removedNode->nodeName());
 		};
 
 		//wait
@@ -939,20 +939,20 @@ TEST(Node, Method) {
 				myFunction(_this);
 			}
 		};
-		xhttp->open(_t("GET"), _t("books.xml"), true);
+		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
 		myFunction = [document](XMLHttpRequest* xml)
 		{
-			Element* x; Node* y; NodeList<Element> z; int i; Element* newNode; Element* newTitle; Node* newText; Document* xmlDoc; tstring txt;
+			Element* x; Node* y; NodeList<Element> z; int i; Element* newNode; Element* newTitle; Node* newText; Document* xmlDoc; string txt;
 			xmlDoc = xml->responseXML();
-			txt = _t("");
+			txt = "";
 			x = xmlDoc->documentElement();
 
 			// Create a book element, title element and a text node
-			newNode = xmlDoc->createElement(_t("book"));
-			newTitle = xmlDoc->createElement(_t("title"));
-			newText = xmlDoc->createTextNode(_t("A Notebook"));
+			newNode = xmlDoc->createElement("book");
+			newTitle = xmlDoc->createElement("title");
+			newText = xmlDoc->createTextNode("A Notebook");
 
 			// Add a text node to the title node
 			newTitle->appendChild(newText);
@@ -960,18 +960,18 @@ TEST(Node, Method) {
 			// Add the title node to the book node
 			newNode->appendChild(newTitle);
 
-			y = xmlDoc->getElementsByTagName(_t("book"))[0];
+			y = xmlDoc->getElementsByTagName("book")[0];
 
 			// Replace the first book node with the new book node
 			x->replaceChild(newNode, y);
 
-			z = xmlDoc->getElementsByTagName(_t("title"));
+			z = xmlDoc->getElementsByTagName("title");
 			// Output all titles
 			for (i = 0; i < z.length(); i++)
 			{
-				txt += z[i]->childNodes()[0]->nodeValue() + _t("<br>");
+				txt += z[i]->childNodes()[0]->nodeValue() + "<br>";
 			}
-			document->getElementById(_t("demo"))->innerHTML(txt);
+			document->getElementById("demo")->innerHTML(txt);
 		};
 
 		//wait
