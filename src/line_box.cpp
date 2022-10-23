@@ -3,7 +3,6 @@
 #include "render_item.h"
 #include <algorithm>
 
-
 int litehtml::line_box::height() const
 {
     return m_height;
@@ -13,6 +12,13 @@ int litehtml::line_box::width() const
 {
     return m_width;
 }
+
+#if H3ML
+int litehtml::line_box::depth() const
+{
+    return m_depth;
+}
+#endif
 
 void litehtml::line_box::add_element(const std::shared_ptr<render_item> &el)
 {
@@ -41,8 +47,11 @@ void litehtml::line_box::add_element(const std::shared_ptr<render_item> &el)
             int el_shift_left	= el->get_inline_shift_left();
             int el_shift_right	= el->get_inline_shift_right();
 
-            el->pos().x	= m_box_left + m_width + el_shift_left + el->content_margins_left();
-            el->pos().y	= m_box_top + el->content_margins_top();
+            el->pos().x = m_box_left + m_width + el_shift_left + el->content_margins_left();
+            el->pos().y = m_box_top + el->content_margins_top();
+            #if H3ML
+            el->pos().z = m_box_front + el->content_margins_front();
+            #endif
             m_width		+= el->width() + el_shift_left + el_shift_right;
         }
     }
@@ -277,6 +286,18 @@ int litehtml::line_box::bottom_margin() const
 {
     return 0;
 }
+
+#if H3ML
+int litehtml::line_box::front_margin() const
+{
+    return 0;
+}
+
+int litehtml::line_box::back_margin() const
+{
+    return 0;
+}
+#endif
 
 void litehtml::line_box::y_shift( int shift )
 {

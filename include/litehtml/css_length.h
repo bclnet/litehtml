@@ -77,39 +77,31 @@ namespace litehtml
 	}
 
 	inline bool css_length::is_predefined() const
-	{ 
-		return m_is_predefined;					
+	{
+		return m_is_predefined;
 	}
 
-	inline void css_length::predef(int val)		
-	{ 
-		m_predef		= val; 
-		m_is_predefined = true;	
+	inline void css_length::predef(int val)
+	{
+		m_predef		= val;
+		m_is_predefined = true;
 	}
 
 	inline int css_length::predef() const
 	{ 
-		if(m_is_predefined)
-		{
-			return m_predef; 
-		}
-		return 0;
+		return m_is_predefined ? m_predef : 0;
 	}
 
-	inline void css_length::set_value(float val, css_units units)		
+	inline void css_length::set_value(float val, css_units units)
 	{ 
-		m_value			= val; 
-		m_is_predefined = false;	
+		m_value			= val;
+		m_is_predefined = false;
 		m_units			= units;
 	}
 
 	inline float css_length::val() const
 	{
-		if(!m_is_predefined)
-		{
-			return m_value;
-		}
-		return 0;
+		return !m_is_predefined ? m_value : 0;
 	}
 
 	inline css_units css_length::units() const
@@ -123,10 +115,10 @@ namespace litehtml
 		{
 			if(units() == css_units_percentage)
 			{
-				return (int) ((double) width * (double) m_value / 100.0);
+				return (int)((double)width * (double)m_value / 100.0);
 			} else
 			{
-				return (int) val();
+				return (int)val();
 			}
 		}
 		return 0;

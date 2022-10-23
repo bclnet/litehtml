@@ -51,6 +51,29 @@ TEST(MediaQueryTest, Check) {
   EXPECT_TRUE(e.check(k));
   k = media_features(), k.height = 500;
   EXPECT_TRUE(!e.check(k));
+#if H3ML
+  e = media_query_expression(), e.feature = media_feature_depth, e.val = 100;
+  k = media_features(), k.depth = 0;
+  EXPECT_TRUE(!e.check(k));
+  k = media_features(), k.depth = 100;
+  EXPECT_TRUE(e.check(k));
+  k = media_features(), k.depth = 500;
+  EXPECT_TRUE(!e.check(k));
+  e = media_query_expression(), e.feature = media_feature_min_depth, e.val = 100;
+  k = media_features(), k.depth = 0;
+  EXPECT_TRUE(!e.check(k));
+  k = media_features(), k.depth = 100;
+  EXPECT_TRUE(e.check(k));
+  k = media_features(), k.depth = 500;
+  EXPECT_TRUE(e.check(k));
+  e = media_query_expression(), e.feature = media_feature_max_depth, e.val = 100;
+  k = media_features(), k.depth = 0;
+  EXPECT_TRUE(e.check(k));
+  k = media_features(), k.depth = 100;
+  EXPECT_TRUE(e.check(k));
+  k = media_features(), k.depth = 500;
+  EXPECT_TRUE(!e.check(k));
+#endif
 
   e = media_query_expression(), e.feature = media_feature_device_width, e.val = 100;
   k = media_features(), k.device_width = 0;
@@ -94,6 +117,29 @@ TEST(MediaQueryTest, Check) {
   EXPECT_TRUE(e.check(k));
   k = media_features(), k.device_height = 500;
   EXPECT_TRUE(!e.check(k));
+#if H3ML
+  e = media_query_expression(), e.feature = media_feature_device_depth, e.val = 100;
+  k = media_features(), k.device_depth = 0;
+  EXPECT_TRUE(!e.check(k));
+  k = media_features(), k.device_depth = 100;
+  EXPECT_TRUE(e.check(k));
+  k = media_features(), k.device_depth = 500;
+  EXPECT_TRUE(!e.check(k));
+  e = media_query_expression(), e.feature = media_feature_min_device_depth, e.val = 100;
+  k = media_features(), k.device_depth = 0;
+  EXPECT_TRUE(!e.check(k));
+  k = media_features(), k.device_depth = 100;
+  EXPECT_TRUE(e.check(k));
+  k = media_features(), k.device_depth = 500;
+  EXPECT_TRUE(e.check(k));
+  e = media_query_expression(), e.feature = media_feature_max_device_depth, e.val = 100;
+  k = media_features(), k.device_depth = 0;
+  EXPECT_TRUE(e.check(k));
+  k = media_features(), k.device_depth = 100;
+  EXPECT_TRUE(e.check(k));
+  k = media_features(), k.device_depth = 500;
+  EXPECT_TRUE(!e.check(k));
+#endif
 
   e = media_query_expression(), e.feature = media_feature_orientation, e.val = (int)media_orientation_portrait;
   k = media_features(), k.width = 0, k.height = 100;

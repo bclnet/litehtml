@@ -38,7 +38,7 @@ namespace litehtml
 
 	inline void litehtml::css::add_selector( const css_selector::ptr& selector )
 	{
-		selector->m_order = (int) m_selectors.size();
+		selector->m_order = (int)m_selectors.size();
 		m_selectors.push_back(selector);
 	}
 

@@ -3,7 +3,6 @@
 #include <algorithm>
 #include "document.h"
 
-
 void litehtml::css::parse_stylesheet(const char* str, const char* baseurl, const std::shared_ptr<document>& doc, const media_query_list::ptr& media)
 {
 	string text = str;

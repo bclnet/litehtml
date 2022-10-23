@@ -32,8 +32,8 @@ public:
 
 	int			pt_to_px(int pt) const override;
 	void		draw_list_marker(uint_ptr hdc, const litehtml::list_marker& marker) override;
-	void		load_image(const char* src, const char* baseurl, bool redraw_on_ready) override;
-	void		get_image_size(const char* src, const char* baseurl, litehtml::size& sz) override;
+	void		load_image(const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready) override;
+	void		get_image_size(const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz) override;
 	void		draw_background(uint_ptr hdc, const litehtml::background_paint& bg) override;
 
 	void		set_clip(const litehtml::position& pos, const litehtml::border_radiuses& bdr_radius, bool valid_x, bool valid_y) override;
@@ -61,9 +61,9 @@ protected:
 	virtual void		get_img_size(uint_ptr img, litehtml::size& sz) = 0;
 	virtual void		draw_img_bg(HDC hdc, uint_ptr img, const litehtml::background_paint& bg) = 0;
 
-	virtual void		draw_ellipse(HDC hdc, int x, int y, int width, int height, const litehtml::web_color& color, int line_width) = 0;
-	virtual void		fill_ellipse(HDC hdc, int x, int y, int width, int height, const litehtml::web_color& color) = 0;
-	virtual void		fill_rect(HDC hdc, int x, int y, int width, int height, const litehtml::web_color& color) = 0;
+	virtual void		draw_ellipse(HDC hdc, point p, size sz, const litehtml::web_color& color, int line_width) = 0;
+	virtual void		fill_ellipse(HDC hdc, point p, size sz, int height, const litehtml::web_color& color) = 0;
+	virtual void		fill_rect(HDC hdc, point p, size sz, const litehtml::web_color& color) = 0;
 
 private:
 	static int CALLBACK EnumFontsProc(const LOGFONT* lplf, const TEXTMETRIC* lptm, DWORD dwType, LPARAM lpData);

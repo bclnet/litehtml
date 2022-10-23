@@ -45,7 +45,7 @@ void gdiplus_container::fill_rect( HDC hdc, int x, int y, int width, int height,
 	graphics.FillRectangle(&brush, x, y, width, height);
 }
 
-void gdiplus_container::get_img_size( uint_ptr img, litehtml::size& sz )
+void gdiplus_container::get_img_size( uint_ptr img, const litehtml::string_map* attrs, litehtml::size& sz )
 {
 	Gdiplus::Bitmap* bmp = (Gdiplus::Bitmap*) img;
 	if(bmp)

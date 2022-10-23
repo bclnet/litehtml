@@ -17,13 +17,18 @@ if(NOT EXTERNAL_GUMBO)
 endif()
 
 set(SOURCE_LITEHTML
+    src/api_node.cpp
+    src/api_service.cpp
+    src/api.cpp
     src/background.cpp
+    src/borders.cpp
     src/codepoint.cpp
     src/context.cpp
     src/css_length.cpp
     src/css_selector.cpp
     src/document.cpp
     src/el_anchor.cpp
+    src/el_asset.cpp
     src/el_base.cpp
     src/el_before_after.cpp
     src/el_body.cpp
@@ -60,7 +65,6 @@ set(SOURCE_LITEHTML
     src/strtod.cpp
     src/css_properties.cpp
     src/line_box.cpp
-    src/css_borders.cpp
     src/render_item.cpp
     src/render_block_context.cpp
     src/render_block.cpp
@@ -68,11 +72,16 @@ set(SOURCE_LITEHTML
     src/render_inline.cpp
     src/render_table.cpp
     src/render_flex.cpp
+    src/render_asset.cpp
     src/render_image.cpp
 )
 
 set(HEADER_LITEHTML
     include/litehtml.h
+    include/litehtml/api.h
+    include/litehtml/api_any.h
+    include/litehtml/api_node.h
+    include/litehtml/api_service.h
     include/litehtml/attributes.h
     include/litehtml/background.h
     include/litehtml/borders.h
@@ -85,6 +94,7 @@ set(HEADER_LITEHTML
     include/litehtml/css_selector.h
     include/litehtml/document.h
     include/litehtml/el_anchor.h
+    include/litehtml/el_asset.h
     include/litehtml/el_base.h
     include/litehtml/el_before_after.h
     include/litehtml/el_body.h
@@ -123,10 +133,29 @@ set(HEADER_LITEHTML
     include/litehtml/css_properties.h
     include/litehtml/line_box.h
     include/litehtml/render_item.h
+    include/litehtml/script_engine.h
 )
 
 set(TEST_LITEHTML
     containers/test/container_test.cpp
+    test/api_ConsoleTest.cpp
+    test/api_DocumentFragmentTest.cpp
+    test/api_DocumentImplementationTest.cpp
+    test/api_DocumentTest.cpp
+    test/api_DocumentTypeTest.cpp
+    test/api_ElementTest.cpp
+    test/api_GeolocationTest.cpp
+    test/api_HistoryTest.cpp
+    test/api_HTMLCollectionTest.cpp
+    test/api_LocationTest.cpp
+    test/api_MediaQueryTest.cpp
+    test/api_NavigationTest.cpp
+    test/api_NodeTest.cpp
+    test/api_RectTest.cpp
+    test/api_ScreenTest.cpp
+    test/api_StorageTest.cpp
+    test/api_StyleTest.cpp
+    test/api_WindowTest.cpp
     test/codepoint_test.cpp
     test/contextTest.cpp
     test/cssTest.cpp
@@ -161,6 +190,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE include/${PROJECT_NAME})
 option(LITEHTML_UTF8 "Build litehtml with UTF-8 text conversion functions." OFF)
 if (LITEHTML_UTF8)
   target_compile_definitions(${PROJECT_NAME} PUBLIC LITEHTML_UTF8)
+endif()
+option(H3ML "H3ml build (experimental)" ON)
+if (H3ML)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC H3ML)
 endif()
 
 # Gumbo

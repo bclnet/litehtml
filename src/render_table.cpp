@@ -3,7 +3,6 @@
 #include "document.h"
 #include "iterators.h"
 
-
 litehtml::render_item_table::render_item_table(std::shared_ptr<element>  _src_el) :
         render_item(std::move(_src_el)),
         m_border_spacing_x(0),
@@ -11,7 +10,7 @@ litehtml::render_item_table::render_item_table(std::shared_ptr<element>  _src_el
 {
 }
 
-int litehtml::render_item_table::_render(int x, int y, int max_width, bool /*second_pass = false*/)
+int litehtml::render_item_table::_render(point p, int max_width, bool /*second_pass = false*/)
 {
     if (!m_grid) return 0;
 
@@ -20,10 +19,13 @@ int litehtml::render_item_table::_render(int x, int y, int max_width, bool /*sec
     calc_outlines(parent_width);
 
     m_pos.clear();
-    m_pos.move_to(x, y);
+    m_pos.move_to(p);
 
     m_pos.x += content_margins_left();
     m_pos.y += content_margins_top();
+    #if H3ML
+    m_pos.z += content_margins_front();
+    #endif
 
     def_value<int>	block_width(0);
 
@@ -75,7 +77,7 @@ int litehtml::render_item_table::_render(int x, int y, int max_width, bool /*sec
             table_cell* cell = m_grid->cell(0, row);
             if (cell && cell->el)
             {
-                cell->min_width = cell->max_width = cell->el->render(0, 0, max_width - table_width_spacing);
+                cell->min_width = cell->max_width = cell->el->render(point_default, max_width - table_width_spacing);
                 cell->el->pos().width = cell->min_width - cell->el->content_margins_left() - cell->el->content_margins_right();
             }
         }
@@ -92,16 +94,16 @@ int litehtml::render_item_table::_render(int x, int y, int max_width, bool /*sec
                     if (!m_grid->column(col).css_width.is_predefined() && m_grid->column(col).css_width.units() != css_units_percentage)
                     {
                         int css_w = m_grid->column(col).css_width.calc_percent(block_width);
-                        int el_w = cell->el->render(0, 0, css_w);
+                        int el_w = cell->el->render(point_default, css_w);
                         cell->min_width = cell->max_width = std::max(css_w, el_w);
                         cell->el->pos().width = cell->min_width - cell->el->content_margins_left() - cell->el->content_margins_right();
                     }
                     else
                     {
                         // calculate minimum content width
-                        cell->min_width = cell->el->render(0, 0, 1);
+                        cell->min_width = cell->el->render(point_default, 1);
                         // calculate maximum content width
-                        cell->max_width = cell->el->render(0, 0, max_width - table_width_spacing);
+                        cell->max_width = cell->el->render(point_default, max_width - table_width_spacing);
                     }
                 }
             }
@@ -202,7 +204,7 @@ int litehtml::render_item_table::_render(int x, int y, int max_width, bool /*sec
 
                 if (cell->el->pos().width != cell_width - cell->el->content_margins_left() - cell->el->content_margins_right())
                 {
-                    cell->el->render(m_grid->column(col).left, 0, cell_width);
+                    cell->el->render({ m_grid->column(col).left, 0 }, cell_width);
                     cell->el->pos().width = cell_width - cell->el->content_margins_left() - cell->el->content_margins_right();
                 }
                 else
@@ -305,11 +307,42 @@ int litehtml::render_item_table::_render(int x, int y, int max_width, bool /*sec
 
     int minimum_table_height = std::max(block_height, min_height);
 
+    #if H3ML
+    // calculate block depth
+    int block_depth = 0;
+    if (get_predefined_depth(block_depth))
+    {
+        block_depth -= m_padding.depth() + m_borders.depth();
+    }
+
+    // calculate minimum height from m_css.get_min_height()
+    int min_depth = 0;
+    if (!src_el()->css().get_min_depth().is_predefined() && src_el()->css().get_min_depth().units() == css_units_percentage)
+    {
+        auto el_parent = parent();
+        if (el_parent)
+        {
+            int parent_depth = 0;
+            if (el_parent->get_predefined_depth(parent_depth))
+            {
+                min_depth = src_el()->css().get_min_depth().calc_percent(parent_depth);
+            }
+        }
+    }
+    else
+    {
+        min_depth = (int)src_el()->css().get_min_depth().val();
+    }
+
+    int minimum_table_depth = std::max(block_depth, min_depth);
+    #endif
+
     m_grid->calc_rows_height(minimum_table_height - table_height_spacing, m_border_spacing_y);
     m_grid->calc_vertical_positions(m_borders, src_el()->css().get_border_collapse(), m_border_spacing_y);
 
     int table_height = 0;
-
+    int table_depth = 0;
+    
     // place cells vertically
     for (int col = 0; col < m_grid->cols_count(); col++)
     {
@@ -326,6 +359,11 @@ int litehtml::render_item_table::_render(int x, int y, int max_width, bool /*sec
                 cell->el->pos().y = m_grid->row(row).top + cell->el->content_margins_top();
                 cell->el->pos().height = m_grid->row(span_row).bottom - m_grid->row(row).top - cell->el->content_margins_top() - cell->el->content_margins_bottom();
                 table_height = std::max(table_height, m_grid->row(span_row).bottom);
+                #if false && H3ML
+                cell->el->pos().z = m_grid->row(row).front + cell->el->content_margins_front();
+                cell->el->pos().depth = m_grid->row(span_row).back - m_grid->row(row).front - cell->el->content_margins_front() - cell->el->content_margins_back();
+                table_depth = std::max(table_depth, m_grid->row(span_row).back);
+                #endif
                 cell->el->apply_vertical_align();
             }
         }
@@ -351,7 +389,7 @@ int litehtml::render_item_table::_render(int x, int y, int max_width, bool /*sec
 
     for (auto& caption : m_grid->captions())
     {
-        caption->render(-border_left(), captions_height, table_width + border_left() + border_right());
+        caption->render({ -border_left(), captions_height }, table_width + border_left() + border_right());
         captions_height += caption->height();
     }
 
@@ -380,11 +418,17 @@ int litehtml::render_item_table::_render(int x, int y, int max_width, bool /*sec
 
     calc_auto_margins(parent_width);
 
-    m_pos.move_to(x, y);
+    m_pos.move_to(p);
     m_pos.x += content_margins_left();
     m_pos.y += content_margins_top();
+    #if H3ML
+    m_pos.z += content_margins_front();
+    #endif
     m_pos.width = table_width;
     m_pos.height = table_height + captions_height;
+    #if H3ML
+    m_pos.depth = table_depth;
+    #endif
 
     return max_table_width;
 }
@@ -441,26 +485,29 @@ std::shared_ptr<litehtml::render_item> litehtml::render_item_table::init()
     return shared_from_this();
 }
 
-void litehtml::render_item_table::draw_children(uint_ptr hdc, int x, int y, const position* clip, draw_flag flag, int zindex)
+void litehtml::render_item_table::draw_children(uint_ptr hdc, point p, const position* clip, draw_flag flag, int zindex)
 {
     if (!m_grid) return;
 
     position pos = m_pos;
-    pos.x += x;
-    pos.y += y;
+    pos.x += p.x;
+    pos.y += p.y;
+    #if H3ML
+    pos.z += p.z;
+    #endif
     for (auto& caption : m_grid->captions())
     {
         if (flag == draw_block)
         {
-            caption->src_el()->draw(hdc, pos.x, pos.y, clip, caption);
+            caption->src_el()->draw(hdc, pos.p(), clip, caption);
         }
-        caption->draw_children(hdc, pos.x, pos.y, clip, flag, zindex);
+        caption->draw_children(hdc, pos.p(), clip, flag, zindex);
     }
     for (int row = 0; row < m_grid->rows_count(); row++)
     {
         if (flag == draw_block)
         {
-            m_grid->row(row).el_row->src_el()->draw_background(hdc, pos.x, pos.y, clip, shared_from_this());
+            m_grid->row(row).el_row->src_el()->draw_background(hdc, pos.p(), clip, shared_from_this());
         }
         for (int col = 0; col < m_grid->cols_count(); col++)
         {
@@ -469,9 +516,9 @@ void litehtml::render_item_table::draw_children(uint_ptr hdc, int x, int y, cons
             {
                 if (flag == draw_block)
                 {
-                    cell->el->src_el()->draw(hdc, pos.x, pos.y, clip, cell->el);
+                    cell->el->src_el()->draw(hdc, pos.p(), clip, cell->el);
                 }
-                cell->el->draw_children(hdc, pos.x, pos.y, clip, flag, zindex);
+                cell->el->draw_children(hdc, pos.p(), clip, flag, zindex);
             }
         }
     }

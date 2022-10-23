@@ -18,8 +18,8 @@ int container_test::pt_to_px(int pt) const { return (int)((double)pt * 96 / 72.0
 int container_test::get_default_font_size() const { return 16; }
 const char* container_test::get_default_font_name() const { return "Times New Roman"; }
 void container_test::draw_list_marker(litehtml::uint_ptr hdc, const litehtml::list_marker& marker) {}
-void container_test::load_image(const char* src, const char* baseurl, bool redraw_on_ready) {}
-void container_test::get_image_size(const char* src, const char* baseurl, litehtml::size& sz) {}
+void container_test::load_image(const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready) {}
+void container_test::get_image_size(const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz) {}
 void container_test::draw_background(litehtml::uint_ptr hdc, const litehtml::background_paint& bg) {}
 void container_test::make_url(const char* url, const char* basepath, litehtml::string& out) { out = url; }
 void container_test::draw_borders(litehtml::uint_ptr hdc, const litehtml::borders& borders, const litehtml::position& draw_pos, bool root) {}

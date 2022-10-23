@@ -180,7 +180,7 @@ void cairo_container::draw_list_marker( litehtml::uint_ptr hdc, const litehtml::
 	}
 }
 
-void cairo_container::load_image( const char* src, const char* baseurl, bool redraw_on_ready )
+void cairo_container::load_image( const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready )
 {
 	std::wstring url;
 	make_url_utf8(src, baseurl, url);
@@ -199,7 +199,7 @@ void cairo_container::load_image( const char* src, const char* baseurl, bool red
 
 }
 
-void cairo_container::get_image_size( const char* src, const char* baseurl, litehtml::size& sz )
+void cairo_container::get_image_size( const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz )
 {
 	std::wstring url;
 	make_url_utf8(src, baseurl, url);

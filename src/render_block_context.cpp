@@ -2,11 +2,14 @@
 #include "render_item.h"
 #include "document.h"
 
-int litehtml::render_item_block_context::_render_content(int x, int y, int max_width, bool second_pass, int ret_width)
+int litehtml::render_item_block_context::_render_content(point p, int max_width, bool second_pass, int ret_width)
 {
     element_position el_position;
 
     int child_top = 0;
+    #if H3ML
+    int child_front = 0;
+    #endif
     int last_margin = 0;
     bool is_first = true;
     for (const auto& el : m_children)
@@ -29,9 +32,12 @@ int litehtml::render_item_block_context::_render_content(int x, int y, int max_w
         {
             if(el->src_el()->css().get_position() == element_position_absolute || el->src_el()->css().get_position() == element_position_fixed)
             {
-                el->render(0, child_top, max_width);
+                el->render({ 0, child_top }, max_width);
                 el->pos().x	+= el->content_margins_left();
                 el->pos().y	+= el->content_margins_top();
+                #if H3ML
+                el->pos().y	+= el->content_margins_front();
+                #endif
             } else
             {
                 child_top = get_cleared_top(el, child_top);
@@ -70,9 +76,12 @@ int litehtml::render_item_block_context::_render_content(int x, int y, int max_w
                     auto el_parent = el->parent();
                     el->pos().width = el->src_el()->css().get_width().calc_percent(child_width);
                     el->pos().height = el->src_el()->css().get_height().calc_percent(el_parent ? el_parent->pos().height : 0);
+                    #if H3ML
+                    el->pos().depth = el->src_el()->css().get_depth().calc_percent(el_parent ? el_parent->pos().depth : 0);
+                    #endif
                 }
 
-                int rw = el->render(child_x, child_top, child_width);
+                int rw = el->render({ child_x, child_top }, child_width);
                 if (rw > ret_width)
                 {
                     ret_width = rw;
@@ -105,6 +114,25 @@ int litehtml::render_item_block_context::_render_content(int x, int y, int max_w
             }
         }
     }
+
+    #if H3ML
+    int block_depth = 0;
+    if (get_predefined_height(block_depth))
+    {
+        m_pos.depth = block_depth;
+    } else
+    {
+        m_pos.depth = child_front;
+        if(collapse_back_margin())
+        {
+            m_pos.depth -= last_margin;
+            if(m_margins.back < last_margin)
+            {
+                m_margins.back = last_margin;
+            }
+        }
+    }
+    #endif
 
     return ret_width;
 }

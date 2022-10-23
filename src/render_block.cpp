@@ -13,14 +13,17 @@ int litehtml::render_item_block::place_float(const std::shared_ptr<render_item> 
 
     if (el->src_el()->css().get_float() == float_left)
     {
-        el->render(line_left, line_top, line_right);
+        el->render({ line_left, line_top }, line_right);
         if(el->right() > line_right)
         {
             int new_top = find_next_line_top(el->top(), el->width(), max_width);
             el->pos().x = get_line_left(new_top) + el->content_margins_left();
             el->pos().y = new_top + el->content_margins_top();
+            #if H3ML
+            el->pos().z = el->content_margins_front();
+            #endif
         }
-        add_float(el, 0, 0);
+        add_float(el, point_default);
         ret_width = fix_line_width(max_width, float_left);
         if(!ret_width)
         {
@@ -28,18 +31,21 @@ int litehtml::render_item_block::place_float(const std::shared_ptr<render_item> 
         }
     } else if (el->src_el()->css().get_float() == float_right)
     {
-        el->render(0, line_top, line_right);
+        el->render({ 0, line_top }, line_right);
 
         if(line_left + el->width() > line_right)
         {
             int new_top = find_next_line_top(el->top(), el->width(), max_width);
             el->pos().x = get_line_right(new_top, max_width) - el->width() + el->content_margins_left();
             el->pos().y = new_top + el->content_margins_top();
+            #if H3ML
+            el->pos().z = el->content_margins_front();
+            #endif
         } else
         {
             el->pos().x = line_right - el->width() + el->content_margins_left();
         }
-        add_float(el, 0, 0);
+        add_float(el, point_default);
         ret_width = fix_line_width(max_width, float_right);
 
         if(!ret_width)
@@ -292,15 +298,21 @@ void litehtml::render_item_block::get_line_left_right( int y, int def_right, int
     }
 }
 
-void litehtml::render_item_block::add_float(const std::shared_ptr<render_item> &el, int x, int y)
+void litehtml::render_item_block::add_float(const std::shared_ptr<render_item> &el, point p)
 {
     if(src_el()->is_floats_holder())
     {
         floated_box fb;
-        fb.pos.x		= el->left() + x;
-        fb.pos.y		= el->top() + y;
+        fb.pos.x		= el->left() + p.x;
+        fb.pos.y		= el->top() + p.y;
+        #if H3ML
+        fb.pos.z		= el->front() + p.z;
+        #endif
         fb.pos.width	= el->width();
         fb.pos.height	= el->height();
+        #if H3ML
+        fb.pos.depth    = el->depth();
+        #endif
         fb.float_side	= el->src_el()->css().get_float();
         fb.clear_floats	= el->src_el()->css().get_clear();
         fb.el			= el;
@@ -357,7 +369,11 @@ void litehtml::render_item_block::add_float(const std::shared_ptr<render_item> &
         auto el_parent = std::dynamic_pointer_cast<render_item_block>(parent());
         if (el_parent)
         {
-            el_parent->add_float(el, x + m_pos.x, y + m_pos.y);
+            el_parent->add_float(el, { p.x + m_pos.x, p.y + m_pos.y
+            #if H3ML
+            , p.z + m_pos.z
+            #endif
+            });
         }
     }
 }
@@ -667,7 +683,7 @@ std::shared_ptr<litehtml::render_item> litehtml::render_item_block::init()
     return ret;
 }
 
-int litehtml::render_item_block::_render(int x, int y, int max_width, bool second_pass)
+int litehtml::render_item_block::_render(point p, int max_width, bool second_pass)
 {
     int parent_width = max_width;
     int ret_width = 0;
@@ -675,10 +691,13 @@ int litehtml::render_item_block::_render(int x, int y, int max_width, bool secon
     calc_outlines(parent_width);
 
     m_pos.clear();
-    m_pos.move_to(x, y);
+    m_pos.move_to(p);
 
     m_pos.x += content_margins_left();
     m_pos.y += content_margins_top();
+    #if H3ML
+    m_pos.z += content_margins_front();
+    #endif
     if (src_el()->css().get_display() != display_table_cell && !src_el()->css().get_width().is_predefined())
     {
         int w = calc_width(parent_width);
@@ -730,7 +749,7 @@ int litehtml::render_item_block::_render(int x, int y, int max_width, bool secon
     //*****************************************
     // Render content
     //*****************************************
-    ret_width = _render_content(x,y, max_width, second_pass, ret_width);
+    ret_width = _render_content(p, max_width, second_pass, ret_width);
     //*****************************************
 
     // Set block width
@@ -755,9 +774,12 @@ int litehtml::render_item_block::_render(int x, int y, int max_width, bool secon
 
     // calculate the final position
 
-    m_pos.move_to(x, y);
+    m_pos.move_to(p);
     m_pos.x += content_margins_left();
     m_pos.y += content_margins_top();
+    #if H3ML
+    m_pos.z += content_margins_front();
+    #endif
 
     int block_height = 0;
     if (get_predefined_height(block_height))
@@ -797,7 +819,7 @@ int litehtml::render_item_block::_render(int x, int y, int max_width, bool secon
 
             size sz;
             const char* list_image_baseurl = src_el()->get_style_property("list-style-image-baseurl", true, nullptr);
-            src_el()->get_document()->container()->get_image_size(url.c_str(), list_image_baseurl, sz);
+            src_el()->get_document()->container()->get_image_size(url.c_str(), list_image_baseurl, nullptr, sz);
             if (min_height < sz.height)
             {
                 min_height = sz.height;
@@ -810,6 +832,41 @@ int litehtml::render_item_block::_render(int x, int y, int max_width, bool secon
     {
         m_pos.height = min_height;
     }
+
+    #if H3ML
+    int block_depth = 0;
+    if (get_predefined_depth(block_depth))
+    {
+        m_pos.depth = block_depth;
+    }
+
+    int min_depth = 0;
+    if (!src_el()->css().get_min_depth().is_predefined() && src_el()->css().get_min_depth().units() == css_units_percentage)
+    {
+        auto el_parent = parent();
+        if (el_parent)
+        {
+            if (el_parent->get_predefined_depth(block_depth))
+            {
+                min_depth = src_el()->css().get_min_depth().calc_percent(block_depth);
+            }
+        }
+    }
+    else
+    {
+        min_depth = (int)src_el()->css().get_min_depth().val();
+    }
+    if (min_depth != 0 && src_el()->css().get_box_sizing() == box_sizing_border_box)
+    {
+        min_depth -= m_padding.front + m_borders.front + m_padding.back + m_borders.back;
+        if (min_depth < 0) min_depth = 0;
+    }
+
+    if (min_depth > m_pos.depth)
+    {
+        m_pos.depth = min_depth;
+    }
+    #endif
 
     int min_width = src_el()->css().get_min_width().calc_percent(parent_width);
 
@@ -844,7 +901,7 @@ int litehtml::render_item_block::_render(int x, int y, int max_width, bool secon
               src_el()->css().get_position() == element_position_fixed
              )))
         {
-            _render(x, y, ret_width, true);
+            _render(p, ret_width, true);
             m_pos.width = ret_width - (content_margins_left() + content_margins_right());
         }
     }

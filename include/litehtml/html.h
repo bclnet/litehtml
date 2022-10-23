@@ -11,6 +11,7 @@
 #include <sstream>
 #include <functional>
 #include "os_types.h"
+#include "api.h"
 #include "types.h"
 #include "background.h"
 #include "borders.h"
@@ -43,8 +44,8 @@ namespace litehtml
 		virtual int					get_default_font_size() const = 0;
 		virtual const char*			get_default_font_name() const = 0;
 		virtual void				draw_list_marker(litehtml::uint_ptr hdc, const litehtml::list_marker& marker) = 0;
-		virtual void				load_image(const char* src, const char* baseurl, bool redraw_on_ready) = 0;
-		virtual void				get_image_size(const char* src, const char* baseurl, litehtml::size& sz) = 0;
+		virtual void				load_image(const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready) = 0;
+		virtual void				get_image_size(const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz) = 0;
 		// Note: regular <img> images are also drawn with draw_background
 		virtual void				draw_background(litehtml::uint_ptr hdc, const litehtml::background_paint& bg) = 0;
 		virtual void				draw_borders(litehtml::uint_ptr hdc, const litehtml::borders& borders, const litehtml::position& draw_pos, bool root) = 0;
@@ -98,7 +99,7 @@ namespace litehtml
 	
 	inline int round_f(float val)
 	{
-		int int_val = (int) val;
+		int int_val = (int)val;
 		if(val - int_val >= 0.5)
 		{
 			int_val++;
@@ -108,7 +109,7 @@ namespace litehtml
 
 	inline int round_d(double val)
 	{
-		int int_val = (int) val;
+		int int_val = (int)val;
 		if(val - int_val >= 0.5)
 		{
 			int_val++;

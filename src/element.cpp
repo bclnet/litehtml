@@ -45,6 +45,12 @@ litehtml::position litehtml::element::get_placement() const
                 {
                     pos.y = ri_pos.y;
                 }
+                #if H3ML
+                if(pos.z < ri_pos.z)
+                {
+                    pos.z = ri_pos.z;
+                }
+                #endif
             }
         }
     }
@@ -200,7 +206,7 @@ void litehtml::element::add_render(const std::shared_ptr<render_item>& ri)
     m_renders.push_back(ri);
 }
 
-bool litehtml::element::find_styles_changes( position::vector& redraw_boxes)
+bool litehtml::element::find_styles_changes(position::vector& redraw_boxes)
 {
     if(css().get_display() == display_inline_text)
     {
@@ -282,23 +288,23 @@ litehtml::element::ptr litehtml::element::find_sibling(const element::ptr& el, c
 bool litehtml::element::is_nth_last_child(const element::ptr& el, int num, int off, bool of_type) const		LITEHTML_RETURN_FUNC(false)
 bool litehtml::element::is_nth_child(const element::ptr&, int num, int off, bool of_type) const		LITEHTML_RETURN_FUNC(false)
 bool litehtml::element::is_only_child(const element::ptr& el, bool of_type)	 const	LITEHTML_RETURN_FUNC(false)
-litehtml::element::ptr litehtml::element::get_child( int idx ) const				LITEHTML_RETURN_FUNC(nullptr)
+litehtml::element::ptr litehtml::element::get_child(int idx) const					LITEHTML_RETURN_FUNC(nullptr)
 size_t litehtml::element::get_children_count() const								LITEHTML_RETURN_FUNC(0)
 void litehtml::element::update_floats(int dy, const ptr &parent)					LITEHTML_EMPTY_FUNC
 bool litehtml::element::is_floats_holder() const									LITEHTML_RETURN_FUNC(false)
 void litehtml::element::get_content_size( size& sz, int max_width )					LITEHTML_EMPTY_FUNC
-bool litehtml::element::appendChild(const ptr &el)						LITEHTML_RETURN_FUNC(false)
-bool litehtml::element::removeChild(const ptr &el)						LITEHTML_RETURN_FUNC(false)
+bool litehtml::element::appendChild(const ptr &el)									LITEHTML_RETURN_FUNC(false)
+bool litehtml::element::removeChild(const ptr &el)									LITEHTML_RETURN_FUNC(false)
 void litehtml::element::clearRecursive()											LITEHTML_EMPTY_FUNC
-const char* litehtml::element::get_tagName() const						LITEHTML_RETURN_FUNC("")
-void litehtml::element::set_tagName( const char* tag )							LITEHTML_EMPTY_FUNC
-void litehtml::element::set_data( const char* data )								LITEHTML_EMPTY_FUNC
-void litehtml::element::set_attr( const char* name, const char* val )			LITEHTML_EMPTY_FUNC
-void litehtml::element::apply_stylesheet( const litehtml::css& stylesheet )			LITEHTML_EMPTY_FUNC
+const char* litehtml::element::get_tagName() const									LITEHTML_RETURN_FUNC("")
+void litehtml::element::set_tagName(const char* tag)								LITEHTML_EMPTY_FUNC
+void litehtml::element::set_data(const char* data)									LITEHTML_EMPTY_FUNC
+void litehtml::element::set_attr(const char* name, const char* val)					LITEHTML_EMPTY_FUNC
+void litehtml::element::apply_stylesheet(const litehtml::css& stylesheet)			LITEHTML_EMPTY_FUNC
 void litehtml::element::refresh_styles()											LITEHTML_EMPTY_FUNC
 void litehtml::element::on_click()													LITEHTML_EMPTY_FUNC
-void litehtml::element::parse_styles( bool is_reparse /*= false*/ )					LITEHTML_EMPTY_FUNC
-const char* litehtml::element::get_attr( const char* name, const char* def /*= 0*/ ) const LITEHTML_RETURN_FUNC(def)
+void litehtml::element::parse_styles(bool is_reparse /*= false*/)					LITEHTML_EMPTY_FUNC
+const char* litehtml::element::get_attr(const char* name, const char* def /*= 0*/) const LITEHTML_RETURN_FUNC(def)
 bool litehtml::element::is_white_space() const										LITEHTML_RETURN_FUNC(false)
 bool litehtml::element::is_space() const										    LITEHTML_RETURN_FUNC(false)
 bool litehtml::element::is_comment() const											LITEHTML_RETURN_FUNC(false)
@@ -310,15 +316,15 @@ bool litehtml::element::on_mouse_over()												LITEHTML_RETURN_FUNC(false)
 bool litehtml::element::on_mouse_leave()											LITEHTML_RETURN_FUNC(false)
 bool litehtml::element::on_lbutton_down()											LITEHTML_RETURN_FUNC(false)
 bool litehtml::element::on_lbutton_up()												LITEHTML_RETURN_FUNC(false)
-const char* litehtml::element::get_cursor()							LITEHTML_RETURN_FUNC(nullptr)
-bool litehtml::element::set_pseudo_class( const char* pclass, bool add )			LITEHTML_RETURN_FUNC(false)
-bool litehtml::element::set_class( const char* pclass, bool add )				LITEHTML_RETURN_FUNC(false)
+const char* litehtml::element::get_cursor()											LITEHTML_RETURN_FUNC(nullptr)
+bool litehtml::element::set_pseudo_class(const char* pclass, bool add)				LITEHTML_RETURN_FUNC(false)
+bool litehtml::element::set_class(const char* pclass, bool add)						LITEHTML_RETURN_FUNC(false)
 bool litehtml::element::is_replaced() const											LITEHTML_RETURN_FUNC(false)
-void litehtml::element::draw(uint_ptr hdc, int x, int y, const position *clip, const std::shared_ptr<render_item> &ri) LITEHTML_EMPTY_FUNC
-void litehtml::element::draw_background(uint_ptr hdc, int x, int y, const position *clip, const std::shared_ptr<render_item> &ri) LITEHTML_EMPTY_FUNC
-const char* litehtml::element::get_style_property( const char* name, bool inherited, const char* def /*= 0*/ ) const	LITEHTML_RETURN_FUNC(nullptr)
-void litehtml::element::get_text( string& text )									LITEHTML_EMPTY_FUNC
+void litehtml::element::draw(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri) LITEHTML_EMPTY_FUNC
+void litehtml::element::draw_background(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri) LITEHTML_EMPTY_FUNC
+const char* litehtml::element::get_style_property(const char* name, bool inherited, const char* def /*= 0*/) const	LITEHTML_RETURN_FUNC(nullptr)
+void litehtml::element::get_text(string& text)									LITEHTML_EMPTY_FUNC
 void litehtml::element::parse_attributes()											LITEHTML_EMPTY_FUNC
-int litehtml::element::select( const css_selector& selector, bool apply_pseudo)		LITEHTML_RETURN_FUNC(select_no_match)
-int litehtml::element::select( const css_element_selector& selector, bool apply_pseudo /*= true*/ )	LITEHTML_RETURN_FUNC(select_no_match)
+int litehtml::element::select(const css_selector& selector, bool apply_pseudo)		LITEHTML_RETURN_FUNC(select_no_match)
+int litehtml::element::select(const css_element_selector& selector, bool apply_pseudo /*= true*/)	LITEHTML_RETURN_FUNC(select_no_match)
 litehtml::element::ptr litehtml::element::find_ancestor(const css_selector& selector, bool apply_pseudo, bool* is_pseudo)	LITEHTML_RETURN_FUNC(nullptr)

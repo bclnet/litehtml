@@ -70,6 +70,16 @@ void litehtml::html_tag::set_attr( const char* name, const char* val )
 			m_class_values.resize( 0 );
 			split_string( val, m_class_values, " " );
 		}
+		
+		// event
+		if(t_strncasecmp(name, "on", 2) == 0)
+		{
+			document::ptr doc = get_document();
+			if (doc->script())
+			{
+				// doc->script()->addEvent(shared_from_this(), name, m_text);
+			}
+		}
 	}
 }
 
@@ -140,6 +150,8 @@ litehtml::element::ptr litehtml::html_tag::select_one( const css_selector& selec
 
 void litehtml::html_tag::apply_stylesheet( const litehtml::css& stylesheet )
 {
+	//: remove_before_after();
+
 	for(const auto& sel : stylesheet.selectors())
 	{
 		int apply = select(*sel, false);
@@ -218,15 +230,21 @@ void litehtml::html_tag::get_content_size( size& sz, int max_width )
 	{
 		sz.width	= 0;
 	}
+	#if H3ML
+	sz.depth = 0;
+	#endif
 }
 
-void litehtml::html_tag::draw(uint_ptr hdc, int x, int y, const position *clip, const std::shared_ptr<render_item> &ri)
+void litehtml::html_tag::draw(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri)
 {
 	position pos = ri->pos();
-	pos.x	+= x;
-	pos.y	+= y;
+	pos.x += p.x;
+	pos.y += p.y;
+#if H3ML
+	pos.z += p.z;
+#endif
 
-    draw_background(hdc, x, y, clip, ri);
+    draw_background(hdc, p, clip, ri);
 
 	if(m_css.get_display() == display_list_item && m_css.get_list_style_type() != list_style_type_none)
 	{
@@ -236,7 +254,7 @@ void litehtml::html_tag::draw(uint_ptr hdc, int x, int y, const position *clip, 
 			border_box += ri->get_paddings();
 			border_box += ri->get_borders();
 
-			border_radiuses bdr_radius = m_css.get_borders().radius.calc_percents(border_box.width, border_box.height);
+			border_radiuses bdr_radius = m_css.get_borders().radius.calc_percents(border_box.sz());
 
 			bdr_radius -= ri->get_borders();
 			bdr_radius -= ri->get_paddings();
@@ -492,8 +510,10 @@ int litehtml::html_tag::select(const css_element_selector& selector, bool apply_
 		case select_pseudo_class:
 			if(apply_pseudo)
 			{
-				string	selector_param;
-				string	selector_name;
+				//: if (!el_parent) return select_no_match;
+
+				string selector_param;
+				string selector_name;
 
 				string::size_type begin	= attr.val.find_first_of('(');
 				string::size_type end	= (begin == string::npos) ? string::npos : find_close_bracket(attr.val, begin);
@@ -675,9 +695,8 @@ bool litehtml::html_tag::is_body()  const
 	return false;
 }
 
-void litehtml::html_tag::set_data( const char* /*data*/ )
+void litehtml::html_tag::set_data(const char* /*data*/)
 {
-
 }
 
 bool litehtml::html_tag::on_mouse_over()
@@ -785,12 +804,15 @@ void litehtml::html_tag::set_tagName( const char* tag )
 	}
 }
 
-void litehtml::html_tag::draw_background(uint_ptr hdc, int x, int y, const position *clip,
+void litehtml::html_tag::draw_background(uint_ptr hdc, point p, const position *clip,
                                          const std::shared_ptr<render_item> &ri)
 {
 	position pos = ri->pos();
-	pos.x	+= x;
-	pos.y	+= y;
+	pos.x += p.x;
+	pos.y += p.y;
+	#if H3ML
+	pos.z += p.z;
+	#endif
 
 	position el_pos = pos;
 	el_pos += ri->get_paddings();
@@ -819,7 +841,7 @@ void litehtml::html_tag::draw_background(uint_ptr hdc, int x, int y, const posit
 			borders bdr = m_css.get_borders();
             if(bdr.is_visible())
             {
-                bdr.radius = m_css.get_borders().radius.calc_percents(border_box.width, border_box.height);
+                bdr.radius = m_css.get_borders().radius.calc_percents(border_box.sz());
                 get_document()->container()->draw_borders(hdc, bdr, border_box, !have_parent());
             }
 		}
@@ -835,8 +857,11 @@ void litehtml::html_tag::draw_background(uint_ptr hdc, int x, int y, const posit
 
 		for(auto box = boxes.begin(); box != boxes.end(); box++)
 		{
-			box->x	+= x;
-			box->y	+= y;
+			box->x	+= p.x;
+			box->y	+= p.y;
+			#if H3ML
+			box->z	+= p.z;
+			#endif
 
 			if(box->does_intersect(clip))
 			{
@@ -856,8 +881,14 @@ void litehtml::html_tag::draw_background(uint_ptr hdc, int x, int y, const posit
 				{
 					bdr.radius.bottom_left_x	= m_css.get_borders().radius.bottom_left_x;
 					bdr.radius.bottom_left_y	= m_css.get_borders().radius.bottom_left_y;
+					#if H3ML
+					bdr.radius.bottom_left_z 	= m_css.get_borders().radius.bottom_left_z;
+					#endif
 					bdr.radius.top_left_x		= m_css.get_borders().radius.top_left_x;
 					bdr.radius.top_left_y		= m_css.get_borders().radius.top_left_y;
+					#if H3ML
+					bdr.radius.top_left_z		= m_css.get_borders().radius.top_left_z;
+					#endif
 				}
 
 				// set right borders radius for the last box
@@ -865,8 +896,14 @@ void litehtml::html_tag::draw_background(uint_ptr hdc, int x, int y, const posit
 				{
 					bdr.radius.bottom_right_x	= m_css.get_borders().radius.bottom_right_x;
 					bdr.radius.bottom_right_y	= m_css.get_borders().radius.bottom_right_y;
+					#if H3ML
+					bdr.radius.bottom_right_z 	= m_css.get_borders().radius.bottom_right_z;
+					#endif
 					bdr.radius.top_right_x		= m_css.get_borders().radius.top_right_x;
 					bdr.radius.top_right_y		= m_css.get_borders().radius.top_right_y;
+					#if H3ML
+					bdr.radius.top_right_z 		= m_css.get_borders().radius.top_right_z;
+					#endif
 				}
 
 				
@@ -883,13 +920,13 @@ void litehtml::html_tag::draw_background(uint_ptr hdc, int x, int y, const posit
 
 				if(bg)
 				{
-					bg_paint.border_radius = bdr.radius.calc_percents(bg_paint.border_box.width, bg_paint.border_box.width);
+					bg_paint.border_radius = bdr.radius.calc_percents(bg_paint.border_box.sz());
 					get_document()->container()->draw_background(hdc, bg_paint);
 				}
                 if(bdr.is_visible())
                 {
                     borders b = bdr;
-                    b.radius = bdr.radius.calc_percents(box->width, box->height);
+                    b.radius = bdr.radius.calc_percents(box->sz());
                     get_document()->container()->draw_borders(hdc, b, *box, false);
                 }
             }
@@ -1041,13 +1078,12 @@ void litehtml::html_tag::init_background_paint(position pos, background_paint &b
 
 	if(!bg_paint.image.empty())
 	{
-		get_document()->container()->get_image_size(bg_paint.image.c_str(), bg_paint.baseurl.c_str(), bg_paint.image_size);
+		get_document()->container()->get_image_size(bg_paint.image.c_str(), bg_paint.baseurl.c_str(), nullptr, bg_paint.image_size);
 		if(bg_paint.image_size.width && bg_paint.image_size.height)
 		{
 			litehtml::size img_new_sz = bg_paint.image_size;
 			double img_ar_width		= (double) bg_paint.image_size.width / (double) bg_paint.image_size.height;
 			double img_ar_height	= (double) bg_paint.image_size.height / (double) bg_paint.image_size.width;
-
 
 			if(bg->m_position.width.is_predefined())
 			{
@@ -1058,10 +1094,16 @@ void litehtml::html_tag::init_background_paint(position pos, background_paint &b
 					{
 						img_new_sz.width = bg_paint.origin_box.width;
 						img_new_sz.height	= (int) ((double) bg_paint.origin_box.width * img_ar_height);
+						#if H3ML
+						img_new_sz.depth 	= 0;
+						#endif
 					} else
 					{
 						img_new_sz.height = bg_paint.origin_box.height;
 						img_new_sz.width	= (int) ((double) bg_paint.origin_box.height * img_ar_width);
+						#if H3ML
+						img_new_sz.depth 	= 0;
+						#endif
 					}
 					break;
 				case litehtml::background_size_cover:
@@ -1069,18 +1111,26 @@ void litehtml::html_tag::init_background_paint(position pos, background_paint &b
 					{
 						img_new_sz.width = bg_paint.origin_box.width;
 						img_new_sz.height	= (int) ((double) bg_paint.origin_box.width * img_ar_height);
+						#if H3ML
+						img_new_sz.depth 	= 0;
+						#endif
 					} else
 					{
 						img_new_sz.height = bg_paint.origin_box.height;
 						img_new_sz.width	= (int) ((double) bg_paint.origin_box.height * img_ar_width);
+						#if H3ML
+						img_new_sz.depth 	= 0;
+						#endif
 					}
-					break;
 					break;
 				case litehtml::background_size_auto:
 					if(!bg->m_position.height.is_predefined())
 					{
 						img_new_sz.height	= bg->m_position.height.calc_percent(bg_paint.origin_box.height);
 						img_new_sz.width	= (int) ((double) img_new_sz.height * img_ar_width);
+						#if H3ML
+						img_new_sz.depth 	= 0;
+						#endif
 					}
 					break;
 				}
@@ -1094,15 +1144,21 @@ void litehtml::html_tag::init_background_paint(position pos, background_paint &b
 				{
 					img_new_sz.height = bg->m_position.height.calc_percent(bg_paint.origin_box.height);
 				}
+				#if H3ML
+				img_new_sz.depth = 0;
+				#endif
 			}
 
 			bg_paint.image_size = img_new_sz;
-			bg_paint.position_x = bg_paint.origin_box.x + (int) bg->m_position.x.calc_percent(bg_paint.origin_box.width - bg_paint.image_size.width);
-			bg_paint.position_y = bg_paint.origin_box.y + (int) bg->m_position.y.calc_percent(bg_paint.origin_box.height - bg_paint.image_size.height);
+			bg_paint.position.x = bg_paint.origin_box.x + (int) bg->m_position.x.calc_percent(bg_paint.origin_box.width - bg_paint.image_size.width);
+			bg_paint.position.y = bg_paint.origin_box.y + (int) bg->m_position.y.calc_percent(bg_paint.origin_box.height - bg_paint.image_size.height);
+			#if H3ML
+			bg_paint.position.z = bg_paint.origin_box.z + (int) bg->m_position.z.calc_percent(bg_paint.origin_box.depth - bg_paint.image_size.depth);
+			#endif
 		}
 
 	}
-	bg_paint.border_radius	= m_css.get_borders().radius.calc_percents(border_box.width, border_box.height);
+	bg_paint.border_radius	= m_css.get_borders().radius.calc_percents(border_box.sz());
 	bg_paint.border_box		= border_box;
 	bg_paint.is_root		= !have_parent();
 }
@@ -1117,7 +1173,7 @@ void litehtml::html_tag::draw_list_marker( uint_ptr hdc, const position &pos )
 	{
 		css::parse_css_url(list_image, lm.image);
 		lm.baseurl = get_style_property("list-style-image-baseurl", true, nullptr);
-		get_document()->container()->get_image_size(lm.image.c_str(), lm.baseurl, img_size);
+		get_document()->container()->get_image_size(lm.image.c_str(), lm.baseurl, nullptr, img_size);
 	} else
 	{
 		lm.baseurl = nullptr;
@@ -1143,7 +1199,11 @@ void litehtml::html_tag::draw_list_marker( uint_ptr hdc, const position &pos )
 		lm.pos.y = pos.y + ln_height / 2 - lm.pos.height / 2;
 		lm.index = -1;
 	}
-
+	#if H3ML
+	lm.pos.depth = 0;
+	lm.pos.z = pos.z;
+	#endif
+	
 	if(img_size.width && img_size.height)
 	{
 		if(lm.pos.y + img_size.height > pos.y + pos.height)
@@ -1154,9 +1214,18 @@ void litehtml::html_tag::draw_list_marker( uint_ptr hdc, const position &pos )
 		{
 			lm.pos.x -= img_size.width - lm.pos.width;
 		}
-
+		#if H3ML
+		if(img_size.depth > lm.pos.depth)
+		{
+			lm.pos.z -= img_size.depth - lm.pos.depth;
+		}
+		#endif
+		
 		lm.pos.width	= img_size.width;
 		lm.pos.height	= img_size.height;
+		#if H3ML
+		lm.pos.depth	= img_size.depth;
+		#endif
 	}
 
 	if (m_css.get_list_style_position() == list_style_position_outside)
@@ -1473,6 +1542,8 @@ void litehtml::html_tag::add_style(const string& style, const string& baseurl)
 
 void litehtml::html_tag::refresh_styles()
 {
+	//: remove_before_after();
+	
 	for (auto& el : m_children)
 	{
 		if(el->css().get_display() != display_inline_text)
@@ -1589,9 +1660,7 @@ const litehtml::background* litehtml::html_tag::get_background(bool own_only)
 
 litehtml::string litehtml::html_tag::dump_get_name()
 {
-    if(m_tag.empty())
-    {
-        return "anon [html_tag]";
-    }
-    return m_tag + " [html_tag]";
+    return m_tag.empty()
+    	? "anon [html_tag]"
+    	: m_tag + " [html_tag]";
 }

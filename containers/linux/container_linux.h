@@ -65,8 +65,8 @@ public:
 	int pt_to_px(int pt) const override;
 	int get_default_font_size() const override;
 	const char*	get_default_font_name() const override;
-	void load_image(const char* src, const char* baseurl, bool redraw_on_ready) override;
-	void get_image_size(const char* src, const char* baseurl, litehtml::size& sz) override;
+	void load_image(const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready) override;
+	void get_image_size(const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz) override;
 	void draw_background(litehtml::uint_ptr hdc, const litehtml::background_paint& bg) override;
 	void draw_borders(litehtml::uint_ptr hdc, const litehtml::borders& borders, const litehtml::position& draw_pos, bool root) override;
 	void draw_list_marker(litehtml::uint_ptr hdc, const litehtml::list_marker& marker) override;
@@ -88,8 +88,8 @@ public:
 	void clear_images();
 
 protected:
-	virtual void draw_ellipse(cairo_t* cr, int x, int y, int width, int height, const litehtml::web_color& color, int line_width);
-	virtual void fill_ellipse(cairo_t* cr, int x, int y, int width, int height, const litehtml::web_color& color);
+	virtual void draw_ellipse(cairo_t* cr, point p, size sz, const litehtml::web_color& color, int line_width);
+	virtual void fill_ellipse(cairo_t* cr, point p, size sz, const litehtml::web_color& color);
 	virtual void rounded_rectangle( cairo_t* cr, const litehtml::position &pos, const litehtml::border_radiuses &radius );
 
 private:

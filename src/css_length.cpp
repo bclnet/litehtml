@@ -55,9 +55,7 @@ void litehtml::css_length::fromString( const string& str, const string& predefs,
 
 litehtml::string litehtml::css_length::to_string()
 {
-    if(m_is_predefined)
-    {
-        return "def(" + std::to_string(m_predef) + ")";
-    }
-    return std::to_string(m_value) + "{" + index_value(m_units, css_units_strings) + "}";
+	return m_is_predefined
+		? "def(" + std::to_string(m_predef) + ")"
+		: std::to_string(m_value) + "{" + index_value(m_units, css_units_strings) + "}";
 }

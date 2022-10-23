@@ -58,11 +58,11 @@ void litehtml::table_grid::finish()
 	m_cols_count	= 0;
 	for(auto& cell : m_cells)
 	{
-		m_cols_count = std::max(m_cols_count, (int) cell.size());
+		m_cols_count = std::max(m_cols_count, (int)cell.size());
 	}
 	for(auto& cell : m_cells)
 	{
-		for(int j = (int) cell.size(); j < m_cols_count; j++)
+		for(int j = (int)cell.size(); j < m_cols_count; j++)
 		{
 			table_cell empty_cell;
 			cell.push_back(empty_cell);

@@ -106,15 +106,21 @@ void litehtml::el_text::parse_styles(bool is_reparse)
 	{
 		m_size.height	= 0;
 		m_size.width	= 0;
+		#if H3ML
+		m_size.depth 	+= 0;
+		#endif
 	} else
 	{
 		m_size.height	= fm.height;
 		m_size.width	= get_document()->container()->text_width(m_use_transformed ? m_transformed_text.c_str() : m_text.c_str(), font);
+		#if H3ML
+		m_size.depth 	+= 0;
+		#endif
 	}
 	m_draw_spaces = fm.draw_spaces;
 }
 
-void litehtml::el_text::draw(uint_ptr hdc, int x, int y, const position *clip, const std::shared_ptr<render_item> &ri)
+void litehtml::el_text::draw(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri)
 {
 	if(is_white_space() && !m_draw_spaces)
 	{
@@ -122,8 +128,11 @@ void litehtml::el_text::draw(uint_ptr hdc, int x, int y, const position *clip, c
 	}
 
 	position pos = ri->pos();
-	pos.x	+= x;
-	pos.y	+= y;
+	pos.x += p.x;
+	pos.y += p.y;
+	#if H3ML
+	pos.z += p.z;
+	#endif
 
 	if(pos.does_intersect(clip))
 	{

@@ -1,10 +1,8 @@
 #include "html.h"
 #include "el_td.h"
 
-
 litehtml::el_td::el_td(const std::shared_ptr<document>& doc) : html_tag(doc)
 {
-
 }
 
 void litehtml::el_td::parse_attributes()

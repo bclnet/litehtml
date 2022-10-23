@@ -8,6 +8,7 @@
 #include "css_offsets.h"
 #include "css_margins.h"
 #include "css_properties.h"
+#include "api.h"
 
 namespace litehtml
 {
@@ -15,12 +16,14 @@ namespace litehtml
     class dumper;
     class render_item;
 
-	class element : public std::enable_shared_from_this<element>
+	class element : public std::enable_shared_from_this<element>, public Element //, public EventTarget
 	{
 		friend class line_box;
 		friend class html_tag;
 		friend class el_table;
 		friend class document;
+		friend class Document;
+		friend class Element;
 	public:
 		typedef std::shared_ptr<litehtml::element>			ptr;
 		typedef std::shared_ptr<const litehtml::element>	const_ptr;
@@ -95,8 +98,8 @@ namespace litehtml
 		virtual bool				set_class(const char* pclass, bool add);
 		virtual bool				is_replaced() const;
 		virtual void				parse_styles(bool is_reparse = false);
-		virtual void				draw(uint_ptr hdc, int x, int y, const position *clip, const std::shared_ptr<render_item>& ri);
-		virtual void				draw_background(uint_ptr hdc, int x, int y, const position *clip, const std::shared_ptr<render_item> &ri);
+		virtual void				draw(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item>& ri);
+		virtual void				draw_background(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri);
 		virtual const char*			get_style_property(const char* name, bool inherited, const char* def = nullptr) const;
 		virtual void				get_text(string& text);
 		virtual void				parse_attributes();
@@ -162,12 +165,12 @@ namespace litehtml
 		m_parent = par;
 	}
 
-	inline bool litehtml::element::is_positioned()	const
+	inline bool litehtml::element::is_positioned() const
 	{
 		return (css().get_position() > element_position_static);
 	}
 
-	inline bool litehtml::element::is_float()	const
+	inline bool litehtml::element::is_float() const
 	{
 		return (css().get_float() != float_none);
 	}

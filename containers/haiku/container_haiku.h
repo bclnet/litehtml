@@ -43,7 +43,7 @@ public:
 	virtual int							get_default_font_size() const override;
 	virtual const litehtml::tchar_t*	get_default_font_name() const override;
 	virtual void 						load_image(const litehtml::tchar_t* src, const litehtml::tchar_t* baseurl, bool redraw_on_ready) override;
-	virtual void						get_image_size(const litehtml::tchar_t* src, const litehtml::tchar_t* baseurl, litehtml::size& sz) override;
+	virtual void						get_image_size(const litehtml::tchar_t* src, const litehtml::tchar_t* baseurl, const litehtml::string_map* attrs, litehtml::size& sz) override;
 	virtual void						draw_background(litehtml::uint_ptr hdc, const litehtml::background_paint& bg) override;
 	virtual void						draw_borders(litehtml::uint_ptr hdc, const litehtml::borders& borders, const litehtml::position& draw_pos, bool root) override;
 	virtual void 						draw_list_marker(litehtml::uint_ptr hdc, const litehtml::list_marker& marker) override;

@@ -9,8 +9,14 @@ namespace litehtml
 	{
 		css_length	x;
 		css_length	y;
+		#if H3ML
+		css_length	z;
+		#endif
 		css_length	width;
 		css_length	height;
+		#if H3ML
+		css_length	depth;
+		#endif
 
 		css_position() = default;
 
@@ -20,6 +26,10 @@ namespace litehtml
 			y		= val.y;
 			width	= val.width;
 			height	= val.height;
+			#if H3ML
+			z		= val.z;
+			depth	= val.depth;
+			#endif
 		}
 
 		css_position& operator=(const css_position& val)
@@ -28,6 +38,10 @@ namespace litehtml
 			y		= val.y;
 			width	= val.width;
 			height	= val.height;
+			#if H3ML
+			z		= val.z;
+			depth	= val.depth;
+			#endif
 			return *this;
 		}
 	};

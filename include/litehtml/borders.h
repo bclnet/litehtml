@@ -54,7 +54,7 @@ namespace litehtml
 		}
 		border(const css_border& val)
 		{
-			width = (int) val.width.val();
+			width = (int)val.width.val();
 			style = val.style;
 			color = val.color;
 		}
@@ -67,7 +67,7 @@ namespace litehtml
 		}
 		border& operator=(const css_border& val)
 		{
-			width = (int) val.width.val();
+			width = (int)val.width.val();
 			style = val.style;
 			color = val.color;
 			return *this;
@@ -78,15 +78,27 @@ namespace litehtml
 	{
 		int	top_left_x;
 		int	top_left_y;
+		#if H3ML
+		int	top_left_z;
+		#endif
 
 		int	top_right_x;
 		int	top_right_y;
+		#if H3ML
+		int	top_right_z;
+		#endif
 
 		int	bottom_right_x;
 		int	bottom_right_y;
+		#if H3ML
+		int	bottom_right_z;
+		#endif
 
 		int	bottom_left_x;
 		int	bottom_left_y;
+		#if H3ML
+		int	bottom_left_z;
+		#endif
 
 		border_radiuses()
 		{
@@ -98,6 +110,12 @@ namespace litehtml
 			bottom_right_y = 0;
 			bottom_left_x = 0;
 			bottom_left_y = 0;
+			#if H3ML
+			top_left_z = 0;
+			top_right_z = 0;
+			bottom_right_z = 0;
+			bottom_left_z = 0;
+			#endif
 		}
 		border_radiuses(const border_radiuses& val)
 		{
@@ -109,6 +127,12 @@ namespace litehtml
 			bottom_right_y = val.bottom_right_y;
 			bottom_left_x = val.bottom_left_x;
 			bottom_left_y = val.bottom_left_y;
+			#if H3ML
+			top_left_z = val.top_left_z;
+			top_right_z = val.top_right_z;
+			bottom_right_z = val.bottom_right_z;
+			bottom_left_z = val.bottom_left_z;
+			#endif
 		}
 		border_radiuses& operator = (const border_radiuses& val)
 		{
@@ -120,6 +144,12 @@ namespace litehtml
 			bottom_right_y = val.bottom_right_y;
 			bottom_left_x = val.bottom_left_x;
 			bottom_left_y = val.bottom_left_y;
+			#if H3ML
+			top_left_z = val.top_left_z;
+			top_right_z = val.top_right_z;
+			bottom_right_z = val.bottom_right_z;
+			bottom_left_z = val.bottom_left_z;
+			#endif
 			return *this;
 		}
 		void operator += (const margins& mg)
@@ -132,6 +162,12 @@ namespace litehtml
 			bottom_right_y += mg.bottom;
 			bottom_left_x += mg.left;
 			bottom_left_y += mg.bottom;
+			#if H3ML
+			top_left_z += mg.front;
+			top_right_z += mg.front;
+			bottom_right_z += mg.back;
+			bottom_left_z += mg.back;
+			#endif
 			fix_values();
 		}
 		void operator -= (const margins& mg)
@@ -144,6 +180,12 @@ namespace litehtml
 			bottom_right_y -= mg.bottom;
 			bottom_left_x -= mg.left;
 			bottom_left_y -= mg.bottom;
+			#if H3ML
+			top_left_z -= mg.front;
+			top_right_z -= mg.front;
+			bottom_right_z -= mg.back;
+			bottom_left_z -= mg.back;
+			#endif
 			fix_values();
 		}
 		void fix_values()
@@ -156,6 +198,12 @@ namespace litehtml
 			if (bottom_right_y < 0) bottom_right_y = 0;
 			if (bottom_left_x < 0) bottom_left_x = 0;
 			if (bottom_left_y < 0) bottom_left_y = 0;
+			#if H3ML
+			if (top_left_z < 0)	top_left_z = 0;
+			if (top_right_z < 0) top_right_z = 0;
+			if (bottom_right_z < 0) bottom_right_z = 0;
+			if (bottom_left_z < 0) bottom_left_z = 0;
+			#endif
 		}
 	};
 
@@ -163,19 +211,30 @@ namespace litehtml
 	{
 		css_length	top_left_x;
 		css_length	top_left_y;
+		#if H3ML
+		css_length	top_left_z;
+		#endif
 
 		css_length	top_right_x;
 		css_length	top_right_y;
+		#if H3ML
+		css_length	top_right_z;
+		#endif
 
 		css_length	bottom_right_x;
 		css_length	bottom_right_y;
+		#if H3ML
+		css_length	bottom_right_z;
+		#endif
 
 		css_length	bottom_left_x;
 		css_length	bottom_left_y;
+		#if H3ML
+		css_length	bottom_left_z;
+		#endif
 
 		css_border_radius()
 		{
-
 		}
 
 		css_border_radius(const css_border_radius& val)
@@ -188,6 +247,12 @@ namespace litehtml
 			bottom_left_y	= val.bottom_left_y;
 			bottom_right_x	= val.bottom_right_x;
 			bottom_right_y	= val.bottom_right_y;
+			#if H3ML
+			top_left_z		= val.top_left_z;
+			top_right_z		= val.top_right_z;
+			bottom_left_z	= val.bottom_left_z;
+			bottom_right_z	= val.bottom_right_z;
+			#endif
 		}
 
 		css_border_radius& operator=(const css_border_radius& val)
@@ -200,19 +265,32 @@ namespace litehtml
 			bottom_left_y	= val.bottom_left_y;
 			bottom_right_x	= val.bottom_right_x;
 			bottom_right_y	= val.bottom_right_y;
+			#if H3ML
+			top_left_z		= val.top_left_z;
+			top_right_z		= val.top_right_z;
+			bottom_left_z	= val.bottom_left_z;
+			bottom_right_z	= val.bottom_right_z;
+			#endif
 			return *this;
 		}
-		border_radiuses calc_percents(int width, int height) const
+		
+		border_radiuses calc_percents(const size& sz) const
 		{
 			border_radiuses ret;
-			ret.bottom_left_x = bottom_left_x.calc_percent(width);
-			ret.bottom_left_y = bottom_left_y.calc_percent(height);
-			ret.top_left_x = top_left_x.calc_percent(width);
-			ret.top_left_y = top_left_y.calc_percent(height);
-			ret.top_right_x = top_right_x.calc_percent(width);
-			ret.top_right_y = top_right_y.calc_percent(height);
-			ret.bottom_right_x = bottom_right_x.calc_percent(width);
-			ret.bottom_right_y = bottom_right_y.calc_percent(height);
+			ret.bottom_left_x = bottom_left_x.calc_percent(sz.width);
+			ret.bottom_left_y = bottom_left_y.calc_percent(sz.height);
+			ret.top_left_x = top_left_x.calc_percent(sz.width);
+			ret.top_left_y = top_left_y.calc_percent(sz.height);
+			ret.top_right_x = top_right_x.calc_percent(sz.width);
+			ret.top_right_y = top_right_y.calc_percent(sz.height);
+			ret.bottom_right_x = bottom_right_x.calc_percent(sz.width);
+			ret.bottom_right_y = bottom_right_y.calc_percent(sz.height);
+			#if H3ML
+			ret.bottom_left_z = bottom_left_z.calc_percent(sz.depth);
+			ret.top_left_z = top_left_z.calc_percent(sz.depth);
+			ret.top_right_z = top_right_z.calc_percent(sz.depth);
+			ret.bottom_right_z = bottom_right_z.calc_percent(sz.depth);
+			#endif
 			return ret;
 		}
 	};
@@ -223,14 +301,22 @@ namespace litehtml
 		css_border			top;
 		css_border			right;
 		css_border			bottom;
+		#if H3ML
+		css_border			front;
+		css_border			back;
+		#endif
 		css_border_radius	radius;
 
 		css_borders() = default;
 
-		bool is_visible() const
-		{
-			return left.width.val() != 0 || right.width.val() != 0 || top.width.val() != 0 || bottom.width.val() != 0;
-		}
+        bool is_visible() const
+        {
+			return left.width.val() != 0 || right.width.val() != 0 || top.width.val() != 0 || bottom.width.val() != 0
+			#if H3ML
+			|| front.width.val() != 0 || back.width.val() != 0
+            #endif
+			;
+        }
 
 		css_borders(const css_borders& val)
 		{
@@ -238,6 +324,10 @@ namespace litehtml
 			right	= val.right;
 			top		= val.top;
 			bottom	= val.bottom;
+			#if H3ML
+			front	= val.front;
+			back	= val.back;
+			#endif
 			radius	= val.radius;
 		}
 
@@ -247,16 +337,26 @@ namespace litehtml
 			right	= val.right;
 			top		= val.top;
 			bottom	= val.bottom;
+			#if H3ML
+			front	= val.front;
+			back	= val.back;
+			#endif
 			radius	= val.radius;
 			return *this;
 		}
-		string to_string()
-		{
-			return	"left: " + left.to_string() +
-					", top: " + top.to_string() +
-					", right: " + top.to_string() +
-					", bottom: " + bottom.to_string();
-		}
+		
+        string to_string()
+        {
+            return "left: " + left.to_string() +
+                   ", top: " + top.to_string() +
+                   ", right: " + right.to_string() +
+                   ", bottom: " + bottom.to_string()
+				   #if H3ML
+				   + ", front: " + front.to_string() +
+                   ", back: " + back.to_string()
+				   #endif
+				   ;
+        }
 	};
 
 	struct borders
@@ -265,6 +365,10 @@ namespace litehtml
 		border			top;
 		border			right;
 		border			bottom;
+		#if H3ML
+		border			front;
+		border			back;
+		#endif
 		border_radiuses	radius;
 
 		borders() = default;
@@ -275,6 +379,10 @@ namespace litehtml
 			right = val.right;
 			top = val.top;
 			bottom = val.bottom;
+			#if H3ML
+			front = val.front;
+			back = val.back;
+			#endif
 			radius = val.radius;
 		}
 
@@ -284,12 +392,20 @@ namespace litehtml
 			right = val.right;
 			top = val.top;
 			bottom = val.bottom;
+			#if H3ML
+			front = val.front;
+			back = val.back;
+			#endif
 		}
 
-		bool is_visible() const
-		{
-			return left.width != 0 || right.width != 0 || top.width != 0 || bottom.width != 0;
-		}
+        bool is_visible() const
+        {
+            return left.width != 0 || right.width != 0 || top.width != 0 || bottom.width != 0
+			#if H3ML
+			|| front.width != 0 || back.width != 0
+            #endif
+			;
+        }
 
 		borders& operator=(const borders& val)
 		{
@@ -297,6 +413,10 @@ namespace litehtml
 			right = val.right;
 			top = val.top;
 			bottom = val.bottom;
+			#if H3ML
+			front = val.front;
+			back = val.back;
+			#endif
 			radius = val.radius;
 			return *this;
 		}
@@ -307,6 +427,10 @@ namespace litehtml
 			right = val.right;
 			top = val.top;
 			bottom = val.bottom;
+			#if H3ML
+			front = val.front;
+			back = val.back;
+			#endif
 			return *this;
 		}
 	};

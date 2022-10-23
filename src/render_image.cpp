@@ -2,13 +2,13 @@
 #include "render_item.h"
 #include "document.h"
 
-int litehtml::render_item_image::_render( int x, int y, int _max_width, bool second_pass )
+int litehtml::render_item_image::_render( point p, int _max_width, bool second_pass )
 {
     int parent_width = _max_width;
 
     calc_outlines(parent_width);
 
-    m_pos.move_to(x, y);
+    m_pos.move_to(p);
 
     document::ptr doc = src_el()->get_document();
 
@@ -17,6 +17,9 @@ int litehtml::render_item_image::_render( int x, int y, int _max_width, bool sec
 
     m_pos.width		= sz.width;
     m_pos.height	= sz.height;
+    #if H3ML
+    m_pos.depth 	= sz.depth;
+    #endif
 
     src_el()->css_w().set_line_height(height());
 
@@ -24,6 +27,9 @@ int litehtml::render_item_image::_render( int x, int y, int _max_width, bool sec
     {
         m_pos.height	= sz.height;
         m_pos.width		= sz.width;
+        #if H3ML
+        m_pos.depth 	= sz.depth;
+        #endif
 
         // check for max-width
         if(!src_el()->css().get_max_width().is_predefined())
@@ -52,7 +58,7 @@ int litehtml::render_item_image::_render( int x, int y, int _max_width, bool sec
             }
             if(sz.height)
             {
-                m_pos.width = (int) ((float )m_pos.height * (float)sz.width / (float)sz.height);
+                m_pos.width = (int) ((float)m_pos.height * (float)sz.width / (float)sz.height);
             } else
             {
                 m_pos.width = sz.width;
@@ -77,7 +83,7 @@ int litehtml::render_item_image::_render( int x, int y, int _max_width, bool sec
 
         if(sz.height)
         {
-            m_pos.width = (int) ((float )m_pos.height * (float)sz.width / (float)sz.height);
+            m_pos.width = (int) ((float)m_pos.height * (float)sz.width / (float)sz.height);
         } else
         {
             m_pos.width = sz.width;
@@ -107,6 +113,9 @@ int litehtml::render_item_image::_render( int x, int y, int _max_width, bool sec
     {
         m_pos.width		= (int) src_el()->css().get_width().calc_percent(parent_width);
         m_pos.height	= 0;
+        #if H3ML
+        m_pos.depth		= 0;
+        #endif
         if (!get_predefined_height(m_pos.height))
         {
             m_pos.height = (int)src_el()->css().get_height().val();
@@ -137,6 +146,9 @@ int litehtml::render_item_image::_render( int x, int y, int _max_width, bool sec
 
     m_pos.x	+= content_margins_left();
     m_pos.y += content_margins_top();
+    #if H3ML
+    m_pos.z += content_margins_front();
+    #endif
 
     return m_pos.width + content_margins_left() + content_margins_right();
 }

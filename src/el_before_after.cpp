@@ -204,5 +204,4 @@ litehtml::string litehtml::el_before_after_base::convert_escape( const char* txt
 
 void litehtml::el_before_after_base::apply_stylesheet( const litehtml::css& stylesheet )
 {
-
 }

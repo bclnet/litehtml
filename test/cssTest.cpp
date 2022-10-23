@@ -505,6 +505,10 @@ TEST(CSSTest, StyleAddProperty) {
   style.add_property(_t("border-right"), _t("5px solid red"), nullptr, false, nullptr);
   style.add_property(_t("border-top"), _t("5px solid red"), nullptr, false, nullptr);
   style.add_property(_t("border-bottom"), _t("5px solid red"), nullptr, false, nullptr);
+  #if H3ML
+  style.add_property(_t("border-front"), _t("5px solid red"), nullptr, false, nullptr);
+  style.add_property(_t("border-back"), _t("5px solid red"), nullptr, false, nullptr);
+  #endif
   style.add_property(_t("border-bottom-left-radius"), _t("1"), nullptr, false, nullptr);
   style.add_property(_t("border-bottom-left-radius"), _t("1 2"), nullptr, false, nullptr);
   style.add_property(_t("border-bottom-right-radius"), _t("1"), nullptr, false, nullptr);
@@ -560,6 +564,14 @@ TEST(CSSTest, StyleAddProperty) {
   style.add_property(_t("border-bottom"), _t("TBD"), nullptr, false, nullptr);
   style.add_property(_t("border-bottom"), _t("TBD"), nullptr, false, nullptr);
   style.add_property(_t("border-bottom"), _t("TBD"), nullptr, false, nullptr);
+  #if H3ML
+  style.add_property(_t("border-front"), _t("TBD"), nullptr, false, nullptr);
+  style.add_property(_t("border-front"), _t("TBD"), nullptr, false, nullptr);
+  style.add_property(_t("border-front"), _t("TBD"), nullptr, false, nullptr);
+  style.add_property(_t("border-front"), _t("TBD"), nullptr, false, nullptr);
+  style.add_property(_t("border-back"), _t("TBD"), nullptr, false, nullptr);
+  style.add_property(_t("border-back"), _t("TBD"), nullptr, false, nullptr);
+  #endif
   style.add_property(_t("border-width"), _t("1"), nullptr, false, nullptr);
   style.add_property(_t("border-width"), _t("1 2"), nullptr, false, nullptr);
   style.add_property(_t("border-width"), _t("1 2 3"), nullptr, false, nullptr);

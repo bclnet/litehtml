@@ -21,7 +21,7 @@ namespace litehtml
 		void				parse_styles(bool is_reparse) override;
         bool				is_text() const override { return true; }
 
-        void draw(uint_ptr hdc, int x, int y, const position *clip, const std::shared_ptr<render_item> &ri) override;
+        void draw(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri) override;
         string             dump_get_name() override;
         std::vector<std::tuple<string, string>> dump_get_attrs() override;
 	protected:

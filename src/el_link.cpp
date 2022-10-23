@@ -2,10 +2,8 @@
 #include "el_link.h"
 #include "document.h"
 
-
 litehtml::el_link::el_link(const std::shared_ptr<document>& doc) : litehtml::html_tag(doc)
 {
-
 }
 
 void litehtml::el_link::parse_attributes()

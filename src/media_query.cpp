@@ -2,7 +2,6 @@
 #include "media_query.h"
 #include "document.h"
 
-
 litehtml::media_query::media_query()
 {
 	m_media_type	= media_type_all;
@@ -71,14 +70,14 @@ litehtml::media_query::ptr litehtml::media_query::create_from_string(const strin
 								length.fromString(expr_tokens[1]);
 								if(length.units() == css_units_dpcm || length.units() == css_units_dpi)
 								{
-									expr.val = (int) (length.val() * 2.54);
+									expr.val = (int)(length.val() * 2.54);
 								} else
 								{
 									if(doc)
 									{
 										doc->cvt_units(length, doc->container()->get_default_font_size());
 									}
-									expr.val = (int) length.val();
+									expr.val = (int)length.val();
 								}
 							}
 						}
@@ -212,7 +211,29 @@ bool litehtml::media_query_expression::check( const media_features& features ) c
 			return true;
 		}
 		break;
-
+	#if H3ML
+	case media_feature_depth:
+		if(check_as_bool)
+		{
+			return (features.depth != 0);
+		} else if(features.depth == val)
+		{
+			return true;
+		}
+		break;
+	case media_feature_min_depth:
+		if(features.depth >= val)
+		{
+			return true;
+		}
+		break;
+	case media_feature_max_depth:
+		if(features.depth <= val)
+		{
+			return true;
+		}
+		break;
+	#endif
 	case media_feature_device_width:
 		if(check_as_bool)
 		{
@@ -255,7 +276,29 @@ bool litehtml::media_query_expression::check( const media_features& features ) c
 			return true;
 		}
 		break;
-
+	#if H3ML
+	case media_feature_device_depth:
+		if(check_as_bool)
+		{
+			return (features.device_depth != 0);
+		} else if(features.device_depth == val)
+		{
+			return true;
+		}
+		break;
+	case media_feature_min_device_depth:
+		if(features.device_depth >= val)
+		{
+			return true;
+		}
+		break;
+	case media_feature_max_device_depth:
+		if(features.device_depth <= val)
+		{
+			return true;
+		}
+		break;
+	#endif
 	case media_feature_orientation:
 		if(features.height >= features.width)
 		{

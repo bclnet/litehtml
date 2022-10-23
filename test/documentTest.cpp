@@ -6,6 +6,13 @@
 using namespace litehtml;
 #define _t(x) x
 
+TEST(DocumentTest, Layout) {
+	context ctx;
+	container_test container;
+	litehtml::document::ptr doc = document::createFromString(_t("<html>Body</html>"), &container, &ctx);
+	doc->render(50, render_all);
+}
+
 TEST(DocumentTest, AddFont) {
   container_test container;
   litehtml::document::ptr doc = std::make_shared<litehtml::document>(&container, nullptr);
@@ -30,8 +37,8 @@ TEST(DocumentTest, Draw) {
   context ctx;
   container_test container;
   litehtml::document::ptr doc = document::createFromString(_t("<html>Body</html>"), &container, &ctx);
-  position pos(0, 0, 100, 100);
-  doc->draw((uint_ptr)0, 0, 0, &pos);
+  position pos(point_default, { 100, 100 });
+  doc->draw((uint_ptr)0, point_default, &pos);
 }
 
 TEST(DocumentTest, CvtUnits) {
@@ -57,9 +64,9 @@ TEST(DocumentTest, MouseEvents) {
   container_test container;
   litehtml::document::ptr doc = std::make_shared<litehtml::document>(&container, nullptr);
   position::vector redraw_boxes;
-  doc->on_mouse_over(0, 0, 0, 0, redraw_boxes);
-  doc->on_lbutton_down(0, 0, 0, 0, redraw_boxes);
-  doc->on_lbutton_up(0, 0, 0, 0, redraw_boxes);
+  doc->on_mouse_over(point_default, point_default, redraw_boxes);
+  doc->on_lbutton_down(point_default, point_default, redraw_boxes);
+  doc->on_lbutton_up(point_default, point_default, redraw_boxes);
   doc->on_mouse_leave(redraw_boxes);
 }
 

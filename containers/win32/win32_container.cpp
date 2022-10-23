@@ -186,7 +186,7 @@ void win32_container::make_url_utf8(const char* url, const char* basepath, std::
 	make_url(litehtml::utf8_to_wchar(url), litehtml::utf8_to_wchar(basepath), out);
 }
 
-void win32_container::load_image( const char* src, const char* baseurl, bool redraw_on_ready )
+void win32_container::load_image( const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready )
 {
 	std::wstring url;
 	make_url_utf8(src, baseurl, url);
@@ -211,7 +211,7 @@ void win32_container::add_image(LPCWSTR url, uint_ptr img)
 	unlock_images_cache();
 }
 
-void win32_container::get_image_size( const char* src, const char* baseurl, litehtml::size& sz )
+void win32_container::get_image_size( const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz )
 {
 	std::wstring url;
 	make_url_utf8(src, baseurl, url);

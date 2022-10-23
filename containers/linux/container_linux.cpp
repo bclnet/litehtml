@@ -246,7 +246,7 @@ void container_linux::draw_list_marker( litehtml::uint_ptr hdc, const litehtml::
 	}
 }
 
-void container_linux::load_image( const char* src, const char* baseurl, bool redraw_on_ready )
+void container_linux::load_image( const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready )
 {
 	litehtml::string url;
 	make_url(src, baseurl, url);
@@ -266,7 +266,7 @@ void container_linux::load_image( const char* src, const char* baseurl, bool red
 	}
 }
 
-void container_linux::get_image_size( const char* src, const char* baseurl, litehtml::size& sz )
+void container_linux::get_image_size( const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz )
 {
 	litehtml::string url;
 	make_url(src, baseurl, url);
@@ -893,5 +893,4 @@ void container_linux::get_language(litehtml::string& language, litehtml::string&
 
 void container_linux::link(const std::shared_ptr<litehtml::document> &ptr, const litehtml::element::ptr& el)
 {
-
 }

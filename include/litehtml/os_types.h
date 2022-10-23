@@ -15,12 +15,12 @@ namespace litehtml
 #if defined(_MSC_VER) && _MSC_VER < 1900
 #define noexcept
 #endif
-
+	#define _tdefault			nullptr
 	#define t_itoa(value, buffer, size, radix)	_itoa_s(value, buffer, size, radix)
 	#define t_snprintf(s, n, format, ...) _snprintf_s(s, _TRUNCATE, n, format, __VA_ARGS__)
 
 #else
-
+	#define _tdefault			nullptr
 	#define t_itoa(value, buffer, size, radix)	snprintf(buffer, size, "%d", value)
 	#define t_snprintf(s, n, format, ...) snprintf(s, n, format, __VA_ARGS__)
 

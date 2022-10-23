@@ -268,7 +268,7 @@ int litehtml::document::render( int max_width, render_type rt )
 			m_root_render->render_positioned(rt);
 		} else
 		{
-			ret = m_root_render->render(0, 0, max_width);
+			ret = m_root_render->render(point_default, max_width);
 			if(m_root_render->fetch_positioned())
 			{
 				m_fixed_boxes.clear();
@@ -276,18 +276,21 @@ int litehtml::document::render( int max_width, render_type rt )
 			}
 			m_size.width	= 0;
 			m_size.height	= 0;
+			#if H3ML
+			m_size.depth	= 0;
+			#endif
 			m_root_render->calc_document_size(m_size);
 		}
 	}
 	return ret;
 }
 
-void litehtml::document::draw( uint_ptr hdc, int x, int y, const position* clip )
+void litehtml::document::draw( uint_ptr hdc, point p, const position* clip )
 {
 	if(m_root && m_root_render)
 	{
-        m_root->draw(hdc, x, y, clip, m_root_render);
-        m_root_render->draw_stacking_context(hdc, x, y, clip, true);
+        m_root->draw(hdc, p, clip, m_root_render);
+        m_root_render->draw_stacking_context(hdc, p, clip, true);
 	}
 }
 
@@ -403,14 +406,14 @@ void litehtml::document::add_stylesheet( const char* str, const char* baseurl, c
 	}
 }
 
-bool litehtml::document::on_mouse_over( int x, int y, int client_x, int client_y, position::vector& redraw_boxes )
+bool litehtml::document::on_mouse_over( point p, point client_p, position::vector& redraw_boxes )
 {
 	if(!m_root || !m_root_render)
 	{
 		return false;
 	}
 
-	element::ptr over_el = m_root_render->get_element_by_point(x, y, client_x, client_y);
+	element::ptr over_el = m_root_render->get_element_by_point(p, client_p);
 
 	bool state_was_changed = false;
 
@@ -462,14 +465,14 @@ bool litehtml::document::on_mouse_leave( position::vector& redraw_boxes )
 	return false;
 }
 
-bool litehtml::document::on_lbutton_down( int x, int y, int client_x, int client_y, position::vector& redraw_boxes )
+bool litehtml::document::on_lbutton_down( point p, point client_p, position::vector& redraw_boxes )
 {
 	if(!m_root || !m_root_render)
 	{
 		return false;
 	}
 
-	element::ptr over_el = m_root_render->get_element_by_point(x, y, client_x, client_y);
+	element::ptr over_el = m_root_render->get_element_by_point(p, client_p);
 
 	bool state_was_changed = false;
 
@@ -513,7 +516,7 @@ bool litehtml::document::on_lbutton_down( int x, int y, int client_x, int client
 	return false;
 }
 
-bool litehtml::document::on_lbutton_up( int x, int y, int client_x, int client_y, position::vector& redraw_boxes )
+bool litehtml::document::on_lbutton_up( point p, point client_p, position::vector& redraw_boxes )
 {
 	if(!m_root || !m_root_render)
 	{
@@ -615,7 +618,7 @@ void litehtml::document::add_fixed_box( const position& pos )
 bool litehtml::document::media_changed()
 {
 	container()->get_media_features(m_media);
-	if (update_media_lists(m_media))
+	if(update_media_lists(m_media))
 	{
 		m_root->refresh_styles();
 		m_root->parse_styles();

@@ -2,10 +2,8 @@
 #include "el_style.h"
 #include "document.h"
 
-
 litehtml::el_style::el_style(const std::shared_ptr<document>& doc) : element(doc)
 {
-
 }
 
 void litehtml::el_style::parse_attributes()

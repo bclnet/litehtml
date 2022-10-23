@@ -32,10 +32,19 @@ namespace litehtml
         css_borders				m_css_borders;
         css_length				m_css_width;
         css_length				m_css_height;
+		#if H3ML
+		css_length				m_css_depth;
+		#endif
         css_length				m_css_min_width;
         css_length				m_css_min_height;
+		#if H3ML
+		css_length				m_css_min_depth;
+		#endif
         css_length				m_css_max_width;
         css_length				m_css_max_height;
+		#if H3ML
+		css_length				m_css_max_depth;
+		#endif
         css_offsets				m_css_offsets;
         css_length				m_css_text_indent;
         int						m_line_height;
@@ -50,7 +59,9 @@ namespace litehtml
         border_collapse			m_border_collapse;
         css_length				m_css_border_spacing_x;
         css_length				m_css_border_spacing_y;
-
+		#if H3ML
+		css_length				m_css_border_spacing_z;
+		#endif
         float                   m_flex_grow;
         float                   m_flex_shrink;
         css_length              m_flex_basis;
@@ -84,10 +95,19 @@ namespace litehtml
                 m_css_borders(),
                 m_css_width(),
                 m_css_height(),
+		        #if H3ML
+		        m_css_depth(),
+		        #endif
                 m_css_min_width(),
                 m_css_min_height(),
+                #if H3ML
+		        m_css_min_depth(),
+		        #endif
                 m_css_max_width(),
                 m_css_max_height(),
+                #if H3ML
+		        m_css_max_depth(),
+		        #endif
                 m_css_offsets(),
                 m_css_text_indent(),
                 m_line_height(0),
@@ -102,6 +122,9 @@ namespace litehtml
                 m_border_collapse(border_collapse_separate),
                 m_css_border_spacing_x(),
                 m_css_border_spacing_y(),
+                #if H3ML
+		        m_css_border_spacing_z(),
+		        #endif
                 m_flex_grow(0),
                 m_flex_shrink(1),
                 m_flex_direction(flex_direction_row),
@@ -163,17 +186,32 @@ namespace litehtml
         const css_length &get_height() const;
         void set_height(const css_length &mCssHeight);
 
+        #if H3ML
+        const css_length &get_depth() const;
+        void set_depth(const css_length &mCssDepth);
+        #endif
+
         const css_length &get_min_width() const;
         void set_min_width(const css_length &mCssMinWidth);
 
         const css_length &get_min_height() const;
         void set_min_height(const css_length &mCssMinHeight);
 
+        #if H3ML
+        const css_length &get_min_depth() const;
+        void set_min_depth(const css_length &mCssMinDepth);
+        #endif
+
         const css_length &get_max_width() const;
         void set_max_width(const css_length &mCssMaxWidth);
 
         const css_length &get_max_height() const;
         void set_max_height(const css_length &mCssMaxHeight);
+
+        #if H3ML
+        const css_length &get_max_depth() const;
+        void set_max_depth(const css_length &mCssMaxDepth);
+        #endif
 
         const css_offsets &get_offsets() const;
         void set_offsets(const css_offsets &mCssOffsets);
@@ -216,6 +254,11 @@ namespace litehtml
 
         const css_length& get_border_spacing_y() const;
         void get_border_spacing_y(const css_length& mBorderSpacingY);
+
+     	#if H3ML
+        const css_length& get_border_spacing_z() const;
+        void get_border_spacing_z(const css_length& mBorderSpacingZ);
+        #endif
 
         float get_flex_grow() const;
         float get_flex_shrink() const;
@@ -388,6 +431,18 @@ namespace litehtml
         m_css_height = mCssHeight;
     }
 
+    #if H3ML
+    inline const css_length &css_properties::get_depth() const
+    {
+        return m_css_depth;
+    }
+
+    inline void css_properties::set_depth(const css_length &mCssDepth)
+    {
+        m_css_depth = mCssDepth;
+    }
+    #endif
+
     inline const css_length &css_properties::get_min_width() const
     {
         return m_css_min_width;
@@ -408,6 +463,18 @@ namespace litehtml
         m_css_min_height = mCssMinHeight;
     }
 
+    #if H3ML
+    inline const css_length &css_properties::get_min_depth() const
+    {
+        return m_css_min_depth;
+    }
+
+    inline void css_properties::set_min_depth(const css_length &mCssMinDepth)
+    {
+        m_css_min_depth = mCssMinDepth;
+    }
+    #endif
+
     inline const css_length &css_properties::get_max_width() const
     {
         return m_css_max_width;
@@ -427,6 +494,18 @@ namespace litehtml
     {
         m_css_max_height = mCssMaxHeight;
     }
+
+    #if H3ML
+    inline const css_length &css_properties::get_max_depth() const
+    {
+        return m_css_max_depth;
+    }
+
+    inline void css_properties::set_max_depth(const css_length &mCssMaxDepth)
+    {
+        m_css_max_depth = mCssMaxDepth;
+    }
+    #endif
 
     inline const css_offsets &css_properties::get_offsets() const
     {
@@ -568,6 +647,18 @@ namespace litehtml
         m_css_border_spacing_y = mBorderSpacingY;
     }
 
+    #if H3ML
+    inline const css_length& css_properties::get_border_spacing_z() const
+    {
+        return m_css_border_spacing_z;
+    }
+
+    inline void css_properties::get_border_spacing_z(const css_length& mBorderSpacingZ)
+    {
+        m_css_border_spacing_z = mBorderSpacingZ;
+    }
+    #endif
+    
     inline float css_properties::get_flex_grow() const
     {
         return m_flex_grow;

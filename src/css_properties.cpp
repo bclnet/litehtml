@@ -16,7 +16,6 @@ static const int font_size_table[8][7] =
                 { 9,   10,    13,    16,    18,    24,    32}
         };
 
-
 void litehtml::css_properties::parse(const std::shared_ptr<element>& el, const std::shared_ptr<document>& doc)
 {
     parse_font(el, doc);
@@ -126,11 +125,19 @@ void litehtml::css_properties::parse(const std::shared_ptr<element>& el, const s
         m_css_offsets.right.fromString(el->get_style_property("right", false, "auto"), "auto");
         m_css_offsets.top.fromString(el->get_style_property("top", false, "auto"), "auto");
         m_css_offsets.bottom.fromString(el->get_style_property("bottom", false, "auto"), "auto");
+        #if H3ML
+        m_css_offsets.front.fromString(el->get_style_property("front", false, "auto"), "auto");
+        m_css_offsets.back.fromString(el->get_style_property("back", false, "auto"), "auto");
+        #endif
 
         doc->cvt_units(m_css_offsets.left, m_font_size);
         doc->cvt_units(m_css_offsets.right, m_font_size);
         doc->cvt_units(m_css_offsets.top, m_font_size);
         doc->cvt_units(m_css_offsets.bottom, m_font_size);
+        #if H3ML
+        doc->cvt_units(m_css_offsets.front, m_font_size);
+        doc->cvt_units(m_css_offsets.back, m_font_size);
+        #endif
     }
 
     const char* va	= el->get_style_property("vertical-align", true,	"baseline");
@@ -142,48 +149,87 @@ void litehtml::css_properties::parse(const std::shared_ptr<element>& el, const s
 
     m_css_width.fromString(			el->get_style_property("width",			false,	"auto"), "auto");
     m_css_height.fromString(		el->get_style_property("height",		false,	"auto"), "auto");
+    #if H3ML
+    m_css_depth.fromString(		    el->get_style_property("depth",		    false,	"auto"), "auto");
+    #endif
 
     doc->cvt_units(m_css_width, m_font_size);
     doc->cvt_units(m_css_height, m_font_size);
-
+    #if H3ML
+    doc->cvt_units(m_css_depth, m_font_size);
+    #endif
+    
     m_css_min_width.fromString(		el->get_style_property("min-width",		false,	"0"));
     m_css_min_height.fromString(	el->get_style_property("min-height",	false,	"0"));
-
+    #if H3ML
+    m_css_min_depth.fromString(	    el->get_style_property("min-depth",	    false,	"0"));
+    #endif
+    
     m_css_max_width.fromString(		el->get_style_property("max-width",		false,	"none"),	"none");
     m_css_max_height.fromString(	el->get_style_property("max-height",	false,	"none"),	"none");
+    #if H3ML
+    m_css_max_depth.fromString(	    el->get_style_property("max-depth",	    false,	"none"),	"none");
+    #endif
 
     doc->cvt_units(m_css_min_width, m_font_size);
     doc->cvt_units(m_css_min_height, m_font_size);
-
+    #if H3ML
+    doc->cvt_units(m_css_min_depth, m_font_size);
+    #endif
+    
     m_css_margins.left.fromString(		el->get_style_property("margin-left",		false,	"0"), "auto");
     m_css_margins.right.fromString(		el->get_style_property("margin-right",		false,	"0"), "auto");
     m_css_margins.top.fromString(		el->get_style_property("margin-top",		false,	"0"), "auto");
     m_css_margins.bottom.fromString(	el->get_style_property("margin-bottom",		false,	"0"), "auto");
+   	#if H3ML
+    m_css_margins.front.fromString(		el->get_style_property("margin-front",		false,	"0"), "auto");
+    m_css_margins.back.fromString(	    el->get_style_property("margin-back",		false,	"0"), "auto");
+    #endif
 
     doc->cvt_units(m_css_margins.left,	m_font_size);
     doc->cvt_units(m_css_margins.right,	m_font_size);
     doc->cvt_units(m_css_margins.top,		m_font_size);
     doc->cvt_units(m_css_margins.bottom,	m_font_size);
-
+    #if H3ML
+    doc->cvt_units(m_css_margins.front,		m_font_size);
+    doc->cvt_units(m_css_margins.back,	    m_font_size);
+    #endif
+    
     m_css_padding.left.fromString(		el->get_style_property("padding-left",		false,	"0"), "");
     m_css_padding.right.fromString(		el->get_style_property("padding-right",		false,	"0"), "");
     m_css_padding.top.fromString(		el->get_style_property("padding-top",		false,	"0"), "");
     m_css_padding.bottom.fromString(	el->get_style_property("padding-bottom",	false,	"0"), "");
+    #if H3ML
+    m_css_padding.front.fromString(		el->get_style_property("padding-front",		false,	"0"), "");
+    m_css_padding.back.fromString(	    el->get_style_property("padding-back",	    false,	"0"), "");
+    #endif
 
     doc->cvt_units(m_css_padding.left,	m_font_size);
     doc->cvt_units(m_css_padding.right,	m_font_size);
     doc->cvt_units(m_css_padding.top,		m_font_size);
     doc->cvt_units(m_css_padding.bottom,	m_font_size);
-
+    #if H3ML
+    doc->cvt_units(m_css_padding.front,		m_font_size);
+    doc->cvt_units(m_css_padding.back,	    m_font_size);
+    #endif
+    
     m_css_borders.left.width.fromString(	el->get_style_property("border-left-width",		false,	"medium"), border_width_strings);
     m_css_borders.right.width.fromString(	el->get_style_property("border-right-width",	false,	"medium"), border_width_strings);
     m_css_borders.top.width.fromString(		el->get_style_property("border-top-width",		false,	"medium"), border_width_strings);
     m_css_borders.bottom.width.fromString(	el->get_style_property("border-bottom-width",	false,	"medium"), border_width_strings);
+   	#if H3ML
+    m_css_borders.front.width.fromString(	el->get_style_property("border-front-width",	false,	"medium"), border_width_strings);
+    m_css_borders.back.width.fromString(	el->get_style_property("border-back-width",	    false,	"medium"), border_width_strings);
+    #endif
 
     doc->cvt_units(m_css_borders.left.width,	m_font_size);
     doc->cvt_units(m_css_borders.right.width,	m_font_size);
     doc->cvt_units(m_css_borders.top.width,		m_font_size);
     doc->cvt_units(m_css_borders.bottom.width,	m_font_size);
+    #if H3ML
+    doc->cvt_units(m_css_borders.front.width,	m_font_size);
+    doc->cvt_units(m_css_borders.back.width,	m_font_size);
+    #endif
 
     m_css_borders.left.color = web_color::from_string(el->get_style_property("border-left-color",	false,	""), doc->container());
     m_css_borders.left.style = (border_style) value_index(el->get_style_property("border-left-style", false, "none"), border_style_strings, border_style_none);
@@ -197,17 +243,37 @@ void litehtml::css_properties::parse(const std::shared_ptr<element>& el, const s
     m_css_borders.bottom.color = web_color::from_string(el->get_style_property("border-bottom-color", false, ""), doc->container());
     m_css_borders.bottom.style = (border_style) value_index(el->get_style_property("border-bottom-style", false, "none"), border_style_strings, border_style_none);
 
+    #if H3ML
+    m_css_borders.front.color = web_color::from_string(el->get_style_property("border-front-color", false, ""), doc->container());
+    m_css_borders.front.style = (border_style) value_index(el->get_style_property("border-front-style", false, "none"), border_style_strings, border_style_none);
+
+    m_css_borders.back.color = web_color::from_string(el->get_style_property("border-back-color", false, ""), doc->container());
+    m_css_borders.back.style = (border_style) value_index(el->get_style_property("border-back-style", false, "none"), border_style_strings, border_style_none);
+    #endif
+
     m_css_borders.radius.top_left_x.fromString(el->get_style_property("border-top-left-radius-x", false, "0"));
     m_css_borders.radius.top_left_y.fromString(el->get_style_property("border-top-left-radius-y", false, "0"));
+ 	#if H3ML
+    m_css_borders.radius.top_left_z.fromString(el->get_style_property("border-top-left-radius-z", false, "0"));
+    #endif
 
     m_css_borders.radius.top_right_x.fromString(el->get_style_property("border-top-right-radius-x", false, "0"));
     m_css_borders.radius.top_right_y.fromString(el->get_style_property("border-top-right-radius-y", false, "0"));
+    #if H3ML
+    m_css_borders.radius.top_right_z.fromString(el->get_style_property("border-top-right-radius-z", false, "0"));
+    #endif
 
     m_css_borders.radius.bottom_right_x.fromString(el->get_style_property("border-bottom-right-radius-x", false, "0"));
     m_css_borders.radius.bottom_right_y.fromString(el->get_style_property("border-bottom-right-radius-y", false, "0"));
+    #if H3ML
+    m_css_borders.radius.bottom_right_z.fromString(el->get_style_property("border-bottom-right-radius-z", false, "0"));
+    #endif
 
     m_css_borders.radius.bottom_left_x.fromString(el->get_style_property("border-bottom-left-radius-x", false, "0"));
     m_css_borders.radius.bottom_left_y.fromString(el->get_style_property("border-bottom-left-radius-y", false, "0"));
+    #if H3ML
+    m_css_borders.radius.bottom_left_z.fromString(el->get_style_property("border-bottom-left-radius-z", false, "0"));
+    #endif
 
     doc->cvt_units(m_css_borders.radius.bottom_left_x,			m_font_size);
     doc->cvt_units(m_css_borders.radius.bottom_left_y,			m_font_size);
@@ -217,6 +283,12 @@ void litehtml::css_properties::parse(const std::shared_ptr<element>& el, const s
     doc->cvt_units(m_css_borders.radius.top_left_y,				m_font_size);
     doc->cvt_units(m_css_borders.radius.top_right_x,			m_font_size);
     doc->cvt_units(m_css_borders.radius.top_right_y,			m_font_size);
+   	#if H3ML
+    doc->cvt_units(m_css_borders.radius.bottom_left_z,			m_font_size);
+    doc->cvt_units(m_css_borders.radius.bottom_right_z,			m_font_size);
+    doc->cvt_units(m_css_borders.radius.top_left_z,			    m_font_size);
+    doc->cvt_units(m_css_borders.radius.top_right_z,			m_font_size);
+    #endif
 
     doc->cvt_units(m_css_text_indent,							m_font_size);
 
@@ -252,9 +324,8 @@ void litehtml::css_properties::parse(const std::shared_ptr<element>& el, const s
             css::parse_css_url(list_image, url);
 
             const char* list_image_baseurl = el->get_style_property("list-style-image-baseurl", true, nullptr);
-            doc->container()->load_image(url.c_str(), list_image_baseurl, true);
+            doc->container()->load_image(url.c_str(), list_image_baseurl, nullptr, true);
         }
-
     }
 
     m_text_transform	= (text_transform)	value_index(el->get_style_property("text-transform", true,	"none"),	text_transform_strings,	text_transform_none);
@@ -265,9 +336,15 @@ void litehtml::css_properties::parse(const std::shared_ptr<element>& el, const s
     {
         m_css_border_spacing_x.fromString(el->get_style_property("-litehtml-border-spacing-x", true, "0px"));
         m_css_border_spacing_y.fromString(el->get_style_property("-litehtml-border-spacing-y", true, "0px"));
+        #if H3ML
+        m_css_border_spacing_z.fromString(el->get_style_property("-litehtml-border-spacing-z", true, "0px"));
+        #endif
 
         doc->cvt_units(m_css_border_spacing_x, m_font_size);
         doc->cvt_units(m_css_border_spacing_y, m_font_size);
+        #if H3ML
+        doc->cvt_units(m_css_border_spacing_z, m_font_size);
+        #endif
     }
 
     parse_background(el, doc);
@@ -382,14 +459,23 @@ void litehtml::css_properties::parse_background(const std::shared_ptr<element>& 
                 {
                     m_bg.m_position.x.fromString(res[0], "left;right;center");
                     m_bg.m_position.y.set_value(50, css_units_percentage);
+                  	#if H3ML
+                    m_bg.m_position.z.set_value(50, css_units_percentage);
+                    #endif
                 } else if( value_in_list(res[0], "top;bottom;center") )
                 {
                     m_bg.m_position.y.fromString(res[0], "top;bottom;center");
                     m_bg.m_position.x.set_value(50, css_units_percentage);
+                    #if H3ML
+                    m_bg.m_position.z.set_value(50, css_units_percentage);
+                    #endif
                 } else
                 {
                     m_bg.m_position.x.fromString(res[0], "left;right;center");
                     m_bg.m_position.y.set_value(50, css_units_percentage);
+                   	#if H3ML
+                    m_bg.m_position.z.set_value(50, css_units_percentage);
+                    #endif
                 }
             } else
             {
@@ -397,22 +483,37 @@ void litehtml::css_properties::parse_background(const std::shared_ptr<element>& 
                 {
                     m_bg.m_position.x.fromString(res[0], "left;right;center");
                     m_bg.m_position.y.fromString(res[1], "top;bottom;center");
+                    #if H3ML
+                    m_bg.m_position.z.set_value(50, css_units_percentage);
+                    #endif
                 } else if(value_in_list(res[0], "top;bottom"))
                 {
                     m_bg.m_position.x.fromString(res[1], "left;right;center");
                     m_bg.m_position.y.fromString(res[0], "top;bottom;center");
+                    #if H3ML
+                    m_bg.m_position.z.set_value(50, css_units_percentage);
+                    #endif
                 } else if(value_in_list(res[1], "left;right"))
                 {
                     m_bg.m_position.x.fromString(res[1], "left;right;center");
                     m_bg.m_position.y.fromString(res[0], "top;bottom;center");
+               		#if H3ML
+                    m_bg.m_position.z.set_value(50, css_units_percentage);
+                    #endif
                 }else if(value_in_list(res[1], "top;bottom"))
                 {
                     m_bg.m_position.x.fromString(res[0], "left;right;center");
                     m_bg.m_position.y.fromString(res[1], "top;bottom;center");
+                    #if H3ML
+                    m_bg.m_position.z.set_value(50, css_units_percentage);
+                    #endif
                 } else
                 {
                     m_bg.m_position.x.fromString(res[0], "left;right;center");
                     m_bg.m_position.y.fromString(res[1], "top;bottom;center");
+                    #if H3ML
+                    m_bg.m_position.z.set_value(50, css_units_percentage);
+                    #endif
                 }
             }
 
@@ -446,15 +547,38 @@ void litehtml::css_properties::parse_background(const std::shared_ptr<element>& 
                         break;
                 }
             }
+            #if H3ML
+            if(m_bg.m_position.z.is_predefined())
+			{
+				switch (m_bg.m_position.z.predef())
+				{
+				case 0:
+					m_bg.m_position.z.set_value(0, css_units_percentage);
+					break;
+				case 1:
+					m_bg.m_position.z.set_value(100, css_units_percentage);
+					break;
+				case 2:
+					m_bg.m_position.z.set_value(50, css_units_percentage);
+					break;
+				}
+			}
+            #endif
         } else
         {
             m_bg.m_position.x.set_value(0, css_units_percentage);
             m_bg.m_position.y.set_value(0, css_units_percentage);
+            #if H3ML
+            m_bg.m_position.z.set_value(0, css_units_percentage);
+            #endif
         }
     } else
     {
         m_bg.m_position.y.set_value(0, css_units_percentage);
         m_bg.m_position.x.set_value(0, css_units_percentage);
+        #if H3ML
+        m_bg.m_position.z.set_value(0, css_units_percentage);
+        #endif
     }
 
     str = el->get_style_property("background-size", false, "auto");
@@ -472,17 +596,36 @@ void litehtml::css_properties::parse_background(const std::shared_ptr<element>& 
             {
                 m_bg.m_position.height.predef(background_size_auto);
             }
+            #if H3ML
+			if(res.size() > 2)
+			{
+				m_bg.m_position.depth.fromString(res[2], background_size_strings);
+			}
+			else
+			{
+				m_bg.m_position.depth.predef(background_size_auto);
+			}
+            #endif
         } else
         {
             m_bg.m_position.width.predef(background_size_auto);
             m_bg.m_position.height.predef(background_size_auto);
+            #if H3ML
+            m_bg.m_position.depth.predef(background_size_auto);
+            #endif
         }
     }
 
     doc->cvt_units(m_bg.m_position.x,		m_font_size);
     doc->cvt_units(m_bg.m_position.y,		m_font_size);
+    #if H3ML
+    doc->cvt_units(m_bg.m_position.z,		m_font_size);
+    #endif
     doc->cvt_units(m_bg.m_position.width,	m_font_size);
     doc->cvt_units(m_bg.m_position.height,	m_font_size);
+    #if H3ML
+	doc->cvt_units(m_bg.m_position.depth,   m_font_size);
+    #endif
 
     // parse background_attachment
     m_bg.m_attachment = (background_attachment) value_index(
@@ -514,7 +657,7 @@ void litehtml::css_properties::parse_background(const std::shared_ptr<element>& 
 
     if(!m_bg.m_image.empty())
     {
-        doc->container()->load_image(m_bg.m_image.c_str(), m_bg.m_baseurl.empty() ? nullptr : m_bg.m_baseurl.c_str(), true);
+        doc->container()->load_image(m_bg.m_image.c_str(), m_bg.m_baseurl.empty() ? nullptr : m_bg.m_baseurl.c_str(), nullptr, true);
     }
 }
 
@@ -571,6 +714,9 @@ std::vector<std::tuple<litehtml::string, litehtml::string>> litehtml::css_proper
     ret.emplace_back(std::make_tuple("borders", m_css_borders.to_string()));
     ret.emplace_back(std::make_tuple("width", m_css_width.to_string()));
     ret.emplace_back(std::make_tuple("height", m_css_height.to_string()));
+    #if H3ML
+    ret.emplace_back(std::make_tuple("depth", m_css_depth.to_string()));
+    #endif
     ret.emplace_back(std::make_tuple("min_width", m_css_min_width.to_string()));
     ret.emplace_back(std::make_tuple("min_height", m_css_min_width.to_string()));
     ret.emplace_back(std::make_tuple("max_width", m_css_max_width.to_string()));
@@ -582,6 +728,9 @@ std::vector<std::tuple<litehtml::string, litehtml::string>> litehtml::css_proper
     ret.emplace_back(std::make_tuple("list_style_position", index_value(m_list_style_position, list_style_position_strings)));
     ret.emplace_back(std::make_tuple("border_spacing_x", m_css_border_spacing_x.to_string()));
     ret.emplace_back(std::make_tuple("border_spacing_y", m_css_border_spacing_y.to_string()));
+    #if H3ML
+    ret.emplace_back(std::make_tuple("border_spacing_z", m_css_border_spacing_z.to_string()));
+    #endif
 
     return ret;
 }

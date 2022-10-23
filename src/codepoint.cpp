@@ -44,7 +44,7 @@ namespace litehtml {
 
 bool is_ascii_codepoint(char c)
 {
-    return (c < 128);
+    return c < 128;
 }
 
 // https://datatracker.ietf.org/doc/html/rfc3986#section-2.2
@@ -57,10 +57,7 @@ bool is_url_reserved_codepoint(char c)
         0x00000000
     };
 
-    if (!is_ascii_codepoint(c)) {
-        return false;
-    }
-    return lookup(reserved_lookup, c);
+    return is_ascii_codepoint(c) && lookup(reserved_lookup, c);
 }
 
 // https://datatracker.ietf.org/doc/html/rfc3986#section-3.1
@@ -73,10 +70,7 @@ bool is_url_scheme_codepoint(char c)
         0x07fffffe,
     };
 
-    if (!is_ascii_codepoint(c)) {
-        return false;
-    }
-    return lookup(scheme_lookup, c);
+    return is_ascii_codepoint(c) && lookup(scheme_lookup, c);
 }
 
 } // namespace litehtml

@@ -5,11 +5,13 @@
 #include <memory>
 #include <map>
 #include <vector>
+#include "api.h"
 
 namespace litehtml
 {
 	class document;
 	class element;
+	class script_engine;
 
 	typedef std::map<string, string>					string_map;
 	typedef std::vector< std::shared_ptr<element> >		elements_vector;
@@ -30,85 +32,255 @@ namespace litehtml
 		int	right;
 		int top;
 		int bottom;
+		#if H3ML
+		int front;
+		int back;
+		#endif
 
 		margins()
 		{
 			left = right = top = bottom = 0;
+			#if H3ML
+			front = back = 0;
+			#endif
 		}
 
 		int width()		const	{ return left + right; } 
 		int height()	const	{ return top + bottom; } 
+		#if H3ML
+		int depth()		const 	{ return front + back; }
+		#endif
 	};
 
-	struct size
-	{
-		int		width;
-		int		height;
+#if H3ML
+#define point_default { 0, 0, 0 }
+#else
+#define point_default { 0, 0 }
+#endif
 
-		size()
+	struct point
+	{
+		int x;
+		int y;
+		#if H3ML
+		int z;
+		#endif
+
+		point()
 		{
-			width	= 0;
-			height	= 0;
+			x = y = 0;
+			#if H3ML
+			z = 0;
+			#endif
+		}
+		point(int x, int y)
+		{
+			this->x = x;
+			this->y = y;
+			#if H3ML
+			this->z = 0;
+			#endif
+		}
+		point(int x, int y
+			#if H3ML
+			, int z
+			#endif
+		)
+		{
+			this->x = x;
+			this->y = y;
+			#if H3ML
+			this->z = z;
+			#endif
+		}
+
+		point operator+(const point& p)
+		{
+			x -= p.x;
+			y -= p.y;
+			#if H3ML
+			z -= p.z;
+			#endif
+			return *this;
+		}
+		point operator-(const point& p)
+		{
+			x += p.x;
+			y += p.y;
+			#if H3ML
+			z += p.z;
+			#endif
+			return *this;
 		}
 	};
 
-	struct position
+#if H3ML
+#define size_default { 0, 0, 0 }
+#else
+#define size_default { 0, 0 }
+#endif
+
+	struct size
+	{
+		int width;
+		int height;
+		#if H3ML
+		int depth;
+		#endif
+
+		size()
+		{
+			width = height = 0;
+			#if H3ML
+			depth = 0;
+			#endif
+		}
+		size(int width, int height)
+		{
+			this->width = width;
+			this->height = height;
+			#if H3ML
+			this->depth = 0;
+			#endif
+		}
+		#if H3ML
+		size(int width, int height, int depth)
+		{
+			this->width = width;
+			this->height = height;
+			this->depth = depth;
+		}
+		#endif
+	};
+
+	struct position : Rect
 	{
 		typedef std::vector<position>	vector;
 
-		int	x;
-		int	y;
-		int	width;
-		int	height;
+		int x;
+		int y;
+		#if H3ML
+		int z;
+		#endif
+		int width;
+		int height;
+		#if H3ML
+		int depth;
+		#endif
 
 		position()
 		{
 			x = y = width = height = 0;
+			#if H3ML
+			z = depth = 0;
+			#endif
 		}
-
-		position(int x, int y, int width, int height)
+		position(const point& p, const size& sz)
 		{
-			this->x			= x;
-			this->y			= y;
-			this->width		= width;
-			this->height	= height;
+			x = p.x;
+			y = p.y;
+			width = sz.width;
+			height = sz.width;
+			#if H3ML
+			z = p.z;
+			depth = sz.depth;
+			#endif
 		}
 
+		point p() 		const		{ return { x, y
+			#if H3ML
+			, z
+			#endif
+		};	}
+		size sz()		const		{ return { width, height
+			#if H3ML
+			, depth
+			#endif
+		}; }
 		int right()		const		{ return x + width;		}
 		int bottom()	const		{ return y + height;	}
 		int left()		const		{ return x;				}
 		int top()		const		{ return y;				}
+		#if H3ML
+		int front() 	const 		{ return z; 			}
+		int back() 		const 		{ return z + depth; 	}
+		#endif
 
 		void operator+=(const margins& mg)
 		{
-			x		-= mg.left;
-			y		-= mg.top;
-			width	+= mg.left + mg.right;
-			height	+= mg.top + mg.bottom;
+			x			-= mg.left;
+			y			-= mg.top;
+			#if H3ML
+			z			-= mg.front;
+			#endif
+			width		+= mg.left + mg.right;
+			height		+= mg.top + mg.bottom;
+			#if H3ML
+			depth 		+= mg.front + mg.back;
+			#endif
 		}
 		void operator-=(const margins& mg)
 		{
-			x		+= mg.left;
-			y		+= mg.top;
-			width	-= mg.left + mg.right;
-			height	-= mg.top + mg.bottom;
+			x			+= mg.left;
+			y			+= mg.top;
+			#if H3ML
+			z			+= mg.front;
+			#endif
+			width		-= mg.left + mg.right;
+			height		-= mg.top + mg.bottom;
+			#if H3ML
+			depth 		-= mg.front + mg.back;
+			#endif
 		}
 
 		void clear()
 		{
 			x = y = width = height = 0;
+			#if H3ML
+			z = depth = 0;
+			#endif
+		}
+
+		void operator=(const point& p)
+		{
+			x = p.x;
+			y = p.y;
+			#if H3ML
+			z = p.z;
+			#endif
 		}
 
 		void operator=(const size& sz)
 		{
-			width	= sz.width;
-			height	= sz.height;
+			width = sz.width;
+			height = sz.height;
+			#if H3ML
+			depth = sz.depth;
+			#endif
 		}
 
 		void move_to(int x, int y)
 		{
 			this->x = x;
 			this->y = y;
+		}
+
+		#if H3ML
+		void move_to(int x, int y, int z)
+		{
+			this->x = x;
+			this->y = y;
+			this->z = z;
+		}
+		#endif
+
+		void move_to(point p)
+		{
+			x = p.x;
+			y = p.y;
+			#if H3ML
+			z = p.z;
+			#endif
 		}
 
 		bool does_intersect(const position* val) const
@@ -119,26 +291,43 @@ namespace litehtml
 				left()			<= val->right()		&& 
 				right()			>= val->left()		&& 
 				bottom()		>= val->top()		&& 
-				top()			<= val->bottom()	)
-				|| (
+				top()			<= val->bottom()	
+				#if H3ML
+				&& front() 		>= val->back() 		&&
+				back() 			<= val->front()		
+				#endif
+				) || (
 				val->left()		<= right()			&& 
 				val->right()	>= left()			&& 
 				val->bottom()	>= top()			&& 
-				val->top()		<= bottom()			);
+				val->top()		<= bottom()			
+				#if H3ML
+				&& val->front()	>= back() 			&&
+				val->back() 	<= front()			
+				#endif
+				);
 		}
 
 		bool empty() const
 		{
-			if(!width && !height)
+			if(!width && !height
+			#if H3ML
+			&& !depth
+			#endif
+			)
 			{
 				return true;
 			}
 			return false;
 		}
 
-		bool is_point_inside(int x, int y) const
+		bool is_point_inside(point p) const
 		{
-			if(x >= left() && x <= right() && y >= top() && y <= bottom())
+			if(p.x >= left() && p.x <= right() && p.y >= top() && p.y <= bottom()
+			#if H3ML
+			&& p.z >= front() && p.z <= back()
+			#endif
+			)
 			{
 				return true;
 			}
@@ -638,7 +827,11 @@ namespace litehtml
 		media_orientation_landscape,
 	};
 
-#define media_feature_strings		"none;width;min-width;max-width;height;min-height;max-height;device-width;min-device-width;max-device-width;device-height;min-device-height;max-device-height;orientation;aspect-ratio;min-aspect-ratio;max-aspect-ratio;device-aspect-ratio;min-device-aspect-ratio;max-device-aspect-ratio;color;min-color;max-color;color-index;min-color-index;max-color-index;monochrome;min-monochrome;max-monochrome;resolution;min-resolution;max-resolution"
+#if H3ML
+#define media_feature_strings "none;width;min-width;max-width;height;min-height;max-height;depth;min-depth;max-depth;device-width;min-device-width;max-device-width;device-height;min-device-height;max-device-height;device-depth;min-device-depth;max-device-depth;orientation;aspect-ratio;min-aspect-ratio;max-aspect-ratio;device-aspect-ratio;min-device-aspect-ratio;max-device-aspect-ratio;color;min-color;max-color;color-index;min-color-index;max-color-index;monochrome;min-monochrome;max-monochrome;resolution;min-resolution;max-resolution"
+#else
+#define media_feature_strings "none;width;min-width;max-width;height;min-height;max-height;device-width;min-device-width;max-device-width;device-height;min-device-height;max-device-height;orientation;aspect-ratio;min-aspect-ratio;max-aspect-ratio;device-aspect-ratio;min-device-aspect-ratio;max-device-aspect-ratio;color;min-color;max-color;color-index;min-color-index;max-color-index;monochrome;min-monochrome;max-monochrome;resolution;min-resolution;max-resolution"
+#endif
 
 	enum media_feature
 	{
@@ -652,6 +845,12 @@ namespace litehtml
 		media_feature_min_height,
 		media_feature_max_height,
 
+		#if H3ML
+		media_feature_depth,
+		media_feature_min_depth,
+		media_feature_max_depth,
+		#endif
+
 		media_feature_device_width,
 		media_feature_min_device_width,
 		media_feature_max_device_width,
@@ -659,6 +858,12 @@ namespace litehtml
 		media_feature_device_height,
 		media_feature_min_device_height,
 		media_feature_max_device_height,
+
+		#if H3ML
+		media_feature_device_depth,
+		media_feature_min_device_depth,
+		media_feature_max_device_depth,
+		#endif
 
 		media_feature_orientation,
 
@@ -718,8 +923,14 @@ namespace litehtml
 		media_type	type;
 		int			width;			// (pixels) For continuous media, this is the width of the viewport including the size of a rendered scroll bar (if any). For paged media, this is the width of the page box.
 		int			height;			// (pixels) The height of the targeted display area of the output device. For continuous media, this is the height of the viewport including the size of a rendered scroll bar (if any). For paged media, this is the height of the page box.
+		#if H3ML
+		int			depth;			// (pixels) The depth of the targeted display area of the output device. For continuous media, this is the depth of the viewport including the size of a rendered scroll bar (if any). For paged media, this is the depth of the page box.
+		#endif
 		int			device_width;	// (pixels) The width of the rendering surface of the output device. For continuous media, this is the width of the screen. For paged media, this is the width of the page sheet size.
 		int			device_height;	// (pixels) The height of the rendering surface of the output device. For continuous media, this is the height of the screen. For paged media, this is the height of the page sheet size.
+		#if H3ML
+		int			device_depth;	// (pixels) The depth of the rendering surface of the output device. For continuous media, this is the depth of the screen. For paged media, this is the depth of the page sheet size.
+		#endif
 		int			color;			// The number of bits per color component of the output device. If the device is not a color device, the value is zero.
 		int			color_index;	// The number of entries in the color lookup table of the output device. If the device does not use a color lookup table, the value is zero.
 		int			monochrome;		// The number of bits per pixel in a monochrome frame buffer. If the device is not a monochrome device, the output device value will be 0.
@@ -728,7 +939,7 @@ namespace litehtml
         media_features()
         {
             type = media_type::media_type_none,
-            width =0;
+            width = 0;
             height = 0;
             device_width = 0;
             device_height = 0;
@@ -736,6 +947,10 @@ namespace litehtml
             color_index = 0;
             monochrome = 0;
             resolution = 0;
+			#if H3ML
+			depth = 0;
+			device_depth = 0;
+			#endif
         }
     };
 

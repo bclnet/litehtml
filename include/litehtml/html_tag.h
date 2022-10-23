@@ -13,9 +13,10 @@
 
 namespace litehtml
 {
-
 	class html_tag : public element
 	{
+		friend class Node;
+		friend class Element;
 		friend class elements_iterator;
 		friend class el_table;
 		friend class table_grid;
@@ -62,8 +63,8 @@ namespace litehtml
 		bool				set_class(const char* pclass, bool add) override;
 		bool				is_replaced() const override;
 		void				parse_styles(bool is_reparse = false) override;
-		void                draw(uint_ptr hdc, int x, int y, const position *clip, const std::shared_ptr<render_item> &ri) override;
-		void                draw_background(uint_ptr hdc, int x, int y, const position *clip,
+		void                draw(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri) override;
+		void                draw_background(uint_ptr hdc, point p, const position *clip,
                                     const std::shared_ptr<render_item> &ri) override;
 
 		const char*			get_style_property(const char* name, bool inherited, const char* def = nullptr) const override;

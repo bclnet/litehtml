@@ -10,7 +10,7 @@ litehtml::el_image::el_image(const std::shared_ptr<document>& doc) : html_tag(do
 
 void litehtml::el_image::get_content_size( size& sz, int max_width )
 {
-	get_document()->container()->get_image_size(m_src.c_str(), 0, sz);
+	get_document()->container()->get_image_size(m_src.c_str(), 0, &m_attrs, sz);
 }
 
 bool litehtml::el_image::is_replaced() const
@@ -32,13 +32,23 @@ void litehtml::el_image::parse_attributes()
 	{
 		m_style.add_property("width", attr_width, 0, false, this);
 	}
+	#if H3ML
+	const tchar_t* attr_depth = get_attr(_t("depth"));
+	if(attr_depth)
+	{
+		m_style.add_property(_t("depth"), attr_depth, 0, false, this);
+	}
+	#endif
 }
 
-void litehtml::el_image::draw(uint_ptr hdc, int x, int y, const position *clip, const std::shared_ptr<render_item> &ri)
+void litehtml::el_image::draw(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri)
 {
 	position pos = ri->pos();
-	pos.x += x;
-	pos.y += y;
+	pos.x += p.x;
+	pos.y += p.y;
+	#if H3ML
+	pos.z += p.z;
+	#endif
 
 	position el_pos = pos;
 	el_pos += ri->get_paddings();
@@ -63,6 +73,7 @@ void litehtml::el_image::draw(uint_ptr hdc, int x, int y, const position *clip, 
 		if (pos.width > 0 && pos.height > 0) {
 			background_paint bg;
 			bg.image				= m_src;
+			bg.attrs				= &m_attrs;
 			bg.clip_box				= pos;
 			bg.origin_box			= pos;
 			bg.border_box			= pos;
@@ -71,9 +82,11 @@ void litehtml::el_image::draw(uint_ptr hdc, int x, int y, const position *clip, 
 			bg.repeat				= background_repeat_no_repeat;
 			bg.image_size.width		= pos.width;
 			bg.image_size.height	= pos.height;
-			bg.border_radius		= css().get_borders().radius.calc_percents(bg.border_box.width, bg.border_box.height);
-			bg.position_x			= pos.x;
-			bg.position_y			= pos.y;
+			#if H3ML
+			bg.image_size.depth		= pos.depth;
+			#endif
+			bg.border_radius		= css().get_borders().radius.calc_percents(bg.border_box.sz());
+			bg.position				= pos.p();
 			get_document()->container()->draw_background(hdc, bg);
 		}
 	}
@@ -86,7 +99,7 @@ void litehtml::el_image::draw(uint_ptr hdc, int x, int y, const position *clip, 
 		border_box += ri->get_borders();
 
 		borders bdr = css().get_borders();
-		bdr.radius = css().get_borders().radius.calc_percents(border_box.width, border_box.height);
+		bdr.radius = css().get_borders().radius.calc_percents(border_box.sz());
 
 		get_document()->container()->draw_borders(hdc, bdr, border_box, !have_parent());
 	}
@@ -100,10 +113,10 @@ void litehtml::el_image::parse_styles( bool is_reparse /*= false*/ )
 	{
 		if(!css().get_height().is_predefined() && !css().get_width().is_predefined())
 		{
-			get_document()->container()->load_image(m_src.c_str(), nullptr, true);
+			get_document()->container()->load_image(m_src.c_str(), nullptr, &m_attrs, true);
 		} else
 		{
-			get_document()->container()->load_image(m_src.c_str(), nullptr, false);
+			get_document()->container()->load_image(m_src.c_str(), nullptr, &m_attrs, false);
 		}
 	}
 }
