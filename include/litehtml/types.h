@@ -81,18 +81,14 @@ namespace litehtml
 			this->z = 0;
 			#endif
 		}
-		point(int x, int y
-			#if H3ML
-			, int z
-			#endif
-		)
+		#if H3ML
+		point(int x, int y, int z)
 		{
 			this->x = x;
 			this->y = y;
-			#if H3ML
 			this->z = z;
-			#endif
 		}
+		#endif
 
 		point operator+(const point& p)
 		{
@@ -288,22 +284,22 @@ namespace litehtml
 			if(!val) return true;
 
 			return (
-				left()			<= val->right()		&& 
-				right()			>= val->left()		&& 
-				bottom()		>= val->top()		&& 
-				top()			<= val->bottom()	
+				left()			<= val->right()		&&
+				right()			>= val->left()		&&
+				top()			<= val->bottom()	&&
+				bottom()		>= val->top()
 				#if H3ML
-				&& front() 		>= val->back() 		&&
-				back() 			<= val->front()		
+				&& front() 		<= val->back() 		&&
+				back() 			>= val->front()		
 				#endif
 				) || (
-				val->left()		<= right()			&& 
-				val->right()	>= left()			&& 
-				val->bottom()	>= top()			&& 
-				val->top()		<= bottom()			
+				val->left()		<= right()			&&
+				val->right()	>= left()			&&
+				val->top()		<= bottom()			&&
+				val->bottom()	>= top()
 				#if H3ML
-				&& val->front()	>= back() 			&&
-				val->back() 	<= front()			
+				&& val->front()	<= back() 			&&
+				val->back() 	>= front()			
 				#endif
 				);
 		}

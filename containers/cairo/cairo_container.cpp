@@ -155,12 +155,12 @@ void cairo_container::draw_list_marker( litehtml::uint_ptr hdc, const litehtml::
 	{
 	case litehtml::list_style_type_circle:
 		{
-			draw_ellipse((cairo_t*) hdc, marker.pos.x, marker.pos.y, marker.pos.width, marker.pos.height, marker.color, 0.5);
+			draw_ellipse((cairo_t*) hdc, marker.pos.p(), marker.pos.sz(), marker.color, 0.5);
 		}
 		break;
 	case litehtml::list_style_type_disc:
 		{
-			fill_ellipse((cairo_t*) hdc, marker.pos.x, marker.pos.y, marker.pos.width, marker.pos.height, marker.color);
+			fill_ellipse((cairo_t*) hdc, marker.pos.p(), marker.pos.sz(), marker.color);
 		}
 		break;
 	case litehtml::list_style_type_square:
@@ -276,30 +276,29 @@ void cairo_container::draw_background( litehtml::uint_ptr hdc, const litehtml::b
 			bgbmp = new_img;
 		}
 
-
 		cairo_surface_t* img = cairo_image_surface_create_for_data((unsigned char*) bgbmp->getBits(), CAIRO_FORMAT_ARGB32, bgbmp->getWidth(), bgbmp->getHeight(), bgbmp->getWidth() * 4);
 		cairo_pattern_t *pattern = cairo_pattern_create_for_surface(img);
 		cairo_matrix_t flib_m;
 		cairo_matrix_init(&flib_m, 1, 0, 0, -1, 0, 0);
-		cairo_matrix_translate(&flib_m, -bg.position_x, -bg.position_y);
+		cairo_matrix_translate(&flib_m, -bg.position.x, -bg.position.y);
 		cairo_pattern_set_extend (pattern, CAIRO_EXTEND_REPEAT);
 		cairo_pattern_set_matrix (pattern, &flib_m);
 
 		switch(bg.repeat)
 		{
 		case litehtml::background_repeat_no_repeat:
-			draw_txdib(cr, bgbmp.get(), bg.position_x, bg.position_y, bgbmp->getWidth(), bgbmp->getHeight());
+			draw_txdib(cr, bgbmp.get(), bg.position.x, bg.position.y, bgbmp->getWidth(), bgbmp->getHeight());
 			break;
 
 		case litehtml::background_repeat_repeat_x:
 			cairo_set_source(cr, pattern);
-			cairo_rectangle(cr, bg.clip_box.left(), bg.position_y, bg.clip_box.width, bgbmp->getHeight());
+			cairo_rectangle(cr, bg.clip_box.left(), bg.position.y, bg.clip_box.width, bgbmp->getHeight());
 			cairo_fill(cr);
 			break;
 
 		case litehtml::background_repeat_repeat_y:
 			cairo_set_source(cr, pattern);
-			cairo_rectangle(cr, bg.position_x, bg.clip_box.top(), bgbmp->getWidth(), bg.clip_box.height);
+			cairo_rectangle(cr, bg.position.x, bg.clip_box.top(), bgbmp->getWidth(), bg.clip_box.height);
 			cairo_fill(cr);
 			break;
 
@@ -716,7 +715,7 @@ void cairo_container::apply_clip( cairo_t* cr )
 	}
 }
 
-void cairo_container::draw_ellipse( cairo_t* cr, int x, int y, int width, int height, const litehtml::web_color& color, double line_width )
+void cairo_container::draw_ellipse( cairo_t* cr, litehtml::point p, litehtml::size sz, const litehtml::web_color& color, double line_width )
 {
 	if(!cr) return;
 	cairo_save(cr);
@@ -725,8 +724,8 @@ void cairo_container::draw_ellipse( cairo_t* cr, int x, int y, int width, int he
 
 	cairo_new_path(cr);
 
-	cairo_translate (cr, x + width / 2.0, y + height / 2.0);
-	cairo_scale (cr, width / 2.0, height / 2.0);
+	cairo_translate (cr, p.x + sz.width / 2.0, p.y + sz.height / 2.0);
+	cairo_scale (cr, sz.width / 2.0, sz.height / 2.0);
 	cairo_arc (cr, 0, 0, 1, 0, 2 * M_PI);
 
 	set_color(cr, color);
@@ -736,7 +735,7 @@ void cairo_container::draw_ellipse( cairo_t* cr, int x, int y, int width, int he
 	cairo_restore(cr);
 }
 
-void cairo_container::fill_ellipse( cairo_t* cr, int x, int y, int width, int height, const litehtml::web_color& color )
+void cairo_container::fill_ellipse( cairo_t* cr, litehtml::point p, litehtml::size sz, const litehtml::web_color& color )
 {
 	if(!cr) return;
 	cairo_save(cr);
@@ -745,8 +744,8 @@ void cairo_container::fill_ellipse( cairo_t* cr, int x, int y, int width, int he
 
 	cairo_new_path(cr);
 
-	cairo_translate (cr, x + width / 2.0, y + height / 2.0);
-	cairo_scale (cr, width / 2.0, height / 2.0);
+	cairo_translate (cr, p.x + sz.width / 2.0, p.y + sz.height / 2.0);
+	cairo_scale (cr, sz.width / 2.0, sz.height / 2.0);
 	cairo_arc (cr, 0, 0, 1, 0, 2 * M_PI);
 
 	set_color(cr, color);

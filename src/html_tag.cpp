@@ -1038,7 +1038,6 @@ litehtml::element::ptr litehtml::html_tag::get_child( int idx ) const
 	return m_children[idx];
 }
 
-
 void litehtml::html_tag::init_background_paint(position pos, background_paint &bg_paint, const background* bg, const std::shared_ptr<render_item> &ri)
 {
 	if(!bg) return;

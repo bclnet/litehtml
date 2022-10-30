@@ -23,7 +23,6 @@ namespace litehtml
 	public:
 		explicit el_before(const std::shared_ptr<document>& doc) : el_before_after_base(doc, true)
 		{
-
 		}
 	};
 
@@ -32,7 +31,6 @@ namespace litehtml
 	public:
 		explicit el_after(const std::shared_ptr<document>& doc) : el_before_after_base(doc, false)
 		{
-
 		}
 	};
 }

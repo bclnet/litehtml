@@ -370,8 +370,9 @@ void litehtml::style::add_property( const char* name, const char* _val, const ch
 			add_property("border-bottom-right-radius-y",	tokens[2].c_str(), baseurl, important, el);
 			add_property("border-bottom-left-radius-y",		tokens[3].c_str(), baseurl, important, el);
 		}
+	}
 	#if H3ML
-	} else if (!strcmp(name, "border-radius-z"))
+	else if (!strcmp(name, "border-radius-z"))
 	{
 		string_vector tokens;
 		split_string(val, tokens, " ");

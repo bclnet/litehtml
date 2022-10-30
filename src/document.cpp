@@ -687,7 +687,6 @@ void litehtml::document::create_node(void* gnode, elements_vector& elements, boo
 				attrs[attr->name] = attr->value;
 			}
 
-
 			element::ptr ret;
 			const char* tag = gumbo_normalized_tagname(node->v.element.tag);
 			if (tag[0])

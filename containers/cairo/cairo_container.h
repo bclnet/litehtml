@@ -87,8 +87,8 @@ public:
 	void								make_url_utf8( const char* url, const char* basepath, std::wstring& out );
 
 protected:
-	virtual void						draw_ellipse(cairo_t* cr, point p, size sz, const litehtml::web_color& color, double line_width);
-	virtual void						fill_ellipse(cairo_t* cr, point p, size sz, const litehtml::web_color& color);
+	virtual void						draw_ellipse(cairo_t* cr, litehtml::point p, litehtml::size sz, const litehtml::web_color& color, double line_width);
+	virtual void						fill_ellipse(cairo_t* cr, litehtml::point p, litehtml::size sz, const litehtml::web_color& color);
 	virtual void						rounded_rectangle( cairo_t* cr, const litehtml::position &pos, const litehtml::border_radiuses &radius );
 
 	void								set_color(cairo_t* cr, litehtml::web_color color)	{ cairo_set_source_rgba(cr, color.red / 255.0, color.green / 255.0, color.blue / 255.0, color.alpha / 255.0); }

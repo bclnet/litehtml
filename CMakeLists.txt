@@ -25,6 +25,7 @@ set(SOURCE_LITEHTML
     src/codepoint.cpp
     src/context.cpp
     src/css_length.cpp
+    src/css_properties.cpp
     src/css_selector.cpp
     src/document.cpp
     src/el_anchor.cpp
@@ -36,7 +37,6 @@ set(SOURCE_LITEHTML
     src/el_cdata.cpp
     src/el_comment.cpp
     src/el_div.cpp
-    src/element.cpp
     src/el_font.cpp
     src/el_image.cpp
     src/el_link.cpp
@@ -49,10 +49,23 @@ set(SOURCE_LITEHTML
     src/el_text.cpp
     src/el_title.cpp
     src/el_tr.cpp
+    src/element.cpp
     src/html.cpp
     src/html_tag.cpp
     src/iterators.cpp
+    src/line_box.cpp
     src/media_query.cpp
+    src/num_cvt.cpp
+    src/render_asset.cpp
+    src/render_block.cpp
+    src/render_block_context.cpp
+    src/render_flex.cpp
+    src/render_image.cpp
+    src/render_inline.cpp
+    src/render_inline_context.cpp
+    src/render_item.cpp
+    src/render_table.cpp
+    src/strtod.cpp
     src/style.cpp
     src/stylesheet.cpp
     src/table.cpp
@@ -61,19 +74,6 @@ set(SOURCE_LITEHTML
     src/url_path.cpp
     src/utf8_strings.cpp
     src/web_color.cpp
-    src/num_cvt.cpp
-    src/strtod.cpp
-    src/css_properties.cpp
-    src/line_box.cpp
-    src/render_item.cpp
-    src/render_block_context.cpp
-    src/render_block.cpp
-    src/render_inline_context.cpp
-    src/render_inline.cpp
-    src/render_table.cpp
-    src/render_flex.cpp
-    src/render_asset.cpp
-    src/render_image.cpp
 )
 
 set(HEADER_LITEHTML
@@ -91,6 +91,7 @@ set(HEADER_LITEHTML
     include/litehtml/css_margins.h
     include/litehtml/css_offsets.h
     include/litehtml/css_position.h
+    include/litehtml/css_properties.h
     include/litehtml/css_selector.h
     include/litehtml/document.h
     include/litehtml/el_anchor.h
@@ -118,8 +119,12 @@ set(HEADER_LITEHTML
     include/litehtml/html.h
     include/litehtml/html_tag.h
     include/litehtml/iterators.h
+    include/litehtml/line_box.h
     include/litehtml/media_query.h
+    include/litehtml/num_cvt.h
     include/litehtml/os_types.h
+    include/litehtml/render_item.h
+    include/litehtml/script_engine.h
     include/litehtml/style.h
     include/litehtml/stylesheet.h
     include/litehtml/table.h
@@ -129,11 +134,6 @@ set(HEADER_LITEHTML
     include/litehtml/url_path.h
     include/litehtml/utf8_strings.h
     include/litehtml/web_color.h
-    include/litehtml/num_cvt.h
-    include/litehtml/css_properties.h
-    include/litehtml/line_box.h
-    include/litehtml/render_item.h
-    include/litehtml/script_engine.h
 )
 
 set(TEST_LITEHTML

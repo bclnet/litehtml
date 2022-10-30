@@ -197,7 +197,28 @@
     <ClCompile Include="src\css_properties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\css_borders.cpp">
+    <ClCompile Include="src\api_node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\api_service.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\api.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\borders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\codepoint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\el_asset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\render_asset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tstring_view.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -209,9 +230,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\litehtml\borders.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\litehtml\box.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\litehtml\context.h">
@@ -389,6 +407,45 @@
       <Filter>Header Files\gumbo</Filter>
     </ClInclude>
     <ClInclude Include="include\litehtml\num_cvt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\litehtml\api.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\litehtml\api_any.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\litehtml\api_node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\litehtml\api_service.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\litehtml\codepoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\litehtml\css_properties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\litehtml\el_asset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\litehtml\line_box.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\litehtml\render_item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\litehtml\script_engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\litehtml\tstring_view.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\litehtml\url.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\litehtml\url_path.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

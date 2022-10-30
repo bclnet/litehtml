@@ -110,7 +110,7 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;H3ML;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -163,15 +163,30 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\gumbo\attribute.c" />
+    <ClCompile Include="src\gumbo\char_ref.c" />
+    <ClCompile Include="src\gumbo\error.c" />
+    <ClCompile Include="src\gumbo\parser.c" />
+    <ClCompile Include="src\gumbo\string_buffer.c" />
+    <ClCompile Include="src\gumbo\string_piece.c" />
+    <ClCompile Include="src\gumbo\tag.c" />
+    <ClCompile Include="src\gumbo\tokenizer.c" />
+    <ClCompile Include="src\gumbo\utf8.c" />
+    <ClCompile Include="src\gumbo\util.c" />
+    <ClCompile Include="src\gumbo\vector.c" />
+    <ClCompile Include="src\api_node.cpp" />
+    <ClCompile Include="src\api_service.cpp" />
+    <ClCompile Include="src\api.cpp" />
     <ClCompile Include="src\background.cpp" />
+    <ClCompile Include="src\borders.cpp" />
+    <ClCompile Include="src\codepoint.cpp" />
     <ClCompile Include="src\context.cpp" />
-    <ClCompile Include="src\css_borders.cpp" />
     <ClCompile Include="src\css_length.cpp" />
     <ClCompile Include="src\css_properties.cpp" />
     <ClCompile Include="src\css_selector.cpp" />
     <ClCompile Include="src\document.cpp" />
-    <ClCompile Include="src\element.cpp" />
     <ClCompile Include="src\el_anchor.cpp" />
+    <ClCompile Include="src\el_asset.cpp" />
     <ClCompile Include="src\el_base.cpp" />
     <ClCompile Include="src\el_before_after.cpp" />
     <ClCompile Include="src\el_body.cpp" />
@@ -191,23 +206,14 @@
     <ClCompile Include="src\el_text.cpp" />
     <ClCompile Include="src\el_title.cpp" />
     <ClCompile Include="src\el_tr.cpp" />
-    <ClCompile Include="src\gumbo\attribute.c" />
-    <ClCompile Include="src\gumbo\char_ref.c" />
-    <ClCompile Include="src\gumbo\error.c" />
-    <ClCompile Include="src\gumbo\parser.c" />
-    <ClCompile Include="src\gumbo\string_buffer.c" />
-    <ClCompile Include="src\gumbo\string_piece.c" />
-    <ClCompile Include="src\gumbo\tag.c" />
-    <ClCompile Include="src\gumbo\tokenizer.c" />
-    <ClCompile Include="src\gumbo\utf8.c" />
-    <ClCompile Include="src\gumbo\util.c" />
-    <ClCompile Include="src\gumbo\vector.c" />
+    <ClCompile Include="src\element.cpp" />
     <ClCompile Include="src\html.cpp" />
     <ClCompile Include="src\html_tag.cpp" />
     <ClCompile Include="src\iterators.cpp" />
     <ClCompile Include="src\line_box.cpp" />
     <ClCompile Include="src\media_query.cpp" />
     <ClCompile Include="src\num_cvt.cpp" />
+    <ClCompile Include="src\render_asset.cpp" />
     <ClCompile Include="src\render_block.cpp" />
     <ClCompile Include="src\render_block_context.cpp" />
     <ClCompile Include="src\render_flex.cpp" />
@@ -220,43 +226,11 @@
     <ClCompile Include="src\style.cpp" />
     <ClCompile Include="src\stylesheet.cpp" />
     <ClCompile Include="src\table.cpp" />
+    <ClCompile Include="src\tstring_view.cpp" />
     <ClCompile Include="src\utf8_strings.cpp" />
     <ClCompile Include="src\web_color.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\litehtml\attributes.h" />
-    <ClInclude Include="include\litehtml\background.h" />
-    <ClInclude Include="include\litehtml\borders.h" />
-    <ClInclude Include="include\litehtml\box.h" />
-    <ClInclude Include="include\litehtml\context.h" />
-    <ClInclude Include="include\litehtml\css_length.h" />
-    <ClInclude Include="include\litehtml\css_margins.h" />
-    <ClInclude Include="include\litehtml\css_offsets.h" />
-    <ClInclude Include="include\litehtml\css_position.h" />
-    <ClInclude Include="include\litehtml\css_selector.h" />
-    <ClInclude Include="include\litehtml\document.h" />
-    <ClInclude Include="include\litehtml\element.h" />
-    <ClInclude Include="include\litehtml\el_anchor.h" />
-    <ClInclude Include="include\litehtml\el_base.h" />
-    <ClInclude Include="include\litehtml\el_before_after.h" />
-    <ClInclude Include="include\litehtml\el_body.h" />
-    <ClInclude Include="include\litehtml\el_break.h" />
-    <ClInclude Include="include\litehtml\el_cdata.h" />
-    <ClInclude Include="include\litehtml\el_comment.h" />
-    <ClInclude Include="include\litehtml\el_div.h" />
-    <ClInclude Include="include\litehtml\el_font.h" />
-    <ClInclude Include="include\litehtml\el_image.h" />
-    <ClInclude Include="include\litehtml\el_link.h" />
-    <ClInclude Include="include\litehtml\el_para.h" />
-    <ClInclude Include="include\litehtml\el_script.h" />
-    <ClInclude Include="include\litehtml\el_space.h" />
-    <ClInclude Include="include\litehtml\el_style.h" />
-    <ClInclude Include="include\litehtml\el_table.h" />
-    <ClInclude Include="include\litehtml\el_td.h" />
-    <ClInclude Include="include\litehtml\el_text.h" />
-    <ClInclude Include="include\litehtml\el_title.h" />
-    <ClInclude Include="include\litehtml\el_tr.h" />
-    <ClInclude Include="include\litehtml\num_cvt.h" />
     <ClInclude Include="src\gumbo\include\gumbo\attribute.h" />
     <ClInclude Include="src\gumbo\include\gumbo\char_ref.h" />
     <ClInclude Include="src\gumbo\include\gumbo\error.h" />
@@ -276,15 +250,60 @@
     <ClInclude Include="src\gumbo\include\gumbo\utf8.h" />
     <ClInclude Include="src\gumbo\include\gumbo\util.h" />
     <ClInclude Include="src\gumbo\include\gumbo\vector.h" />
+    <ClInclude Include="include\litehtml\api.h" />
+    <ClInclude Include="include\litehtml\api_any.h" />
+    <ClInclude Include="include\litehtml\api_node.h" />
+    <ClInclude Include="include\litehtml\api_service.h" />
+    <ClInclude Include="include\litehtml\attributes.h" />
+    <ClInclude Include="include\litehtml\background.h" />
+    <ClInclude Include="include\litehtml\borders.h" />
+    <ClInclude Include="include\litehtml\codepoint.h" />
+    <ClInclude Include="include\litehtml\context.h" />
+    <ClInclude Include="include\litehtml\css_length.h" />
+    <ClInclude Include="include\litehtml\css_margins.h" />
+    <ClInclude Include="include\litehtml\css_offsets.h" />
+    <ClInclude Include="include\litehtml\css_position.h" />
+    <ClInclude Include="include\litehtml\css_properties.h" />
+    <ClInclude Include="include\litehtml\css_selector.h" />
+    <ClInclude Include="include\litehtml\document.h" />
+    <ClInclude Include="include\litehtml\el_anchor.h" />
+    <ClInclude Include="include\litehtml\el_asset.h" />
+    <ClInclude Include="include\litehtml\el_base.h" />
+    <ClInclude Include="include\litehtml\el_before_after.h" />
+    <ClInclude Include="include\litehtml\el_body.h" />
+    <ClInclude Include="include\litehtml\el_break.h" />
+    <ClInclude Include="include\litehtml\el_cdata.h" />
+    <ClInclude Include="include\litehtml\el_comment.h" />
+    <ClInclude Include="include\litehtml\el_div.h" />
+    <ClInclude Include="include\litehtml\el_font.h" />
+    <ClInclude Include="include\litehtml\el_image.h" />
+    <ClInclude Include="include\litehtml\el_link.h" />
+    <ClInclude Include="include\litehtml\el_para.h" />
+    <ClInclude Include="include\litehtml\el_script.h" />
+    <ClInclude Include="include\litehtml\el_space.h" />
+    <ClInclude Include="include\litehtml\el_style.h" />
+    <ClInclude Include="include\litehtml\el_table.h" />
+    <ClInclude Include="include\litehtml\el_td.h" />
+    <ClInclude Include="include\litehtml\el_text.h" />
+    <ClInclude Include="include\litehtml\el_title.h" />
+    <ClInclude Include="include\litehtml\el_tr.h" />
+    <ClInclude Include="include\litehtml\element.h" />
     <ClInclude Include="include\litehtml\html.h" />
     <ClInclude Include="include\litehtml\html_tag.h" />
     <ClInclude Include="include\litehtml\iterators.h" />
+    <ClInclude Include="include\litehtml\line_box.h" />
     <ClInclude Include="include\litehtml\media_query.h" />
+    <ClInclude Include="include\litehtml\num_cvt.h" />
     <ClInclude Include="include\litehtml\os_types.h" />
+    <ClInclude Include="include\litehtml\render_item.h" />
+    <ClInclude Include="include\litehtml\script_engine.h" />
     <ClInclude Include="include\litehtml\style.h" />
     <ClInclude Include="include\litehtml\stylesheet.h" />
     <ClInclude Include="include\litehtml\table.h" />
+    <ClInclude Include="include\litehtml\tstring_view.h" />
     <ClInclude Include="include\litehtml\types.h" />
+    <ClInclude Include="include\litehtml\url.h" />
+    <ClInclude Include="include\litehtml\url_path.h" />
     <ClInclude Include="include\litehtml\utf8_strings.h" />
     <ClInclude Include="include\litehtml\web_color.h" />
   </ItemGroup>

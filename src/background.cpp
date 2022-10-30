@@ -38,7 +38,6 @@ litehtml::background& litehtml::background::operator=( const background& val )
 	return *this;
 }
 
-
 litehtml::background_paint::background_paint() : color(0, 0, 0, 0)
 {
 	position		= point_default;
