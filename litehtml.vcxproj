@@ -222,6 +222,7 @@
     <ClCompile Include="src\render_inline_context.cpp" />
     <ClCompile Include="src\render_item.cpp" />
     <ClCompile Include="src\render_table.cpp" />
+    <ClCompile Include="src\script_engine.cpp" />
     <ClCompile Include="src\strtod.cpp" />
     <ClCompile Include="src\style.cpp" />
     <ClCompile Include="src\stylesheet.cpp" />

@@ -65,6 +65,7 @@ set(SOURCE_LITEHTML
     src/render_inline_context.cpp
     src/render_item.cpp
     src/render_table.cpp
+    src/script_engine.cpp
     src/strtod.cpp
     src/style.cpp
     src/stylesheet.cpp

@@ -43,18 +43,18 @@ namespace litehtml
 			return *this;
 		}
 
-        string to_string()
-        {
-            return "left: " + left.to_string() +
-                   ", top: " + top.to_string() +
-                   ", right: " + right.to_string() +
-                   ", bottom: " + bottom.to_string()
-				   #if H3ML
-				   + ", front: " + front.to_string() +
-				   ", back: " + back.to_string()
-				   #endif
-		   		   ;
-        }
+		string to_string()
+		{
+			return "left: " + left.to_string() +
+				", top: " + top.to_string() +
+				", right: " + right.to_string() +
+				", bottom: " + bottom.to_string()
+				#if H3ML
+				+ ", front: " + front.to_string() +
+				", back: " + back.to_string()
+				#endif
+				;
+		}
 	};
 }
 

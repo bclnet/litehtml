@@ -218,7 +218,7 @@ int litehtml::t_strncasecmp(const char *s1, const char *s2, size_t n)
 
 litehtml::string litehtml::get_escaped_string(const string& in_str)
 {
-    std::stringstream tss;
+	std::stringstream tss;
 	for ( auto ch : in_str )
 	{
 		switch (ch)

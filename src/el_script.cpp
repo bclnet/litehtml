@@ -11,7 +11,7 @@ void litehtml::el_script::parse_attributes()
 	document::ptr doc = get_document();
 	if (doc->script())
 	{
-		// doc->script()->addScript(doc, m_text);
+		doc->script()->addScript(doc.get(), m_text.c_str());
 	}
 }
 

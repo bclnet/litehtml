@@ -53,7 +53,7 @@ namespace litehtml
 		bool				is_body() const override;
 		bool				is_break() const override;
 
-        bool				on_mouse_over() override;
+		bool				on_mouse_over() override;
 		bool				on_mouse_leave() override;
 		bool				on_lbutton_down() override;
 		bool				on_lbutton_up() override;
@@ -63,9 +63,9 @@ namespace litehtml
 		bool				set_class(const char* pclass, bool add) override;
 		bool				is_replaced() const override;
 		void				parse_styles(bool is_reparse = false) override;
-		void                draw(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri) override;
-		void                draw_background(uint_ptr hdc, point p, const position *clip,
-                                    const std::shared_ptr<render_item> &ri) override;
+		void				draw(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri) override;
+		void				draw_background(uint_ptr hdc, point p, const position *clip,
+								const std::shared_ptr<render_item> &ri) override;
 
 		const char*			get_style_property(const char* name, bool inherited, const char* def = nullptr) const override;
 
@@ -95,16 +95,17 @@ namespace litehtml
 		bool				is_only_child(const element::ptr& el, bool of_type) const override;
 		const background*	get_background(bool own_only = false) override;
 
-        string             dump_get_name() override;
+		string				dump_get_name() override;
 
 	protected:
 		void				init_background_paint( position pos, background_paint &bg_paint, const background* bg, const std::shared_ptr<render_item> &ri );
 		void				draw_list_marker( uint_ptr hdc, const position &pos );
 		string				get_list_marker_text(int index);
 		static void			parse_nth_child_params( const string& param, int &num, int &off );
+		void				remove_before_after();
 		element::ptr		get_element_before(const string& style, const string& baseurl, bool create);
 		element::ptr		get_element_after(const string& style, const string& baseurl, bool create);
-    };
+	};
 
 	/************************************************************************/
 	/*                        Inline Functions                              */

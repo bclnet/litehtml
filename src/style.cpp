@@ -209,7 +209,7 @@ void litehtml::style::add_property( const char* name, const char* _val, const ch
 		}
 	} else 
 
-	// Parse border radius shorthand properties 
+	// Parse border radius shorthand properties
 	if(!strcmp(name, "border-bottom-left-radius"))
 	{
 		string_vector tokens;
@@ -292,7 +292,7 @@ void litehtml::style::add_property( const char* name, const char* _val, const ch
 
 	} else 
 
-	// Parse border-radius shorthand properties 
+	// Parse border-radius shorthand properties
 	if(!strcmp(name, "border-radius"))
 	{
 		string_vector tokens;
@@ -408,7 +408,7 @@ void litehtml::style::add_property( const char* name, const char* _val, const ch
 	#endif
 	else
 
-	// Parse list-style shorthand properties 
+	// Parse list-style shorthand properties
 	if(!strcmp(name, "list-style"))
 	{
 		add_parsed_property("list-style-type",			"disc",		important);
@@ -442,7 +442,7 @@ void litehtml::style::add_property( const char* name, const char* _val, const ch
 		}
 	} else 
 
-	// Add baseurl for background image 
+	// Add baseurl for background image
 	if(	!strcmp(name, "list-style-image"))
 	{
 		add_parsed_property(name, val, important);
@@ -452,14 +452,14 @@ void litehtml::style::add_property( const char* name, const char* _val, const ch
 		}
 	} else
 		
-	// Parse background shorthand properties 
+	// Parse background shorthand properties
 	if(!strcmp(name, "background"))
 	{
 		parse_short_background(val, baseurl, important);
 
 	} else 
 		
-	// Parse margin and padding shorthand properties 
+	// Parse margin and padding shorthand properties
 	if(!strcmp(name, "margin") || !strcmp(name, "padding"))
 	{
 		string_vector tokens;
@@ -467,7 +467,7 @@ void litehtml::style::add_property( const char* name, const char* _val, const ch
 		if(tokens.size() >= 4)
 		{
 			add_parsed_property(string(name) + "-top",		tokens[0], important);
-			add_parsed_property(string(name) + "-right",		tokens[1], important);
+			add_parsed_property(string(name) + "-right",	tokens[1], important);
 			add_parsed_property(string(name) + "-bottom",	tokens[2], important);
 			add_parsed_property(string(name) + "-left",		tokens[3], important);
 			#if H3ML
@@ -475,7 +475,7 @@ void litehtml::style::add_property( const char* name, const char* _val, const ch
 		} else if(tokens.size() == 3)
 		{
 			add_parsed_property(string(name) + "-top",		tokens[0], important);
-			add_parsed_property(string(name) + "-right",		tokens[1], important);
+			add_parsed_property(string(name) + "-right",	tokens[1], important);
 			add_parsed_property(string(name) + "-left",		tokens[1], important);
 			add_parsed_property(string(name) + "-bottom",	tokens[2], important);
 			#if H3ML
@@ -484,7 +484,7 @@ void litehtml::style::add_property( const char* name, const char* _val, const ch
 		{
 			add_parsed_property(string(name) + "-top",		tokens[0], important);
 			add_parsed_property(string(name) + "-bottom",	tokens[0], important);
-			add_parsed_property(string(name) + "-right",		tokens[1], important);
+			add_parsed_property(string(name) + "-right",	tokens[1], important);
 			add_parsed_property(string(name) + "-left",		tokens[1], important);
 			#if H3ML
 			#endif
@@ -492,7 +492,7 @@ void litehtml::style::add_property( const char* name, const char* _val, const ch
 		{
 			add_parsed_property(string(name) + "-top",		tokens[0], important);
 			add_parsed_property(string(name) + "-bottom",	tokens[0], important);
-			add_parsed_property(string(name) + "-right",		tokens[0], important);
+			add_parsed_property(string(name) + "-right",	tokens[0], important);
 			add_parsed_property(string(name) + "-left",		tokens[0], important);
 			#if H3ML
 			#endif
@@ -500,13 +500,13 @@ void litehtml::style::add_property( const char* name, const char* _val, const ch
 	} else 
 		
 		
-	// Parse border-* shorthand properties 
-	if(	!strcmp(name, "border-left") 	|| 
+	// Parse border-* shorthand properties
+	if(	!strcmp(name, "border-left") 	||
 		!strcmp(name, "border-right") 	||
-		!strcmp(name, "border-top")  	|| 
+		!strcmp(name, "border-top")  	||
 		!strcmp(name, "border-bottom")
 		#if H3ML
-		|| !strcmp(name, "border-front") || 
+		|| !strcmp(name, "border-front") ||
 		!strcmp(name, "border-back")
 		#endif
 		)
@@ -514,7 +514,7 @@ void litehtml::style::add_property( const char* name, const char* _val, const ch
 		parse_short_border(name, val, important);
 	} else 
 		
-	// Parse border-width/style/color shorthand properties 
+	// Parse border-width/style/color shorthand properties
 	if(	!strcmp(name, "border-width") ||
 		!strcmp(name, "border-style") ||
 		!strcmp(name, "border-color") )
@@ -551,7 +551,7 @@ void litehtml::style::add_property( const char* name, const char* _val, const ch
 		}
 	} else 
 		
-	// Parse font shorthand properties 
+	// Parse font shorthand properties
 	if(!strcmp(name, "font"))
 	{
 		parse_short_font(val, important);

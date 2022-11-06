@@ -49,7 +49,7 @@ litehtml::ucode_t litehtml::utf8_to_wchar::get_char()
 	else if ((b1 & 0xf8) == 0xf0)
 	{
 		// 4-byte sequence: 11101110wwwwzzzzyy + 110111yyyyxxxxxx
-		//     = 11110uuu 10uuzzzz 10yyyyyy 10xxxxxx
+		//	 = 11110uuu 10uuzzzz 10yyyyyy 10xxxxxx
 		// (uuuuu = wwww + 1)
 		int b2 = get_next_utf8(getb());
 		int b3 = get_next_utf8(getb());

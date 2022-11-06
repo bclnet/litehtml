@@ -14,11 +14,11 @@ TEST(Node, Attrib) {
 	auto document = MakeDocument(R"xyz(
 <html>
 <body>
-    <button onclick="myFunction()">Try it</button>
-    <p id="demo"></p>
-    <div class="w3-code notranslate">
-        <img src="pic_bulboff.gif" width="100" height="180">
-    </div>
+	<button onclick="myFunction()">Try it</button>
+	<p id="demo"></p>
+	<div class="w3-code notranslate">
+		<img src="pic_bulboff.gif" width="100" height="180">
+	</div>
 </body>
 </html>)xyz");
 
@@ -52,9 +52,9 @@ TEST(Node, Nodemap) {
 <body>
 	<h1>Hello World</h1>
 	<input type="button" value="OK" />
-    <img id="myImg" alt="Flower" src="klematis.jpg" width="150" height="113">
-    <button id="myBtn" onclick="myFunction()" class="example">Try it</button>
-    <p id="demo"></p>
+	<img id="myImg" alt="Flower" src="klematis.jpg" width="150" height="113">
+	<button id="myBtn" onclick="myFunction()" class="example">Try it</button>
+	<p id="demo"></p>
 </body>
 </html>)xyz");
 
@@ -75,7 +75,7 @@ TEST(Node, Nodemap) {
 		assert(x != nullptr);
 	}
 	{
-		auto x = document->getElementsByTagName("BUTTON")[0]->attributes()[1];        // The 2nd attribute
+		auto x = document->getElementsByTagName("BUTTON")[0]->attributes()[1];		// The 2nd attribute
 		assert(x != nullptr);
 	}
 	{
@@ -131,7 +131,7 @@ TEST(Node, Property) {
 	auto document = MakeDocument(R"xyz(
 <html>
 <body>
-    <p id="demo"></p>
+	<p id="demo"></p>
 </body>
 </html>)xyz");
 
@@ -585,7 +585,7 @@ TEST(Node, Method) {
 	auto document = MakeDocument(R"xyz(
 <html>
 <body>
-    <p id="demo"></p>
+	<p id="demo"></p>
 </body>
 </html>)xyz");
 

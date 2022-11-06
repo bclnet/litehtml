@@ -13,8 +13,8 @@
 namespace litehtml
 {
 	class line_box;
-    class dumper;
-    class render_item;
+	class dumper;
+	class render_item;
 
 	class element : public std::enable_shared_from_this<element>, public Element //, public EventTarget
 	{
@@ -29,29 +29,29 @@ namespace litehtml
 		typedef std::shared_ptr<const litehtml::element>	const_ptr;
 		typedef std::weak_ptr<litehtml::element>			weak_ptr;
 	protected:
-		std::weak_ptr<element>		            m_parent;
-		std::weak_ptr<litehtml::document>	    m_doc;
-        elements_vector				            m_children;
-        css_properties                          m_css;
-        std::list<std::weak_ptr<render_item>>   m_renders;
-        used_selector::vector	                m_used_styles;
+		std::weak_ptr<element>					m_parent;
+		std::weak_ptr<litehtml::document>		m_doc;
+		elements_vector							m_children;
+		css_properties							m_css;
+		std::list<std::weak_ptr<render_item>>	m_renders;
+		used_selector::vector					m_used_styles;
 
-        virtual void select_all(const css_selector& selector, elements_vector& res);
-        element::ptr _add_before_after(int type, const string& style, const string& baseurl);
+		virtual void select_all(const css_selector& selector, elements_vector& res);
+		element::ptr _add_before_after(int type, const string& style, const string& baseurl);
 	public:
 		explicit element(const std::shared_ptr<litehtml::document>& doc);
-        virtual ~element() = default;
+		virtual ~element() = default;
 
-        const css_properties&       css() const;
-        css_properties&             css_w();
+		const css_properties&		css() const;
+		css_properties&				css_w();
 
 		bool						in_normal_flow()			const;
 		litehtml::web_color			get_color(const char* prop_name, bool inherited, const litehtml::web_color& def_color = litehtml::web_color());
 		bool						is_inline_box()				const;
-        bool                        is_block_box()              const;
+		bool						is_block_box()				const;
 		position					get_placement()				const;
 		bool						is_positioned()				const;
-        bool						is_float()				    const;
+		bool						is_float()					const;
 
 		bool						have_parent() const;
 		element::ptr				parent() const;

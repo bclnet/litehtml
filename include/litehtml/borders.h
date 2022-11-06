@@ -309,14 +309,14 @@ namespace litehtml
 
 		css_borders() = default;
 
-        bool is_visible() const
-        {
+		bool is_visible() const
+		{
 			return left.width.val() != 0 || right.width.val() != 0 || top.width.val() != 0 || bottom.width.val() != 0
 			#if H3ML
 			|| front.width.val() != 0 || back.width.val() != 0
-            #endif
+			#endif
 			;
-        }
+		}
 
 		css_borders(const css_borders& val)
 		{
@@ -345,18 +345,18 @@ namespace litehtml
 			return *this;
 		}
 		
-        string to_string()
-        {
-            return "left: " + left.to_string() +
-                   ", top: " + top.to_string() +
-                   ", right: " + right.to_string() +
-                   ", bottom: " + bottom.to_string()
-				   #if H3ML
-				   + ", front: " + front.to_string() +
-                   ", back: " + back.to_string()
-				   #endif
-				   ;
-        }
+		string to_string()
+		{
+			return "left: " + left.to_string() +
+				", top: " + top.to_string() +
+				", right: " + right.to_string() +
+				", bottom: " + bottom.to_string()
+				#if H3ML
+				+ ", front: " + front.to_string() +
+				", back: " + back.to_string()
+				#endif
+				;
+		}
 	};
 
 	struct borders
@@ -398,14 +398,14 @@ namespace litehtml
 			#endif
 		}
 
-        bool is_visible() const
-        {
-            return left.width != 0 || right.width != 0 || top.width != 0 || bottom.width != 0
+		bool is_visible() const
+		{
+			return left.width != 0 || right.width != 0 || top.width != 0 || bottom.width != 0
 			#if H3ML
 			|| front.width != 0 || back.width != 0
-            #endif
+			#endif
 			;
-        }
+		}
 
 		borders& operator=(const borders& val)
 		{

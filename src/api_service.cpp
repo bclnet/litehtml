@@ -11,8 +11,8 @@ namespace litehtml
 	XMLHttpRequest::XMLHttpRequest() { }
 
 	/// <summary>
-    /// Cancels the current request
-    /// </summary>
+	/// Cancels the current request
+	/// </summary>
 	void XMLHttpRequest::abort() { }
 
 	/// <summary>

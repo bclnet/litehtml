@@ -32,18 +32,18 @@ namespace litehtml
 		}
 	};
 
-    class dumper
-    {
-    public:
-        virtual void begin_node(const litehtml::string& descr) = 0;
-        virtual void end_node() = 0;
-        virtual void begin_attrs_group(const litehtml::string& descr) = 0;
-        virtual void end_attrs_group() = 0;
-        virtual void add_attr(const litehtml::string& name, const litehtml::string& value) = 0;
-    };
+	class dumper
+	{
+	public:
+		virtual void begin_node(const litehtml::string& descr) = 0;
+		virtual void end_node() = 0;
+		virtual void begin_attrs_group(const litehtml::string& descr) = 0;
+		virtual void end_attrs_group() = 0;
+		virtual void add_attr(const litehtml::string& name, const litehtml::string& value) = 0;
+	};
 
 	class html_tag;
-    class render_item;
+	class render_item;
 
 	class document : public std::enable_shared_from_this<document>, public Document
 	{
@@ -73,9 +73,9 @@ namespace litehtml
 		document(litehtml::document_container* objContainer, litehtml::context* ctx);
 		virtual ~document();
 
-		document_container*					container()	{ return m_container; }
-		script_engine*						script() { return m_script; }
-		uint_ptr							get_font(const char* name, int size, const char* weight, const char* style, const char* decoration, font_metrics* fm);
+		document_container*				container()	{ return m_container; }
+		script_engine*					script() { return m_script; }
+		uint_ptr						get_font(const char* name, int size, const char* weight, const char* style, const char* decoration, font_metrics* fm);
 		int								render(int max_width, render_type rt = render_all);
 		void							draw(uint_ptr hdc, point p, const position* clip);
 		web_color						get_def_color()	{ return m_def_color; }

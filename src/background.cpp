@@ -69,5 +69,5 @@ litehtml::background_paint& litehtml::background_paint::operator=( const backgro
 	image		= val.m_image;
 	repeat		= val.m_repeat;
 	color		= val.m_color;
-    return *this;
+	return *this;
 }

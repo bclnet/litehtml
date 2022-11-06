@@ -12,7 +12,7 @@ litehtml::el_before_after_base::el_before_after_base(const std::shared_ptr<docum
 		m_tag = "::before";
 	} else
 	{
-        m_tag = "::after";
+		m_tag = "::after";
 	}
 }
 
@@ -35,7 +35,7 @@ void litehtml::el_before_after_base::add_style(const string& style, const string
 			{
 				if(content.at(i) == '"' || content.at(i) == '\'')
 				{
-                    auto chr = content.at(i);
+					auto chr = content.at(i);
 					fnc.clear();
 					i++;
 					string::size_type pos = content.find(chr, i);
@@ -195,10 +195,10 @@ void litehtml::el_before_after_base::add_function( const string& fnc, const stri
 
 litehtml::string litehtml::el_before_after_base::convert_escape( const char* txt )
 {
-    char* str_end;
+	char* str_end;
 	wchar_t u_str[2];
-    u_str[0] = (wchar_t) strtol(txt, &str_end, 16);
-    u_str[1] = 0;
+	u_str[0] = (wchar_t) strtol(txt, &str_end, 16);
+	u_str[1] = 0;
 	return litehtml::string(litehtml_from_wchar(u_str));
 }
 

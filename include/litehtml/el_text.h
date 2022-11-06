@@ -19,11 +19,11 @@ namespace litehtml
 		void				get_text(string& text) override;
 		const char*			get_style_property(const char* name, bool inherited, const char* def = nullptr) const override;
 		void				parse_styles(bool is_reparse) override;
-        bool				is_text() const override { return true; }
+		bool				is_text() const override { return true; }
 
-        void draw(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri) override;
-        string             dump_get_name() override;
-        std::vector<std::tuple<string, string>> dump_get_attrs() override;
+		void draw(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri) override;
+		string             dump_get_name() override;
+		std::vector<std::tuple<string, string>> dump_get_attrs() override;
 	protected:
 		void				get_content_size(size& sz, int max_width) override;
 	};

@@ -5,13 +5,13 @@
 // modification, are permitted provided that the following conditions are
 // met:
 //
-//    * Redistributions of source code must retain the above copyright
+//	* Redistributions of source code must retain the above copyright
 // notice, this list of conditions and the following disclaimer.
-//    * Redistributions in binary form must reproduce the above
+//	* Redistributions in binary form must reproduce the above
 // copyright notice, this list of conditions and the following disclaimer
 // in the documentation and/or other materials provided with the
 // distribution.
-//    * Neither the names of the copyright holders nor the names of their
+//	* Neither the names of the copyright holders nor the names of their
 // contributors may be used to endorse or promote products derived from
 // this software without specific prior written permission.
 //
@@ -44,105 +44,105 @@ using namespace litehtml;
 
 TEST(CodepointTest, URLReserved)
 {
-    std::vector<std::pair<char, bool>> testcases = {
-        { '!', true },
-        { '"', false },
-        { '#', true },
-        { '$', true },
-        { '%', false },
-        { '&', true },
-        { '\'', true },
-        { '(', true },
-        { ')', true },
-        { '*', true },
-        { ',', true },
-        { '+', true },
-        { ',', true },
-        { '-', false },
-        { '.', false },
-        { '/', true },
-        { '0', false },
-        { '1', false },
-        { '8', false },
-        { '9', false },
-        { ':', true },
-        { ';', true },
-        { '<', false },
-        { '=', true },
-        { '>', false },
-        { 'A', false },
-        { 'B', false },
-        { 'G', false },
-        { 'H', false },
-        { 'Y', false },
-        { 'Z', false },
-        { '[', true },
-        { '\\', false },
-        { ']', true },
-        { 'a', false },
-        { 'b', false },
-        { 'g', false },
-        { 'h', false },
-        { 'y', false },
-        { 'z', false },
-        { '{', false },
-        { '|', false },
-        { '}', false },
-    };
+	std::vector<std::pair<char, bool>> testcases = {
+		{ '!', true },
+		{ '"', false },
+		{ '#', true },
+		{ '$', true },
+		{ '%', false },
+		{ '&', true },
+		{ '\'', true },
+		{ '(', true },
+		{ ')', true },
+		{ '*', true },
+		{ ',', true },
+		{ '+', true },
+		{ ',', true },
+		{ '-', false },
+		{ '.', false },
+		{ '/', true },
+		{ '0', false },
+		{ '1', false },
+		{ '8', false },
+		{ '9', false },
+		{ ':', true },
+		{ ';', true },
+		{ '<', false },
+		{ '=', true },
+		{ '>', false },
+		{ 'A', false },
+		{ 'B', false },
+		{ 'G', false },
+		{ 'H', false },
+		{ 'Y', false },
+		{ 'Z', false },
+		{ '[', true },
+		{ '\\', false },
+		{ ']', true },
+		{ 'a', false },
+		{ 'b', false },
+		{ 'g', false },
+		{ 'h', false },
+		{ 'y', false },
+		{ 'z', false },
+		{ '{', false },
+		{ '|', false },
+		{ '}', false },
+	};
 
-    for (auto testcase : testcases) {
-        EXPECT_EQ(testcase.second, is_url_reserved_codepoint(testcase.first));
-    }
+	for (auto testcase : testcases) {
+		EXPECT_EQ(testcase.second, is_url_reserved_codepoint(testcase.first));
+	}
 }
 
 TEST(CodepointTest, URLScheme)
 {
-    std::vector<std::pair<char, bool>> testcases = {
-        { '!', false },
-        { '"', false },
-        { '#', false },
-        { '$', false },
-        { '%', false },
-        { '&', false },
-        { '\'', false },
-        { '(', false },
-        { ')', false },
-        { '*', false },
-        { ',', false },
-        { '+', true },
-        { ',', false },
-        { '-', true },
-        { '.', true },
-        { '/', false },
-        { '0', true },
-        { '1', true },
-        { '8', true },
-        { '9', true },
-        { ':', false },
-        { ';', false },
-        { '<', false },
-        { '=', false },
-        { '>', false },
-        { 'A', true },
-        { 'G', true },
-        { 'H', true },
-        { 'Y', true },
-        { 'Z', true },
-        { '[', false },
-        { '\\', false },
-        { ']', false },
-        { 'a', true },
-        { 'b', true },
-        { 'g', true },
-        { 'h', true },
-        { 'y', true },
-        { 'z', true },
-        { '{', false },
-        { '|', false },
-        { '}', false },
-    };
+	std::vector<std::pair<char, bool>> testcases = {
+		{ '!', false },
+		{ '"', false },
+		{ '#', false },
+		{ '$', false },
+		{ '%', false },
+		{ '&', false },
+		{ '\'', false },
+		{ '(', false },
+		{ ')', false },
+		{ '*', false },
+		{ ',', false },
+		{ '+', true },
+		{ ',', false },
+		{ '-', true },
+		{ '.', true },
+		{ '/', false },
+		{ '0', true },
+		{ '1', true },
+		{ '8', true },
+		{ '9', true },
+		{ ':', false },
+		{ ';', false },
+		{ '<', false },
+		{ '=', false },
+		{ '>', false },
+		{ 'A', true },
+		{ 'G', true },
+		{ 'H', true },
+		{ 'Y', true },
+		{ 'Z', true },
+		{ '[', false },
+		{ '\\', false },
+		{ ']', false },
+		{ 'a', true },
+		{ 'b', true },
+		{ 'g', true },
+		{ 'h', true },
+		{ 'y', true },
+		{ 'z', true },
+		{ '{', false },
+		{ '|', false },
+		{ '}', false },
+	};
 
-    for (auto testcase : testcases) {
-        EXPECT_EQ(testcase.second, is_url_scheme_codepoint(testcase.first));
-    }
+	for (auto testcase : testcases) {
+		EXPECT_EQ(testcase.second, is_url_scheme_codepoint(testcase.first));
+	}
 }

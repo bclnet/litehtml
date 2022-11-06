@@ -19,20 +19,16 @@ void litehtml::table_grid::add_cell(const std::shared_ptr<render_item>& el)
 	m_cells.back().push_back(cell);
 	for(int i = 1; i < cell.colspan; i++)
 	{
-		table_cell empty_cell;
-		m_cells.back().push_back(empty_cell);
+		m_cells.back().push_back(table_cell());
 	}
 }
 
-
 void litehtml::table_grid::begin_row(const std::shared_ptr<render_item>& row)
 {
-	std::vector<table_cell> r;
-	m_cells.push_back(r);
+	m_cells.push_back(std::vector<table_cell>());
 	
 	m_rows.push_back(table_row(0, row));
 }
-
 
 bool litehtml::table_grid::is_rowspanned( int r, int c )
 {

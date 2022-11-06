@@ -11,6 +11,6 @@ const char* master_css =
 
 TEST(ContextTest, LoadMasterStylesheet)
 {
-    context ctx;
-    ctx.load_master_stylesheet(master_css);
+	context ctx;
+	ctx.load_master_stylesheet(master_css);
 }

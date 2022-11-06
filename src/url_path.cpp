@@ -5,13 +5,13 @@
 // modification, are permitted provided that the following conditions are
 // met:
 //
-//    * Redistributions of source code must retain the above copyright
+//	* Redistributions of source code must retain the above copyright
 // notice, this list of conditions and the following disclaimer.
-//    * Redistributions in binary form must reproduce the above
+//	* Redistributions in binary form must reproduce the above
 // copyright notice, this list of conditions and the following disclaimer
 // in the documentation and/or other materials provided with the
 // distribution.
-//    * Neither the names of the copyright holders nor the names of their
+//	* Neither the names of the copyright holders nor the names of their
 // contributors may be used to endorse or promote products derived from
 // this software without specific prior written permission.
 //
@@ -33,54 +33,54 @@ namespace litehtml {
 
 bool is_url_path_absolute(const string& path)
 {
-    return path.length() > 0 && path[0] == '/';
+	return path.length() > 0 && path[0] == '/';
 }
 
 string url_path_directory_name(const string& path)
 {
-    size_t offset = path.find_last_of('/');
-    if (offset == string::npos) {
-        return ".";
-    } else {
-        return path.substr(0, offset + 1);
-    }
+	size_t offset = path.find_last_of('/');
+	if (offset == string::npos) {
+		return ".";
+	} else {
+		return path.substr(0, offset + 1);
+	}
 }
 
 string url_path_base_name(const string& path)
 {
-    size_t offset = path.find_last_of('/');
-    if (offset == string::npos) {
-        return path;
-    } else {
-        return path.substr(offset + 1);
-    }
+	size_t offset = path.find_last_of('/');
+	if (offset == string::npos) {
+		return path;
+	} else {
+		return path.substr(offset + 1);
+	}
 }
 
 string url_path_append(const string& base, const string& path)
 {
-    string result(base);
+	string result(base);
 
-    // Only append a separator if both base and path are not empty and if the
-    // last character of base is not already a separator.
-    if (!result.empty() && !path.empty() && result.back() != '/') {
-        result.append(1, '/');
-    }
+	// Only append a separator if both base and path are not empty and if the
+	// last character of base is not already a separator.
+	if (!result.empty() && !path.empty() && result.back() != '/') {
+		result.append(1, '/');
+	}
 
-    result.append(path);
+	result.append(path);
 
-    return result;
+	return result;
 }
 
 string url_path_resolve(const string& base, const string& path)
 {
 
-    // If the possibly relative path is an absolute path then it is not
-    // relative and the base path is irrelevant.
-    if (is_url_path_absolute(path)) {
-        return path;
-    }
+	// If the possibly relative path is an absolute path then it is not
+	// relative and the base path is irrelevant.
+	if (is_url_path_absolute(path)) {
+		return path;
+	}
 
-    return url_path_append(url_path_directory_name(base), path);
+	return url_path_append(url_path_directory_name(base), path);
 }
 
 } // namespace litehtml

@@ -52,11 +52,11 @@ namespace litehtml
 		#endif
 	};
 
-#if H3ML
-#define point_default { 0, 0, 0 }
-#else
-#define point_default { 0, 0 }
-#endif
+	#if H3ML
+	#define point_default { 0, 0, 0 }
+	#else
+	#define point_default { 0, 0 }
+	#endif
 
 	struct point
 	{
@@ -110,11 +110,11 @@ namespace litehtml
 		}
 	};
 
-#if H3ML
-#define size_default { 0, 0, 0 }
-#else
-#define size_default { 0, 0 }
-#endif
+	#if H3ML
+	#define size_default { 0, 0, 0 }
+	#else
+	#define size_default { 0, 0 }
+	#endif
 
 	struct size
 	{
@@ -387,8 +387,8 @@ namespace litehtml
 		display_table_row,
 		display_table_row_group,
 		display_inline_text,
-        display_flex,
-        display_inline_flex,
+		display_flex,
+		display_inline_flex,
 	};
 
 	enum style_border
@@ -703,15 +703,15 @@ namespace litehtml
 		content_property_no_close_quote,
 	};
 
-    class render_item;
+	class render_item;
 
 	struct floated_box
 	{
 		typedef std::vector<floated_box>	vector;
 
-		position		                pos;
-		element_float	                float_side;
-		element_clear	                clear_floats;
+		position						pos;
+		element_float					float_side;
+		element_clear					clear_floats;
 		std::shared_ptr<render_item>	el;
 
 		floated_box() = default;
@@ -932,23 +932,23 @@ namespace litehtml
 		int			monochrome;		// The number of bits per pixel in a monochrome frame buffer. If the device is not a monochrome device, the output device value will be 0.
 		int			resolution;		// The resolution of the output device (in DPI)
 
-        media_features()
-        {
-            type = media_type::media_type_none,
-            width = 0;
-            height = 0;
-            device_width = 0;
-            device_height = 0;
-            color = 0;
-            color_index = 0;
-            monochrome = 0;
-            resolution = 0;
+		media_features()
+		{
+			type = media_type::media_type_none,
+			width = 0;
+			height = 0;
+			device_width = 0;
+			device_height = 0;
+			color = 0;
+			color_index = 0;
+			monochrome = 0;
+			resolution = 0;
 			#if H3ML
 			depth = 0;
 			device_depth = 0;
 			#endif
-        }
-    };
+		}
+	};
 
 	enum render_type
 	{
@@ -962,68 +962,68 @@ namespace litehtml
 
 #define flex_direction_strings		"row;row-reverse;column;column-reverse"
 
-    enum flex_direction
-    {
-        flex_direction_row,
-        flex_direction_row_reverse,
-        flex_direction_column,
-        flex_direction_column_reverse
-    };
+	enum flex_direction
+	{
+		flex_direction_row,
+		flex_direction_row_reverse,
+		flex_direction_column,
+		flex_direction_column_reverse
+	};
 
 #define flex_wrap_strings		"nowrap;wrap;wrap-reverse"
 
-    enum flex_wrap
-    {
-        flex_wrap_nowrap,
-        flex_wrap_wrap,
-        flex_wrap_wrap_reverse
-    };
+	enum flex_wrap
+	{
+		flex_wrap_nowrap,
+		flex_wrap_wrap,
+		flex_wrap_wrap_reverse
+	};
 
 #define flex_justify_content_strings		"flex-start;flex-end;center;space-between;space-around"
 
-    enum flex_justify_content
-    {
-        flex_justify_content_flex_start,
-        flex_justify_content_flex_end,
-        flex_justify_content_center,
-        flex_justify_content_space_between,
-        flex_justify_content_space_around
-    };
+	enum flex_justify_content
+	{
+		flex_justify_content_flex_start,
+		flex_justify_content_flex_end,
+		flex_justify_content_center,
+		flex_justify_content_space_between,
+		flex_justify_content_space_around
+	};
 
 #define flex_align_items_strings		"flex-start;flex-end;center;baseline;stretch"
 
-    enum flex_align_items
-    {
-        flex_align_items_flex_start,
-        flex_align_items_flex_end,
-        flex_align_items_center,
-        flex_align_items_baseline,
-        flex_align_items_stretch
-    };
+	enum flex_align_items
+	{
+		flex_align_items_flex_start,
+		flex_align_items_flex_end,
+		flex_align_items_center,
+		flex_align_items_baseline,
+		flex_align_items_stretch
+	};
 
 #define flex_align_self_strings		"auto;flex-start;flex-end;center;baseline;stretch"
 
-    enum flex_align_self
-    {
-        flex_align_self_auto,
-        flex_align_self_flex_start,
-        flex_align_self_flex_end,
-        flex_align_self_center,
-        flex_align_self_baseline,
-        flex_align_self_stretch
-    };
+	enum flex_align_self
+	{
+		flex_align_self_auto,
+		flex_align_self_flex_start,
+		flex_align_self_flex_end,
+		flex_align_self_center,
+		flex_align_self_baseline,
+		flex_align_self_stretch
+	};
 
 #define flex_align_content_strings		"flex-start;flex-end;center;space-between;space-around;stretch"
 
-    enum flex_align_content
-    {
-        flex_align_content_flex_start,
-        flex_align_content_flex_end,
-        flex_align_content_center,
-        flex_align_content_space_between,
-        flex_align_content_space_around,
-        flex_align_content_stretch
-    };
+	enum flex_align_content
+	{
+		flex_align_content_flex_start,
+		flex_align_content_flex_end,
+		flex_align_content_center,
+		flex_align_content_space_between,
+		flex_align_content_space_around,
+		flex_align_content_stretch
+	};
 }
 
 #endif  // LH_TYPES_H

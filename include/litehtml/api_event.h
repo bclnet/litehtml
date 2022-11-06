@@ -12,13 +12,13 @@ namespace litehtml
 	/// <summary>
 	/// EventListenerOptions
 	/// </summary>
-    class EventListenerOptions
-    {
+	class EventListenerOptions
+	{
 	public:
-        bool capture;
-        bool passive;
-        bool once;
-    };
+		bool capture;
+		bool passive;
+		bool once;
+	};
 
 	/// <summary>
 	/// EventTarget
@@ -37,113 +37,113 @@ namespace litehtml
 	class Event
 	{
 	public:
-        /// <summary>
-        /// Returns whether or not a specific event is a bubbling event
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if bubbles; otherwise, <c>false</c>.
-        /// </value>
-        bool bubbles();
+		/// <summary>
+		/// Returns whether or not a specific event is a bubbling event
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if bubbles; otherwise, <c>false</c>.
+		/// </value>
+		bool bubbles();
 
-        /// <summary>
-        /// Sets or returns whether the event should propagate up the hierarchy or not
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if [cancel bubble]; otherwise, <c>false</c>.
-        /// </value>
-        bool cancelBubble();
+		/// <summary>
+		/// Sets or returns whether the event should propagate up the hierarchy or not
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if [cancel bubble]; otherwise, <c>false</c>.
+		/// </value>
+		bool cancelBubble();
 
-        /// <summary>
-        /// Returns whether or not an event can have its default action prevented
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if cancelable; otherwise, <c>false</c>.
-        /// </value>
-        bool cancelable();
+		/// <summary>
+		/// Returns whether or not an event can have its default action prevented
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if cancelable; otherwise, <c>false</c>.
+		/// </value>
+		bool cancelable();
 
-        /// <summary>
-        /// Returns whether the event is composed or not
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if composed; otherwise, <c>false</c>.
-        /// </value>
-        bool composed();
+		/// <summary>
+		/// Returns whether the event is composed or not
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if composed; otherwise, <c>false</c>.
+		/// </value>
+		bool composed();
 
-        //public Event createEvent(string type) => throw new NotImplementedException();
+		//public Event createEvent(string type) => throw new NotImplementedException();
 
-        /// <summary>
-        /// Returns the event's path
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        Element* composedPath();
+		/// <summary>
+		/// Returns the event's path
+		/// </summary>
+		/// <returns></returns>
+		/// <exception cref="NotImplementedException"></exception>
+		Element* composedPath();
 
-        /// <summary>
-        /// Returns the element whose event listeners triggered the event
-        /// </summary>
-        /// <value>
-        /// Returns the element whose event listeners triggered the event
-        /// </value>
-        Element* currentTarget();
+		/// <summary>
+		/// Returns the element whose event listeners triggered the event
+		/// </summary>
+		/// <value>
+		/// Returns the element whose event listeners triggered the event
+		/// </value>
+		Element* currentTarget();
 
-        /// <summary>
-        /// Returns whether or not the preventDefault() method was called for the event
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if [default prevented]; otherwise, <c>false</c>.
-        /// </value>
-        bool defaultPrevented();
+		/// <summary>
+		/// Returns whether or not the preventDefault() method was called for the event
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if [default prevented]; otherwise, <c>false</c>.
+		/// </value>
+		bool defaultPrevented();
 
-        /// <summary>
-        /// Returns which phase of the event flow is currently being evaluated
-        /// </summary>
-        /// <value>
-        /// The event phase.
-        /// </value>
-        int eventPhase();
+		/// <summary>
+		/// Returns which phase of the event flow is currently being evaluated
+		/// </summary>
+		/// <value>
+		/// The event phase.
+		/// </value>
+		int eventPhase();
 
-        /// <summary>
-        /// Returns whether or not an event is trusted
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is trusted; otherwise, <c>false</c>.
-        /// </value>
-        bool isTrusted();
+		/// <summary>
+		/// Returns whether or not an event is trusted
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if this instance is trusted; otherwise, <c>false</c>.
+		/// </value>
+		bool isTrusted();
 
-        /// <summary>
-        /// Cancels the event if it is cancelable, meaning that the default action that belongs to the event will not occur
-        /// </summary>
-        /// <exception cref="NotImplementedException"></exception>
-        void preventDefault();
+		/// <summary>
+		/// Cancels the event if it is cancelable, meaning that the default action that belongs to the event will not occur
+		/// </summary>
+		/// <exception cref="NotImplementedException"></exception>
+		void preventDefault();
 
-        /// <summary>
-        /// Prevents other listeners of the same event from being called
-        /// </summary>
-        /// <exception cref="NotImplementedException"></exception>
-        void stopImmediatePropagation();
+		/// <summary>
+		/// Prevents other listeners of the same event from being called
+		/// </summary>
+		/// <exception cref="NotImplementedException"></exception>
+		void stopImmediatePropagation();
 
-        /// <summary>
-        /// Returns the element that triggered the event
-        /// </summary>
-        /// <value>
-        /// The target.
-        /// </value>
-        Element* target();
+		/// <summary>
+		/// Returns the element that triggered the event
+		/// </summary>
+		/// <value>
+		/// The target.
+		/// </value>
+		Element* target();
 
-        /// <summary>
-        /// Returns the time (in milliseconds relative to the epoch) at which the event was created
-        /// </summary>
-        /// <value>
-        /// The time stamp.
-        /// </value>
-        int64_t timeStamp();
+		/// <summary>
+		/// Returns the time (in milliseconds relative to the epoch) at which the event was created
+		/// </summary>
+		/// <value>
+		/// The time stamp.
+		/// </value>
+		int64_t timeStamp();
 
-        /// <summary>
-        /// Returns the name of the event
-        /// </summary>
-        /// <value>
-        /// The type.
-        /// </value>
+		/// <summary>
+		/// Returns the name of the event
+		/// </summary>
+		/// <value>
+		/// The type.
+		/// </value>
 		wchar_t* type();
 	};
 
@@ -574,22 +574,22 @@ namespace litehtml
 	{
 	public:
 		/// <summary>
-        /// Returns whether the length of the progress can be computable or not
-        /// </summary>
-        /// <value><c>true</c> if [length computable]; otherwise, <c>false</c>.</value>
+		/// Returns whether the length of the progress can be computable or not
+		/// </summary>
+		/// <value><c>true</c> if [length computable]; otherwise, <c>false</c>.</value>
 		bool lengthComputable();
 
-        /// <summary>
-        /// Returns how much work has been loaded
-        /// </summary>
-        /// <value>The loaded.</value>
-        int loaded();
+		/// <summary>
+		/// Returns how much work has been loaded
+		/// </summary>
+		/// <value>The loaded.</value>
+		int loaded();
 
-        /// <summary>
-        /// Returns the total amount of work that will be loaded
-        /// </summary>
-        /// <value>The total.</value>
-        int total();
+		/// <summary>
+		/// Returns the total amount of work that will be loaded
+		/// </summary>
+		/// <value>The total.</value>
+		int total();
 	};
 
 	/// <summary>
@@ -599,34 +599,34 @@ namespace litehtml
 	class StorageEvent : public Event
 	{
 	public:
-		 /// <summary>
-        /// Returns the key of the changed storage item
-        /// </summary>
-        /// <value>The key.</value>
-        wchar_t* key();
+		/// <summary>
+		/// Returns the key of the changed storage item
+		/// </summary>
+		/// <value>The key.</value>
+		wchar_t* key();
 
-        /// <summary>
-        /// Returns the new value of the changed storage item
-        /// </summary>
-        /// <value>The new value.</value>
+		/// <summary>
+		/// Returns the new value of the changed storage item
+		/// </summary>
+		/// <value>The new value.</value>
 		wchar_t* newValue();
 
-        /// <summary>
-        /// Returns the old value of the changed storage item
-        /// </summary>
-        /// <value>The old value.</value>
+		/// <summary>
+		/// Returns the old value of the changed storage item
+		/// </summary>
+		/// <value>The old value.</value>
 		wchar_t* oldValue();
 
-        /// <summary>
-        /// Returns an object representing the affected storage object
-        /// </summary>
-        /// <value>The storage area.</value>
-        void* storageArea();
+		/// <summary>
+		/// Returns an object representing the affected storage object
+		/// </summary>
+		/// <value>The storage area.</value>
+		void* storageArea();
 
-        /// <summary>
-        /// Returns the URL of the changed item's document
-        /// </summary>
-        /// <value>The URL.</value>
+		/// <summary>
+		/// Returns the URL of the changed item's document
+		/// </summary>
+		/// <value>The URL.</value>
 		wchar_t* url();
 	};
 
@@ -638,46 +638,46 @@ namespace litehtml
 	{
 	public:
 /// <summary>
-        /// Returns whether the "ALT" key was pressed when the touch event was triggered
-        /// </summary>
-        /// <value><c>true</c> if [alt key]; otherwise, <c>false</c>.</value>
+		/// Returns whether the "ALT" key was pressed when the touch event was triggered
+		/// </summary>
+		/// <value><c>true</c> if [alt key]; otherwise, <c>false</c>.</value>
 		bool altKey();
-        
-        /// <summary>
-        /// Returns a list of all the touch objects whose state changed between the previous touch and this touch
-        /// </summary>
-        /// <value>The changed touched.</value>
-        void** changedTouched();
-        
-        /// <summary>
-        /// Returns whether the "CTRL" key was pressed when the touch event was triggered
-        /// </summary>
-        /// <value><c>true</c> if [control key]; otherwise, <c>false</c>.</value>
-        bool ctrlKey();
-        
-        /// <summary>
-        /// Returns whether the "meta" key was pressed when the touch event was triggered
-        /// </summary>
-        /// <value><c>true</c> if [meta key]; otherwise, <c>false</c>.</value>
-        bool metaKey();
-        
-        /// <summary>
-        /// Returns whether the "SHIFT" key was pressed when the touch event was triggered
-        /// </summary>
-        /// <value><c>true</c> if [shift key]; otherwise, <c>false</c>.</value>
-        bool shiftKey();
-        
-        /// <summary>
-        /// Returns a list of all the touch objects that are in contact with the surface and where the touchstart event occured on the same target element as the current target element
-        /// </summary>
-        /// <value>The target touches.</value>
-        void** targetTouches();
+		
+		/// <summary>
+		/// Returns a list of all the touch objects whose state changed between the previous touch and this touch
+		/// </summary>
+		/// <value>The changed touched.</value>
+		void** changedTouched();
+		
+		/// <summary>
+		/// Returns whether the "CTRL" key was pressed when the touch event was triggered
+		/// </summary>
+		/// <value><c>true</c> if [control key]; otherwise, <c>false</c>.</value>
+		bool ctrlKey();
+		
+		/// <summary>
+		/// Returns whether the "meta" key was pressed when the touch event was triggered
+		/// </summary>
+		/// <value><c>true</c> if [meta key]; otherwise, <c>false</c>.</value>
+		bool metaKey();
+		
+		/// <summary>
+		/// Returns whether the "SHIFT" key was pressed when the touch event was triggered
+		/// </summary>
+		/// <value><c>true</c> if [shift key]; otherwise, <c>false</c>.</value>
+		bool shiftKey();
+		
+		/// <summary>
+		/// Returns a list of all the touch objects that are in contact with the surface and where the touchstart event occured on the same target element as the current target element
+		/// </summary>
+		/// <value>The target touches.</value>
+		void** targetTouches();
 
-        /// <summary>
-        /// Returns a list of all the touch objects that are currently in contact with the surface
-        /// </summary>
-        /// <value>The touches.</value>
-        void** touches();
+		/// <summary>
+		/// Returns a list of all the touch objects that are currently in contact with the surface
+		/// </summary>
+		/// <value>The touches.</value>
+		void** touches();
 	};
 
 	/// <summary>
@@ -688,21 +688,21 @@ namespace litehtml
 	{
 	public:
 		/// <summary>
-        /// Returns the name of the transition
-        /// </summary>
-        /// <value>The name of the property.</value>
-        wchar_t* propertyName();
+		/// Returns the name of the transition
+		/// </summary>
+		/// <value>The name of the property.</value>
+		wchar_t* propertyName();
 
-        /// <summary>
-        /// Returns the number of seconds a transition has been running
-        /// </summary>
-        /// <value>The elapsed time.</value>
-        int elapsedTime();
+		/// <summary>
+		/// Returns the number of seconds a transition has been running
+		/// </summary>
+		/// <value>The elapsed time.</value>
+		int elapsedTime();
 
-        /// <summary>
-        /// Returns the name of the pseudo-element of the transition
-        /// </summary>
-        /// <value>The pseudo element.</value>
+		/// <summary>
+		/// Returns the name of the pseudo-element of the transition
+		/// </summary>
+		/// <value>The pseudo element.</value>
 		wchar_t* pseudoElement();
 	};
 
@@ -713,28 +713,28 @@ namespace litehtml
 	class WheelEvent : public Event
 	{
 	public:
-        /// <summary>
-        /// Returns the horizontal scroll amount of a mouse wheel (x-axis)
-        /// </summary>
-        /// <value>The delta x.</value>
-        int deltaX();
-        
-        /// <summary>
-        /// Returns the vertical scroll amount of a mouse wheel (y-axis)
-        /// </summary>
-        /// <value>The delta y.</value>
-        int deltaY();
-        
-        /// <summary>
-        /// Returns the scroll amount of a mouse wheel for the z-axis
-        /// </summary>
-        /// <value>The delta z.</value>
-        int deltaZ();
+		/// <summary>
+		/// Returns the horizontal scroll amount of a mouse wheel (x-axis)
+		/// </summary>
+		/// <value>The delta x.</value>
+		int deltaX();
+		
+		/// <summary>
+		/// Returns the vertical scroll amount of a mouse wheel (y-axis)
+		/// </summary>
+		/// <value>The delta y.</value>
+		int deltaY();
+		
+		/// <summary>
+		/// Returns the scroll amount of a mouse wheel for the z-axis
+		/// </summary>
+		/// <value>The delta z.</value>
+		int deltaZ();
 
-        /// <summary>
-        /// Returns a number that represents the unit of measurements for delta values (pixels, lines or pages)
-        /// </summary>
-        /// <value>The delta mode.</value>
+		/// <summary>
+		/// Returns a number that represents the unit of measurements for delta values (pixels, lines or pages)
+		/// </summary>
+		/// <value>The delta mode.</value>
 		int deltaMode();
 	};
 }

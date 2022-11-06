@@ -9,7 +9,7 @@ namespace litehtml
 	class property_value
 	{
 	public:
-		string	m_value;
+		string			m_value;
 		bool			m_important;
 
 		property_value()

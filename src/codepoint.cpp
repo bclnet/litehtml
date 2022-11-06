@@ -5,13 +5,13 @@
 // modification, are permitted provided that the following conditions are
 // met:
 //
-//    * Redistributions of source code must retain the above copyright
+//	* Redistributions of source code must retain the above copyright
 // notice, this list of conditions and the following disclaimer.
-//    * Redistributions in binary form must reproduce the above
+//	* Redistributions in binary form must reproduce the above
 // copyright notice, this list of conditions and the following disclaimer
 // in the documentation and/or other materials provided with the
 // distribution.
-//    * Neither the names of the copyright holders nor the names of their
+//	* Neither the names of the copyright holders nor the names of their
 // contributors may be used to endorse or promote products derived from
 // this software without specific prior written permission.
 //
@@ -35,7 +35,7 @@ namespace {
 
 bool lookup(const uint32_t* table, char c)
 {
-    return table[c >> 5] & (1 << (c & 0x1f));
+	return table[c >> 5] & (1 << (c & 0x1f));
 }
 
 } // namespace
@@ -44,33 +44,33 @@ namespace litehtml {
 
 bool is_ascii_codepoint(char c)
 {
-    return c < 128;
+	return c < 128;
 }
 
 // https://datatracker.ietf.org/doc/html/rfc3986#section-2.2
 bool is_url_reserved_codepoint(char c)
 {
-    static const uint32_t reserved_lookup[] = {
-        0x00000000,
-        0xac009fda,
-        0x28000001,
-        0x00000000
-    };
+	static const uint32_t reserved_lookup[] = {
+		0x00000000,
+		0xac009fda,
+		0x28000001,
+		0x00000000
+	};
 
-    return is_ascii_codepoint(c) && lookup(reserved_lookup, c);
+	return is_ascii_codepoint(c) && lookup(reserved_lookup, c);
 }
 
 // https://datatracker.ietf.org/doc/html/rfc3986#section-3.1
 bool is_url_scheme_codepoint(char c)
 {
-    static const uint32_t scheme_lookup[] = {
-        0x00000000,
-        0x03ff6800,
-        0x07fffffe,
-        0x07fffffe,
-    };
+	static const uint32_t scheme_lookup[] = {
+		0x00000000,
+		0x03ff6800,
+		0x07fffffe,
+		0x07fffffe,
+	};
 
-    return is_ascii_codepoint(c) && lookup(scheme_lookup, c);
+	return is_ascii_codepoint(c) && lookup(scheme_lookup, c);
 }
 
 } // namespace litehtml

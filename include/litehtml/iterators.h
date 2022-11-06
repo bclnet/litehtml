@@ -14,7 +14,7 @@ namespace litehtml
 	public:
 		virtual bool select(const std::shared_ptr<render_item>& el) = 0;
 
-        protected:
+		protected:
 		~iterator_selector() = default;
 	};
 
@@ -23,21 +23,21 @@ namespace litehtml
 	private:
 		iterator_selector* m_go_inside;
 		iterator_selector* m_select;
-        bool m_return_parent;
+		bool m_return_parent;
 
-        /**
-         * Checks if iterator should go inside the element
-         *
-         * @param el element to check
-         * @return true to go inside
-         */
-        bool go_inside(const std::shared_ptr<render_item>& el);
+		/**
+		 * Checks if iterator should go inside the element
+		 *
+		 * @param el element to check
+		 * @return true to go inside
+		 */
+		bool go_inside(const std::shared_ptr<render_item>& el);
 
 	public:
 		elements_iterator(bool return_parents, iterator_selector* go_inside, iterator_selector* select);
 		~elements_iterator() = default;
 
-        void process(const std::shared_ptr<render_item>& container, const std::function<void (std::shared_ptr<render_item>&)>& func);
+		void process(const std::shared_ptr<render_item>& container, const std::function<void (std::shared_ptr<render_item>&)>& func);
 	
 	private:
 		void next_idx();
@@ -49,11 +49,11 @@ namespace litehtml
 		bool select(const std::shared_ptr<render_item>& el) override;
 	};
 
-    class inline_selector final : public iterator_selector
-    {
-    public:
-        bool select(const std::shared_ptr<render_item>& el) override;
-    };
+	class inline_selector final : public iterator_selector
+	{
+	public:
+		bool select(const std::shared_ptr<render_item>& el) override;
+	};
 
 	class go_inside_table final : public iterator_selector
 	{

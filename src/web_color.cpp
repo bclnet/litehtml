@@ -153,7 +153,6 @@ litehtml::def_color litehtml::g_def_colors[] =
 	{nullptr,nullptr}
 };
 
-
 litehtml::web_color litehtml::web_color::from_string(const char* str, litehtml::document_container* callback)
 {
 	if(!str || !str[0])
@@ -231,39 +230,31 @@ litehtml::string litehtml::web_color::resolve_name(const char* name, litehtml::d
 	{
 		if(!t_strcasecmp(name, g_def_colors[i].name))
 		{
-            return litehtml::string(g_def_colors[i].rgb);
+			return litehtml::string(g_def_colors[i].rgb);
 		}
 	}
-    if (callback)
-    {
-        litehtml::string clr = callback->resolve_color(name);
-        return clr;
-    }
-    return litehtml::string();
+	if (callback)
+	{
+		return callback->resolve_color(name);
+	}
+	return litehtml::string();
 }
 
 bool litehtml::web_color::is_color(const char* str)
 {
-	if(!t_strncasecmp(str, "rgb", 3) || str[0] == '#')
-	{
-		return true;
-	}
-    if (!t_isdigit(str[0]) && str[0] != '.')
-	{
-		return true;
-	}
-	return false;
+	return !t_strncasecmp(str, "rgb", 3) || str[0] == '#'
+		|| (!t_isdigit(str[0]) && str[0] != '.');
 }
 
 litehtml::string litehtml::web_color::to_string()
 {
-    char str[9];
-    if(alpha)
-    {
+	char str[9];
+	if(alpha)
+	{
 		t_snprintf(str, 9, "%02X%02X%02X%02X", red, green, blue, alpha);
-    } else
-    {
+	} else
+	{
 		t_snprintf(str, 9, "%02X%02X%02X", red, green, blue);
-    }
-    return str;
+	}
+	return str;
 }
