@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.11)
 
 project(litehtml LANGUAGES C CXX)
+include(CTest)
 
 # Soname
 # MAJOR is incremented when symbols are removed or changed in an incompatible way
@@ -209,7 +210,6 @@ install(EXPORT litehtmlTargets FILE litehtmlTargets.cmake DESTINATION lib${LIB_S
 # Tests
 
 if (BUILD_TESTING)
-    include(CTest)
     enable_testing()
 
     option(EXTERNAL_GTEST "Use external GoogleTest instead of fetching from GitHub" OFF)
@@ -218,10 +218,7 @@ if (BUILD_TESTING)
         link_libraries("-Wl,--copy-dt-needed-entries")
     else()
         include(FetchContent)
-        FetchContent_Declare(
-          googletest
-          URL https://github.com/google/googletest/archive/refs/tags/v1.13.0.zip
-        )
+        FetchContent_Declare(googletest URL https://github.com/google/googletest/archive/refs/tags/v1.13.0.zip)
         # For Windows: Prevent overriding the parent project's compiler/linker settings
         set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
         FetchContent_GetProperties(googletest)
@@ -233,28 +230,14 @@ if (BUILD_TESTING)
     include(GoogleTest)
 
     set(TEST_NAME ${PROJECT_NAME}_tests)
-
-    add_executable(
-        ${TEST_NAME}
-        ${TEST_LITEHTML}
-    )
-
+    add_executable(${TEST_NAME} ${TEST_LITEHTML})
     set_target_properties(${TEST_NAME} PROPERTIES
         CXX_STANDARD 11
         C_STANDARD 99
         PUBLIC_HEADER "${HEADER_LITEHTML}"
     )
-
-    target_include_directories(
-        ${TEST_NAME}
-        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/containers
-    )
-
-    target_link_libraries(
-        ${TEST_NAME}
-        ${PROJECT_NAME}
-        gtest_main
-    )
+    target_include_directories(${TEST_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/containers)
+    target_link_libraries(${TEST_NAME} ${PROJECT_NAME} gtest_main)
 
     gtest_discover_tests(${TEST_NAME})
 endif()

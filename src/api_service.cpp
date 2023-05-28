@@ -58,7 +58,7 @@ namespace litehtml
 	/// <summary>
 	/// Returns the response data as XML data
 	/// </summary>
-	document* XMLHttpRequest::responseXML() { return nullptr; }
+	document::ptr XMLHttpRequest::responseXML() { return nullptr; }
 
 	/// <summary>
 	/// Sends the request to the server

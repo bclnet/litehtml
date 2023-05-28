@@ -69,7 +69,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	Node* Attr::appendChild(Node* node) //: Node
+	Node::ptr Attr::appendChild(Node* node) //: Node
 	{
 		return nullptr;
 	}
@@ -100,7 +100,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="deep">if set to <c>true</c> [deep].</param>
 	/// <returns></returns>
-	Node* Attr::cloneNode(bool deep) //: Node
+	Node::ptr Attr::cloneNode(bool deep) //: Node
 	{
 		return nullptr;
 	}
@@ -121,7 +121,7 @@ namespace litehtml
 	/// <value>
 	/// The first child.
 	/// </value>
-	Node* Attr::firstChild() { return nullptr; } //: Node
+	Node::ptr Attr::firstChild() { return nullptr; } //: Node
 
 	/// <summary>
 	/// Not Supported - Returns true if the specified node has any attributes, otherwise false
@@ -181,7 +181,7 @@ namespace litehtml
 	/// <value>
 	/// The last child.
 	/// </value>
-	Node* Attr::lastChild() { return nullptr; } //: Node
+	Node::ptr Attr::lastChild() { return nullptr; } //: Node
 
 	/// <summary>
 	/// Returns the next node at the same node tree level
@@ -189,7 +189,7 @@ namespace litehtml
 	/// <value>
 	/// The next sibling.
 	/// </value>
-	Node* Attr::nextSibling() { return nullptr; } //: Node
+	Node::ptr Attr::nextSibling() { return nullptr; } //: Node
 
 	/// <summary>
 	/// Returns the name of a node
@@ -229,7 +229,7 @@ namespace litehtml
 	/// <value>
 	/// The owner document.
 	/// </value>
-	Document* Attr::ownerDocument() //: Node
+	Document::ptr Attr::ownerDocument() //: Node
 	{
 		return nullptr;
 	}
@@ -240,7 +240,7 @@ namespace litehtml
 	/// <value>
 	/// The parent node.
 	/// </value>
-	Node* Attr::parentNode() //: Node
+	Node::ptr Attr::parentNode() //: Node
 	{
 		return nullptr;
 	}
@@ -251,15 +251,14 @@ namespace litehtml
 	/// <value>
 	/// The previous sibling.
 	/// </value>
-	Node* Attr::previousSibling() { return nullptr; } //: Node
-
+	Node::ptr Attr::previousSibling() { return nullptr; } //: Node
 
 	/// <summary>
 	/// Removes a child node from an element
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	Node* Attr::removeChild(Node* node) //: Node
+	Node::ptr Attr::removeChild(Node* node) //: Node
 	{
 		return nullptr;
 	}
@@ -270,7 +269,7 @@ namespace litehtml
 	/// <param name="newnode">The newnode.</param>
 	/// <param name="oldnode">The oldnode.</param>
 	/// <returns></returns>
-	Node* Attr::replaceChild(Node* newnode, Node* oldnode) //: Node
+	Node::ptr Attr::replaceChild(Node* newnode, Node* oldnode) //: Node
 	{
 		return nullptr;
 	}

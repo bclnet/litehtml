@@ -13,12 +13,15 @@ namespace litehtml
 	class HTMLCollection;
 	class Style;
 	class Storage;
+	class Element;
 
 	/// <summary>
 	/// Rect
 	/// </summary>
 	class Rect
 	{
+	public:
+		typedef std::unique_ptr<Rect> ptr;
 	public:
 		int left();
 		int top();
@@ -36,6 +39,7 @@ namespace litehtml
 	class DocumentFragment
 	{
 	public:
+		typedef std::unique_ptr<DocumentFragment> ptr;
 	};
 
 	/// <summary>
@@ -44,6 +48,7 @@ namespace litehtml
 	class DocumentType
 	{
 	public:
+		typedef std::unique_ptr<DocumentType> ptr;
 	};
 
 	/// <summary>
@@ -52,6 +57,7 @@ namespace litehtml
 	class DocumentImplementation
 	{
 	public:
+		typedef std::unique_ptr<DocumentImplementation> ptr;
 	};
 
 	/// <summary>
@@ -60,6 +66,8 @@ namespace litehtml
 	/// </summary>
 	class Console
 	{
+	public:
+		typedef std::unique_ptr<Console> ptr;
 	public:
 		/// <summary>
 		/// Writes an error message to the console if the assertion is false
@@ -155,7 +163,10 @@ namespace litehtml
 	protected:
 		document* _doc;
 	public:
+		typedef std::unique_ptr<Document> ptr;
+	public:
 		Document();
+		Document(std::shared_ptr<document> doc);
 
 		/// <summary>
 		/// Returns the currently focused element in the document
@@ -163,7 +174,7 @@ namespace litehtml
 		/// <value>
 		/// The active element.
 		/// </value>
-		Element* activeElement();
+		std::unique_ptr<Element> activeElement();
 
 		/// <summary>
 		/// Attaches an event handler to the document
@@ -178,7 +189,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		Node* adoptNode(Node* node);
+		Node::ptr adoptNode(Node* node);
 
 		/// <summary>
 		/// Returns a collection of all <a> elements in the document that have a name attribute
@@ -193,7 +204,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual Node* appendChild(Node* node) override; //: Node
+		virtual Node::ptr appendChild(Node* node) override; //: Node
 
 		/// <summary>
 		/// Returns a collection of all <applet> elements in the document
@@ -225,7 +236,7 @@ namespace litehtml
 		/// <value>
 		/// The body.
 		/// </value>
-		Element* body();
+		std::unique_ptr<Element> body();
 		void body(Element* value);
 
 		/// <summary>
@@ -246,7 +257,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="deep">if set to <c>true</c> [deep].</param>
 		/// <returns></returns>
-		virtual Node* cloneNode(bool deep = false) override; //: Node
+		virtual Node::ptr cloneNode(bool deep = false) override; //: Node
 
 		/// <summary>
 		/// Closes the output stream previously opened with document.open()
@@ -281,34 +292,34 @@ namespace litehtml
 		/// </summary>
 		/// <param name="text">The text.</param>
 		/// <returns></returns>
-		Node* createComment(string text); //: IComment
+		Node::ptr createComment(string text); //: IComment
 
 		/// <summary>
 		/// Creates an empty DocumentFragment node
 		/// </summary>
 		/// <returns></returns>
-		DocumentFragment* createDocumentFragment();
+		DocumentFragment::ptr createDocumentFragment();
 
 		/// <summary>
 		/// Creates an Element node
 		/// </summary>
 		/// <param name="nodename">The nodename.</param>
 		/// <returns></returns>
-		Element* createElement(string nodename);
+		std::unique_ptr<Element> createElement(string nodename);
 
 		/// <summary>
 		/// Creates a new event
 		/// </summary>
 		/// <param name="type">The type.</param>
 		/// <returns></returns>
-		Event* createEvent(string type);
+		Event::ptr createEvent(string type);
 
 		/// <summary>
 		/// Creates a Text node
 		/// </summary>
 		/// <param name="text">The text.</param>
 		/// <returns></returns>
-		Node* createTextNode(string text); //: IText
+		Node::ptr createTextNode(string text); //: IText
 
 		/// <summary>
 		/// Returns the window object associated with a document, or nullptr if none is available.
@@ -316,7 +327,7 @@ namespace litehtml
 		/// <value>
 		/// The default view.
 		/// </value>
-		Window* defaultView();
+		std::unique_ptr<Window> defaultView();
 
 		/// <summary>
 		/// Controls whether the entire document should be editable or not.
@@ -333,7 +344,7 @@ namespace litehtml
 		/// <value>
 		/// The doctype.
 		/// </value>
-		DocumentType* doctype();
+		DocumentType::ptr doctype();
 
 		/// <summary>
 		/// Returns the Document Element of the document (the <html> element)
@@ -341,7 +352,7 @@ namespace litehtml
 		/// <value>
 		/// The document element.
 		/// </value>
-		Element* documentElement();
+		std::unique_ptr<Element> documentElement();
 
 		/// <summary>
 		/// Sets or returns the location of the document
@@ -383,7 +394,7 @@ namespace litehtml
 		/// <value>
 		/// The first child.
 		/// </value>
-		virtual Node* firstChild() override; //: Node
+		virtual Node::ptr firstChild() override; //: Node
 
 		/// <summary>
 		/// Returns a collection of all <form> elements in the document
@@ -399,7 +410,7 @@ namespace litehtml
 		/// <value>
 		/// The fullscreen element.
 		/// </value>
-		Element* fullscreenElement();
+		std::unique_ptr<Element> fullscreenElement();
 
 		/// <summary>
 		/// Returns a Boolean value indicating whether the document can be viewed in fullscreen mode
@@ -412,7 +423,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="elementID">The element identifier.</param>
 		/// <returns></returns>
-		Element* getElementById(string elementID);
+		std::unique_ptr<Element> getElementById(string elementID);
 
 		/// <summary>
 		/// Returns a NodeList containing all elements with the specified class name
@@ -465,7 +476,7 @@ namespace litehtml
 		/// <value>
 		/// The head.
 		/// </value>
-		Element* head();
+		std::unique_ptr<Element> head();
 
 		/// <summary>
 		///Returns a collection of all <img> elements in the document
@@ -481,7 +492,7 @@ namespace litehtml
 		/// <value>
 		/// The implementation.
 		/// </value>
-		DocumentImplementation* implementation();
+		DocumentImplementation::ptr implementation();
 
 		/// <summary>
 		/// Imports a node from another document
@@ -489,7 +500,7 @@ namespace litehtml
 		/// <param name="node">The node.</param>
 		/// <param name="deep">if set to <c>true</c> [deep].</param>
 		/// <returns></returns>
-		Node* importNode(Node* node, bool deep);
+		Node::ptr importNode(Node* node, bool deep);
 
 		/// <summary>
 		/// Returns the encoding, character set, used for the document
@@ -532,7 +543,7 @@ namespace litehtml
 		/// <value>
 		/// The last child.
 		/// </value>
-		virtual Node* lastChild() override; //: Node
+		virtual Node::ptr lastChild() override; //: Node
 
 		/// <summary>
 		/// Returns the date and time the document was last modified
@@ -556,7 +567,7 @@ namespace litehtml
 		/// <value>
 		/// The next sibling.
 		/// </value>
-		virtual Node* nextSibling() override; //: Node
+		virtual Node::ptr nextSibling() override; //: Node
 
 		/// <summary>
 		/// Returns the name of a node
@@ -601,7 +612,7 @@ namespace litehtml
 		/// <value>
 		/// The owner document.
 		/// </value>
-		virtual Document* ownerDocument() override; //: Node
+		virtual Document::ptr ownerDocument() override; //: Node
 
 		/// <summary>
 		/// Returns the parent node of an element
@@ -609,7 +620,7 @@ namespace litehtml
 		/// <value>
 		/// The parent node.
 		/// </value>
-		virtual Node* parentNode() override; //: Node
+		virtual Node::ptr parentNode() override; //: Node
 
 		/// <summary>
 		/// Returns the previous node at the same node tree level
@@ -617,14 +628,14 @@ namespace litehtml
 		/// <value>
 		/// The previous sibling.
 		/// </value>
-		virtual Node* previousSibling() override; //: Node
+		virtual Node::ptr previousSibling() override; //: Node
 
 		/// <summary>
 		/// Returns the first element that matches a specified CSS selector(s) in the document
 		/// </summary>
 		/// <param name="selectors">The selectors.</param>
 		/// <returns></returns>
-		Element* querySelector(string selectors);
+		std::unique_ptr<Element> querySelector(string selectors);
 
 		/// <summary>
 		/// Returns a static NodeList containing all elements that matches a specified CSS selector(s) in the document
@@ -654,7 +665,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual Node* removeChild(Node* node) override; //: Node
+		virtual Node::ptr removeChild(Node* node) override; //: Node
 
 		/// <summary>
 		/// Removes an event handler from the document (that has been attached with the addEventListener() method)
@@ -671,7 +682,7 @@ namespace litehtml
 		/// <param name="namespaceURI">The namespace URI.</param>
 		/// <param name="nodename">The nodename.</param>
 		/// <returns></returns>
-		Node* renameNode(Node* node, string namespaceURI, string nodename);
+		Node::ptr renameNode(Node* node, string namespaceURI, string nodename);
 
 		/// <summary>
 		/// Replaces a child node in an element
@@ -679,7 +690,7 @@ namespace litehtml
 		/// <param name="newnode">The newnode.</param>
 		/// <param name="oldnode">The oldnode.</param>
 		/// <returns></returns>
-		virtual Node* replaceChild(Node* newnode, Node* oldnode) override; //: Node
+		virtual Node::ptr replaceChild(Node* newnode, Node* oldnode) override; //: Node
 
 		/// <summary>
 		/// Returns a collection of <script> elements in the document
@@ -734,10 +745,12 @@ namespace litehtml
 	/// </summary>
 	class Element : public Node
 	{
-	protected:
-		element* _elem;
+	public:
+		typedef std::unique_ptr<Element> ptr;
 	public:
 		Element();
+		//Element(std::shared_ptr<element> elem);
+		Element(element* elem);
 
 		/// <summary>
 		/// Gets or sets the access key.
@@ -761,7 +774,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual Node* appendChild(Node* node) override; //: Node
+		virtual Node::ptr appendChild(Node* node) override; //: Node
 
 		/// <summary>
 		/// Returns a NamedNodeMap of an element's attributes
@@ -808,7 +821,7 @@ namespace litehtml
 		/// <value>
 		/// The class list.
 		/// </value>
-		std::unique_ptr<DOMTokenList> classList();
+		DOMTokenList::ptr classList();
 
 		/// <summary>
 		/// Sets or returns the value of the class attribute of an element
@@ -861,7 +874,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="deep">if set to <c>true</c> [deep].</param>
 		/// <returns></returns>
-		virtual Node* cloneNode(bool deep = false) override; //: Node
+		virtual Node::ptr cloneNode(bool deep = false) override; //: Node
 
 		/// <summary>
 		/// Compares the document position of two elements
@@ -908,7 +921,7 @@ namespace litehtml
 		/// <value>
 		/// The first child.
 		/// </value>
-		virtual Node* firstChild() override; //: Node
+		virtual Node::ptr firstChild() override; //: Node
 
 		/// <summary>
 		/// Returns the first child element of an element
@@ -916,7 +929,7 @@ namespace litehtml
 		/// <value>
 		/// The first element child.
 		/// </value>
-		Element* firstElementChild();
+		std::unique_ptr<Element> firstElementChild();
 
 		/// <summary>
 		/// Gives focus to an element
@@ -941,7 +954,7 @@ namespace litehtml
 		/// Returns the size of an element and its position relative to the viewport
 		/// </summary>
 		/// <returns></returns>
-		Rect* getBoundingClientRect();
+		Rect::ptr getBoundingClientRect();
 
 		/// <summary>
 		/// Returns a collection of all child elements with the specified class name
@@ -1035,7 +1048,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="newnode">The newnode.</param>
 		/// <param name="existingnode">The existingnode.</param>
-		Node* insertBefore(Node* newnode, Node* existingnode);
+		Node::ptr insertBefore(Node* newnode, Node* existingnode);
 
 		/// <summary>
 		/// Returns true if the content of an element is editable, otherwise false
@@ -1087,7 +1100,7 @@ namespace litehtml
 		/// <value>
 		/// The last child.
 		/// </value>
-		virtual Node* lastChild() override; //: Node
+		virtual Node::ptr lastChild() override; //: Node
 
 		/// <summary>
 		/// Returns the last child element of an element
@@ -1095,7 +1108,7 @@ namespace litehtml
 		/// <value>
 		/// The last element child.
 		/// </value>
-		Element* lastElementChild();
+		std::unique_ptr<Element> lastElementChild();
 
 		/// <summary>
 		/// Returns the namespace URI of an element
@@ -1111,7 +1124,7 @@ namespace litehtml
 		/// <value>
 		/// The next sibling.
 		/// </value>
-		virtual Node* nextSibling() override; //: Node
+		virtual Node::ptr nextSibling() override; //: Node
 
 		/// <summary>
 		/// Returns the next element at the same node tree level
@@ -1119,7 +1132,7 @@ namespace litehtml
 		/// <value>
 		/// The next element sibling.
 		/// </value>
-		Element* nextElementSibling();
+		std::unique_ptr<Element> nextElementSibling();
 
 		/// <summary>
 		/// Returns the name of a node
@@ -1197,7 +1210,7 @@ namespace litehtml
 		/// <value>
 		/// The owner document.
 		/// </value>
-		virtual Document* ownerDocument() override; //: Node
+		virtual Document::ptr ownerDocument() override; //: Node
 
 		/// <summary>
 		/// Returns the parent node of an element
@@ -1205,7 +1218,7 @@ namespace litehtml
 		/// <value>
 		/// The parent node.
 		/// </value>
-		virtual Node* parentNode() override; //: Node
+		virtual Node::ptr parentNode() override; //: Node
 
 		/// <summary>
 		/// Returns the parent element node of an element
@@ -1213,7 +1226,7 @@ namespace litehtml
 		/// <value>
 		/// The parent element.
 		/// </value>
-		Element* parentElement();
+		std::unique_ptr<Element> parentElement();
 
 		/// <summary>
 		/// Returns the previous node at the same node tree level
@@ -1221,7 +1234,7 @@ namespace litehtml
 		/// <value>
 		/// The previous sibling.
 		/// </value>
-		virtual Node* previousSibling() override; //: Node
+		virtual Node::ptr previousSibling() override; //: Node
 
 		/// <summary>
 		/// Returns the previous element at the same node tree level
@@ -1229,14 +1242,14 @@ namespace litehtml
 		/// <value>
 		/// The previous element sibling.
 		/// </value>
-		Element* previousElementSibling();
+		std::unique_ptr<Element> previousElementSibling();
 
 		/// <summary>
 		/// Returns the first child element that matches a specified CSS selector(s) of an element
 		/// </summary>
 		/// <param name="selectors">The selectors.</param>
 		/// <returns></returns>
-		Element* querySelector(string selectors);
+		std::unique_ptr<Element> querySelector(string selectors);
 
 		/// <summary>
 		/// Returns all child elements that matches a specified CSS selector(s) of an element
@@ -1263,7 +1276,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual Node* removeChild(Node* node) override; //: Node
+		virtual Node::ptr removeChild(Node* node) override; //: Node
 
 		/// <summary>
 		/// Removes an event handler that has been attached with the addEventListener() method
@@ -1279,7 +1292,7 @@ namespace litehtml
 		/// <param name="newnode">The newnode.</param>
 		/// <param name="oldnode">The oldnode.</param>
 		/// <returns></returns>
-		virtual Node* replaceChild(Node* newnode, Node* oldnode) override; //: Node
+		virtual Node::ptr replaceChild(Node* newnode, Node* oldnode) override; //: Node
 
 		/// <summary>
 		/// Shows an element in fullscreen mode
@@ -1346,7 +1359,7 @@ namespace litehtml
 		/// <value>
 		/// The style.
 		/// </value>
-		Style* style();
+		std::unique_ptr<Style> style();
 
 		/// <summary>
 		/// Sets or returns the value of the tabindex attribute of an element
@@ -1395,6 +1408,8 @@ namespace litehtml
 	/// </summary>
 	class Geolocation
 	{
+	public:
+		typedef std::unique_ptr<Geolocation> ptr;
 	public:
 		/// <summary>
 	   /// Returns the position and altitude of the device on Earth
@@ -1450,6 +1465,8 @@ namespace litehtml
 	class History
 	{
 	public:
+		typedef std::unique_ptr<History> ptr;
+	public:
 		/// <summary>
 		/// Returns the number of URLs in the history list
 		/// </summary>
@@ -1478,6 +1495,8 @@ namespace litehtml
 	class HTMLCollection
 	{
 	public:
+		typedef std::unique_ptr<HTMLCollection> ptr;
+	public:
 		/// <summary>
 		/// Returns the number of elements in an HTMLCollection
 		/// </summary>
@@ -1494,21 +1513,21 @@ namespace litehtml
 		/// </value>
 		/// <param name="index">The index.</param>
 		/// <returns></returns>
-		Element* operator[](int index);
+		std::unique_ptr<Element> operator[](int index);
 
 		/// <summary>
 		/// Returns the element at the specified index in an HTMLCollection
 		/// </summary>
 		/// <param name="index">The index.</param>
 		/// <returns></returns>
-		Element* item(int index);
+		std::unique_ptr<Element> item(int index);
 
 		/// <summary>
 		/// Returns the element with the specified ID, or name, in an HTMLCollection
 		/// </summary>
 		/// <param name="name">The name.</param>
 		/// <returns></returns>
-		Element* namedItem(string name);
+		std::unique_ptr<Element> namedItem(string name);
 	};
 
 	/// <summary>
@@ -1517,6 +1536,8 @@ namespace litehtml
 	/// </summary>
 	class Location
 	{
+	public:
+		typedef std::unique_ptr<Location> ptr;
 	public:
 		/// <summary>
 		/// Sets or returns the anchor part (#) of a URL
@@ -1624,6 +1645,8 @@ namespace litehtml
 	class MediaQueryList
 	{
 	public:
+		typedef std::unique_ptr<MediaQueryList> ptr;
+	public:
 		/// <summary>
 		/// Used to check the results of a query. Returns a boolean value: true if the document matches the media query list, otherwise false
 		/// </summary>
@@ -1662,12 +1685,14 @@ namespace litehtml
 	class Navigator
 	{
 	public:
+		typedef std::unique_ptr<Navigator> ptr;
+	public:
 		/// <summary>
-	   /// Returns the code name of the browser
-	   /// </summary>
-	   /// <value>
-	   /// The name of the application code.
-	   /// </value>
+	    /// Returns the code name of the browser
+	    /// </summary>
+	    /// <value>
+	    /// The name of the application code.
+	    /// </value>
 		string appCodeName();
 
 		/// <summary>
@@ -1700,7 +1725,7 @@ namespace litehtml
 		/// <value>
 		/// The geolocation.
 		/// </value>
-		Geolocation* geolocation();
+		Geolocation::ptr geolocation();
 
 		/// <summary>
 		/// Returns the language of the browser
@@ -1755,6 +1780,8 @@ namespace litehtml
 	/// </summary>
 	class Screen
 	{
+	public:
+		typedef std::unique_ptr<Screen> ptr;
 	public:
 		/// <summary>
 		/// Returns the height of the screen (excluding the Windows Taskbar)
@@ -1811,6 +1838,8 @@ namespace litehtml
 	/// </summary>
 	class Style
 	{
+	public:
+		typedef std::unique_ptr<Style> ptr;
 	public:
 		/// <summary>
 		/// Sets or returns the alignment between the lines inside a flexible container when the items do not use all available space
@@ -3483,6 +3512,8 @@ namespace litehtml
 	class Window
 	{
 	public:
+		typedef std::unique_ptr<Window> ptr;
+	public:
 		/// <summary>
 	   /// Returns a Boolean value indicating whether a window has been closed or not
 	   /// </summary>
@@ -3497,7 +3528,7 @@ namespace litehtml
 		/// <value>
 		/// The console.
 		/// </value>
-		Console* console();
+		Console::ptr console();
 
 		/// <summary>
 		/// Sets or returns the default text in the statusbar of a window
@@ -3514,7 +3545,7 @@ namespace litehtml
 		/// <value>
 		/// The document.
 		/// </value>
-		Document* document();
+		Document::ptr document();
 
 		/// <summary>
 		/// Returns the <iframe> element in which the current window is inserted
@@ -3522,7 +3553,7 @@ namespace litehtml
 		/// <value>
 		/// The frame element.
 		/// </value>
-		Element* frameElement();
+		std::unique_ptr<Element> frameElement();
 
 		/// <summary>
 		/// Returns all <iframe> elements in the current window
@@ -3530,7 +3561,7 @@ namespace litehtml
 		/// <value>
 		/// The frames.
 		/// </value>
-		std::vector<Element*> frames();
+		std::vector<std::unique_ptr<Element>> frames();
 
 		/// <summary>
 		/// Returns the History object for the window (See History object)
@@ -3538,7 +3569,7 @@ namespace litehtml
 		/// <value>
 		/// The history.
 		/// </value>
-		History* history();
+		History::ptr history();
 
 		/// <summary>
 		/// Returns the height of the window's content area (viewport) including scrollbars
@@ -3570,7 +3601,7 @@ namespace litehtml
 		/// <value>
 		/// The local storage.
 		/// </value>
-		Storage* localStorage();
+		std::unique_ptr<Storage> localStorage();
 
 		/// <summary>
 		/// Returns the Location object for the window (See Location object)
@@ -3578,7 +3609,7 @@ namespace litehtml
 		/// <value>
 		/// The location.
 		/// </value>
-		Location* location();
+		Location::ptr location();
 
 		/// <summary>
 		/// Sets or returns the name of a window
@@ -3595,7 +3626,7 @@ namespace litehtml
 		/// <value>
 		/// The navigator.
 		/// </value>
-		Navigator* navigator();
+		Navigator::ptr navigator();
 
 		/// <summary>
 		/// Returns a reference to the window that created the window
@@ -3603,7 +3634,7 @@ namespace litehtml
 		/// <value>
 		/// The opener.
 		/// </value>
-		Window* opener();
+		Window::ptr opener();
 
 		/// <summary>
 		/// Returns the height of the browser window, including toolbars/scrollbars
@@ -3643,7 +3674,7 @@ namespace litehtml
 		/// <value>
 		/// The parent.
 		/// </value>
-		Window* parent();
+		Window::ptr parent();
 
 		/// <summary>
 		/// Returns the Screen object for the window (See Screen object)
@@ -3651,7 +3682,7 @@ namespace litehtml
 		/// <value>
 		/// The screen.
 		/// </value>
-		Screen* screen();
+		Screen::ptr screen();
 
 		/// <summary>
 		/// Returns the horizontal coordinate of the window relative to the screen
@@ -3691,7 +3722,7 @@ namespace litehtml
 		/// <value>
 		/// The session storage.
 		/// </value>
-		Storage* sessionStorage();
+		std::unique_ptr<Storage> sessionStorage();
 
 		/// <summary>
 		/// An alias of pageXOffset
@@ -3715,7 +3746,7 @@ namespace litehtml
 		/// <value>
 		/// The self.
 		/// </value>
-		Window* self();
+		Window::ptr self();
 
 		/// <summary>
 		/// Sets or returns the text in the statusbar of a window
@@ -3732,7 +3763,7 @@ namespace litehtml
 		/// <value>
 		/// The top.
 		/// </value>
-		Window* top();
+		Window::ptr top();
 
 		/// <summary>
 		/// Displays an alert box with a message and an OK button
@@ -3794,7 +3825,7 @@ namespace litehtml
 		/// <param name="element">The element.</param>
 		/// <param name="pseudoElement">The pseudo element.</param>
 		/// <returns></returns>
-		Style* getComputedStyle(string element, string pseudoElement);
+		std::unique_ptr<Style> getComputedStyle(string element, string pseudoElement);
 
 		/// <summary>
 		/// Returns a Selection object representing the range of text selected by the user
@@ -3807,7 +3838,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="mediaQueryString">The media query string.</param>
 		/// <returns></returns>
-		MediaQueryList& matchMedia(string mediaQueryString);
+		MediaQueryList::ptr matchMedia(string mediaQueryString);
 
 		/// <summary>
 		/// Moves a window relative to its current position
@@ -3831,7 +3862,7 @@ namespace litehtml
 		/// <param name="specs">The specs.</param>
 		/// <param name="replace">The replace.</param>
 		/// <returns></returns>
-		Window* open(string URL = nullptr, string name = nullptr, string specs = nullptr, bool replace = true);
+		Window::ptr open(string URL = nullptr, string name = nullptr, string specs = nullptr, bool replace = true);
 
 		/// <summary>
 		/// Prints the content of the current window
@@ -3910,6 +3941,8 @@ namespace litehtml
 	/// </summary>
 	class Storage
 	{
+	public:
+		typedef std::unique_ptr<Storage> ptr;
 	public:
 		/// <summary>
 		/// Returns the name of the nth key in the storage

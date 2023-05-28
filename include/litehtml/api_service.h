@@ -14,6 +14,8 @@ namespace litehtml
 	class XMLHttpRequest
 	{
 	public:
+		typedef std::unique_ptr<XMLHttpRequest> ptr;
+	public:
 		/// <summary>
 		/// Creates a new XMLHttpRequest object
 		/// </summary>
@@ -37,7 +39,7 @@ namespace litehtml
 		/// <summary>
 		/// Defines a function to be called when the readyState property changes
 		/// </summary>
-		std::function<void(XMLHttpRequest*)> onreadystatechange;
+		std::function<void(XMLHttpRequest::ptr)> onreadystatechange;
 
 		/// <summary>
 		/// Specifies the request
@@ -67,7 +69,7 @@ namespace litehtml
 		/// <summary>
 		/// Returns the response data as XML data
 		/// </summary>
-		document* responseXML();
+		std::shared_ptr<document> responseXML();
 
 		/// <summary>
 		/// Sends the request to the server

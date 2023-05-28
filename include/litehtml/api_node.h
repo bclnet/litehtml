@@ -19,15 +19,21 @@ namespace litehtml
 	/// </summary>
 	class Node
 	{
+	protected:
+		element* _elem;
+	public:
+		typedef std::unique_ptr<Node> ptr;
 	public:
 		Node();
+		Node(std::shared_ptr<element> elem);
+		operator std::unique_ptr<Node>() { return nullptr; }
 
 		/// <summary>
 		/// Adds a new child node, to an element, as the last child node
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual Node* appendChild(Node* node) = 0;
+		virtual Node::ptr appendChild(Node* node) = 0;
 
 		/// <summary>
 		/// Returns a NamedNodeMap of an element's attributes
@@ -55,7 +61,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="deep">if set to <c>true</c> [deep].</param>
 		/// <returns></returns>
-		virtual Node* cloneNode(bool deep = false) = 0;
+		virtual Node::ptr cloneNode(bool deep = false) = 0;
 
 		/// <summary>
 		/// Compares the document position of two elements
@@ -70,7 +76,7 @@ namespace litehtml
 		/// <value>
 		/// The first child.
 		/// </value>
-		virtual Node* firstChild() = 0;
+		virtual Node::ptr firstChild() = 0;
 
 		/// <summary>
 		/// Returns true if the specified node has any attributes, otherwise false
@@ -121,7 +127,7 @@ namespace litehtml
 		/// <value>
 		/// The last child.
 		/// </value>
-		virtual Node* lastChild() = 0;
+		virtual Node::ptr lastChild() = 0;
 
 		/// <summary>
 		/// Returns the namespace URI associated with a given prefix
@@ -143,7 +149,7 @@ namespace litehtml
 		/// <value>
 		/// The next sibling.
 		/// </value>
-		virtual Node* nextSibling() = 0;
+		virtual Node::ptr nextSibling() = 0;
 
 		/// <summary>
 		/// Returns the name of a node
@@ -181,7 +187,7 @@ namespace litehtml
 		/// <value>
 		/// The owner document.
 		/// </value>
-		virtual Document* ownerDocument() = 0;
+		virtual std::unique_ptr<Document> ownerDocument() = 0;
 
 		/// <summary>
 		/// Returns the parent node of an element
@@ -189,7 +195,7 @@ namespace litehtml
 		/// <value>
 		/// The parent node.
 		/// </value>
-		virtual Node* parentNode() = 0;
+		virtual Node::ptr parentNode() = 0;
 
 		/// <summary>
 		/// Sets or returns the namespace prefix of a node
@@ -206,14 +212,14 @@ namespace litehtml
 		/// <value>
 		/// The previous sibling.
 		/// </value>
-		virtual Node* previousSibling() = 0;
+		virtual Node::ptr previousSibling() = 0;
 
 		/// <summary>
 		/// Removes a child node from an element
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual Node* removeChild(Node* node) = 0;
+		virtual Node::ptr removeChild(Node* node) = 0;
 
 		/// <summary>
 		/// Replaces a child node in an element
@@ -221,7 +227,7 @@ namespace litehtml
 		/// <param name="newnode">The newnode.</param>
 		/// <param name="oldnode">The oldnode.</param>
 		/// <returns></returns>
-		virtual Node* replaceChild(Node* newnode, Node* oldnode) = 0;
+		virtual Node::ptr replaceChild(Node* newnode, Node* oldnode) = 0;
 
 		/// <summary>
 		/// Sets or returns the textual content of a node and its descendants
@@ -251,7 +257,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual Node* appendChild(Node* node) override; //: Node
+		virtual Node::ptr appendChild(Node* node) override; //: Node
 
 		/// <summary>
 		/// Returns a NamedNodeMap of an element's attributes
@@ -279,7 +285,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="deep">if set to <c>true</c> [deep].</param>
 		/// <returns></returns>
-		virtual Node* cloneNode(bool deep) override; //: Node
+		virtual Node::ptr cloneNode(bool deep) override; //: Node
 
 		/// <summary>
 		/// Compares the document position of two elements
@@ -294,7 +300,7 @@ namespace litehtml
 		/// <value>
 		/// The first child.
 		/// </value>
-		virtual Node* firstChild() override; //: Node
+		virtual Node::ptr firstChild() override; //: Node
 
 		/// <summary>
 		/// Not Supported - Returns true if the specified node has any attributes, otherwise false
@@ -345,7 +351,7 @@ namespace litehtml
 		/// <value>
 		/// The last child.
 		/// </value>
-		virtual Node* lastChild() override; //: Node
+		virtual Node::ptr lastChild() override; //: Node
 		
 		///// <summary>
 		///// Returns the namespace URI associated with a given prefix
@@ -367,7 +373,7 @@ namespace litehtml
 		/// <value>
 		/// The next sibling.
 		/// </value>
-		virtual Node* nextSibling() override; //: Node
+		virtual Node::ptr nextSibling() override; //: Node
 
 		/// <summary>
 		/// Returns the name of a node
@@ -405,7 +411,7 @@ namespace litehtml
 		/// <value>
 		/// The owner document.
 		/// </value>
-		virtual Document* ownerDocument() override; //: Node
+		virtual std::unique_ptr<Document> ownerDocument() override; //: Node
 
 		/// <summary>
 		/// Returns the parent node of an element
@@ -413,7 +419,7 @@ namespace litehtml
 		/// <value>
 		/// The parent node.
 		/// </value>
-		virtual Node* parentNode() override; //: Node
+		virtual Node::ptr parentNode() override; //: Node
 
 		///// <summary>
 		///// Sets or returns the namespace prefix of a node
@@ -430,14 +436,14 @@ namespace litehtml
 		/// <value>
 		/// The previous sibling.
 		/// </value>
-		virtual Node* previousSibling() override; //: Node
+		virtual Node::ptr previousSibling() override; //: Node
 
 		/// <summary>
 		/// Removes a child node from an element
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual Node* removeChild(Node* node) override; //: Node
+		virtual Node::ptr removeChild(Node* node) override; //: Node
 
 		/// <summary>
 		/// Replaces a child node in an element
@@ -445,7 +451,7 @@ namespace litehtml
 		/// <param name="newnode">The newnode.</param>
 		/// <param name="oldnode">The oldnode.</param>
 		/// <returns></returns>
-		virtual Node* replaceChild(Node* newnode, Node* oldnode) override; //: Node
+		virtual Node::ptr replaceChild(Node* newnode, Node* oldnode) override; //: Node
 
 		/// <summary>
 		/// Sets or returns the textual content of a node and its descendants
@@ -561,6 +567,8 @@ namespace litehtml
 	/// </summary>
 	class DOMTokenList
 	{
+	public:
+		typedef std::unique_ptr<DOMTokenList> ptr;
 	public:
 		/// <summary>
 		/// Returns the number of classes in the list.

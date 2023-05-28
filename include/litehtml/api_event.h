@@ -37,6 +37,8 @@ namespace litehtml
 	class Event
 	{
 	public:
+		typedef std::unique_ptr<Event> ptr;
+	public:
 		/// <summary>
 		/// Returns whether or not a specific event is a bubbling event
 		/// </summary>

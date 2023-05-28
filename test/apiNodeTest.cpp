@@ -136,10 +136,10 @@ TEST(Node, Property) {
 
 	// https://www.w3schools.com/xml/prop_node_baseuri.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -149,9 +149,9 @@ TEST(Node, Property) {
 		xhttp->open("GET", "books_ns.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
-			NodeList<Element> x; int i; Document* xmlDoc; string txt;
+			NodeList<Element> x; int i; Document::ptr xmlDoc; string txt;
 			xmlDoc = xml->responseXML();
 			txt = "";
 			x = xmlDoc->getElementsByTagName("title");
@@ -171,10 +171,10 @@ TEST(Node, Property) {
 
 	// https://www.w3schools.com/xml/prop_node_childnodes.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -184,9 +184,9 @@ TEST(Node, Property) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
-			NodeList<Node> x; int i; Document* xmlDoc; string txt;
+			NodeList<Node> x; int i; Document::ptr xmlDoc; string txt;
 			xmlDoc = xml->responseXML();
 			txt = "";
 			x = xmlDoc->childNodes();
@@ -204,11 +204,11 @@ TEST(Node, Property) {
 
 	// https://www.w3schools.com/xml/prop_node_firstchild.asp
 	{
-		std::function<Node*(Document*)> get_firstchild;
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<Node::ptr(Document::ptr)> get_firstchild;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -219,7 +219,7 @@ TEST(Node, Property) {
 		xhttp->send();
 
 		// Check if the first node is an element node
-		get_firstchild = [](Document* n)->Node*
+		get_firstchild = [](Document::ptr n)->Node::ptr
 		{
 			auto x = n->firstChild();
 			while (x->nodeType() != 1)
@@ -229,7 +229,7 @@ TEST(Node, Property) {
 			return x;
 		};
 
-		myFunction = [get_firstchild, document](XMLHttpRequest* xml)
+		myFunction = [get_firstchild, document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			auto x = get_firstchild(xmlDoc);
@@ -244,11 +244,11 @@ TEST(Node, Property) {
 
 	// https://www.w3schools.com/xml/prop_node_lastchild.asp
 	{
-		std::function<Node*(Document*)> get_lastchild;
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<Node::ptr(Document::ptr)> get_lastchild;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -259,7 +259,7 @@ TEST(Node, Property) {
 		xhttp->send();
 
 		// Check if the last node is an element node
-		get_lastchild = [](Document* n)->Node*
+		get_lastchild = [](Document::ptr n)->Node::ptr
 		{
 			auto x = n->lastChild();
 			while (x->nodeType() != 1)
@@ -269,7 +269,7 @@ TEST(Node, Property) {
 			return x;
 		};
 
-		myFunction = [get_lastchild, document](XMLHttpRequest* xml)
+		myFunction = [get_lastchild, document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			auto x = get_lastchild(xmlDoc);
@@ -284,11 +284,11 @@ TEST(Node, Property) {
 
 	// https://www.w3schools.com/xml/prop_node_nextsibling.asp
 	{
-		std::function<Node*(Node*)> get_nextsibling;
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<Node::ptr(Node::ptr)> get_nextsibling;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -299,7 +299,7 @@ TEST(Node, Property) {
 		xhttp->send();
 
 		// Check if the next sibling node is an element node
-		get_nextsibling = [](Node* n)->Node*
+		get_nextsibling = [](Node::ptr n)->Node::ptr
 		{
 			auto x = n->nextSibling();
 			while (x->nodeType() != 1)
@@ -309,7 +309,7 @@ TEST(Node, Property) {
 			return x;
 		};
 
-		myFunction = [get_nextsibling, document](XMLHttpRequest* xml)
+		myFunction = [get_nextsibling, document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			auto x = xmlDoc->getElementsByTagName("title")[0];
@@ -328,10 +328,10 @@ TEST(Node, Property) {
 
 	// https://www.w3schools.com/xml/prop_node_nodename.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -341,7 +341,7 @@ TEST(Node, Property) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			document->getElementById("demo")->innerHTML(
@@ -355,10 +355,10 @@ TEST(Node, Property) {
 
 	// https://www.w3schools.com/xml/prop_node_nodetype.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -368,7 +368,7 @@ TEST(Node, Property) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			document->getElementById("demo")->innerHTML(
@@ -382,10 +382,10 @@ TEST(Node, Property) {
 
 	// https://www.w3schools.com/xml/prop_node_nodevalue.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -395,7 +395,7 @@ TEST(Node, Property) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			document->getElementById("demo")->innerHTML(
@@ -409,10 +409,10 @@ TEST(Node, Property) {
 
 	// https://www.w3schools.com/xml/prop_node_ownerdocument.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -422,7 +422,7 @@ TEST(Node, Property) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			auto x = xmlDoc->getElementsByTagName("title")[0]->ownerDocument();
@@ -437,10 +437,10 @@ TEST(Node, Property) {
 
 	// https://www.w3schools.com/xml/prop_node_parentnode.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -450,7 +450,7 @@ TEST(Node, Property) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			auto x = xmlDoc->getElementsByTagName("title")[0];
@@ -464,10 +464,10 @@ TEST(Node, Property) {
 
 	// https://www.w3schools.com/xml/prop_node_prefix.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -477,9 +477,9 @@ TEST(Node, Property) {
 		xhttp->open("GET", "books_ns.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
-			NodeList<Element> x; int i; Document* xmlDoc; string txt;
+			NodeList<Element> x; int i; Document::ptr xmlDoc; string txt;
 			xmlDoc = xml->responseXML();
 			txt = "";
 			x = xmlDoc->getElementsByTagName("title");
@@ -499,11 +499,11 @@ TEST(Node, Property) {
 
 	// https://www.w3schools.com/xml/prop_node_previoussibling.asp
 	{
-		std::function<Node*(Node*)> get_previoussibling;
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<Node::ptr(Node::ptr)> get_previoussibling;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -514,7 +514,7 @@ TEST(Node, Property) {
 		xhttp->send();
 
 		// Check if the previous sibling node is an element node
-		get_previoussibling = [](Node* n)->Node*
+		get_previoussibling = [](Node::ptr n)->Node::ptr
 		{
 			auto x = n->previousSibling();
 			while (x->nodeType() != 1)
@@ -524,7 +524,7 @@ TEST(Node, Property) {
 			return x;
 		};
 
-		myFunction = [get_previoussibling, document](XMLHttpRequest* xml)
+		myFunction = [get_previoussibling, document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			auto x = xmlDoc->getElementsByTagName("author")[0];
@@ -543,10 +543,10 @@ TEST(Node, Property) {
 
 	// https://www.w3schools.com/xml/prop_node_textcontent.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -556,9 +556,9 @@ TEST(Node, Property) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
-			NodeList<Element> x; int i; Document* xmlDoc; string txt;
+			NodeList<Element> x; int i; Document::ptr xmlDoc; string txt;
 			xmlDoc = xml->responseXML();
 			txt = "";
 			x = xmlDoc->getElementsByTagName("book");
@@ -590,10 +590,10 @@ TEST(Node, Method) {
 
 	// https://www.w3schools.com/xml/met_node_appendchild.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -603,7 +603,7 @@ TEST(Node, Method) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			auto newel = xmlDoc->createElement("edition");
@@ -619,10 +619,10 @@ TEST(Node, Method) {
 
 	// https://www.w3schools.com/xml/met_node_clonenode.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -632,9 +632,9 @@ TEST(Node, Method) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
-			Node* x; NodeList<Element> y; Node* cloneNode; int i; Document* xmlDoc; string txt;
+			Node::ptr x; NodeList<Element> y; Node::ptr cloneNode; int i; Document::ptr xmlDoc; string txt;
 			xmlDoc = xml->responseXML();
 			txt = "";
 			x = xmlDoc->getElementsByTagName("book")[0];
@@ -662,10 +662,10 @@ TEST(Node, Method) {
 
 	// https://www.w3schools.com/xml/met_node_comparedocumentposition.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -675,7 +675,7 @@ TEST(Node, Method) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			auto x = xmlDoc->getElementsByTagName("book")[0];
@@ -690,10 +690,10 @@ TEST(Node, Method) {
 
 	// https://www.w3schools.com/xml/met_node_hasattributes.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -703,7 +703,7 @@ TEST(Node, Method) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			auto x = xmlDoc->getElementsByTagName("book")[0];
@@ -717,10 +717,10 @@ TEST(Node, Method) {
 
 	// https://www.w3schools.com/xml/met_node_haschildnodes.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -730,7 +730,7 @@ TEST(Node, Method) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			auto x = xmlDoc->getElementsByTagName("book")[0];
@@ -744,10 +744,10 @@ TEST(Node, Method) {
 
 	// https://www.w3schools.com/xml/met_node_insertbefore.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -757,7 +757,7 @@ TEST(Node, Method) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			auto newNode = xmlDoc->createElement("book");
@@ -784,10 +784,10 @@ TEST(Node, Method) {
 
 	// https://www.w3schools.com/xml/met_node_isequalnode.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -797,7 +797,7 @@ TEST(Node, Method) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			auto x = xmlDoc->getElementsByTagName("book")[0];
@@ -812,10 +812,10 @@ TEST(Node, Method) {
 
 	// https://www.w3schools.com/xml/met_node_issamenode.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -825,7 +825,7 @@ TEST(Node, Method) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			auto x = xmlDoc->getElementsByTagName("book")[1];
@@ -840,10 +840,10 @@ TEST(Node, Method) {
 
 	// https://www.w3schools.com/xml/met_node_lookupnamespaceuri.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -853,7 +853,7 @@ TEST(Node, Method) {
 		xhttp->open("GET", "books_ns.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			auto x = xmlDoc->getElementsByTagName("book")[0];
@@ -867,10 +867,10 @@ TEST(Node, Method) {
 
 	// https://www.w3schools.com/xml/met_node_lookupprefix.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -880,7 +880,7 @@ TEST(Node, Method) {
 		xhttp->open("GET", "books_ns.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			auto x = xmlDoc->getElementsByTagName("book")[0];
@@ -899,10 +899,10 @@ TEST(Node, Method) {
 
 	// https://www.w3schools.com/xml/met_node_removechild.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -912,7 +912,7 @@ TEST(Node, Method) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
 			auto xmlDoc = xml->responseXML();
 			auto root = xmlDoc->documentElement();
@@ -928,10 +928,10 @@ TEST(Node, Method) {
 
 	// https://www.w3schools.com/xml/met_node_replacechild.asp
 	{
-		std::function<void(XMLHttpRequest*)> myFunction;
+		std::function<void(XMLHttpRequest::ptr)> myFunction;
 
 		auto xhttp = new XMLHttpRequest();
-		xhttp->onreadystatechange = [myFunction](XMLHttpRequest* _this)
+		xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
@@ -941,9 +941,9 @@ TEST(Node, Method) {
 		xhttp->open("GET", "books.xml", true);
 		xhttp->send();
 
-		myFunction = [document](XMLHttpRequest* xml)
+		myFunction = [document](XMLHttpRequest::ptr xml)
 		{
-			Element* x; Node* y; NodeList<Element> z; int i; Element* newNode; Element* newTitle; Node* newText; Document* xmlDoc; string txt;
+			Element::ptr x; Node::ptr y; NodeList<Element> z; int i; Element::ptr newNode; Element::ptr newTitle; Node::ptr newText; Document::ptr xmlDoc; string txt;
 			xmlDoc = xml->responseXML();
 			txt = "";
 			x = xmlDoc->documentElement();

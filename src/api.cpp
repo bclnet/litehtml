@@ -105,7 +105,7 @@ namespace litehtml
 	/// <value>
 	/// The active element.
 	/// </value>
-	Element* Document::activeElement() { return nullptr; }
+	Element::ptr Document::activeElement() { return nullptr; }
 
 	/// <summary>
 	/// Attaches an event handler to the document
@@ -120,7 +120,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	Node* Document::adoptNode(Node* node) { return nullptr; }
+	Node::ptr Document::adoptNode(Node* node) { return nullptr; }
 
 	/// <summary>
 	/// Returns a collection of all <a> elements in the document that have a name attribute
@@ -128,9 +128,9 @@ namespace litehtml
 	/// <value>
 	/// The anchors.
 	/// </value>
-	unique_ptr<HTMLCollection> Document::anchors() { 
-		unique_ptr<HTMLCollection> s(new HTMLCollection());
-		return s;
+	HTMLCollection::ptr Document::anchors() { 
+		auto s = new HTMLCollection();
+		return HTMLCollection::ptr(s);
 	}
 
 	/// <summary>
@@ -138,7 +138,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	Node* Document::appendChild(Node* node) //: Node
+	Node::ptr Document::appendChild(Node* node) //: Node
 	{
 		return nullptr;
 	}
@@ -149,9 +149,9 @@ namespace litehtml
 	/// <value>
 	/// The applets.
 	/// </value>
-	unique_ptr<HTMLCollection> Document::applets() {
-		unique_ptr<HTMLCollection> s(new HTMLCollection());
-		return s;
+	HTMLCollection::ptr Document::applets() {
+		auto s = new HTMLCollection();
+		return HTMLCollection::ptr(s);
 	}
 
 	/// <summary>
@@ -176,7 +176,7 @@ namespace litehtml
 	/// <value>
 	/// The body.
 	/// </value>
-	Element* Document::body() { return nullptr; }
+	Element::ptr Document::body() { return nullptr; }
 	void Document::body(Element* value) { }
 
 	/// <summary>
@@ -190,14 +190,14 @@ namespace litehtml
 	/// <summary>
 	/// Returns a collection of an element's child nodes (including text and comment nodes)
 	/// </summary>
-	NodeList<Node> Document::childNodes() { return NodeList<Node>(_doc->m_root->m_children); } //: Node
+	NodeList<Node> Document::childNodes() { return _doc->m_root->m_children; } //: Node
 
 	/// <summary>
 	/// Clones an element
 	/// </summary>
 	/// <param name="deep">if set to <c>true</c> [deep].</param>
 	/// <returns></returns>
-	Node* Document::cloneNode(bool deep /*= false*/) { return nullptr; } //: Node
+	Node::ptr Document::cloneNode(bool deep /*= false*/) { return nullptr; } //: Node
 
 	/// <summary>
 	/// Closes the output stream previously opened with document.open()
@@ -232,34 +232,34 @@ namespace litehtml
 	/// </summary>
 	/// <param name="text">The text.</param>
 	/// <returns></returns>
-	Node* Document::createComment(string text) { return nullptr; } //: IComment
+	Node::ptr Document::createComment(string text) { return nullptr; } //: IComment
 
 	/// <summary>
 	/// Creates an empty DocumentFragment node
 	/// </summary>
 	/// <returns></returns>
-	DocumentFragment* Document::createDocumentFragment() { return nullptr; }
+	DocumentFragment::ptr Document::createDocumentFragment() { return nullptr; }
 
 	/// <summary>
 	/// Creates an Element node
 	/// </summary>
 	/// <param name="nodename">The nodename.</param>
 	/// <returns></returns>
-	Element* Document::createElement(string nodename) { return nullptr; }
+	Element::ptr Document::createElement(string nodename) { return nullptr; }
 
 	/// <summary>
 	/// Creates a new event
 	/// </summary>
 	/// <param name="type">The type.</param>
 	/// <returns></returns>
-	Event* Document::createEvent(string type) { return nullptr; }
+	Event::ptr Document::createEvent(string type) { return nullptr; }
 
 	/// <summary>
 	/// Creates a Text node
 	/// </summary>
 	/// <param name="text">The text.</param>
 	/// <returns></returns>
-	Node* Document::createTextNode(string text) { return nullptr; } //: IText
+	Node::ptr Document::createTextNode(string text) { return nullptr; } //: IText
 
 	/// <summary>
 	/// Returns the window object associated with a document, or nullptr if none is available.
@@ -267,7 +267,7 @@ namespace litehtml
 	/// <value>
 	/// The default view.
 	/// </value>
-	Window* Document::defaultView() { return nullptr; }
+	Window::ptr Document::defaultView() { return nullptr; }
 
 	/// <summary>
 	/// Controls whether the entire document should be editable or not.
@@ -284,7 +284,7 @@ namespace litehtml
 	/// <value>
 	/// The doctype.
 	/// </value>
-	DocumentType* Document::doctype() { return nullptr; }
+	DocumentType::ptr Document::doctype() { return nullptr; }
 
 	/// <summary>
 	/// Returns the Document Element of the document (the <html> element)
@@ -292,7 +292,7 @@ namespace litehtml
 	/// <value>
 	/// The document element.
 	/// </value>
-	Element* Document::documentElement() { return nullptr; }
+	Element::ptr Document::documentElement() { return nullptr; }
 
 	/// <summary>
 	/// Sets or returns the location of the document
@@ -317,9 +317,9 @@ namespace litehtml
 	/// <value>
 	/// The embeds.
 	/// </value>
-	unique_ptr<HTMLCollection> Document::embeds() {
-		unique_ptr<HTMLCollection> s(new HTMLCollection());
-		return s;
+	HTMLCollection::ptr Document::embeds() {
+		auto s = new HTMLCollection();
+		return HTMLCollection::ptr(s);
 	}
 
 	/// <summary>
@@ -337,7 +337,7 @@ namespace litehtml
 	/// <value>
 	/// The first child.
 	/// </value>
-	Node* Document::firstChild() { return _doc->m_root->m_children[0].get(); } //: Node
+	Node::ptr Document::firstChild() { return _doc->m_root->m_children[0]; } //: Node
 
 	/// <summary>
 	/// Returns a collection of all <form> elements in the document
@@ -345,9 +345,9 @@ namespace litehtml
 	/// <value>
 	/// The forms.
 	/// </value>
-	unique_ptr<HTMLCollection> Document::forms() {
-		unique_ptr<HTMLCollection> s(new HTMLCollection());
-		return s;
+	HTMLCollection::ptr Document::forms() {
+		auto s = new HTMLCollection();
+		return HTMLCollection::ptr(s);
 	}
 
 	/// <summary>
@@ -356,7 +356,7 @@ namespace litehtml
 	/// <value>
 	/// The fullscreen element.
 	/// </value>
-	Element* Document::fullscreenElement() { return nullptr; }
+	Element::ptr Document::fullscreenElement() { return nullptr; }
 
 	/// <summary>
 	/// Returns a Boolean value indicating whether the document can be viewed in fullscreen mode
@@ -369,16 +369,16 @@ namespace litehtml
 	/// </summary>
 	/// <param name="elementID">The element identifier.</param>
 	/// <returns></returns>
-	Element* Document::getElementById(string elementID)
+	Element::ptr Document::getElementById(string elementID)
 	{
 		litehtml::lcase(elementID);
 		css_element_selector elem;
 		css_attribute_selector attr;
 		attr.type = select_id;
-		attr.val = elementID;
+		attr.name = _id(elementID);
 		elem.m_attrs.push_back(attr);
 		css_selector sel(elem);
-		return _doc->m_root->select_one(sel).get();
+		return _doc->m_root->select_one(sel);
 	}
 
 	/// <summary>
@@ -403,7 +403,7 @@ namespace litehtml
 		attr.val = name;
 		elem.m_attrs.push_back(attr);
 		css_selector sel(elem);
-		return NodeList<Element>(_doc->m_root->select_all(sel));
+		return _doc->m_root->select_all(sel);
 	}
 
 	/// <summary>
@@ -438,12 +438,12 @@ namespace litehtml
 	bool Document::hasFocus() { return false; }
 
 	/// <summary>
-	/// Returns the <head> element of the document
+	/// Returns the &lt;head&gt; element of the document
 	/// </summary>
 	/// <value>
 	/// The head.
 	/// </value>
-	Element* Document::head() { return nullptr; }
+	Element::ptr Document::head() { return nullptr; }
 
 	/// <summary>
 	///Returns a collection of all <img> elements in the document
@@ -451,9 +451,9 @@ namespace litehtml
 	/// <value>
 	/// The images.
 	/// </value>
-	unique_ptr<HTMLCollection> Document::images() {
-		unique_ptr<HTMLCollection> s(new HTMLCollection());
-		return s;
+	HTMLCollection::ptr Document::images() {
+		auto s = new HTMLCollection();
+		return HTMLCollection::ptr(s);
 	}
 
 	/// <summary>
@@ -462,7 +462,7 @@ namespace litehtml
 	/// <value>
 	/// The implementation.
 	/// </value>
-	DocumentImplementation* Document::implementation() { return nullptr; }
+	DocumentImplementation::ptr Document::implementation() { return nullptr; }
 
 	/// <summary>
 	/// Imports a node from another document
@@ -470,7 +470,7 @@ namespace litehtml
 	/// <param name="node">The node.</param>
 	/// <param name="deep">if set to <c>true</c> [deep].</param>
 	/// <returns></returns>
-	Node* Document::importNode(Node* node, bool deep) { return nullptr; }
+	Node::ptr Document::importNode(Node* node, bool deep) { return nullptr; }
 
 	/// <summary>
 	/// Returns the encoding, character set, used for the document
@@ -513,7 +513,7 @@ namespace litehtml
 	/// <value>
 	/// The last child.
 	/// </value>
-	Node* Document::lastChild() { auto children = _doc->m_root->m_children; return children.size() > 0 ? children[children.size() - 1].get() : nullptr; } //: Node
+	Node::ptr Document::lastChild() { auto children = _doc->m_root->m_children; return children.size() > 0 ? children[children.size() - 1] : nullptr; } //: Node
 
 	/// <summary>
 	/// Returns the date and time the document was last modified
@@ -529,9 +529,9 @@ namespace litehtml
 	/// <value>
 	/// The links.
 	/// </value>
-	unique_ptr<HTMLCollection> Document::links() {
-		unique_ptr<HTMLCollection> s(new HTMLCollection());
-		return s;
+	HTMLCollection::ptr Document::links() {
+		auto s = new HTMLCollection();
+		return HTMLCollection::ptr(s);
 	}
 
 	/// <summary>
@@ -540,7 +540,7 @@ namespace litehtml
 	/// <value>
 	/// The next sibling.
 	/// </value>
-	Node* Document::nextSibling() { return nullptr; } //: Node
+	Node::ptr Document::nextSibling() { return nullptr; } //: Node
 
 	/// <summary>
 	/// Returns the name of a node
@@ -585,7 +585,7 @@ namespace litehtml
 	/// <value>
 	/// The owner document.
 	/// </value>
-	Document* Document::ownerDocument() { return nullptr; } //: Node
+	Document::ptr Document::ownerDocument() { return nullptr; } //: Node
 
 	/// <summary>
 	/// Returns the parent node of an element
@@ -593,7 +593,7 @@ namespace litehtml
 	/// <value>
 	/// The parent node.
 	/// </value>
-	Node* Document::parentNode() { return nullptr; } //: Node
+	Node::ptr Document::parentNode() { return nullptr; } //: Node
 
 	/// <summary>
 	/// Returns the previous node at the same node tree level
@@ -601,14 +601,14 @@ namespace litehtml
 	/// <value>
 	/// The previous sibling.
 	/// </value>
-	Node* Document::previousSibling() { return nullptr; } //: Node
+	Node::ptr Document::previousSibling() { return nullptr; } //: Node
 
 	/// <summary>
 	/// Returns the first element that matches a specified CSS selector(s) in the document
 	/// </summary>
 	/// <param name="selectors">The selectors.</param>
 	/// <returns></returns>
-	Element* Document::querySelector(string selectors) { return nullptr; }
+	Element::ptr Document::querySelector(string selectors) { return nullptr; }
 
 	/// <summary>
 	/// Returns a static NodeList containing all elements that matches a specified CSS selector(s) in the document
@@ -638,7 +638,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	Node* Document::removeChild(Node* node) { return nullptr; } //: Node
+	Node::ptr Document::removeChild(Node* node) { return nullptr; } //: Node
 
 	/// <summary>
 	/// Removes an event handler from the document (that has been attached with the addEventListener() method)
@@ -655,7 +655,7 @@ namespace litehtml
 	/// <param name="namespaceURI">The namespace URI.</param>
 	/// <param name="nodename">The nodename.</param>
 	/// <returns></returns>
-	Node* Document::renameNode(Node* node, string namespaceURI, string nodename) { return nullptr; }
+	Node::ptr Document::renameNode(Node* node, string namespaceURI, string nodename) { return nullptr; }
 
 	/// <summary>
 	/// Replaces a child node in an element
@@ -663,7 +663,7 @@ namespace litehtml
 	/// <param name="newnode">The newnode.</param>
 	/// <param name="oldnode">The oldnode.</param>
 	/// <returns></returns>
-	Node* Document::replaceChild(Node* newnode, Node* oldnode) { return nullptr; } //: Node
+	Node::ptr Document::replaceChild(Node* newnode, Node* oldnode) { return nullptr; } //: Node
 
 	/// <summary>
 	/// Returns a collection of <script> elements in the document
@@ -671,9 +671,9 @@ namespace litehtml
 	/// <value>
 	/// The scripts.
 	/// </value>
-	unique_ptr<HTMLCollection> Document::scripts() {
-		unique_ptr<HTMLCollection> s(new HTMLCollection());
-		return s;
+	HTMLCollection::ptr Document::scripts() {
+		auto s = new HTMLCollection();
+		return HTMLCollection::ptr(s);
 	}
 
 	/// <summary>
@@ -720,7 +720,8 @@ namespace litehtml
 /// </summary>
 namespace litehtml
 {
-	Element::Element() { _elem = static_cast<element*>(this); }
+	//Element::Element() { _elem = static_cast<element*>(this); }
+	//Element::Element(element::ptr elem) : _elem(elem.get()) { }
 
 	/// <summary>
 	/// Gets or sets the access key.
@@ -744,7 +745,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	Node* Element::appendChild(Node* node) //: Node
+	Node::ptr Element::appendChild(Node* node) //: Node
 	{
 		return nullptr;
 	}
@@ -755,7 +756,7 @@ namespace litehtml
 	/// <value>
 	/// The attributes.
 	/// </value>
-	NamedNodeMap Element::attributes() { return NamedNodeMap(dynamic_cast<html_tag*>(_elem)->m_attrs); } //: Node
+	NamedNodeMap Element::attributes() { return dynamic_cast<html_tag*>(_elem)->m_attrs; } //: Node
 	
 	/// <summary>
 	/// Returns the absolute base URI of a node
@@ -783,13 +784,13 @@ namespace litehtml
 	/// <summary>
 	/// Returns a collection of an element's child nodes (including text and comment nodes)
 	/// </summary>
-	NodeList<Node> Element::childNodes() { return NodeList<Node>(_elem->m_children); } //: Node
+	NodeList<Node> Element::childNodes() { return _elem->m_children; } //: Node
 
 	/// <summary>
 	/// Returns a collection of an element's child element (excluding text and comment nodes)
 	/// </summary>
-	unique_ptr<HTMLCollection> Element::children() { // (_elem->_children)
-		unique_ptr<HTMLCollection> s(new HTMLCollection());
+	HTMLCollection::ptr Element::children() { // (_elem->_children)
+		HTMLCollection::ptr s(new HTMLCollection());
 		return s;
 	}
 
@@ -799,8 +800,8 @@ namespace litehtml
 	/// <value>
 	/// The class list.
 	/// </value>
-	unique_ptr<DOMTokenList> Element::classList() {
-		unique_ptr<DOMTokenList> s(new DOMTokenList());
+	DOMTokenList::ptr Element::classList() {
+		DOMTokenList::ptr s(new DOMTokenList());
 		return s;
 	}
 
@@ -855,7 +856,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="deep">if set to <c>true</c> [deep].</param>
 	/// <returns></returns>
-	Node* Element::cloneNode(bool deep /*= false*/) //: Node
+	Node::ptr Element::cloneNode(bool deep /*= false*/) //: Node
 	{
 		return nullptr;
 	}
@@ -908,7 +909,7 @@ namespace litehtml
 	/// <value>
 	/// The first child.
 	/// </value>
-	Node* Element::firstChild() { return _elem->m_children[0].get(); } //: Node
+	Node::ptr Element::firstChild() { return _elem->m_children[0]; } //: Node
 	
 	/// <summary>
 	/// Returns the first child element of an element
@@ -916,7 +917,7 @@ namespace litehtml
 	/// <value>
 	/// The first element child.
 	/// </value>
-	Element* Element::firstElementChild() { return !_elem->m_children.empty() ? _elem->m_children[0].get() : nullptr; }
+	Element::ptr Element::firstElementChild() { return !_elem->m_children.empty() ? _elem->m_children[0] : nullptr; }
 
 	/// <summary>
 	/// Gives focus to an element
@@ -941,7 +942,7 @@ namespace litehtml
 	/// Returns the size of an element and its position relative to the viewport
 	/// </summary>
 	/// <returns></returns>
-	Rect* Element::getBoundingClientRect() { return nullptr; }
+	Rect::ptr Element::getBoundingClientRect() { return nullptr; }
 
 	/// <summary>
 	/// Returns a collection of all child elements with the specified class name
@@ -956,7 +957,7 @@ namespace litehtml
 		attr.name = _id(classname);
 		elem.m_attrs.push_back(attr);
 		css_selector sel(elem);
-		return NodeList<Element>(_elem->select_all(sel));
+		return _elem->select_all(sel);
 	}
 
 	/// <summary>
@@ -970,7 +971,7 @@ namespace litehtml
 		css_element_selector elem;
 		elem.m_tag = _id(tagname);
 		css_selector sel(elem);
-		return NodeList<Element>(_elem->select_all(sel));
+		return _elem->select_all(sel);
 	}
 
 	/// <summary>
@@ -982,7 +983,6 @@ namespace litehtml
 	/// </returns>
 	bool Element::hasAttribute(string attributename) { return false; } //: Node
 	
-
 	/// <summary>
 	/// Returns true if an element has any attributes, otherwise false
 	/// </summary>
@@ -1052,7 +1052,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="newnode">The newnode.</param>
 	/// <param name="existingnode">The existingnode.</param>
-	Node* Element::insertBefore(Node* newnode, Node* existingnode) { return nullptr; }
+	Node::ptr Element::insertBefore(Node* newnode, Node* existingnode) { return nullptr; }
 
 	/// <summary>
 	/// Returns true if the content of an element is editable, otherwise false
@@ -1104,7 +1104,7 @@ namespace litehtml
 	/// <value>
 	/// The last child.
 	/// </value>
-	Node* Element::lastChild() { return !_elem->m_children.empty() ? _elem->m_children[_elem->m_children.size() - 1].get() : nullptr; } //: Node
+	Node::ptr Element::lastChild() { return !_elem->m_children.empty() ? _elem->m_children[_elem->m_children.size() - 1] : nullptr; } //: Node
 
 	/// <summary>
 	/// Returns the last child element of an element
@@ -1112,7 +1112,7 @@ namespace litehtml
 	/// <value>
 	/// The last element child.
 	/// </value>
-	Element* Element::lastElementChild() { return !_elem->m_children.empty() ? _elem->m_children[_elem->m_children.size() - 1].get() : nullptr; }
+	Element::ptr Element::lastElementChild() { return !_elem->m_children.empty() ? _elem->m_children[_elem->m_children.size() - 1] : nullptr; }
 
 	/// <summary>
 	/// Returns the namespace URI of an element
@@ -1128,7 +1128,7 @@ namespace litehtml
 	/// <value>
 	/// The next sibling.
 	/// </value>
-	Node* Element::nextSibling() { return nullptr; } //: Node
+	Node::ptr Element::nextSibling() { return nullptr; } //: Node
 
 	/// <summary>
 	/// Returns the next element at the same node tree level
@@ -1136,7 +1136,7 @@ namespace litehtml
 	/// <value>
 	/// The next element sibling.
 	/// </value>
-	Element* Element::nextElementSibling() { return nullptr; }
+	Element::ptr Element::nextElementSibling() { return nullptr; }
 
 	/// <summary>
 	/// Returns the name of a node
@@ -1214,7 +1214,7 @@ namespace litehtml
 	/// <value>
 	/// The owner document.
 	/// </value>
-	Document* Element::ownerDocument() { return nullptr; } //: Node
+	Document::ptr Element::ownerDocument() { return nullptr; } //: Node
 
 	/// <summary>
 	/// Returns the parent node of an element
@@ -1222,7 +1222,7 @@ namespace litehtml
 	/// <value>
 	/// The parent node.
 	/// </value>
-	Node* Element::parentNode() { return nullptr; } //: Node
+	Node::ptr Element::parentNode() { return nullptr; } //: Node
 
 	/// <summary>
 	/// Returns the parent element node of an element
@@ -1230,7 +1230,7 @@ namespace litehtml
 	/// <value>
 	/// The parent element.
 	/// </value>
-	Element* Element::parentElement() { return nullptr; }
+	Element::ptr Element::parentElement() { return nullptr; }
 
 	/// <summary>
 	/// Returns the previous node at the same node tree level
@@ -1238,7 +1238,7 @@ namespace litehtml
 	/// <value>
 	/// The previous sibling.
 	/// </value>
-	Node* Element::previousSibling() { return nullptr; } //: Node
+	Node::ptr Element::previousSibling() { return nullptr; } //: Node
 
 	/// <summary>
 	/// Returns the previous element at the same node tree level
@@ -1246,14 +1246,14 @@ namespace litehtml
 	/// <value>
 	/// The previous element sibling.
 	/// </value>
-	Element* Element::previousElementSibling() { return nullptr; }
+	Element::ptr Element::previousElementSibling() { return nullptr; }
 
 	/// <summary>
 	/// Returns the first child element that matches a specified CSS selector(s) of an element
 	/// </summary>
 	/// <param name="selectors">The selectors.</param>
 	/// <returns></returns>
-	Element* Element::querySelector(string selectors) { return _elem->select_one(selectors).get(); }
+	Element::ptr Element::querySelector(string selectors) { return _elem->select_one(selectors); }
 
 	/// <summary>
 	/// Returns all child elements that matches a specified CSS selector(s) of an element
@@ -1280,7 +1280,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	Node* Element::removeChild(Node* node) { return nullptr; } //: Node
+	Node::ptr Element::removeChild(Node* node) { return nullptr; } //: Node
 
 	/// <summary>
 	/// Removes an event handler that has been attached with the addEventListener() method
@@ -1301,7 +1301,7 @@ namespace litehtml
 	/// <param name="newnode">The newnode.</param>
 	/// <param name="oldnode">The oldnode.</param>
 	/// <returns></returns>
-	Node* Element::replaceChild(Node* newnode, Node* oldnode) { return nullptr; } //: Node
+	Node::ptr Element::replaceChild(Node* newnode, Node* oldnode) { return nullptr; } //: Node
 
 	/// <summary>
 	/// Returns the entire height of an element, including padding
@@ -1363,7 +1363,7 @@ namespace litehtml
 	/// <value>
 	/// The style.
 	/// </value>
-	Style* Element::style() { return nullptr; }
+	Style::ptr Element::style() { return nullptr; }
 
 	/// <summary>
 	/// Sets or returns the value of the tabindex attribute of an element
