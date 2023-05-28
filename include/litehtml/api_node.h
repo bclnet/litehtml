@@ -12,7 +12,7 @@ namespace litehtml
 	class element;
 	class html_tag;
 	typedef std::map<string, string> string_map;
-	typedef std::vector<std::shared_ptr<litehtml::element>> elements_vector;
+	typedef std::vector<std::shared_ptr<element>> elements_vector;
 
 	/// <summary>
 	/// Node
@@ -20,13 +20,10 @@ namespace litehtml
 	class Node
 	{
 	protected:
-		element* _elem;
-	public:
-		typedef std::unique_ptr<Node> ptr;
+		std::shared_ptr<element> elem;
 	public:
 		Node();
-		Node(std::shared_ptr<element> elem);
-		operator std::unique_ptr<Node>() { return nullptr; }
+		Node(std::shared_ptr<element>& elem);
 
 		/// <summary>
 		/// Adds a new child node, to an element, as the last child node
