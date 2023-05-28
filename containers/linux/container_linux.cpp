@@ -246,7 +246,7 @@ void container_linux::draw_list_marker( litehtml::uint_ptr hdc, const litehtml::
 	}
 }
 
-void container_linux::load_image( const char* src, const char* baseurl, bool redraw_on_ready )
+void container_linux::load_image( const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready )
 {
 	litehtml::string url;
 	make_url(src, baseurl, url);
@@ -266,7 +266,7 @@ void container_linux::load_image( const char* src, const char* baseurl, bool red
 	}
 }
 
-void container_linux::get_image_size( const char* src, const char* baseurl, litehtml::size& sz )
+void container_linux::get_image_size( const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz )
 {
 	litehtml::string url;
 	make_url(src, baseurl, url);
@@ -725,17 +725,17 @@ void container_linux::apply_clip( cairo_t* cr )
 	}
 }
 
-void container_linux::draw_ellipse( cairo_t* cr, int x, int y, int width, int height, const litehtml::web_color& color, int line_width )
+void container_linux::draw_ellipse( cairo_t* cr, point p, size sz, const litehtml::web_color& color, int line_width )
 {
-	if(!cr || !width || !height) return;
+	if(!cr || !sz.width || !sz.height) return;
 	cairo_save(cr);
 
 	apply_clip(cr);
 
 	cairo_new_path(cr);
 
-	cairo_translate (cr, x + width / 2.0, y + height / 2.0);
-	cairo_scale (cr, width / 2.0, height / 2.0);
+	cairo_translate (cr, p.x + sz.width / 2.0, p.y + sz.height / 2.0);
+	cairo_scale (cr, sz.width / 2.0, sz.height / 2.0);
 	cairo_arc (cr, 0, 0, 1, 0, 2 * M_PI);
 
 	set_color(cr, color);
@@ -745,17 +745,17 @@ void container_linux::draw_ellipse( cairo_t* cr, int x, int y, int width, int he
 	cairo_restore(cr);
 }
 
-void container_linux::fill_ellipse( cairo_t* cr, int x, int y, int width, int height, const litehtml::web_color& color )
+void container_linux::fill_ellipse( cairo_t* cr, point p, size sz, const litehtml::web_color& color )
 {
-	if(!cr || !width || !height) return;
+	if(!cr || !sz.width || !sz.height) return;
 	cairo_save(cr);
 
 	apply_clip(cr);
 
 	cairo_new_path(cr);
 
-	cairo_translate (cr, x + width / 2.0, y + height / 2.0);
-	cairo_scale (cr, width / 2.0, height / 2.0);
+	cairo_translate (cr, p.x + sz.width / 2.0, p.y + sz.height / 2.0);
+	cairo_scale (cr, sz.width / 2.0, sz.height / 2.0);
 	cairo_arc (cr, 0, 0, 1, 0, 2 * M_PI);
 
 	set_color(cr, color);

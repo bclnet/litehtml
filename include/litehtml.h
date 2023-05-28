@@ -7,5 +7,6 @@
 #include <litehtml/stylesheet.h>
 #include <litehtml/element.h>
 #include <litehtml/utf8_strings.h>
+#include <litehtml/api.h>
 
 #endif  // LITEHTML_H

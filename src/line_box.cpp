@@ -6,10 +6,13 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-void litehtml::line_box_item::place_to(int x, int y)
+void litehtml::line_box_item::place_to(point p)
 {
-	m_element->pos().x = x + m_element->content_offset_left();
-	m_element->pos().y = y + m_element->content_offset_top();
+	m_element->pos().x = p.x + m_element->content_offset_left();
+	m_element->pos().y = p.y + m_element->content_offset_top();
+	#if H3ML
+	m_element->pos().z = p.z + m_element->content_offset_front();
+	#endif
 }
 
 litehtml::position& litehtml::line_box_item::pos()
@@ -43,18 +46,31 @@ int litehtml::line_box_item::left() const
 	return m_element->left();
 }
 
+#if H3ML
+int litehtml::line_box_item::depth() const
+{
+    return m_element->depth();
+}
+#endif
+
 //////////////////////////////////////////////////////////////////////////////////////////
 
 litehtml::lbi_start::lbi_start(const std::shared_ptr<render_item>& element) : line_box_item(element)
 {
 	m_pos.height = m_element->src_el()->css().get_font_metrics().height;
 	m_pos.width = m_element->content_offset_left();
+	#if H3ML
+	m_pos.depth = m_element->content_offset_front();
+	#endif
 }
 
-void litehtml::lbi_start::place_to(int x, int y)
+void litehtml::lbi_start::place_to(point p)
 {
-	m_pos.x = x + m_element->content_offset_left();
-	m_pos.y = y;
+	m_pos.x = p.x + m_element->content_offset_left();
+	m_pos.y = p.y;
+	#if H3ML
+	m_pos.z = p.z;
+	#endif
 }
 
 int litehtml::lbi_start::width() const
@@ -82,18 +98,31 @@ int litehtml::lbi_start::left() const
 	return m_pos.x - m_element->content_offset_left();
 }
 
+#if H3ML
+int litehtml::lbi_start::depth() const
+{
+    return m_pos.depth;
+}
+#endif
+
 //////////////////////////////////////////////////////////////////////////////////////////
 
 litehtml::lbi_end::lbi_end(const std::shared_ptr<render_item>& element) : lbi_start(element)
 {
 	m_pos.height = m_element->src_el()->css().get_font_metrics().height;
 	m_pos.width = m_element->content_offset_right();
+	#if H3ML
+	m_pos.depth = m_element->content_offset_front();
+	#endif
 }
 
-void litehtml::lbi_end::place_to(int x, int y)
+void litehtml::lbi_end::place_to(point p)
 {
-	m_pos.x = x;
-	m_pos.y = y;
+	m_pos.x = p.x;
+	m_pos.y = p.y;
+	#if H3ML
+	m_pos.z = p.z;
+	#endif
 }
 
 int litehtml::lbi_end::right() const
@@ -112,12 +141,18 @@ litehtml::lbi_continue::lbi_continue(const std::shared_ptr<render_item>& element
 {
 	m_pos.height = m_element->src_el()->css().get_font_metrics().height;
 	m_pos.width = 0;
+	#if H3ML
+	m_pos.depth = 0;
+	#endif
 }
 
-void litehtml::lbi_continue::place_to(int x, int y)
+void litehtml::lbi_continue::place_to(point p)
 {
-	m_pos.x = x;
-	m_pos.y = y;
+	m_pos.x = p.x;
+	m_pos.y = p.y;
+	#if H3ML
+	m_pos.z = p.z;
+	#endif
 }
 
 int litehtml::lbi_continue::right() const
@@ -157,7 +192,7 @@ void litehtml::line_box::add_item(std::unique_ptr<line_box_item> item)
 	}
 	if(add)
 	{
-		item->place_to(m_left + m_width, m_top);
+		item->place_to(Point(m_left + m_width, m_top, m_front));
 		m_width += item->width();
 		m_height = std::max(m_height, item->get_el()->height());
 		m_items.emplace_back(std::move(item));
@@ -624,6 +659,18 @@ int litehtml::line_box::bottom_margin() const
 {
     return 0;
 }
+
+#if H3ML
+int litehtml::line_box::front_margin() const
+{
+    return 0;
+}
+
+int litehtml::line_box::back_margin() const
+{
+    return 0;
+}
+#endif
 
 void litehtml::line_box::y_shift( int shift )
 {

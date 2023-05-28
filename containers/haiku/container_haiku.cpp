@@ -314,7 +314,7 @@ LiteHtmlView::draw_list_marker( litehtml::uint_ptr hdc,
 
 void 
 LiteHtmlView::load_image( const litehtml::tchar_t* src, 
-	const litehtml::tchar_t* baseurl, bool redraw_on_ready )
+	const litehtml::tchar_t* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready )
 {
 	std::cout << "load_image" << std::endl;
 	
@@ -381,7 +381,7 @@ LiteHtmlView::set_base_url(const litehtml::tchar_t* base_url)
 
 void 
 LiteHtmlView::get_image_size( const litehtml::tchar_t* src, 
-	const litehtml::tchar_t* baseurl, litehtml::size& sz )
+	const litehtml::tchar_t* baseurl, const litehtml::string_map* attrs, litehtml::size& sz )
 {
 	std::cout << "get_image_size" << std::endl;
 	std::string url;
@@ -393,6 +393,9 @@ LiteHtmlView::get_image_size( const litehtml::tchar_t* src,
 		BRect size = img->Bounds();
 		sz.width = size.Width();
 		sz.height = size.Height();
+		#if H3ML
+		sz.depth = 0;
+		#endif
 		std::cout << "    width: " << +sz.width << ", height: " << +sz.height << std::endl;
 	}
 }

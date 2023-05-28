@@ -59,6 +59,12 @@ namespace litehtml
 		border_collapse			m_border_collapse;
 		css_length				m_css_border_spacing_x;
 		css_length				m_css_border_spacing_y;
+		#if H3ML
+		css_length				m_css_depth;
+		css_length				m_css_min_depth;
+		css_length				m_css_max_depth;
+		css_length				m_css_border_spacing_z;
+		#endif
 
 		float					m_flex_grow;
 		float					m_flex_shrink;
@@ -111,6 +117,12 @@ namespace litehtml
 				m_border_collapse(border_collapse_separate),
 				m_css_border_spacing_x(),
 				m_css_border_spacing_y(),
+				#if H3ML
+				m_css_depth(),
+				m_css_min_depth(),
+				m_css_max_depth(),
+				m_css_border_spacing_z(),
+				#endif
 				m_flex_grow(0),
 				m_flex_shrink(1),
 				m_flex_direction(flex_direction_row),
@@ -237,6 +249,20 @@ namespace litehtml
 
 		const css_length& get_border_spacing_y() const;
 		void set_border_spacing_y(const css_length& mBorderSpacingY);
+
+		#if H3ML
+		const css_length &get_depth() const;
+		void set_depth(const css_length &mCssDepth);
+
+		const css_length &get_min_depth() const;
+		void set_min_depth(const css_length &mCssMinDepth);
+
+		const css_length &get_max_depth() const;
+		void set_max_depth(const css_length &mCssMaxDepth);
+
+		const css_length& get_border_spacing_z() const;
+		void get_border_spacing_z(const css_length& mBorderSpacingZ);
+		#endif
 
 		float get_flex_grow() const;
 		float get_flex_shrink() const;
@@ -593,6 +619,48 @@ namespace litehtml
 	{
 		m_css_border_spacing_y = mBorderSpacingY;
 	}
+
+	#if H3ML
+	inline const css_length &css_properties::get_depth() const
+	{
+		return m_css_depth;
+	}
+
+	inline void css_properties::set_depth(const css_length &mCssDepth)
+	{
+		m_css_depth = mCssDepth;
+	}
+
+	inline const css_length &css_properties::get_min_depth() const
+	{
+		return m_css_min_depth;
+	}
+
+	inline void css_properties::set_min_depth(const css_length &mCssMinDepth)
+	{
+		m_css_min_depth = mCssMinDepth;
+	}
+
+	inline const css_length &css_properties::get_max_depth() const
+	{
+		return m_css_max_depth;
+	}
+
+	inline void css_properties::set_max_depth(const css_length &mCssMaxDepth)
+	{
+		m_css_max_depth = mCssMaxDepth;
+	}
+
+	inline const css_length& css_properties::get_border_spacing_z() const
+	{
+		return m_css_border_spacing_z;
+	}
+
+	inline void css_properties::get_border_spacing_z(const css_length& mBorderSpacingZ)
+	{
+		m_css_border_spacing_z = mBorderSpacingZ;
+	}
+	#endif
 
 	inline float css_properties::get_flex_grow() const
 	{

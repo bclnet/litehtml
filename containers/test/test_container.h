@@ -17,8 +17,8 @@ public:
 	int				pt_to_px(int pt) const override;
 	int				get_default_font_size() const override;
 	const char*		get_default_font_name() const override;
-	void 			load_image(const char* src, const char* baseurl, bool redraw_on_ready) override {}
-	void			get_image_size(const char* src, const char* baseurl, size& sz) override {}
+	void 			load_image(const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready) override {}
+	void			get_image_size(const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz) override {}
 	void			draw_background(uint_ptr hdc, const std::vector<background_paint>& bg) override;
 	void			draw_borders(uint_ptr hdc, const borders& borders, const position& draw_pos, bool root) override;
 	void 			draw_list_marker(uint_ptr hdc, const list_marker& marker) override;

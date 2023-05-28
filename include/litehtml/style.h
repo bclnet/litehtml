@@ -177,7 +177,7 @@ namespace litehtml
 
 		const property_value& get_property(string_id name) const;
 
-		void combine(const style& src);
+		void combine(const litehtml::style& src);
 		void clear()
 		{
 			m_properties.clear();
@@ -194,14 +194,24 @@ namespace litehtml
 		// parse comma-separated list of keywords
 		void parse_keyword_comma_list(string_id name, const string& val, bool important);
 		void parse_background_position(const string& val, bool important);
-		bool parse_one_background_position(const string& val, css_length& x, css_length& y);
+		
+		bool parse_one_background_position(const string& val, css_length& x, css_length& y
+			#if H3ML
+			, css_length& z
+			#endif
+		);
 		void parse_background_size(const string& val, bool important);
 		bool parse_one_background_size(const string& val, css_size& size);
 		void parse_font(const string& val, bool important);
 		void parse_flex(const string& val, bool important);
 		static css_length parse_border_width(const string& str);
-		static void parse_two_lengths(const string& str, css_length len[2]);
+		static void parse_three_lengths(const string& str, css_length len[3]);
+		#if H3ML
+		static int parse_six_lengths(const string& str, css_length len[6]);
+		static int parse_eight_lengths(const string& str, css_length len[8]);
+		#else
 		static int parse_four_lengths(const string& str, css_length len[4]);
+		#endif
 		static void subst_vars_(string& str, const element* el);
 
 		void add_parsed_property(string_id name, const property_value& propval);

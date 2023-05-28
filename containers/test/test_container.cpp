@@ -90,5 +90,5 @@ void test_container::import_css(string& text, const string& url, string& baseurl
 
 void test_container::get_client_rect(position& client) const
 {
-	client = position(0, 0, width, height);
+	client = position(Point(0, 0, 0), Size(width, height, 0));
 }

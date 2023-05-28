@@ -20,6 +20,8 @@ namespace litehtml
 		friend class el_table;
 		friend class table_grid;
 		friend class line_box;
+		friend class Node;
+		friend class Element;
 	public:
 		typedef std::shared_ptr<html_tag>	ptr;
 	protected:
@@ -67,8 +69,8 @@ namespace litehtml
 		bool				set_class(const char* pclass, bool add) override;
 		bool				is_replaced() const override;
 		void				compute_styles(bool recursive = true) override;
-		void				draw(uint_ptr hdc, int x, int y, const position *clip, const std::shared_ptr<render_item> &ri) override;
-		void				draw_background(uint_ptr hdc, int x, int y, const position *clip,
+		void				draw(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri) override;
+		void				draw_background(uint_ptr hdc, point p, const position *clip,
 									const std::shared_ptr<render_item> &ri) override;
 
 		template<class Type, property_type property_value_type, Type property_value::* property_value_member>
@@ -106,7 +108,7 @@ namespace litehtml
 
 		void				get_content_size(size& sz, int max_width) override;
 		bool				is_floats_holder() const override;
-		void				add_style(const style& style) override;
+		void				add_style(const litehtml::style& style) override;
 
 		bool				is_nth_child(const element::ptr& el, int num, int off, bool of_type) const override;
 		bool				is_nth_last_child(const element::ptr& el, int num, int off, bool of_type) const override;
@@ -120,8 +122,8 @@ namespace litehtml
 		void				init_one_background_paint(int i, position pos, background_paint& bg_paint, const background* bg, const std::shared_ptr<render_item>& ri);
 		void				draw_list_marker( uint_ptr hdc, const position &pos );
 		string				get_list_marker_text(int index);
-		element::ptr		get_element_before(const style& style, bool create);
-		element::ptr		get_element_after(const style& style, bool create);
+		element::ptr		get_element_before(const litehtml::style& style, bool create);
+		element::ptr		get_element_after(const litehtml::style& style, bool create);
 	};
 
 	/************************************************************************/

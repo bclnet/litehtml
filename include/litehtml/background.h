@@ -18,6 +18,9 @@ namespace litehtml
 		int_vector				m_attachment;
 		length_vector			m_position_x;
 		length_vector			m_position_y;
+		#if H3ML
+		length_vector			m_position_z;
+		#endif
 		size_vector				m_size;
 		int_vector				m_repeat;
 		int_vector				m_clip;
@@ -40,6 +43,7 @@ namespace litehtml
 	public:
 		string					image;
 		string					baseurl;
+		string_map*				attrs;
 		background_attachment	attachment;
 		background_repeat		repeat;
 		web_color				color;
@@ -48,8 +52,7 @@ namespace litehtml
 		position				border_box;
 		border_radiuses			border_radius;
 		size					image_size;
-		int						position_x;
-		int						position_y;
+		point					position;
 		bool					is_root;
 
 	public:
@@ -58,8 +61,7 @@ namespace litehtml
 			attachment		= background_attachment_scroll;
 			repeat			= background_repeat_repeat;
 			color			= web_color::transparent;
-			position_x		= 0;
-			position_y		= 0;
+			position		= point_zero;
 			is_root			= false;
 		}
 	};

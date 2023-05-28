@@ -10,7 +10,7 @@ litehtml::el_before_after_base::el_before_after_base(const std::shared_ptr<docum
 	m_tag = before ? __tag_before_ : __tag_after_;
 }
 
-void litehtml::el_before_after_base::add_style(const style& style)
+void litehtml::el_before_after_base::add_style(const litehtml::style& style)
 {
 	html_tag::add_style(style);
 

@@ -155,12 +155,12 @@ void cairo_container::draw_list_marker( litehtml::uint_ptr hdc, const litehtml::
 	{
 	case litehtml::list_style_type_circle:
 		{
-			draw_ellipse((cairo_t*) hdc, marker.pos.x, marker.pos.y, marker.pos.width, marker.pos.height, marker.color, 0.5);
+			draw_ellipse((cairo_t*) hdc, marker.pos.p(), marker.pos.sz(), marker.color, 0.5);
 		}
 		break;
 	case litehtml::list_style_type_disc:
 		{
-			fill_ellipse((cairo_t*) hdc, marker.pos.x, marker.pos.y, marker.pos.width, marker.pos.height, marker.color);
+			fill_ellipse((cairo_t*) hdc, marker.pos.p(), marker.pos.sz(), marker.color);
 		}
 		break;
 	case litehtml::list_style_type_square:
@@ -180,7 +180,7 @@ void cairo_container::draw_list_marker( litehtml::uint_ptr hdc, const litehtml::
 	}
 }
 
-void cairo_container::load_image( const char* src, const char* baseurl, bool redraw_on_ready )
+void cairo_container::load_image( const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready )
 {
 	std::wstring url;
 	make_url_utf8(src, baseurl, url);
@@ -199,13 +199,16 @@ void cairo_container::load_image( const char* src, const char* baseurl, bool red
 
 }
 
-void cairo_container::get_image_size( const char* src, const char* baseurl, litehtml::size& sz )
+void cairo_container::get_image_size( const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz )
 {
 	std::wstring url;
 	make_url_utf8(src, baseurl, url);
 
 	sz.width	= 0;
 	sz.height	= 0;
+	#if H3ML
+	sz.depth	= 0;
+	#endif
 
 	lock_images_cache();
 	images_map::iterator img = m_images.find(url.c_str());
@@ -714,7 +717,7 @@ void cairo_container::apply_clip( cairo_t* cr )
 	}
 }
 
-void cairo_container::draw_ellipse( cairo_t* cr, int x, int y, int width, int height, const litehtml::web_color& color, double line_width )
+void cairo_container::draw_ellipse( cairo_t* cr, point p, size sz, const litehtml::web_color& color, double line_width )
 {
 	if(!cr) return;
 	cairo_save(cr);
@@ -734,7 +737,7 @@ void cairo_container::draw_ellipse( cairo_t* cr, int x, int y, int width, int he
 	cairo_restore(cr);
 }
 
-void cairo_container::fill_ellipse( cairo_t* cr, int x, int y, int width, int height, const litehtml::web_color& color )
+void cairo_container::fill_ellipse( cairo_t* cr, point p, size sz, const litehtml::web_color& color )
 {
 	if(!cr) return;
 	cairo_save(cr);

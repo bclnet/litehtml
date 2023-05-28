@@ -46,8 +46,9 @@ namespace litehtml
 	class html_tag;
     class render_item;
 
-	class document : public std::enable_shared_from_this<document>
+	class document : public std::enable_shared_from_this<document>, public Document
 	{
+		friend class Document;
 	public:
 		typedef std::shared_ptr<document>	ptr;
 		typedef std::weak_ptr<document>		weak_ptr;
@@ -55,6 +56,7 @@ namespace litehtml
 		std::shared_ptr<element>			m_root;
 		std::shared_ptr<render_item>		m_root_render;
 		document_container*					m_container;
+		script_engine*						m_script;
 		fonts_map							m_fonts;
 		css_text::vector					m_css;
 		litehtml::css						m_styles;
@@ -75,9 +77,10 @@ namespace litehtml
 		virtual ~document();
 
 		document_container*				container()	{ return m_container; }
+		script_engine*					script() { return m_script; }
 		uint_ptr						get_font(const char* name, int size, const char* weight, const char* style, const char* decoration, font_metrics* fm);
 		int								render(int max_width, render_type rt = render_all);
-		void							draw(uint_ptr hdc, int x, int y, const position* clip);
+		void							draw(uint_ptr hdc, point p, const position* clip);
 		web_color						get_def_color()	{ return m_def_color; }
 		int								to_pixels(const char* str, int fontSize, bool* is_percent = nullptr) const;
 		void 							cvt_units(css_length& val, int fontSize, int size = 0) const;
@@ -87,9 +90,9 @@ namespace litehtml
 		int								content_width() const;
 		int								content_height() const;
 		void							add_stylesheet(const char* str, const char* baseurl, const char* media);
-		bool							on_mouse_over(int x, int y, int client_x, int client_y, position::vector& redraw_boxes);
-		bool							on_lbutton_down(int x, int y, int client_x, int client_y, position::vector& redraw_boxes);
-		bool							on_lbutton_up(int x, int y, int client_x, int client_y, position::vector& redraw_boxes);
+		bool							on_mouse_over(point p, point client_p, position::vector& redraw_boxes);
+		bool							on_lbutton_down(point p, point client_p, position::vector& redraw_boxes);
+		bool							on_lbutton_up(point p, point client_p, position::vector& redraw_boxes);
 		bool							on_mouse_leave(position::vector& redraw_boxes);
 		element::ptr					create_element(const char* tag_name, const string_map& attributes);
 		element::ptr					root();

@@ -38,6 +38,12 @@ position element::get_placement() const
 				{
 					pos.y = ri_pos.y;
 				}
+				#if H3ML
+				if(pos.z < ri_pos.z)
+				{
+					pos.z = ri_pos.z;
+				}
+				#endif
 			}
 		}
 	}
@@ -242,7 +248,7 @@ bool element::find_styles_changes( position::vector& redraw_boxes)
 	return ret;
 }
 
-element::ptr element::_add_before_after(int type, const style& style)
+element::ptr element::_add_before_after(int type, const litehtml::style& style)
 {
 	if(style.get_property(_content_).m_type != prop_type_invalid)
 	{
@@ -264,7 +270,7 @@ element::ptr element::_add_before_after(int type, const style& style)
 
 
 const background* element::get_background(bool own_only)						LITEHTML_RETURN_FUNC(nullptr)
-void element::add_style( const style& style)	        						LITEHTML_EMPTY_FUNC
+void element::add_style( const litehtml::style& style)	        						LITEHTML_EMPTY_FUNC
 void element::select_all(const css_selector& selector, elements_vector& res)	LITEHTML_EMPTY_FUNC
 elements_vector element::select_all(const css_selector& selector)				LITEHTML_RETURN_FUNC(elements_vector())
 elements_vector element::select_all(const string& selector)						LITEHTML_RETURN_FUNC(elements_vector())
@@ -308,8 +314,8 @@ bool element::on_lbutton_up()										LITEHTML_RETURN_FUNC(false)
 bool element::set_pseudo_class( string_id cls, bool add )			LITEHTML_RETURN_FUNC(false)
 bool element::set_class( const char* pclass, bool add )				LITEHTML_RETURN_FUNC(false)
 bool element::is_replaced() const									LITEHTML_RETURN_FUNC(false)
-void element::draw(uint_ptr hdc, int x, int y, const position *clip, const std::shared_ptr<render_item> &ri) LITEHTML_EMPTY_FUNC
-void element::draw_background(uint_ptr hdc, int x, int y, const position *clip, const std::shared_ptr<render_item> &ri) LITEHTML_EMPTY_FUNC
+void element::draw(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri) LITEHTML_EMPTY_FUNC
+void element::draw_background(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri) LITEHTML_EMPTY_FUNC
 int				element::get_enum_property			(string_id name, bool inherited, int defval, uint_ptr css_properties_member_offset) const LITEHTML_RETURN_FUNC(0)
 css_length		element::get_length_property		(string_id name, bool inherited, css_length defval, uint_ptr css_properties_member_offset) const LITEHTML_RETURN_FUNC(0)
 web_color		element::get_color_property			(string_id name, bool inherited, web_color defval, uint_ptr css_properties_member_offset) const LITEHTML_RETURN_FUNC(web_color())

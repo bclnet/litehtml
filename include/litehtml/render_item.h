@@ -84,6 +84,23 @@ namespace litehtml
             return m_pos.width + m_margins.left + m_margins.right + m_padding.width() + m_borders.width();
         }
 
+        #if H3ML
+		int front() const
+		{
+			return m_pos.front() - m_margins.front - m_padding.front - m_borders.front;
+		}
+
+		int back() const
+		{
+			return front() + depth();
+		}
+
+        int depth() const
+		{
+			return m_pos.depth + m_margins.front + m_margins.back + m_padding.depth() + m_borders.depth();
+		}
+		#endif
+
         int padding_top() const
         {
             return m_padding.top;
@@ -143,6 +160,38 @@ namespace litehtml
         {
             return m_margins.right;
         }
+
+        #if H3ML
+        int padding_front() const
+		{
+			return m_padding.front;
+		}
+
+		int padding_back() const
+		{
+			return m_padding.back;
+		}
+
+        int border_front() const
+		{
+			return m_borders.front;
+		}
+
+		int border_back() const
+		{
+			return m_borders.back;
+		}
+
+        int margin_front() const
+		{
+			return m_margins.front;
+		}
+		
+		int margin_back() const
+		{
+			return m_margins.back;
+		}
+        #endif
 
         std::shared_ptr<render_item> parent() const
         {
@@ -217,6 +266,23 @@ namespace litehtml
             return content_offset_top() + content_offset_bottom();
         }
 
+        #if H3ML
+        int content_offset_front() const
+		{
+			return m_margins.front + m_padding.front + m_borders.front;
+		}
+
+		int content_offset_back() const
+		{
+			return m_margins.back + m_padding.back + m_borders.back;
+		}
+
+        int content_offset_depth() const
+		{
+			return content_offset_front() + content_offset_back();
+		}
+		#endif
+
 		int box_sizing_left() const
 		{
 			return m_padding.left + m_borders.left;
@@ -247,6 +313,23 @@ namespace litehtml
 			return box_sizing_top() + box_sizing_bottom();
 		}
 
+        #if H3ML
+        int box_sizing_front() const
+		{
+			return m_padding.front + m_borders.front;
+		}
+
+		int box_sizing_back() const
+		{
+			return m_padding.back + m_borders.back;
+		}
+
+        int box_sizing_depth() const
+		{
+			return box_sizing_front() + box_sizing_back();
+		}
+		#endif
+
         void parent(const std::shared_ptr<render_item>& par)
         {
             m_parent = par;
@@ -268,7 +351,7 @@ namespace litehtml
             ri->parent(shared_from_this());
         }
 
-        virtual int render(int x, int y, const containing_block_context& containing_block_size, bool second_pass = false)
+        virtual int render(point p, const containing_block_context& containing_block_size, bool second_pass = false)
 		{
 			return 0;
 		}
@@ -298,6 +381,28 @@ namespace litehtml
                    !is_root();
         }
 
+        #if H3ML
+        bool collapse_front_margin() const
+		{
+			return !m_borders.front &&
+				   !m_padding.front &&
+				   m_element->in_normal_flow() &&
+				   m_element->css().get_float() == float_none &&
+				   m_margins.front >= 0 &&
+                   !is_root();
+		}
+
+		bool collapse_back_margin() const
+		{
+			return !m_borders.back &&
+				   !m_padding.back &&
+				   m_element->in_normal_flow() &&
+				   m_element->css().get_float() == float_none &&
+				   m_margins.back >= 0 &&
+                   !is_root();
+		}
+		#endif
+
         bool is_visible() const
         {
             return !(m_skip || src_el()->css().get_display() == display_none || src_el()->css().get_visibility() != visibility_visible);
@@ -305,6 +410,9 @@ namespace litehtml
 
         int calc_width(int defVal, int containing_block_width) const;
         bool get_predefined_height(int& p_height, int containing_block_height) const;
+		#if H3ML
+		bool get_predefined_depth(int& p_depth, int containing_block_depth) const;
+		#endif
         void apply_relative_shift(const containing_block_context &containing_block_size);
         void calc_outlines( int parent_width );
         int calc_auto_margins(int parent_width);	// returns left margin
@@ -324,18 +432,18 @@ namespace litehtml
         bool fetch_positioned();
         void render_positioned(render_type rt = render_all);
         void add_positioned(const std::shared_ptr<litehtml::render_item> &el);
-        void get_redraw_box(litehtml::position& pos, int x = 0, int y = 0);
-        void calc_document_size( litehtml::size& sz, litehtml::size& content_size, int x = 0, int y = 0 );
+        void get_redraw_box(litehtml::position& pos, point p = point_zero);
+        void calc_document_size( litehtml::size& sz, litehtml::size& content_size, point p = point_zero );
 		virtual void get_inline_boxes( position::vector& boxes ) const {};
 		virtual void set_inline_boxes( position::vector& boxes ) {};
 		virtual void add_inline_box( const position& box ) {};
 		virtual void clear_inline_boxes() {};
-        void draw_stacking_context( uint_ptr hdc, int x, int y, const position* clip, bool with_positioned );
-        virtual void draw_children( uint_ptr hdc, int x, int y, const position* clip, draw_flag flag, int zindex );
+        void draw_stacking_context( uint_ptr hdc, point p, const position* clip, bool with_positioned );
+        virtual void draw_children( uint_ptr hdc, point p, const position* clip, draw_flag flag, int zindex );
         virtual int get_draw_vertical_offset() { return 0; }
-        virtual std::shared_ptr<element> get_child_by_point(int x, int y, int client_x, int client_y, draw_flag flag, int zindex);
-        std::shared_ptr<element> get_element_by_point(int x, int y, int client_x, int client_y);
-        bool is_point_inside( int x, int y );
+        virtual std::shared_ptr<element> get_child_by_point(point p, point client_p, draw_flag flag, int zindex);
+        std::shared_ptr<element> get_element_by_point(point p, point client_p);
+        bool is_point_inside( point p );
         void dump(litehtml::dumper& cout);
         position get_placement() const;
         /**
@@ -353,7 +461,7 @@ namespace litehtml
 		virtual int get_right_floats_height() const	{ return 0; }
 		virtual int get_floats_height(element_float el_float = float_none) const { return 0; }
 		virtual int find_next_line_top( int top, int width, int def_right ) { return 0; }
-		virtual void add_float(const std::shared_ptr<render_item> &el, int x, int y, int context) {}
+		virtual void add_float(const std::shared_ptr<render_item> &el, point p, int context) {}
 		virtual void clear_floats(int context) {}
 		virtual void update_floats(int dy, const std::shared_ptr<render_item> &_parent) {}
 	};
@@ -376,8 +484,8 @@ namespace litehtml
 		 * @param self_size - defines calculated size of block
 		 * @return return value is the minimal width of the content in block. Must be greater or equal to ret_width parameter
 		 */
-        virtual int _render_content(int x, int y, bool second_pass, int ret_width, const containing_block_context &self_size) {return ret_width;}
-		int render(int x, int y, const containing_block_context &containing_block_size, bool second_pass) override;
+        virtual int _render_content(point p, bool second_pass, int ret_width, const containing_block_context &self_size) {return ret_width;}
+		int render(point p, const containing_block_context &containing_block_size, bool second_pass) override;
 
         int place_float(const std::shared_ptr<render_item> &el, int top, const containing_block_context &self_size);
         int get_floats_height(element_float el_float = float_none) const override;
@@ -386,7 +494,7 @@ namespace litehtml
         int get_line_left( int y ) override;
         int get_line_right( int y, int def_right ) override;
         void get_line_left_right( int y, int def_right, int& ln_left, int& ln_right ) override;
-        void add_float(const std::shared_ptr<render_item> &el, int x, int y, int context) override;
+        void add_float(const std::shared_ptr<render_item> &el, point p, int context) override;
 		void clear_floats(int context) override;
 		int get_cleared_top(const std::shared_ptr<render_item> &el, int line_top) const;
         int find_next_line_top( int top, int width, int def_right ) override;
@@ -413,7 +521,7 @@ namespace litehtml
     class render_item_block_context : public render_item_block
     {
     protected:
-        int _render_content(int x, int y, bool second_pass, int ret_width,
+        int _render_content(point p, bool second_pass, int ret_width,
 							const containing_block_context &self_size) override;
 
     public:
@@ -452,7 +560,7 @@ namespace litehtml
         std::vector<std::unique_ptr<litehtml::line_box> > m_line_boxes;
 		int m_max_line_width;
 
-        int _render_content(int x, int y, bool second_pass, int ret_width,
+        int _render_content(point p, bool second_pass, int ret_width,
 							const containing_block_context &self_size) override;
         void fix_line_width(element_float flt,
 							const containing_block_context &self_size) override;
@@ -480,6 +588,9 @@ namespace litehtml
         std::unique_ptr<table_grid>	m_grid;
         int						    m_border_spacing_x;
         int						    m_border_spacing_y;
+		#if H3ML
+		int							m_border_spacing_z;
+		#endif
 
     public:
         explicit render_item_table(std::shared_ptr<element>  src_el);
@@ -488,8 +599,8 @@ namespace litehtml
         {
             return std::make_shared<render_item_table>(src_el());
         }
-		int render(int x, int y, const containing_block_context &containing_block_size, bool second_pass) override;
-        void draw_children(uint_ptr hdc, int x, int y, const position* clip, draw_flag flag, int zindex) override;
+		int render(point p, const containing_block_context &containing_block_size, bool second_pass) override;
+        void draw_children(uint_ptr hdc, point p, const position* clip, draw_flag flag, int zindex) override;
         int get_draw_vertical_offset() override;
         std::shared_ptr<render_item> init() override;
     };
@@ -540,6 +651,22 @@ namespace litehtml
         }
     };
 
+    class render_item_asset : public render_item
+	{
+	protected:
+		int calc_max_height(int asset_height, int containing_block_height);
+
+	public:
+		explicit render_item_asset(std::shared_ptr<element> src_el) : render_item(std::move(src_el))
+		{}
+
+		int render(point p, const containing_block_context &containing_block_size, bool second_pass) override;
+		std::shared_ptr<render_item> clone() override
+		{
+			return std::make_shared<render_item_asset>(src_el());
+		}
+	};
+
     class render_item_image : public render_item
     {
     protected:
@@ -549,7 +676,7 @@ namespace litehtml
         explicit render_item_image(std::shared_ptr<element>  src_el) : render_item(std::move(src_el))
         {}
 
-		int render(int x, int y, const containing_block_context &containing_block_size, bool second_pass) override;
+		int render(point p, const containing_block_context &containing_block_size, bool second_pass) override;
         std::shared_ptr<render_item> clone() override
         {
             return std::make_shared<render_item_image>(src_el());
@@ -579,7 +706,7 @@ namespace litehtml
     protected:
         std::list<std::unique_ptr<flex_item>>   m_flex_items;
 
-        int _render_content(int x, int y, bool second_pass, int ret_width,
+        int _render_content(point p, bool second_pass, int ret_width,
 							const containing_block_context &self_size) override;
 
     public:
@@ -590,7 +717,7 @@ namespace litehtml
         {
             return std::make_shared<render_item_flex>(src_el());
         }
-        void draw_children(uint_ptr hdc, int x, int y, const position* clip, draw_flag flag, int zindex) override;
+        void draw_children(uint_ptr hdc, point p, const position* clip, draw_flag flag, int zindex) override;
         std::shared_ptr<render_item> init() override;
     };
 

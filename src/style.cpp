@@ -31,6 +31,10 @@ std::map<string_id, string> style::m_valid_values =
 	{ _border_top_style_, border_style_strings },
 	{ _border_bottom_style_, border_style_strings },
 	{ _border_collapse_, border_collapse_strings },
+    #if H3ML
+    { _border_front_style_, border_style_strings },
+	{ _border_back_style_, border_style_strings },
+    #endif
 
 	// these 4 properties are comma-separated lists of keywords, see parse_keyword_comma_list
 	{ _background_attachment_, background_attachment_strings },
@@ -122,6 +126,10 @@ void style::add_property(string_id name, const string& val, const string& baseur
 	case _border_left_style_:
 	case _border_right_style_:
 	case _border_collapse_:
+    #if H3ML
+    case _border_front_style_:
+	case _border_back_style_:
+    #endif
 
 	case _flex_direction_:
 	case _flex_wrap_:
@@ -161,6 +169,14 @@ void style::add_property(string_id name, const string& val, const string& baseur
 	case _margin_right_:
 	case _margin_top_:
 	case _margin_bottom_:
+    #if H3ML
+    case _front_:
+	case _back_:
+	case _depth_:
+	case _min_depth_:
+	case _margin_front_:
+	case _margin_back_:
+    #endif
 		length.fromString(val, "auto", -1);
 		add_parsed_property(name, property_value(length, important));
 		break;
@@ -168,6 +184,9 @@ void style::add_property(string_id name, const string& val, const string& baseur
 	// <length> | none
 	case _max_width_:
 	case _max_height_:
+    #if H3ML
+    case _max_depth_:
+    #endif
 		length.fromString(val, "none", -1);
 		add_parsed_property(name, property_value(length, important));
 		break;
@@ -208,9 +227,12 @@ void style::add_property(string_id name, const string& val, const string& baseur
 
 	// Parse border spacing properties 
 	case _border_spacing_:
-		parse_two_lengths(val, len);
+		parse_three_lengths(val, len);
 		add_parsed_property(__litehtml_border_spacing_x_, property_value(len[0], important));
 		add_parsed_property(__litehtml_border_spacing_y_, property_value(len[1], important));
+		#if H3ML
+		add_parsed_property(__litehtml_border_spacing_z_, property_value(len[2], important));
+		#endif
 		break;
 
 	// Parse borders shorthand properties 
@@ -228,6 +250,10 @@ void style::add_property(string_id name, const string& val, const string& baseur
 				add_parsed_property(_border_right_style_,	style);
 				add_parsed_property(_border_top_style_,		style);
 				add_parsed_property(_border_bottom_style_,	style);
+				#if H3ML
+				add_parsed_property(_border_front_style_,	style);
+				add_parsed_property(_border_back_style_,	style);
+				#endif
 			}
 			else if (t_isdigit(token[0]) || token[0] == '.' ||
 				value_in_list(token, border_width_strings))
@@ -237,6 +263,10 @@ void style::add_property(string_id name, const string& val, const string& baseur
 				add_parsed_property(_border_right_width_,	width);
 				add_parsed_property(_border_top_width_,		width);
 				add_parsed_property(_border_bottom_width_,	width);
+				#if H3ML
+				add_parsed_property(_border_front_width_,	width);
+				add_parsed_property(_border_back_width_,	width);
+				#endif
 			}
 			else
 			{
@@ -246,6 +276,10 @@ void style::add_property(string_id name, const string& val, const string& baseur
 				add_parsed_property(_border_right_color_,	color);
 				add_parsed_property(_border_top_color_,		color);
 				add_parsed_property(_border_bottom_color_,	color);
+				#if H3ML
+				add_parsed_property(_border_front_color_,	color);
+				add_parsed_property(_border_back_color_,	color);
+				#endif
 			}
 		}
 		break;
@@ -255,6 +289,10 @@ void style::add_property(string_id name, const string& val, const string& baseur
 	case _border_right_:
 	case _border_top_:
 	case _border_bottom_:
+    #if H3ML
+	case _border_front_:
+	case _border_back_:
+    #endif
 	{
 		string_vector tokens;
 		split_string(val, tokens, " ", "", "(");
@@ -289,12 +327,28 @@ void style::add_property(string_id name, const string& val, const string& baseur
 
 		string_vector tokens;
 		split_string(val, tokens, " ");
+		#if H3ML
+		if (tokens.size() == 6)
+		{
+			add_property(_id("border-top"    + prop), tokens[0], baseurl, important, container);
+			add_property(_id("border-right"  + prop), tokens[1], baseurl, important, container);
+			add_property(_id("border-bottom" + prop), tokens[2], baseurl, important, container);
+			add_property(_id("border-left"   + prop), tokens[3], baseurl, important, container);
+			add_property(_id("border-front"  + prop), tokens[4], baseurl, important, container);
+			add_property(_id("border-back"   + prop), tokens[5], baseurl, important, container);
+		}
+		else
+		#endif
 		if (tokens.size() == 4)
 		{
 			add_property(_id("border-top"    + prop), tokens[0], baseurl, important, container);
 			add_property(_id("border-right"  + prop), tokens[1], baseurl, important, container);
 			add_property(_id("border-bottom" + prop), tokens[2], baseurl, important, container);
 			add_property(_id("border-left"   + prop), tokens[3], baseurl, important, container);
+			#if H3ML
+			add_property(_id("border-front"  + prop), tokens[0], baseurl, important, container);
+			add_property(_id("border-back"   + prop), tokens[0], baseurl, important, container);
+			#endif
 		}
 		else if (tokens.size() == 3)
 		{
@@ -302,6 +356,10 @@ void style::add_property(string_id name, const string& val, const string& baseur
 			add_property(_id("border-right"  + prop), tokens[1], baseurl, important, container);
 			add_property(_id("border-left"   + prop), tokens[1], baseurl, important, container);
 			add_property(_id("border-bottom" + prop), tokens[2], baseurl, important, container);
+			#if H3ML
+			add_property(_id("border-front"  + prop), tokens[0], baseurl, important, container);
+			add_property(_id("border-back"   + prop), tokens[0], baseurl, important, container);
+			#endif
 		}
 		else if (tokens.size() == 2)
 		{
@@ -309,6 +367,10 @@ void style::add_property(string_id name, const string& val, const string& baseur
 			add_property(_id("border-bottom" + prop), tokens[0], baseurl, important, container);
 			add_property(_id("border-right"  + prop), tokens[1], baseurl, important, container);
 			add_property(_id("border-left"   + prop), tokens[1], baseurl, important, container);
+			#if H3ML
+			add_property(_id("border-front"  + prop), tokens[0], baseurl, important, container);
+			add_property(_id("border-back"   + prop), tokens[0], baseurl, important, container);
+			#endif
 		}
 		else if (tokens.size() == 1)
 		{
@@ -316,6 +378,10 @@ void style::add_property(string_id name, const string& val, const string& baseur
 			add_property(_id("border-bottom" + prop), tokens[0], baseurl, important, container);
 			add_property(_id("border-right"  + prop), tokens[0], baseurl, important, container);
 			add_property(_id("border-left"   + prop), tokens[0], baseurl, important, container);
+			#if H3ML
+			add_property(_id("border-front"  + prop), tokens[0], baseurl, important, container);
+			add_property(_id("border-back"   + prop), tokens[0], baseurl, important, container);
+			#endif
 		}
 		break;
 	}
@@ -345,9 +411,12 @@ void style::add_property(string_id name, const string& val, const string& baseur
 	case _border_bottom_right_radius_:
 	case _border_top_right_radius_:
 	case _border_top_left_radius_:
-		parse_two_lengths(val, len);
+		parse_three_lengths(val, len);
 		add_parsed_property(_id(_s(name) + "-x"), property_value(len[0], important));
 		add_parsed_property(_id(_s(name) + "-y"), property_value(len[1], important));
+		#if H3ML
+		add_parsed_property(_id(_s(name) + "-z"), property_value(len[2], important));
+		#endif
 		break;
 
 	// Parse border-radius shorthand properties 
@@ -359,24 +428,54 @@ void style::add_property(string_id name, const string& val, const string& baseur
 		{
 			add_property(_border_radius_x_, tokens[0], baseurl, important, container);
 			add_property(_border_radius_y_, tokens[0], baseurl, important, container);
+			#if H3ML
+			add_property(_border_radius_z_, tokens[0], baseurl, important, container);
+			#endif
 		}
 		else if (tokens.size() >= 2)
 		{
 			add_property(_border_radius_x_, tokens[0], baseurl, important, container);
 			add_property(_border_radius_y_, tokens[1], baseurl, important, container);
+			#if H3ML
+			add_property(_border_radius_z_, tokens.size() >= 3 ? tokens[2] : tokens[1], baseurl, important, container);
+			#endif
 		}
 		break;
 	}
 	case _border_radius_x_:
 	case _border_radius_y_:
+    #if H3ML
+	case _border_radius_z_:
+    #endif
 	{
 		string_id top_left, top_right, bottom_right, bottom_left;
+		#if H3ML
+		string_id front_left, front_right, back_right, back_left;
+		if (name == _border_radius_z_)
+		{
+			top_left		= _border_top_left_radius_z_;
+			top_right		= _border_top_right_radius_z_;
+			bottom_right	= _border_bottom_right_radius_z_;
+			bottom_left		= _border_bottom_left_radius_z_;
+			front_left		= _border_front_left_radius_z_;
+			front_right		= _border_front_right_radius_z_;
+			back_right		= _border_back_right_radius_z_;
+			back_left		= _border_back_left_radius_z_;
+		}
+		else
+		#endif
 		if (name == _border_radius_x_)
 		{
 			top_left		= _border_top_left_radius_x_;
 			top_right		= _border_top_right_radius_x_;
 			bottom_right	= _border_bottom_right_radius_x_;
 			bottom_left		= _border_bottom_left_radius_x_;
+			#if H3ML
+			front_left		= _border_front_left_radius_x_;
+			front_right		= _border_front_right_radius_x_;
+			back_right		= _border_back_right_radius_x_;
+			back_left		= _border_back_left_radius_x_;
+			#endif
 		}
 		else
 		{
@@ -384,33 +483,108 @@ void style::add_property(string_id name, const string& val, const string& baseur
 			top_right		= _border_top_right_radius_y_;
 			bottom_right	= _border_bottom_right_radius_y_;
 			bottom_left		= _border_bottom_left_radius_y_;
+			#if H3ML
+			front_left		= _border_front_left_radius_y_;
+			front_right		= _border_front_right_radius_y_;
+			back_right		= _border_back_right_radius_y_;
+			back_left		= _border_back_left_radius_y_;
+			#endif
 		}
 
-		switch (parse_four_lengths(val, len))
+		switch (
+			#if H3ML
+			parse_eight_lengths(val, len)
+			#else
+			parse_four_lengths(val, len)
+			#endif
+		)
 		{
 		case 1:
 			add_parsed_property(top_left,		property_value(len[0], important));
 			add_parsed_property(top_right,		property_value(len[0], important));
 			add_parsed_property(bottom_right,	property_value(len[0], important));
 			add_parsed_property(bottom_left,	property_value(len[0], important));
+			#if H3ML
+			add_parsed_property(front_left,		property_value(len[0], important));
+			add_parsed_property(front_right,	property_value(len[0], important));
+			add_parsed_property(back_right,		property_value(len[0], important));
+			add_parsed_property(back_left,		property_value(len[0], important));
+			#endif
 			break;
 		case 2:
 			add_parsed_property(top_left,		property_value(len[0], important));
 			add_parsed_property(top_right,		property_value(len[1], important));
 			add_parsed_property(bottom_right,	property_value(len[0], important));
 			add_parsed_property(bottom_left,	property_value(len[1], important));
+			#if H3ML
+			add_parsed_property(front_left,		property_value(len[0], important));
+			add_parsed_property(front_right,	property_value(len[1], important));
+			add_parsed_property(back_right,		property_value(len[0], important));
+			add_parsed_property(back_left,		property_value(len[1], important));
+			#endif
 			break;
 		case 3:
 			add_parsed_property(top_left,		property_value(len[0], important));
 			add_parsed_property(top_right,		property_value(len[1], important));
 			add_parsed_property(bottom_right,	property_value(len[2], important));
 			add_parsed_property(bottom_left,	property_value(len[1], important));
+			#if H3ML
+			add_parsed_property(front_left,		property_value(len[0], important));
+			add_parsed_property(front_right,	property_value(len[1], important));
+			add_parsed_property(back_right,		property_value(len[2], important));
+			add_parsed_property(back_left,		property_value(len[1], important));
+			#endif
 			break;
 		case 4:
 			add_parsed_property(top_left,		property_value(len[0], important));
 			add_parsed_property(top_right,		property_value(len[1], important));
 			add_parsed_property(bottom_right,	property_value(len[2], important));
 			add_parsed_property(bottom_left,	property_value(len[3], important));
+			#if H3ML
+			add_parsed_property(front_left,		property_value(len[0], important));
+			add_parsed_property(front_right,	property_value(len[1], important));
+			add_parsed_property(back_right,		property_value(len[2], important));
+			add_parsed_property(back_left,		property_value(len[3], important));
+			#endif
+			break;
+		#if H3ML
+		case 5:
+			add_parsed_property(top_left,		property_value(len[0], important));
+			add_parsed_property(top_right,		property_value(len[1], important));
+			add_parsed_property(bottom_right,	property_value(len[2], important));
+			add_parsed_property(bottom_left,	property_value(len[3], important));
+			add_parsed_property(front_left,		property_value(len[4], important));
+			add_parsed_property(front_right,	property_value(len[4], important));
+			add_parsed_property(back_right,		property_value(len[4], important));
+			add_parsed_property(back_left,		property_value(len[4], important));
+		case 6:
+			add_parsed_property(top_left,		property_value(len[0], important));
+			add_parsed_property(top_right,		property_value(len[1], important));
+			add_parsed_property(bottom_right,	property_value(len[2], important));
+			add_parsed_property(bottom_left,	property_value(len[3], important));
+			add_parsed_property(front_left,		property_value(len[4], important));
+			add_parsed_property(front_right,	property_value(len[5], important));
+			add_parsed_property(back_right,		property_value(len[4], important));
+			add_parsed_property(back_left,		property_value(len[5], important));
+		case 7:
+			add_parsed_property(top_left,		property_value(len[0], important));
+			add_parsed_property(top_right,		property_value(len[1], important));
+			add_parsed_property(bottom_right,	property_value(len[2], important));
+			add_parsed_property(bottom_left,	property_value(len[3], important));
+			add_parsed_property(front_left,		property_value(len[4], important));
+			add_parsed_property(front_right,	property_value(len[5], important));
+			add_parsed_property(back_right,		property_value(len[6], important));
+			add_parsed_property(back_left,		property_value(len[4], important));
+		case 8:
+			add_parsed_property(top_left,		property_value(len[0], important));
+			add_parsed_property(top_right,		property_value(len[1], important));
+			add_parsed_property(bottom_right,	property_value(len[2], important));
+			add_parsed_property(bottom_left,	property_value(len[3], important));
+			add_parsed_property(front_left,		property_value(len[4], important));
+			add_parsed_property(front_right,	property_value(len[5], important));
+			add_parsed_property(back_right,		property_value(len[6], important));
+			add_parsed_property(back_left,		property_value(len[7], important));
+		#endif
 			break;
 		}
 		break;
@@ -461,31 +635,71 @@ void style::add_property(string_id name, const string& val, const string& baseur
 	case _margin_:
 	case _padding_:
 	{
-		switch (parse_four_lengths(val, len))
+		switch (
+			#if H3ML
+			parse_six_lengths(val, len)
+			#else
+			parse_four_lengths(val, len)
+			#endif
+		)
 		{
+		#if H3ML
+		case 6:
+			add_parsed_property(_id(_s(name) + "-top"),		property_value(len[0], important));
+			add_parsed_property(_id(_s(name) + "-right"),	property_value(len[1], important));
+			add_parsed_property(_id(_s(name) + "-bottom"),	property_value(len[2], important));
+			add_parsed_property(_id(_s(name) + "-left"),	property_value(len[3], important));
+			add_parsed_property(_id(_s(name) + "-front"),	property_value(len[4], important));
+			add_parsed_property(_id(_s(name) + "-back"),	property_value(len[5], important));
+			break;
+		case 5:
+			add_parsed_property(_id(_s(name) + "-top"),		property_value(len[0], important));
+			add_parsed_property(_id(_s(name) + "-right"),	property_value(len[1], important));
+			add_parsed_property(_id(_s(name) + "-bottom"),	property_value(len[2], important));
+			add_parsed_property(_id(_s(name) + "-left"),	property_value(len[3], important));
+			add_parsed_property(_id(_s(name) + "-front"),	property_value(len[4], important));
+			add_parsed_property(_id(_s(name) + "-back"),	property_value(len[4], important));
+			break;
+		#endif
 		case 4:
 			add_parsed_property(_id(_s(name) + "-top"),		property_value(len[0], important));
 			add_parsed_property(_id(_s(name) + "-right"),	property_value(len[1], important));
 			add_parsed_property(_id(_s(name) + "-bottom"),	property_value(len[2], important));
 			add_parsed_property(_id(_s(name) + "-left"),	property_value(len[3], important));
+			#if H3ML
+			add_parsed_property(_id(_s(name) + "-front"),	property_value(len[0], important));
+			add_parsed_property(_id(_s(name) + "-back"),	property_value(len[2], important));
+			#endif
 			break;
 		case 3:
 			add_parsed_property(_id(_s(name) + "-top"),		property_value(len[0], important));
 			add_parsed_property(_id(_s(name) + "-right"),	property_value(len[1], important));
 			add_parsed_property(_id(_s(name) + "-left"),	property_value(len[1], important));
 			add_parsed_property(_id(_s(name) + "-bottom"),	property_value(len[2], important));
+			#if H3ML
+			add_parsed_property(_id(_s(name) + "-front"),	property_value(len[0], important));
+			add_parsed_property(_id(_s(name) + "-back"),	property_value(len[2], important));
+			#endif
 			break;
 		case 2:
 			add_parsed_property(_id(_s(name) + "-top"),		property_value(len[0], important));
 			add_parsed_property(_id(_s(name) + "-bottom"),	property_value(len[0], important));
 			add_parsed_property(_id(_s(name) + "-right"),	property_value(len[1], important));
 			add_parsed_property(_id(_s(name) + "-left"),	property_value(len[1], important));
+			#if H3ML
+			add_parsed_property(_id(_s(name) + "-front"),	property_value(len[0], important));
+			add_parsed_property(_id(_s(name) + "-back"),	property_value(len[1], important));
+			#endif
 			break;
 		case 1:
 			add_parsed_property(_id(_s(name) + "-top"),		property_value(len[0], important));
 			add_parsed_property(_id(_s(name) + "-bottom"),	property_value(len[0], important));
 			add_parsed_property(_id(_s(name) + "-right"),	property_value(len[0], important));
 			add_parsed_property(_id(_s(name) + "-left"),	property_value(len[0], important));
+			#if H3ML
+			add_parsed_property(_id(_s(name) + "-front"),	property_value(len[0], important));
+			add_parsed_property(_id(_s(name) + "-back"),	property_value(len[0], important));
+			#endif
 			break;
 		}
 		break;
@@ -554,7 +768,7 @@ css_length style::parse_border_width(const string& str)
 	return len;
 }
 
-void style::parse_two_lengths(const string& str, css_length len[2])
+void style::parse_three_lengths(const string& str, css_length len[3])
 {
 	string_vector tokens;
 	split_string(str, tokens, " ");
@@ -562,15 +776,53 @@ void style::parse_two_lengths(const string& str, css_length len[2])
 	{
 		css_length length;
 		length.fromString(tokens[0]);
-		len[0] = len[1] = length;
+		len[0] = len[1] = len[2] =length;
 	}
 	else if (tokens.size() == 2)
 	{
 		len[0].fromString(tokens[0]);
 		len[1].fromString(tokens[1]);
+		len[2].fromString(tokens[1]);
+	}
+	else if (tokens.size() >= 3)
+	{
+		len[0].fromString(tokens[0]);
+		len[1].fromString(tokens[1]);
+		len[2].fromString(tokens[2]);
 	}
 }
 
+#if H3ML
+int style::parse_six_lengths(const string& str, css_length len[6])
+{
+	string_vector tokens;
+	split_string(str, tokens, " ");
+	if (tokens.size() == 0 || tokens.size() > 6)
+	{
+		return 0;
+	}
+	for (size_t i = 0; i < tokens.size(); i++)
+	{
+		len[i].fromString(tokens[i]);
+	}
+	return (int)tokens.size();
+}
+
+int style::parse_eight_lengths(const string& str, css_length len[8])
+{
+	string_vector tokens;
+	split_string(str, tokens, " ");
+	if (tokens.size() == 0 || tokens.size() > 8)
+	{
+		return 0;
+	}
+	for (size_t i = 0; i < tokens.size(); i++)
+	{
+		len[i].fromString(tokens[i]);
+	}
+	return (int)tokens.size();
+}
+#else
 int style::parse_four_lengths(const string& str, css_length len[4])
 {
 	string_vector tokens;
@@ -585,6 +837,7 @@ int style::parse_four_lengths(const string& str, css_length len[4])
 	}
 	return (int)tokens.size();
 }
+#endif
 
 void style::parse_background(const string& val, const string& baseurl, bool important, document_container* container)
 {
@@ -596,6 +849,9 @@ void style::parse_background(const string& val, const string& baseurl, bool impo
 	string_vector images; 
 	int_vector repeats, origins, clips, attachments;
 	length_vector x_positions, y_positions;
+	#if H3ML
+	length_vector z_positions;
+	#endif
 	size_vector sizes;
 
 	for (const auto& token : tokens)
@@ -612,6 +868,9 @@ void style::parse_background(const string& val, const string& baseurl, bool impo
 		attachments.push_back(bg.m_attachment[0]);
 		x_positions.push_back(bg.m_position_x[0]);
 		y_positions.push_back(bg.m_position_y[0]);
+		#if H3ML
+		z_positions.push_back(bg.m_position_z[0]);
+		#endif
 		sizes.push_back(bg.m_size[0]);
 	}
 
@@ -624,6 +883,9 @@ void style::parse_background(const string& val, const string& baseurl, bool impo
 	add_parsed_property(_background_attachment_,	property_value(attachments, important));
 	add_parsed_property(_background_position_x_,	property_value(x_positions, important));
 	add_parsed_property(_background_position_y_,	property_value(y_positions, important));
+	#if H3ML
+	add_parsed_property(_background_position_z_,	property_value(z_positions, important));
+	#endif
 	add_parsed_property(_background_size_,			property_value(sizes,		important));
 }
 
@@ -637,7 +899,14 @@ bool style::parse_one_background(const string& val, document_container* containe
 	bg.m_attachment = { background_attachment_scroll };
 	bg.m_position_x = { css_length(0, css_units_percentage) };
 	bg.m_position_y = { css_length(0, css_units_percentage) };
-	bg.m_size = { css_size(css_length::predef_value(background_size_auto), css_length::predef_value(background_size_auto)) };
+	#if H3ML
+	bg.m_position_z = { css_length(0, css_units_percentage) };
+	#endif
+	bg.m_size = { css_size(css_length::predef_value(background_size_auto), css_length::predef_value(background_size_auto)
+		#if H3ML
+		, css_length::predef_value(background_size_auto)
+		#endif
+	) };
 
 	if(val == "none")
 	{
@@ -717,7 +986,11 @@ bool style::parse_one_background(const string& val, document_container* containe
 		if (tokens.size() == 2 && !parse_one_background_size(tokens[1], bg.m_size[0]))
 			return false;
 
-		if (tokens.size() > 0 && !parse_one_background_position(tokens[0], bg.m_position_x[0], bg.m_position_y[0]))
+		if (tokens.size() > 0 && !parse_one_background_position(tokens[0], bg.m_position_x[0], bg.m_position_y[0]
+			#if H3ML
+			, bg.m_position_z[0]
+			#endif
+		))
 			return false;
 	}
 	
@@ -769,25 +1042,51 @@ void style::parse_background_position(const string& val, bool important)
 	if (tokens.empty()) return;
 
 	length_vector x_positions, y_positions;
+	#if H3ML
+	length_vector z_positions;
+	#endif
 
 	for (const auto& token : tokens)
 	{
 		css_length x, y;
-		if(!parse_one_background_position(token, x, y)) return;
+		#if H3ML
+		css_length z;
+		#endif
+		if(!parse_one_background_position(token, x, y
+			#if H3ML
+			, z
+			#endif
+		)) return;
 		x_positions.push_back(x);
 		y_positions.push_back(y);
+		#if H3ML
+		z_positions.push_back(z);
+		#endif
 	}
 	
 	add_parsed_property(_background_position_x_, property_value(x_positions, important));
 	add_parsed_property(_background_position_y_, property_value(y_positions, important));
+	#if H3ML
+	add_parsed_property(_background_position_z_, property_value(z_positions, important));
+	#endif
 }
 
-bool style::parse_one_background_position(const string& val, css_length& x, css_length& y)
+bool style::parse_one_background_position(const string& val, css_length& x, css_length& y
+	#if H3ML
+	, css_length& z
+	#endif
+)
 {
 	string_vector pos;
 	split_string(val, pos, " \t");
 	
-	if (pos.empty() || pos.size() > 2)
+	if (pos.empty() || 
+		#if H3ML
+		pos.size() > 3
+		#else
+		pos.size() > 2
+		#endif
+	)
 	{
 		return false;
 	}
@@ -798,16 +1097,33 @@ bool style::parse_one_background_position(const string& val, css_length& x, css_
 		{
 			x.fromString(pos[0], "left;right;center");
 			y.set_value(50, css_units_percentage);
+			#if H3ML
+			z.set_value(50, css_units_percentage);
+			#endif
 		}
 		else if (value_in_list(pos[0], "top;bottom;center"))
 		{
 			y.fromString(pos[0], "top;bottom;center");
 			x.set_value(50, css_units_percentage);
+			#if H3ML
+			z.set_value(50, css_units_percentage);
+			#endif
 		}
+		#if H3ML
+		else if (value_in_list(pos[0], "front;back;center"))
+		{
+			z.fromString(pos[0], "front;back;center");
+			x.set_value(50, css_units_percentage);
+			y.set_value(50, css_units_percentage);
+		}
+		#endif
 		else
 		{
 			x.fromString(pos[0], "left;right;center");
 			y.set_value(50, css_units_percentage);
+			#if H3ML
+			z.set_value(50, css_units_percentage);
+			#endif
 		}
 	}
 	else if (pos.size() == 2)
@@ -816,28 +1132,122 @@ bool style::parse_one_background_position(const string& val, css_length& x, css_
 		{
 			x.fromString(pos[0], "left;right;center");
 			y.fromString(pos[1], "top;bottom;center");
+			#if H3ML
+			z.set_value(50, css_units_percentage);
+			#endif
 		}
 		else if (value_in_list(pos[0], "top;bottom"))
 		{
 			x.fromString(pos[1], "left;right;center");
 			y.fromString(pos[0], "top;bottom;center");
+			#if H3ML
+			z.set_value(50, css_units_percentage);
+			#endif
 		}
 		else if (value_in_list(pos[1], "left;right"))
 		{
 			x.fromString(pos[1], "left;right;center");
 			y.fromString(pos[0], "top;bottom;center");
+			#if H3ML
+			z.set_value(50, css_units_percentage);
+			#endif
 		}
 		else if (value_in_list(pos[1], "top;bottom"))
 		{
 			x.fromString(pos[0], "left;right;center");
 			y.fromString(pos[1], "top;bottom;center");
+			#if H3ML
+			z.set_value(50, css_units_percentage);
+			#endif
+		}
+		#if H3ML
+		else if (value_in_list(pos[0], "front;back"))
+		{
+			x.fromString(pos[1], "left;right;center");
+			y.set_value(50, css_units_percentage);
+			z.fromString(pos[0], "front;back;center");
+		}
+		else if (value_in_list(pos[1], "front;back"))
+		{
+			x.fromString(pos[0], "left;right;center");
+			y.set_value(50, css_units_percentage);
+			z.fromString(pos[1], "front;back;center");
+		}
+		#endif
+		else
+		{
+			x.fromString(pos[0], "left;right;center");
+			y.fromString(pos[1], "top;bottom;center");
+			#if H3ML
+			z.set_value(50, css_units_percentage);
+			#endif
+		}
+	}
+	#if H3ML
+	else if (pos.size() == 3)
+	{
+		if (value_in_list(pos[0], "left;right"))
+		{
+			x.fromString(pos[0], "left;right;center");
+			y.fromString(pos[1], "top;bottom;center");
+			z.fromString(pos[2], "front;back;center");
+		}
+		else if (value_in_list(pos[0], "top;bottom"))
+		{
+			x.fromString(pos[1], "left;right;center");
+			y.fromString(pos[0], "top;bottom;center");
+			z.fromString(pos[2], "front;back;center");
+		}
+		else if (value_in_list(pos[0], "front;back"))
+		{
+			x.fromString(pos[1], "left;right;center");
+			y.fromString(pos[2], "top;bottom;center");
+			z.fromString(pos[0], "front;back;center");
+		}
+		else if (value_in_list(pos[1], "left;right"))
+		{
+			x.fromString(pos[1], "left;right;center");
+			y.fromString(pos[0], "top;bottom;center");
+			z.fromString(pos[2], "front;back;center");
+		}
+		else if (value_in_list(pos[1], "top;bottom"))
+		{
+			x.fromString(pos[0], "left;right;center");
+			y.fromString(pos[1], "top;bottom;center");
+			z.fromString(pos[2], "front;back;center");
+		}
+		else if (value_in_list(pos[1], "front;back"))
+		{
+			x.fromString(pos[0], "left;right;center");
+			y.fromString(pos[2], "top;bottom;center");
+			z.fromString(pos[1], "front;back;center");
+		}
+		else if (value_in_list(pos[2], "left;right"))
+		{
+			x.fromString(pos[2], "left;right;center");
+			y.fromString(pos[1], "top;bottom;center");
+			z.fromString(pos[0], "front;back;center");
+		}
+		else if (value_in_list(pos[2], "top;bottom"))
+		{
+			x.fromString(pos[1], "left;right;center");
+			y.fromString(pos[2], "top;bottom;center");
+			z.fromString(pos[0], "front;back;center");
+		}
+		else if (value_in_list(pos[2], "front;back"))
+		{
+			x.fromString(pos[0], "left;right;center");
+			y.fromString(pos[1], "top;bottom;center");
+			z.fromString(pos[2], "front;back;center");
 		}
 		else
 		{
 			x.fromString(pos[0], "left;right;center");
 			y.fromString(pos[1], "top;bottom;center");
+			z.fromString(pos[2], "front;back;center");
 		}
 	}
+	#endif
 
 	if (x.is_predefined())
 	{
@@ -869,6 +1279,23 @@ bool style::parse_one_background_position(const string& val, css_length& x, css_
 			break;
 		}
 	}
+	#if H3ML
+	if (z.is_predefined())
+	{
+		switch (z.predef())
+		{
+		case 0:
+			z.set_value(0, css_units_percentage);
+			break;
+		case 1:
+			z.set_value(100, css_units_percentage);
+			break;
+		case 2:
+			z.set_value(50, css_units_percentage);
+			break;
+		}
+	}
+	#endif
 	return true;
 }
 
@@ -908,6 +1335,16 @@ bool style::parse_one_background_size(const string& val, css_size& size)
 	{
 		size.height.predef(background_size_auto);
 	}
+	#if H3ML
+	if (res.size() > 2)
+	{
+		size.depth.fromString(res[2], background_size_strings);
+	}
+	else
+	{
+		size.depth.predef(background_size_auto);
+	}
+	#endif
 	return true;
 }
 
@@ -1102,7 +1539,7 @@ void style::remove_property( string_id name, bool important )
 	}
 }
 
-void style::combine(const style& src)
+void style::combine(const litehtml::style& src)
 {
 	for (const auto& property : src.m_properties)
 	{

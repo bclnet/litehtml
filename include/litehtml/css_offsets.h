@@ -11,6 +11,10 @@ namespace litehtml
 		css_length	top;
 		css_length	right;
 		css_length	bottom;
+		#if H3ML
+		css_length	front;
+		css_length	back;
+		#endif
 
 		css_offsets() = default;
 
@@ -20,6 +24,10 @@ namespace litehtml
 			top		= val.top;
 			right	= val.right;
 			bottom	= val.bottom;
+			#if H3ML
+			front	= val.front;
+			back	= val.back;
+			#endif
 		}
 
 		css_offsets& operator=(const css_offsets& val)
@@ -28,6 +36,10 @@ namespace litehtml
 			top		= val.top;
 			right	= val.right;
 			bottom	= val.bottom;
+			#if H3ML
+			front	= val.front;
+			back	= val.back;
+			#endif
 			return *this;
 		}
 
@@ -36,7 +48,12 @@ namespace litehtml
 			return	"left: " + left.to_string() +
 					", top: " + top.to_string() +
 					", right: " + right.to_string() +
-					", bottom: " + bottom.to_string();
+					", bottom: " + bottom.to_string()
+					#if H3ML
+					+ ", front: " + front.to_string() +
+					", back: " + back.to_string()
+					#endif
+					;
 		}
 	};
 }

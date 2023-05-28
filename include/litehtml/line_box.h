@@ -16,6 +16,9 @@ namespace litehtml
         int top;
         int left;
         int right;
+		#if H3ML
+		int front;
+		#endif
 
         int width() const
         {
@@ -49,12 +52,15 @@ namespace litehtml
 		int height() const { return right() - left(); }
 		const std::shared_ptr<render_item>& get_el() const { return m_element; }
 		virtual position& pos();
-		virtual void place_to(int x, int y);
+		virtual void place_to(point p);
 		virtual int width() const;
 		virtual int top() const;
 		virtual int bottom() const;
 		virtual int right() const;
 		virtual int left() const;
+		#if H3ML
+		virtual int depth() const;
+		#endif
 		virtual element_type get_type() const	{ return type_text_part; }
 		virtual int get_rendered_min_width() const	{ return m_rendered_min_width; }
 		virtual void set_rendered_min_width(int min_width)	{ m_rendered_min_width = min_width; }
@@ -67,13 +73,16 @@ namespace litehtml
 	public:
 		explicit lbi_start(const std::shared_ptr<render_item>& element);
 
-		void place_to(int x, int y) override;
+		void place_to(point p) override;
 		int width() const override;
 		position& pos() override { return m_pos; }
 		int top() const override;
 		int bottom() const override;
 		int right() const override;
 		int left() const override;
+		#if H3ML
+		int depth() const override;
+		#endif
 		element_type get_type() const override	{ return type_inline_start; }
 		int get_rendered_min_width() const override { return width(); }
 	};
@@ -83,7 +92,7 @@ namespace litehtml
 	public:
 		explicit lbi_end(const std::shared_ptr<render_item>& element);
 
-		void place_to(int x, int y) override;
+		void place_to(point p) override;
 		int right() const override;
 		int left() const override;
 		element_type get_type() const override	{ return type_inline_end; }
@@ -94,7 +103,7 @@ namespace litehtml
 	public:
 		explicit lbi_continue(const std::shared_ptr<render_item>& element);
 
-		void place_to(int x, int y) override;
+		void place_to(point p) override;
 		int right() const override;
 		int left() const override;
 		int width() const override;
@@ -123,8 +132,16 @@ namespace litehtml
         text_align				m_text_align;
 		int 					m_min_width;
 		std::list< std::unique_ptr<line_box_item> > m_items;
+		#if H3ML
+		int						m_front;
+		int						m_depth;
+		#endif
     public:
-        line_box(int top, int left, int right, int line_height, const font_metrics& fm, text_align align) :
+        line_box(int top, int left, int right,
+			#if H3ML
+			int front,
+			#endif
+			int line_height, const font_metrics& fm, text_align align) :
 				m_top(top),
 				m_left(left),
 				m_right(right),
@@ -136,6 +153,10 @@ namespace litehtml
 				m_line_height(0),
 				m_text_align(align),
 				m_min_width(0)
+				#if H3ML
+				, m_front(front),
+				m_depth(0)
+				#endif
 		{
         }
 
@@ -147,6 +168,11 @@ namespace litehtml
         int	 	width() const	{ return m_width;				}
 		int	 	line_right() const	{ return m_right;			}
 		int	 	min_width() const	{ return m_min_width;		}
+		#if H3ML
+		int		front() const	{ return m_front;			}
+		int		back() const	{ return m_front + depth();	}
+		int		depth() const	{ return m_depth;			}
+		#endif
 
         void				add_item(std::unique_ptr<line_box_item> item);
         bool				can_hold(const std::unique_ptr<line_box_item>& item, white_space ws) const;
@@ -154,6 +180,10 @@ namespace litehtml
         int					baseline() const;
         int					top_margin() const;
         int					bottom_margin() const;
+		#if H3ML
+		int					front_margin() const;
+		int					back_margin() const;
+		#endif
         void				y_shift(int shift);
 		std::list< std::unique_ptr<line_box_item> >	finish(bool last_box, const containing_block_context &containing_block_size);
 		std::list< std::unique_ptr<line_box_item> > new_width(int left, int right);

@@ -22,7 +22,7 @@ static Color gdiplus_color(web_color color)
 	return Color(color.alpha, color.red, color.green, color.blue);
 }
 
-void gdiplus_container::draw_ellipse(HDC hdc, int x, int y, int width, int height, web_color color, int line_width)
+void gdiplus_container::draw_ellipse(HDC hdc, point p, size sz, web_color color, int line_width)
 {
 	Graphics graphics(hdc);
 
@@ -30,10 +30,10 @@ void gdiplus_container::draw_ellipse(HDC hdc, int x, int y, int width, int heigh
 	graphics.SetSmoothingMode(SmoothingModeAntiAlias);
 
 	Pen pen(gdiplus_color(color));
-	graphics.DrawEllipse(&pen, x, y, width, height);
+	graphics.DrawEllipse(&pen, p.x, p.y, sz.width, sz.height);
 }
 
-void gdiplus_container::fill_ellipse(HDC hdc, int x, int y, int width, int height, web_color color)
+void gdiplus_container::fill_ellipse(HDC hdc, point p, size sz, web_color color)
 {
 	Graphics graphics(hdc);
 
@@ -41,24 +41,27 @@ void gdiplus_container::fill_ellipse(HDC hdc, int x, int y, int width, int heigh
 	graphics.SetSmoothingMode(SmoothingModeAntiAlias);
 
 	SolidBrush brush(gdiplus_color(color));
-	graphics.FillEllipse(&brush, x, y, width, height);
+	graphics.FillEllipse(&brush, p.x, p.y, sz.width, sz.height);
 }
 
-void gdiplus_container::fill_rect(HDC hdc, int x, int y, int width, int height, web_color color)
+void gdiplus_container::fill_rect(HDC hdc, point p, size sz, web_color color)
 {
 	Graphics graphics(hdc);
 
 	SolidBrush brush(gdiplus_color(color));
-	graphics.FillRectangle(&brush, x, y, width, height);
+	graphics.FillRectangle(&brush, p.x, p.y, sz.width, sz.height);
 }
 
-void gdiplus_container::get_img_size(uint_ptr img, size& sz)
+void gdiplus_container::get_img_size(uint_ptr img, const litehtml::string_map* attrs, size& sz)
 {
 	Bitmap* bmp = (Bitmap*)img;
 	if (bmp)
 	{
 		sz.width  = bmp->GetWidth();
 		sz.height = bmp->GetHeight();
+		#if H3ML
+		sz.depth = 0;
+		#endif
 	}
 }
 

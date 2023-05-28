@@ -13,30 +13,36 @@ int litehtml::render_item_block::place_float(const std::shared_ptr<render_item> 
 
     if (el->src_el()->css().get_float() == float_left)
     {
-        el->render(line_left, line_top, self_size.new_width(line_right));
+        el->render(Point(line_left, line_top, 0), self_size.new_width(line_right));
         if(el->right() > line_right)
         {
             int new_top = find_next_line_top(el->top(), el->width(), self_size.render_width);
             el->pos().x = get_line_left(new_top) + el->content_offset_left();
             el->pos().y = new_top + el->content_offset_top();
+            #if H3ML
+            el->pos().z = el->content_offset_front();
+            #endif
         }
-        add_float(el, 0, 0, self_size.context_idx);
+        add_float(el, point_zero, self_size.context_idx);
 		fix_line_width(float_left, self_size);
 		ret_width = el->right();
     } else if (el->src_el()->css().get_float() == float_right)
     {
-        el->render(0, line_top, self_size.new_width(line_right));
+        el->render(Point(0, line_top, 0), self_size.new_width(line_right));
 
         if(line_left + el->width() > line_right)
         {
             int new_top = find_next_line_top(el->top(), el->width(), self_size.render_width);
             el->pos().x = get_line_right(new_top, self_size.render_width) - el->width() + el->content_offset_left();
             el->pos().y = new_top + el->content_offset_top();
+            #if H3ML
+            el->pos().z = el->content_offset_front();
+            #endif
         } else
         {
             el->pos().x = line_right - el->width() + el->content_offset_left();
         }
-        add_float(el, 0, 0, self_size.context_idx);
+        add_float(el, point_zero, self_size.context_idx);
 		fix_line_width(float_right, self_size);
 		line_left	= 0;
 		line_right	= self_size.render_width;
@@ -324,19 +330,23 @@ void litehtml::render_item_block::clear_floats(int context)
 	}
 }
 
-void litehtml::render_item_block::add_float(const std::shared_ptr<render_item> &el, int x, int y, int context)
+void litehtml::render_item_block::add_float(const std::shared_ptr<render_item> &el, point p, int context)
 {
     if(src_el()->is_floats_holder())
     {
         floated_box fb;
-        fb.pos.x		= el->left() + x;
-        fb.pos.y		= el->top() + y;
+        fb.pos.x		= el->left() + p.x;
+        fb.pos.y		= el->top() + p.y;
         fb.pos.width	= el->width();
         fb.pos.height	= el->height();
         fb.float_side	= el->src_el()->css().get_float();
         fb.clear_floats	= el->src_el()->css().get_clear();
         fb.el			= el;
 		fb.context		= context;
+        #if H3ML
+        fb.pos.z		= el->front() + p.z;
+        fb.pos.depth    = el->depth();
+        #endif
 
         if(fb.float_side == float_left)
         {
@@ -390,7 +400,7 @@ void litehtml::render_item_block::add_float(const std::shared_ptr<render_item> &
         auto el_parent = parent();
         if (el_parent)
         {
-            el_parent->add_float(el, x + m_pos.x, y + m_pos.y, context);
+            el_parent->add_float(el, Point(p.x + m_pos.x, p.y + m_pos.y, p.z + m_pos.z), context);
         }
     }
 }
@@ -698,16 +708,19 @@ std::shared_ptr<litehtml::render_item> litehtml::render_item_block::init()
     return ret;
 }
 
-int litehtml::render_item_block::render(int x, int y, const containing_block_context &containing_block_size, bool second_pass)
+int litehtml::render_item_block::render(point p, const containing_block_context &containing_block_size, bool second_pass)
 {
     int ret_width = 0;
     calc_outlines(containing_block_size.width);
 
     m_pos.clear();
-    m_pos.move_to(x, y);
+    m_pos.move_to(p);
 
     m_pos.x += content_offset_left();
     m_pos.y += content_offset_top();
+    #if H3ML
+    m_pos.z += content_offset_front();
+    #endif
 
     m_floats_left.clear();
     m_floats_right.clear();
@@ -719,7 +732,7 @@ int litehtml::render_item_block::render(int x, int y, const containing_block_con
     //*****************************************
     // Render content
     //*****************************************
-    ret_width = _render_content(x, y, second_pass, ret_width, self_size);
+    ret_width = _render_content(p, second_pass, ret_width, self_size);
     //*****************************************
 
 	bool requires_rerender = false;		// when true, the second pass for content rendering is required
@@ -785,7 +798,7 @@ int litehtml::render_item_block::render(int x, int y, const containing_block_con
 		m_cache_line_left.invalidate();
 		m_cache_line_right.invalidate();
 
-		_render_content(x, y, true, ret_width, self_size.new_width(m_pos.width));
+		_render_content(p, true, ret_width, self_size.new_width(m_pos.width));
 	}
 
 	// Set block height
@@ -815,7 +828,7 @@ int litehtml::render_item_block::render(int x, int y, const containing_block_con
 		}
 	}
 
-	// Fix width with max-width attribute
+	// Fix height with max-height attribute
 	if(self_size.max_height.type != containing_block_context::cbc_value_type_none)
 	{
 		if(m_pos.height > self_size.max_height)
@@ -824,10 +837,43 @@ int litehtml::render_item_block::render(int x, int y, const containing_block_con
 		}
 	}
 
+    #if H3ML
+    // Set block depth
+	if (self_size.depth.type != containing_block_context::cbc_value_type_auto)
+	{
+		m_pos.depth = self_size.depth;
+		if(src_el()->css().get_box_sizing() == box_sizing_border_box)
+		{
+			m_pos.depth -= box_sizing_depth();
+		}
+	}
+
+	// Fix height with min-depth attribute
+	if(self_size.min_depth.type != containing_block_context::cbc_value_type_none)
+	{
+		if(m_pos.depth < self_size.min_depth)
+		{
+			m_pos.depth = self_size.min_depth;
+		}
+	}
+
+	// Fix width with max-depth attribute
+	if(self_size.max_depth.type != containing_block_context::cbc_value_type_none)
+	{
+		if(m_pos.depth > self_size.max_depth)
+		{
+			m_pos.depth = self_size.max_depth;
+		}
+	}
+    #endif
+
     // calculate the final position
-    m_pos.move_to(x, y);
+    m_pos.move_to(p);
     m_pos.x += content_offset_left();
     m_pos.y += content_offset_top();
+    #if H3ML
+    m_pos.z += content_offset_front();
+    #endif
 
     if (src_el()->css().get_display() == display_list_item)
     {
@@ -836,7 +882,7 @@ int litehtml::render_item_block::render(int x, int y, const containing_block_con
         {
             size sz;
             string list_image_baseurl = src_el()->css().get_list_style_image_baseurl();
-            src_el()->get_document()->container()->get_image_size(list_image.c_str(), list_image_baseurl.c_str(), sz);
+            src_el()->get_document()->container()->get_image_size(list_image.c_str(), list_image_baseurl.c_str(), nullptr, sz);
             if (m_pos.height < sz.height)
             {
 				m_pos.height = sz.height;

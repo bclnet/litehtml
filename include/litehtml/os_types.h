@@ -8,6 +8,7 @@ namespace litehtml
 {
 	using std::string;
 	typedef std::uintptr_t	uint_ptr;
+	#define _tdefault ""
 
 #if defined( WIN32 ) || defined( _WIN32 ) || defined( WINCE )
 

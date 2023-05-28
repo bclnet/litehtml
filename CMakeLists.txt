@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.11)
 
 project(litehtml LANGUAGES C CXX)
-include(CTest)
-enable_testing()
 
 # Soname
 # MAJOR is incremented when symbols are removed or changed in an incompatible way
@@ -17,12 +15,16 @@ if(NOT EXTERNAL_GUMBO)
 endif()
 
 set(SOURCE_LITEHTML
+    src/api_node.cpp
+    src/api_service.cpp
+    src/api.cpp
     src/codepoint.cpp
     src/css_length.cpp
     src/css_selector.cpp
     src/document.cpp
     src/document_container.cpp
     src/el_anchor.cpp
+    src/el_asset.cpp
     src/el_base.cpp
     src/el_before_after.cpp
     src/el_body.cpp
@@ -47,6 +49,7 @@ set(SOURCE_LITEHTML
     src/html_tag.cpp
     src/iterators.cpp
     src/media_query.cpp
+    src/script_engine.cpp
     src/style.cpp
     src/stylesheet.cpp
     src/table.cpp
@@ -73,6 +76,10 @@ set(SOURCE_LITEHTML
 
 set(HEADER_LITEHTML
     include/litehtml.h
+    include/litehtml/api.h
+    include/litehtml/api_any.h
+    include/litehtml/api_node.h
+    include/litehtml/api_service.h
     include/litehtml/background.h
     include/litehtml/borders.h
     include/litehtml/codepoint.h
@@ -84,6 +91,7 @@ set(HEADER_LITEHTML
     include/litehtml/document.h
     include/litehtml/document_container.h
     include/litehtml/el_anchor.h
+    include/litehtml/el_asset.h
     include/litehtml/el_base.h
     include/litehtml/el_before_after.h
     include/litehtml/el_body.h
@@ -109,6 +117,7 @@ set(HEADER_LITEHTML
     include/litehtml/iterators.h
     include/litehtml/media_query.h
     include/litehtml/os_types.h
+    include/litehtml/script_engine.h
     include/litehtml/style.h
     include/litehtml/stylesheet.h
     include/litehtml/table.h
@@ -127,6 +136,24 @@ set(HEADER_LITEHTML
 )
 
 set(TEST_LITEHTML
+    test/apiConsoleTest.cpp
+    test/apiDocumentFragmentTest.cpp
+    test/apiDocumentImplementationTest.cpp
+    test/apiDocumentTest.cpp
+    test/apiDocumentTypeTest.cpp
+    test/apiElementTest.cpp
+    test/apiGeolocationTest.cpp
+    test/apiHistoryTest.cpp
+    test/apiHTMLCollectionTest.cpp
+    test/apiLocationTest.cpp
+    test/apiMediaQueryTest.cpp
+    test/apiNavigationTest.cpp
+    test/apiNodeTest.cpp
+    test/apiRectTest.cpp
+    test/apiScreenTest.cpp
+    test/apiStorageTest.cpp
+    test/apiStyleTest.cpp
+    test/apiWindowTest.cpp
     test/cssTest.cpp
     test/mediaQueryTest.cpp
     test/codepoint_test.cpp
@@ -159,6 +186,12 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
 target_include_directories(${PROJECT_NAME} PRIVATE include/${PROJECT_NAME})
 
+# Options
+option(H3ML "H3ml build (experimental)" ON)
+if (H3ML)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC H3ML)
+endif()
+
 # Gumbo
 target_link_libraries(${PROJECT_NAME} PUBLIC gumbo)
 
@@ -176,6 +209,9 @@ install(EXPORT litehtmlTargets FILE litehtmlTargets.cmake DESTINATION lib${LIB_S
 # Tests
 
 if (BUILD_TESTING)
+    include(CTest)
+    enable_testing()
+
     option(EXTERNAL_GTEST "Use external GoogleTest instead of fetching from GitHub" OFF)
 
     if (EXTERNAL_GTEST)
@@ -184,7 +220,7 @@ if (BUILD_TESTING)
         include(FetchContent)
         FetchContent_Declare(
           googletest
-          URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
+          URL https://github.com/google/googletest/archive/refs/tags/v1.13.0.zip
         )
         # For Windows: Prevent overriding the parent project's compiler/linker settings
         set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
@@ -194,8 +230,7 @@ if (BUILD_TESTING)
           add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
         endif()
     endif()
-
-    enable_testing()
+    include(GoogleTest)
 
     set(TEST_NAME ${PROJECT_NAME}_tests)
 
@@ -221,6 +256,5 @@ if (BUILD_TESTING)
         gtest_main
     )
 
-    include(GoogleTest)
     gtest_discover_tests(${TEST_NAME})
 endif()

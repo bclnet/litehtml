@@ -55,9 +55,9 @@ string readfile(string filename)
 Bitmap draw(document::ptr doc, int width, int height)
 {
 	Bitmap bmp(width, height);
-	position clip(0, 0, width, height);
+	position clip(Point(0, 0, 0), Size(width, height, 0));
 
-	doc->draw((uint_ptr)&bmp, 0, 0, &clip);
+	doc->draw((uint_ptr)&bmp, Point(0, 0, 0), &clip);
 
 	bmp.resize(width, height);
 

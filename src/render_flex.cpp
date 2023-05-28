@@ -2,13 +2,13 @@
 #include "render_item.h"
 #include "types.h"
 
-int litehtml::render_item_flex::_render_content(int x, int y, bool second_pass, int ret_width,
+int litehtml::render_item_flex::_render_content(point p, bool second_pass, int ret_width,
 												const containing_block_context &self_size)
 {
     return 0;
 }
 
-void litehtml::render_item_flex::draw_children(uint_ptr hdc, int x, int y, const position* clip, draw_flag flag, int zindex)
+void litehtml::render_item_flex::draw_children(uint_ptr hdc, point p, const position* clip, draw_flag flag, int zindex)
 {
 
 }

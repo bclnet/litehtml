@@ -8,6 +8,7 @@
 #include "css_offsets.h"
 #include "css_margins.h"
 #include "css_properties.h"
+#include "api.h"
 
 namespace litehtml
 {
@@ -15,12 +16,14 @@ namespace litehtml
 	class dumper;
 	class render_item;
 
-	class element : public std::enable_shared_from_this<element>
+	class element : public std::enable_shared_from_this<element>, public Element //, public EventTarget
 	{
 		friend class line_box;
 		friend class html_tag;
 		friend class el_table;
 		friend class document;
+		friend class Document;
+		friend class Element;
 	public:
 		typedef std::shared_ptr<element>		ptr;
 		typedef std::shared_ptr<const element>	const_ptr;
@@ -34,7 +37,7 @@ namespace litehtml
 		used_selector::vector					m_used_styles;
 
 		virtual void select_all(const css_selector& selector, elements_vector& res);
-		element::ptr _add_before_after(int type, const style& style);
+		element::ptr _add_before_after(int type, const litehtml::style& style);
 	public:
 		explicit element(const std::shared_ptr<document>& doc);
 		virtual ~element() = default;
@@ -96,8 +99,8 @@ namespace litehtml
 		virtual bool				set_class(const char* pclass, bool add);
 		virtual bool				is_replaced() const;
 		virtual void				compute_styles(bool recursive = true);
-		virtual void				draw(uint_ptr hdc, int x, int y, const position *clip, const std::shared_ptr<render_item>& ri);
-		virtual void				draw_background(uint_ptr hdc, int x, int y, const position *clip, const std::shared_ptr<render_item> &ri);
+		virtual void				draw(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item>& ri);
+		virtual void				draw_background(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri);
 		virtual int					get_enum_property  (string_id name, bool inherited, int           default_value, uint_ptr css_properties_member_offset) const;
 		virtual css_length			get_length_property(string_id name, bool inherited, css_length    default_value, uint_ptr css_properties_member_offset) const;
 		virtual web_color			get_color_property (string_id name, bool inherited, web_color     default_value, uint_ptr css_properties_member_offset) const;
@@ -124,7 +127,7 @@ namespace litehtml
 		virtual bool				is_nth_child(const element::ptr& el, int num, int off, bool of_type) const;
 		virtual bool				is_nth_last_child(const element::ptr& el, int num, int off, bool of_type) const;
 		virtual bool				is_only_child(const element::ptr& el, bool of_type) const;
-		virtual void				add_style(const style& style);
+		virtual void				add_style(const litehtml::style& style);
 		virtual const background*	get_background(bool own_only = false);
 
 		virtual string				dump_get_name();
@@ -136,11 +139,11 @@ namespace litehtml
 		bool requires_styles_update();
 		void add_render(const std::shared_ptr<render_item>& ri);
 		bool find_styles_changes( position::vector& redraw_boxes);
-		element::ptr add_pseudo_before(const style& style)
+		element::ptr add_pseudo_before(const litehtml::style& style)
 		{
 			return _add_before_after(0, style);
 		}
-		element::ptr add_pseudo_after(const style& style)
+		element::ptr add_pseudo_after(const litehtml::style& style)
 		{
 			return _add_before_after(1, style);
 		}

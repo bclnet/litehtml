@@ -219,6 +219,15 @@ namespace litehtml
 			m_media_query	= val.m_media_query;
 		}
 
+		css_selector(const css_element_selector& right)
+		{
+			m_right = right;
+			m_left = nullptr;
+			m_combinator = combinator_descendant;
+			m_order = 0;
+			m_media_query = nullptr;
+		}
+
 		bool parse(const string& text);
 		void calc_specificity();
 		bool is_media_valid() const;

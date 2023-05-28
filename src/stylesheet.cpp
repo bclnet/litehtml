@@ -100,7 +100,7 @@ void litehtml::css::parse_css_url( const string& str, string& url )
 	}
 }
 
-bool litehtml::css::parse_selectors( const string& txt, const style::ptr& styles, const media_query_list::ptr& media )
+bool litehtml::css::parse_selectors( const string& txt, const litehtml::style::ptr& styles, const media_query_list::ptr& media )
 {
 	string selector = txt;
 	trim(selector);

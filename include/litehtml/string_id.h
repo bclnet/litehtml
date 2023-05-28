@@ -132,6 +132,8 @@ STRING_ID(
 	_var_,
 	_video_,
 	_wbr_,
+	// H3ML
+	_asset_,
 
 	// litehtml internal tags
 	__tag_before_, // note: real tag cannot start with '-'
@@ -287,6 +289,45 @@ STRING_ID(
 	_flex_grow_,
 	_flex_shrink_,
 	_flex_basis_,
+
+	// H3ML
+	_front_,
+	_back_,
+	_depth_,
+	_min_depth_,
+	_max_depth_,
+	_margin_front_,
+	_margin_back_,
+	_padding_front_,
+	_padding_back_,
+	_border_front_,
+	_border_back_,
+	_border_front_color_,
+	_border_back_color_,
+	_border_front_style_,
+	_border_back_style_,
+	_border_front_width_,
+	_border_back_width_,
+	_border_top_left_radius_z_,
+	_border_top_right_radius_z_,
+	_border_bottom_left_radius_z_,
+	_border_bottom_right_radius_z_,
+	_border_front_left_radius_x_,
+	_border_front_right_radius_x_,
+	_border_back_right_radius_x_,
+	_border_back_left_radius_x_,
+	_border_front_left_radius_y_,
+	_border_front_right_radius_y_,
+	_border_back_right_radius_y_,
+	_border_back_left_radius_y_,
+	_border_front_left_radius_z_,
+	_border_front_right_radius_z_,
+	_border_back_right_radius_z_,
+	_border_back_left_radius_z_,
+	_border_radius_z_,
+	__litehtml_border_spacing_z_,
+	_background_position_z_,
+
 );
 #undef STRING_ID
 extern const string_id empty_id; // _id("")

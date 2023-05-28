@@ -117,9 +117,19 @@ void litehtml::css_properties::compute(const element* el, const document::ptr& d
 
 	doc->cvt_units(m_css_min_width, font_size);
 	doc->cvt_units(m_css_min_height, font_size);
-
+	
 	doc->cvt_units(m_css_max_width, font_size);
 	doc->cvt_units(m_css_max_height, font_size);
+
+	#if H3ML
+	m_css_depth      = el->get_length_property(_depth_,      false, _auto, offset(m_css_depth));
+	m_css_min_depth  = el->get_length_property(_min_depth_,  false, _auto, offset(m_css_min_depth));
+	m_css_max_depth  = el->get_length_property(_max_depth_,  false, none, offset(m_css_max_depth));
+
+	doc->cvt_units(m_css_depth,     font_size);
+	doc->cvt_units(m_css_min_depth, font_size);
+	doc->cvt_units(m_css_max_depth, font_size);
+	#endif
 
 	m_css_margins.left   = el->get_length_property(_margin_left_,   false, 0, offset(m_css_margins.left));
 	m_css_margins.right  = el->get_length_property(_margin_right_,  false, 0, offset(m_css_margins.right));
@@ -131,6 +141,14 @@ void litehtml::css_properties::compute(const element* el, const document::ptr& d
 	doc->cvt_units(m_css_margins.top,	 font_size);
 	doc->cvt_units(m_css_margins.bottom, font_size);
 
+	#if H3ML
+	m_css_margins.front  = el->get_length_property(_margin_front_,   false, 0, offset(m_css_margins.front));
+	m_css_margins.back   = el->get_length_property(_margin_back_,    false, 0, offset(m_css_margins.back));
+
+	doc->cvt_units(m_css_margins.front,  font_size);
+	doc->cvt_units(m_css_margins.back,   font_size);
+	#endif
+
 	m_css_padding.left   = el->get_length_property(_padding_left_,   false, 0, offset(m_css_padding.left));
 	m_css_padding.right  = el->get_length_property(_padding_right_,  false, 0, offset(m_css_padding.right));
 	m_css_padding.top    = el->get_length_property(_padding_top_,    false, 0, offset(m_css_padding.top));
@@ -140,6 +158,14 @@ void litehtml::css_properties::compute(const element* el, const document::ptr& d
 	doc->cvt_units(m_css_padding.right,	 font_size);
 	doc->cvt_units(m_css_padding.top,	 font_size);
 	doc->cvt_units(m_css_padding.bottom, font_size);
+
+	#if H3ML
+	m_css_padding.front  = el->get_length_property(_padding_front_,   false, 0, offset(m_css_padding.front));
+	m_css_padding.back   = el->get_length_property(_padding_back_,    false, 0, offset(m_css_padding.back));
+
+	doc->cvt_units(m_css_padding.front, font_size);
+	doc->cvt_units(m_css_padding.back,  font_size);
+	#endif
 
 	m_css_borders.left.color   = el->get_color_property(_border_left_color_,   false, m_color, offset(m_css_borders.left.color));
 	m_css_borders.right.color  = el->get_color_property(_border_right_color_,  false, m_color, offset(m_css_borders.right.color));
@@ -170,6 +196,23 @@ void litehtml::css_properties::compute(const element* el, const document::ptr& d
 	doc->cvt_units(m_css_borders.top.width,		font_size);
 	doc->cvt_units(m_css_borders.bottom.width,	font_size);
 
+	#if H3ML
+	m_css_borders.front.color   = el->get_color_property(_border_front_color_, false, m_color, offset(m_css_borders.front.color));
+	m_css_borders.back.color    = el->get_color_property(_border_back_color_,  false, m_color, offset(m_css_borders.back.color));
+	m_css_borders.front.style   = (border_style) el->get_enum_property(_border_front_style_,  false, border_style_none, offset(m_css_borders.front.style));
+	m_css_borders.back.style    = (border_style) el->get_enum_property(_border_back_style_,   false, border_style_none, offset(m_css_borders.back.style));
+	m_css_borders.front.width   = el->get_length_property(_border_front_width_, false, border_width_medium_value, offset(m_css_borders.front.width));
+	m_css_borders.back.width 	= el->get_length_property(_border_back_width_,  false, border_width_medium_value, offset(m_css_borders.back.width));
+
+	if (m_css_borders.front.style == border_style_none || m_css_borders.front.style == border_style_hidden)
+		m_css_borders.front.width = 0;
+	if (m_css_borders.back.style == border_style_none || m_css_borders.back.style == border_style_hidden)
+		m_css_borders.back.width = 0;
+
+	doc->cvt_units(m_css_borders.front.width,	font_size);
+	doc->cvt_units(m_css_borders.back.width,	font_size);
+	#endif
+
 	m_css_borders.radius.top_left_x = el->get_length_property(_border_top_left_radius_x_, false, 0, offset(m_css_borders.radius.top_left_x));
 	m_css_borders.radius.top_left_y = el->get_length_property(_border_top_left_radius_y_, false, 0, offset(m_css_borders.radius.top_left_y));
 
@@ -191,6 +234,18 @@ void litehtml::css_properties::compute(const element* el, const document::ptr& d
 	doc->cvt_units( m_css_borders.radius.bottom_right_x,		font_size);
 	doc->cvt_units( m_css_borders.radius.bottom_right_y,		font_size);
 
+	#if H3ML
+	m_css_borders.radius.top_left_z = el->get_length_property(_border_top_left_radius_z_, false, 0, offset(m_css_borders.radius.top_left_z));
+	m_css_borders.radius.top_right_z = el->get_length_property(_border_top_right_radius_z_, false, 0, offset(m_css_borders.radius.top_right_z));
+	m_css_borders.radius.bottom_left_z = el->get_length_property(_border_bottom_left_radius_z_, false, 0, offset(m_css_borders.radius.bottom_left_z));
+	m_css_borders.radius.bottom_right_z = el->get_length_property(_border_bottom_right_radius_z_, false, 0, offset(m_css_borders.radius.bottom_right_z));
+
+	doc->cvt_units(m_css_borders.radius.top_left_z,				font_size);
+	doc->cvt_units(m_css_borders.radius.top_right_z,			font_size);
+	doc->cvt_units(m_css_borders.radius.bottom_left_z,			font_size);
+	doc->cvt_units(m_css_borders.radius.bottom_right_z,			font_size);
+	#endif
+
 	m_border_collapse = (border_collapse) el->get_enum_property(_border_collapse_, true, border_collapse_separate, offset(m_border_collapse));
 
 	m_css_border_spacing_x = el->get_length_property(__litehtml_border_spacing_x_, true, 0, offset(m_css_border_spacing_x));
@@ -198,6 +253,12 @@ void litehtml::css_properties::compute(const element* el, const document::ptr& d
 
 	doc->cvt_units(m_css_border_spacing_x, font_size);
 	doc->cvt_units(m_css_border_spacing_y, font_size);
+
+	#if H3ML
+	m_css_border_spacing_z = el->get_length_property(__litehtml_border_spacing_z_, true, 0, offset(m_css_border_spacing_z));
+
+	doc->cvt_units(m_css_border_spacing_z, font_size);
+	#endif
 
 	m_css_offsets.left	 = el->get_length_property(_left_,	false, _auto, offset(m_css_offsets.left));
 	m_css_offsets.right  = el->get_length_property(_right_, false, _auto, offset(m_css_offsets.right));
@@ -208,6 +269,14 @@ void litehtml::css_properties::compute(const element* el, const document::ptr& d
 	doc->cvt_units(m_css_offsets.right,  font_size);
 	doc->cvt_units(m_css_offsets.top,    font_size);
 	doc->cvt_units(m_css_offsets.bottom, font_size);
+
+	#if H3ML
+	m_css_offsets.front	 = el->get_length_property(_front_,	false, _auto, offset(m_css_offsets.front));
+	m_css_offsets.back   = el->get_length_property(_back_,  false, _auto, offset(m_css_offsets.back));
+
+	doc->cvt_units(m_css_offsets.front,  font_size);
+	doc->cvt_units(m_css_offsets.back, 	 font_size);
+	#endif
 
 	m_z_index = el->get_length_property(_z_index_, false, _auto, offset(m_z_index));
 	m_content = el->get_string_property(_content_, false, "", offset(m_content));
@@ -236,7 +305,7 @@ void litehtml::css_properties::compute(const element* el, const document::ptr& d
 	if (!m_list_style_image.empty())
 	{
 		m_list_style_image_baseurl = el->get_string_property(_list_style_image_baseurl_, true, "", offset(m_list_style_image_baseurl));
-		doc->container()->load_image(m_list_style_image.c_str(), m_list_style_image_baseurl.c_str(), true);
+		doc->container()->load_image(m_list_style_image.c_str(), m_list_style_image_baseurl.c_str(), nullptr, true);
 	}
 
 	compute_background(el, doc);
@@ -358,17 +427,30 @@ void litehtml::css_properties::compute_background(const element* el, const docum
 
 	m_bg.m_color		= el->get_color_property(_background_color_, false, web_color::transparent, offset(m_bg.m_color));
 
-	const css_size auto_auto(css_length::predef_value(background_size_auto), css_length::predef_value(background_size_auto));
+	const css_size auto_auto(css_length::predef_value(background_size_auto), css_length::predef_value(background_size_auto)
+		#if H3ML
+		, css_length::predef_value(background_size_auto)
+		#endif
+	);
 	m_bg.m_position_x	= el->get_length_vector_property(_background_position_x_, false, { css_length(0, css_units_percentage) }, offset(m_bg.m_position_x));
 	m_bg.m_position_y	= el->get_length_vector_property(_background_position_y_, false, { css_length(0, css_units_percentage) }, offset(m_bg.m_position_y));
+	#if H3ML
+	m_bg.m_position_z   = el->get_length_vector_property(_background_position_z_, false, { css_length(0, css_units_percentage) }, offset(m_bg.m_position_z));
+	#endif
 	m_bg.m_size			= el->get_size_vector_property  (_background_size_,       false, { auto_auto }, offset(m_bg.m_size));
 
 	for (auto& x : m_bg.m_position_x) doc->cvt_units(x, font_size);
 	for (auto& y : m_bg.m_position_y) doc->cvt_units(y, font_size);
+	#if H3ML
+	for (auto& z : m_bg.m_position_z) doc->cvt_units(z, font_size);
+	#endif
 	for (auto& size : m_bg.m_size)
 	{
 		doc->cvt_units(size.width,  font_size);
 		doc->cvt_units(size.height, font_size);
+		#if H3ML
+		doc->cvt_units(size.depth, font_size);
+		#endif
 	}
 
 	m_bg.m_attachment = el->get_int_vector_property(_background_attachment_, false, { background_attachment_scroll }, offset(m_bg.m_attachment));
@@ -383,7 +465,7 @@ void litehtml::css_properties::compute_background(const element* el, const docum
 	{
 		if (!image.empty())
 		{
-			doc->container()->load_image(image.c_str(), m_bg.m_baseurl.c_str(), true);
+			doc->container()->load_image(image.c_str(), m_bg.m_baseurl.c_str(), nullptr, true);
 		}
 	}
 }
@@ -441,10 +523,19 @@ std::vector<std::tuple<litehtml::string, litehtml::string>> litehtml::css_proper
 	ret.emplace_back(std::make_tuple("borders", m_css_borders.to_string()));
 	ret.emplace_back(std::make_tuple("width", m_css_width.to_string()));
 	ret.emplace_back(std::make_tuple("height", m_css_height.to_string()));
+	#if H3ML
+	ret.emplace_back(std::make_tuple("depth", m_css_depth.to_string()));
+	#endif
 	ret.emplace_back(std::make_tuple("min_width", m_css_min_width.to_string()));
 	ret.emplace_back(std::make_tuple("min_height", m_css_min_width.to_string()));
+	#if H3ML
+	ret.emplace_back(std::make_tuple("min_depth", m_css_min_depth.to_string()));
+	#endif
 	ret.emplace_back(std::make_tuple("max_width", m_css_max_width.to_string()));
 	ret.emplace_back(std::make_tuple("max_height", m_css_max_width.to_string()));
+	#if H3ML
+	ret.emplace_back(std::make_tuple("max_depth", m_css_max_depth.to_string()));
+	#endif
 	ret.emplace_back(std::make_tuple("offsets", m_css_offsets.to_string()));
 	ret.emplace_back(std::make_tuple("text_indent", m_css_text_indent.to_string()));
 	ret.emplace_back(std::make_tuple("line_height", std::to_string(m_line_height)));
@@ -452,6 +543,9 @@ std::vector<std::tuple<litehtml::string, litehtml::string>> litehtml::css_proper
 	ret.emplace_back(std::make_tuple("list_style_position", index_value(m_list_style_position, list_style_position_strings)));
 	ret.emplace_back(std::make_tuple("border_spacing_x", m_css_border_spacing_x.to_string()));
 	ret.emplace_back(std::make_tuple("border_spacing_y", m_css_border_spacing_y.to_string()));
+	#if H3ML
+	ret.emplace_back(std::make_tuple("border_spacing_z", m_css_border_spacing_z.to_string()));
+	#endif
 
 	return ret;
 }
