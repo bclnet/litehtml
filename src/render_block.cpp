@@ -13,7 +13,7 @@ int litehtml::render_item_block::place_float(const std::shared_ptr<render_item> 
 
     if (el->src_el()->css().get_float() == float_left)
     {
-        el->render(Point(line_left, line_top, 0), self_size.new_width(line_right));
+        el->render(POINT(line_left, line_top, 0), self_size.new_width(line_right));
         if(el->right() > line_right)
         {
             int new_top = find_next_line_top(el->top(), el->width(), self_size.render_width);
@@ -28,7 +28,7 @@ int litehtml::render_item_block::place_float(const std::shared_ptr<render_item> 
 		ret_width = el->right();
     } else if (el->src_el()->css().get_float() == float_right)
     {
-        el->render(Point(0, line_top, 0), self_size.new_width(line_right));
+        el->render(POINT(0, line_top, 0), self_size.new_width(line_right));
 
         if(line_left + el->width() > line_right)
         {
@@ -400,7 +400,7 @@ void litehtml::render_item_block::add_float(const std::shared_ptr<render_item> &
         auto el_parent = parent();
         if (el_parent)
         {
-            el_parent->add_float(el, Point(p.x + m_pos.x, p.y + m_pos.y, p.z + m_pos.z), context);
+            el_parent->add_float(el, POINT(p.x + m_pos.x, p.y + m_pos.y, p.z + m_pos.z), context);
         }
     }
 }
@@ -882,7 +882,7 @@ int litehtml::render_item_block::render(point p, const containing_block_context 
         {
             size sz;
             string list_image_baseurl = src_el()->css().get_list_style_image_baseurl();
-            src_el()->get_document()->container()->get_image_size(list_image.c_str(), list_image_baseurl.c_str(), nullptr, sz);
+            src_el()->get_document()->container()->get_image_size(list_image.c_str(), list_image_baseurl.c_str(), sz);
             if (m_pos.height < sz.height)
             {
 				m_pos.height = sz.height;

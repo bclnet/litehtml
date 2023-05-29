@@ -309,7 +309,7 @@ void litehtml::render_item_inline_context::place_inline(std::unique_ptr<line_box
 		{
 			case display_inline_block:
 			case display_inline_table:
-                item->set_rendered_min_width(item->get_el()->render(Point(line_ctx.left, line_ctx.top, line_ctx.front), self_size.new_width(line_ctx.right)));
+                item->set_rendered_min_width(item->get_el()->render(POINT(line_ctx.left, line_ctx.top, line_ctx.front), self_size.new_width(line_ctx.right)));
 				break;
 			case display_inline_text:
 			{

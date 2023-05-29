@@ -63,11 +63,17 @@ public:
 	virtual int							get_default_font_size() const override;
 	virtual const char*					get_default_font_name() const override;
 	virtual void						draw_list_marker(litehtml::uint_ptr hdc, const litehtml::list_marker& marker) override;
-	virtual void						load_image(const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready) override;
-	virtual void						get_image_size(const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz) override;
+	virtual void						load_image(const char* src, const char* baseurl, bool redraw_on_ready) override;
+	virtual void						get_image_size(const char* src, const char* baseurl, litehtml::size& sz) override;
 	virtual void						draw_image(litehtml::uint_ptr hdc, const char* src, const char* baseurl, const litehtml::position& pos);
 	virtual void						draw_background(litehtml::uint_ptr hdc, const std::vector<litehtml::background_paint>& bg) override;
 	virtual void						draw_borders(litehtml::uint_ptr hdc, const litehtml::borders& borders, const litehtml::position& draw_pos, bool root) override;
+
+	#if H3ML
+	virtual void 						load_asset(const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready) override;
+	virtual void						get_asset_size(const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz) override;
+	virtual void						draw_asset(uint_ptr hdc, const std::vector<litehtml::asset_paint>& bg) override;
+	#endif
 
 	virtual	void						transform_text(litehtml::string& text, litehtml::text_transform tt) override;
 	virtual void						set_clip(const litehtml::position& pos, const litehtml::border_radiuses& bdr_radius) override;
@@ -87,8 +93,8 @@ public:
 	void								make_url_utf8( const char* url, const char* basepath, std::wstring& out );
 
 protected:
-	virtual void						draw_ellipse(cairo_t* cr, point p, size sz, const litehtml::web_color& color, double line_width);
-	virtual void						fill_ellipse(cairo_t* cr, point p, size sz, const litehtml::web_color& color);
+	virtual void						draw_ellipse(cairo_t* cr, litehtml::point p, litehtml::size sz, const litehtml::web_color& color, double line_width);
+	virtual void						fill_ellipse(cairo_t* cr, litehtml::point p, litehtml::size sz, const litehtml::web_color& color);
 	virtual void						rounded_rectangle( cairo_t* cr, const litehtml::position &pos, const litehtml::border_radiuses &radius );
 
 	void								set_color(cairo_t* cr, litehtml::web_color color)	{ cairo_set_source_rgba(cr, color.red / 255.0, color.green / 255.0, color.blue / 255.0, color.alpha / 255.0); }

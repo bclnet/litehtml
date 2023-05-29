@@ -54,10 +54,10 @@ namespace litehtml
 
 	#if H3ML
 	#define point_zero { 0, 0, 0 }
-	#define Point(x, y, z) point(x, y, z)
+	#define POINT(x, y, z) litehtml::point(x, y, z)
 	#else
 	#define point_zero { 0, 0 }
-	#define Point(x, y, z) point(x, y)
+	#define POINT(x, y, z) litehtml::point(x, y)
 	#endif
 
 	struct point
@@ -114,10 +114,10 @@ namespace litehtml
 
 	#if H3ML
 	#define size_zero { 0, 0, 0 }
-	#define Size(w, h, d) litehtml::size(w, h, d)
+	#define SIZE(w, h, d) litehtml::size(w, h, d)
 	#else
 	#define size_zero { 0, 0 }
-	#define Size(w, h, d) litehtml::size(w, h)
+	#define SIZE(w, h, d) litehtml::size(w, h)
 	#endif
 
 	struct size

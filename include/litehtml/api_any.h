@@ -3,7 +3,7 @@
 
 namespace litehtml
 {
-	struct tany_t
+	typedef struct tany_t
 	{
 		char type[3];
 		void* value0;
@@ -12,8 +12,7 @@ namespace litehtml
 		tany_t(string value[]) { }
 		tany_t(std::map<string, string> v) { }
 		tany_t(char* t, void* value) { }
-	};
-	typedef tany_t tany;
+	} tany;
 #define _a(type, value) tany(#type, value)
 }
 

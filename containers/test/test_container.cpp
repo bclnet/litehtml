@@ -76,6 +76,14 @@ void test_container::draw_borders(uint_ptr hdc, const borders& borders, const po
 			pos.right(), pos.bottom() - y - 1, borders.bottom.color);
 }
 
+#if H3ML
+void test_container::draw_asset(uint_ptr hdc, const std::vector<litehtml::asset_paint>& bg)
+{
+	Bitmap* bmp = (Bitmap*)hdc;
+	bmp->fill_rect(bg.back().border_box, bg.back().color);
+}
+#endif
+
 void test_container::draw_list_marker(uint_ptr hdc, const list_marker& marker)
 {
 	Bitmap* bmp = (Bitmap*)hdc;
@@ -90,5 +98,5 @@ void test_container::import_css(string& text, const string& url, string& baseurl
 
 void test_container::get_client_rect(position& client) const
 {
-	client = position(Point(0, 0, 0), Size(width, height, 0));
+	client = position(POINT(0, 0, 0), SIZE(width, height, 0));
 }

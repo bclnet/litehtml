@@ -9,7 +9,7 @@ litehtml::el_asset::el_asset(const document::ptr& doc) : html_tag(doc)
 
 void litehtml::el_asset::get_content_size( size& sz, int max_width )
 {
-	get_document()->container()->get_image_size(m_src.c_str(), 0, &m_attrs, sz);
+	get_document()->container()->get_asset_size(m_src.c_str(), 0, &m_attrs, sz);
 }
 
 bool litehtml::el_asset::is_replaced() const
@@ -70,7 +70,7 @@ void litehtml::el_asset::draw(uint_ptr hdc, point p, const position *clip, const
 	if(pos.does_intersect(clip))
 	{
 		if (pos.width > 0 && pos.height > 0) {
-			background_paint bg;
+			asset_paint bg;
 			bg.image				= m_src;
 			bg.attrs				= &m_attrs;
 			bg.clip_box				= pos;
@@ -78,7 +78,6 @@ void litehtml::el_asset::draw(uint_ptr hdc, point p, const position *clip, const
 			bg.border_box			= pos;
 			bg.border_box			+= ri->get_paddings();
 			bg.border_box			+= ri->get_borders();
-			bg.repeat				= background_repeat_no_repeat;
 			bg.image_size.width		= pos.width;
 			bg.image_size.height	= pos.height;
 			bg.border_radius		= css().get_borders().radius.calc_percents(bg.border_box.sz());
@@ -86,7 +85,7 @@ void litehtml::el_asset::draw(uint_ptr hdc, point p, const position *clip, const
 			#if H3ML
 			bg.image_size.depth		= pos.depth;
 			#endif
-			get_document()->container()->draw_background(hdc, {bg});
+			get_document()->container()->draw_asset(hdc, {bg});
 		}
 	}
 
@@ -112,10 +111,10 @@ void litehtml::el_asset::compute_styles(bool recursive)
 	{
 		if(!css().get_height().is_predefined() && !css().get_width().is_predefined())
 		{
-			get_document()->container()->load_image(m_src.c_str(), nullptr, &m_attrs, true);
+			get_document()->container()->load_asset(m_src.c_str(), nullptr, &m_attrs, true);
 		} else
 		{
-			get_document()->container()->load_image(m_src.c_str(), nullptr, &m_attrs, false);
+			get_document()->container()->load_asset(m_src.c_str(), nullptr, &m_attrs, false);
 		}
 	}
 }

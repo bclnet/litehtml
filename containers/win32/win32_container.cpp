@@ -164,17 +164,17 @@ void win32_container::draw_list_marker(uint_ptr hdc, const litehtml::list_marker
 	{
 	case litehtml::list_style_type_circle:
 		{
-			draw_ellipse((HDC)hdc, draw_x, draw_y, draw_width, draw_height, marker.color, 1);
+			draw_ellipse((HDC)hdc, POINT(draw_x, draw_y, 0), SIZE(draw_width, draw_height, 0), marker.color, 1);
 		}
 		break;
 	case litehtml::list_style_type_disc:
 		{
-			fill_ellipse((HDC)hdc, draw_x, draw_y, draw_width, draw_height, marker.color);
+			fill_ellipse((HDC)hdc, POINT(draw_x, draw_y, 0), SIZE(draw_width, draw_height, 0), marker.color);
 		}
 		break;
 	case litehtml::list_style_type_square:
 		{
-			fill_rect((HDC)hdc, draw_x, draw_y, draw_width, draw_height, marker.color);
+			fill_rect((HDC)hdc, POINT(draw_x, draw_y, 0), SIZE(draw_width, draw_height, 0), marker.color);
 		}
 		break;
 	}
@@ -186,7 +186,7 @@ void win32_container::make_url_utf8(const char* url, const char* basepath, std::
 	make_url(litehtml::utf8_to_wchar(url), litehtml::utf8_to_wchar(basepath), out);
 }
 
-void win32_container::load_image( const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready )
+void win32_container::load_image( const char* src, const char* baseurl, bool redraw_on_ready )
 {
 	std::wstring url;
 	make_url_utf8(src, baseurl, url);
@@ -211,7 +211,7 @@ void win32_container::add_image(LPCWSTR url, uint_ptr img)
 	unlock_images_cache();
 }
 
-void win32_container::get_image_size( const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz )
+void win32_container::get_image_size( const char* src, const char* baseurl, litehtml::size& sz )
 {
 	std::wstring url;
 	make_url_utf8(src, baseurl, url);
@@ -262,7 +262,7 @@ void win32_container::draw_background( uint_ptr _hdc, const std::vector<litehtml
 
 	auto border_box = bg.back().border_box;
 	auto color = bg.back().color;
-	fill_rect(hdc, border_box.x, border_box.y, border_box.width, border_box.height, color);
+	fill_rect(hdc, POINT(border_box.x, border_box.y, border_box.z), SIZE(border_box.width, border_box.height, border_box.depth), color);
 
 	for (int i = (int)bg.size() - 1; i >= 0; i--)
 	{
@@ -280,6 +280,12 @@ void win32_container::draw_background( uint_ptr _hdc, const std::vector<litehtml
 
 	release_clip(hdc);
 }
+
+#if H3ML
+void win32_container::load_asset(const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready) { }
+void win32_container::get_asset_size(const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz) { }
+void win32_container::draw_asset(uint_ptr hdc, const std::vector<litehtml::asset_paint>& bg) { }
+#endif
 
 void win32_container::set_clip( const litehtml::position& pos, const litehtml::border_radiuses& bdr_radius )
 {

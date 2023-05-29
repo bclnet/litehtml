@@ -35,7 +35,7 @@ TEST(Console, Test) {
 </html>)xyz");
 		//: Check for an element:
 		{
-			console->assert_(document->getElementById("demo"), "You have no element with ID 'demo'");
+			console->assert_(document->getElementById("demo") != nullptr, "You have no element with ID 'demo'");
 		}
 		//: Write an array to the console:
 		{

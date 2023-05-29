@@ -192,7 +192,7 @@ void litehtml::line_box::add_item(std::unique_ptr<line_box_item> item)
 	}
 	if(add)
 	{
-		item->place_to(Point(m_left + m_width, m_top, m_front));
+		item->place_to(POINT(m_left + m_width, m_top, m_front));
 		m_width += item->width();
 		m_height = std::max(m_height, item->get_el()->height());
 		m_items.emplace_back(std::move(item));

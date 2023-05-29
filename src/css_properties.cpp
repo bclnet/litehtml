@@ -305,7 +305,7 @@ void litehtml::css_properties::compute(const element* el, const document::ptr& d
 	if (!m_list_style_image.empty())
 	{
 		m_list_style_image_baseurl = el->get_string_property(_list_style_image_baseurl_, true, "", offset(m_list_style_image_baseurl));
-		doc->container()->load_image(m_list_style_image.c_str(), m_list_style_image_baseurl.c_str(), nullptr, true);
+		doc->container()->load_image(m_list_style_image.c_str(), m_list_style_image_baseurl.c_str(), true);
 	}
 
 	compute_background(el, doc);
@@ -465,7 +465,7 @@ void litehtml::css_properties::compute_background(const element* el, const docum
 	{
 		if (!image.empty())
 		{
-			doc->container()->load_image(image.c_str(), m_bg.m_baseurl.c_str(), nullptr, true);
+			doc->container()->load_image(image.c_str(), m_bg.m_baseurl.c_str(), true);
 		}
 	}
 }

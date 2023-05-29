@@ -120,7 +120,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	Node::ptr Document::adoptNode(Node* node) { return nullptr; }
+	Node::ptr Document::adoptNode(Node::ptr node) { return nullptr; }
 
 	/// <summary>
 	/// Returns a collection of all <a> elements in the document that have a name attribute
@@ -128,9 +128,9 @@ namespace litehtml
 	/// <value>
 	/// The anchors.
 	/// </value>
-	HTMLCollection::ptr Document::anchors() { 
-		auto s = new HTMLCollection();
-		return HTMLCollection::ptr(s);
+	HTMLCollection Document::anchors() { 
+		auto s = elements_vector();
+		return s;
 	}
 
 	/// <summary>
@@ -138,7 +138,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	Node::ptr Document::appendChild(Node* node) //: Node
+	Node::ptr Document::appendChild(Node::ptr node) //: Node
 	{
 		return nullptr;
 	}
@@ -149,9 +149,9 @@ namespace litehtml
 	/// <value>
 	/// The applets.
 	/// </value>
-	HTMLCollection::ptr Document::applets() {
-		auto s = new HTMLCollection();
-		return HTMLCollection::ptr(s);
+	HTMLCollection Document::applets() {
+		auto s = elements_vector();
+		return s;
 	}
 
 	/// <summary>
@@ -209,7 +209,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	int Document::compareDocumentPosition(Node* node) { return 0; } //: Node
+	int Document::compareDocumentPosition(Node::ptr node) { return 0; } //: Node
 
 	/// <summary>
 	/// Returns all name/value pairs of cookies in the document
@@ -317,9 +317,9 @@ namespace litehtml
 	/// <value>
 	/// The embeds.
 	/// </value>
-	HTMLCollection::ptr Document::embeds() {
-		auto s = new HTMLCollection();
-		return HTMLCollection::ptr(s);
+	HTMLCollection Document::embeds() {
+		auto s = elements_vector();
+		return s;
 	}
 
 	/// <summary>
@@ -345,9 +345,9 @@ namespace litehtml
 	/// <value>
 	/// The forms.
 	/// </value>
-	HTMLCollection::ptr Document::forms() {
-		auto s = new HTMLCollection();
-		return HTMLCollection::ptr(s);
+	HTMLCollection Document::forms() {
+		auto s = elements_vector();
+		return s;
 	}
 
 	/// <summary>
@@ -451,9 +451,9 @@ namespace litehtml
 	/// <value>
 	/// The images.
 	/// </value>
-	HTMLCollection::ptr Document::images() {
-		auto s = new HTMLCollection();
-		return HTMLCollection::ptr(s);
+	HTMLCollection Document::images() {
+		auto s = elements_vector();
+		return s;
 	}
 
 	/// <summary>
@@ -470,7 +470,7 @@ namespace litehtml
 	/// <param name="node">The node.</param>
 	/// <param name="deep">if set to <c>true</c> [deep].</param>
 	/// <returns></returns>
-	Node::ptr Document::importNode(Node* node, bool deep) { return nullptr; }
+	Node::ptr Document::importNode(Node::ptr node, bool deep) { return nullptr; }
 
 	/// <summary>
 	/// Returns the encoding, character set, used for the document
@@ -496,7 +496,7 @@ namespace litehtml
 	/// <returns>
 	///   <c>true</c> if [is equal node] [the specified node]; otherwise, <c>false</c>.
 	/// </returns>
-	bool Document::isEqualNode(Node* node) { return false; } //: Node
+	bool Document::isEqualNode(Node::ptr node) { return false; } //: Node
 
 	/// <summary>
 	/// Checks if two elements are the same node
@@ -505,7 +505,7 @@ namespace litehtml
 	/// <returns>
 	///   <c>true</c> if [is same node] [the specified node]; otherwise, <c>false</c>.
 	/// </returns>
-	bool Document::isSameNode(Node* node) { return false; } //: Node
+	bool Document::isSameNode(Node::ptr node) { return false; } //: Node
 
 	/// <summary>
 	/// Returns the last child node of an element
@@ -529,9 +529,9 @@ namespace litehtml
 	/// <value>
 	/// The links.
 	/// </value>
-	HTMLCollection::ptr Document::links() {
-		auto s = new HTMLCollection();
-		return HTMLCollection::ptr(s);
+	HTMLCollection Document::links() {
+		auto s = elements_vector();
+		return s;
 	}
 
 	/// <summary>
@@ -638,7 +638,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	Node::ptr Document::removeChild(Node* node) { return nullptr; } //: Node
+	Node::ptr Document::removeChild(Node::ptr node) { return nullptr; } //: Node
 
 	/// <summary>
 	/// Removes an event handler from the document (that has been attached with the addEventListener() method)
@@ -655,7 +655,7 @@ namespace litehtml
 	/// <param name="namespaceURI">The namespace URI.</param>
 	/// <param name="nodename">The nodename.</param>
 	/// <returns></returns>
-	Node::ptr Document::renameNode(Node* node, string namespaceURI, string nodename) { return nullptr; }
+	Node::ptr Document::renameNode(Node::ptr node, string namespaceURI, string nodename) { return nullptr; }
 
 	/// <summary>
 	/// Replaces a child node in an element
@@ -663,7 +663,7 @@ namespace litehtml
 	/// <param name="newnode">The newnode.</param>
 	/// <param name="oldnode">The oldnode.</param>
 	/// <returns></returns>
-	Node::ptr Document::replaceChild(Node* newnode, Node* oldnode) { return nullptr; } //: Node
+	Node::ptr Document::replaceChild(Node::ptr newnode, Node::ptr oldnode) { return nullptr; } //: Node
 
 	/// <summary>
 	/// Returns a collection of <script> elements in the document
@@ -671,9 +671,9 @@ namespace litehtml
 	/// <value>
 	/// The scripts.
 	/// </value>
-	HTMLCollection::ptr Document::scripts() {
-		auto s = new HTMLCollection();
-		return HTMLCollection::ptr(s);
+	HTMLCollection Document::scripts() {
+		auto s = elements_vector();
+		return s;
 	}
 
 	/// <summary>
@@ -720,9 +720,6 @@ namespace litehtml
 /// </summary>
 namespace litehtml
 {
-	//Element::Element() { _elem = static_cast<element*>(this); }
-	//Element::Element(element::ptr elem) : _elem(elem.get()) { }
-
 	/// <summary>
 	/// Gets or sets the access key.
 	/// </summary>
@@ -745,7 +742,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	Node::ptr Element::appendChild(Node* node) //: Node
+	Node::ptr Element::appendChild(Node::ptr node) //: Node
 	{
 		return nullptr;
 	}
@@ -789,8 +786,8 @@ namespace litehtml
 	/// <summary>
 	/// Returns a collection of an element's child element (excluding text and comment nodes)
 	/// </summary>
-	HTMLCollection::ptr Element::children() { // (_elem->_children)
-		HTMLCollection::ptr s(new HTMLCollection());
+	HTMLCollection Element::children() { // (_elem->_children)
+		auto s = elements_vector();
 		return s;
 	}
 
@@ -866,7 +863,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	int Element::compareDocumentPosition(Node* node) //: Node
+	int Element::compareDocumentPosition(Node::ptr node) //: Node
 	{
 		return 0;
 	}
@@ -878,7 +875,7 @@ namespace litehtml
 	/// <returns>
 	///   <c>true</c> if [contains] [the specified node]; otherwise, <c>false</c>.
 	/// </returns>
-	bool Element::contains(Node* node) { return false; }
+	bool Element::contains(Node::ptr node) { return false; }
 
 	/// <summary>
 	/// Sets or returns whether the content of an element is editable or not
@@ -886,7 +883,7 @@ namespace litehtml
 	/// <value>
 	/// The content editable.
 	/// </value>
-	string Element::contentEditable() { return nullptr; }
+	string Element::contentEditable() { return ""; }
 	void Element::contentEditable(string value) { }
 
 	/// <summary>
@@ -895,7 +892,7 @@ namespace litehtml
 	/// <value>
 	/// The dir.
 	/// </value>
-	string Element::dir() { return nullptr; }
+	string Element::dir() { return ""; }
 	void Element::dir(string value) { }
 
 	/// <summary>
@@ -1052,7 +1049,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="newnode">The newnode.</param>
 	/// <param name="existingnode">The existingnode.</param>
-	Node::ptr Element::insertBefore(Node* newnode, Node* existingnode) { return nullptr; }
+	Node::ptr Element::insertBefore(Node::ptr newnode, Node::ptr existingnode) { return nullptr; }
 
 	/// <summary>
 	/// Returns true if the content of an element is editable, otherwise false
@@ -1078,7 +1075,7 @@ namespace litehtml
 	/// <returns>
 	///   <c>true</c> if [is equal node] [the specified node]; otherwise, <c>false</c>.
 	/// </returns>
-	bool Element::isEqualNode(Node* node) { return false; } //: Node
+	bool Element::isEqualNode(Node::ptr node) { return false; } //: Node
 
 	/// <summary>
 	/// Checks if two elements are the same node
@@ -1087,7 +1084,7 @@ namespace litehtml
 	/// <returns>
 	///   <c>true</c> if [is same node] [the specified node]; otherwise, <c>false</c>.
 	/// </returns>
-	bool Element::isSameNode(Node* node) { return false; } //: Node
+	bool Element::isSameNode(Node::ptr node) { return false; } //: Node
 
 	/// <summary>
 	/// Sets or returns the value of the lang attribute of an element
@@ -1198,7 +1195,7 @@ namespace litehtml
 	/// <value>
 	/// The offset parent.
 	/// </value>
-	Node* Element::offsetParent() { return nullptr; }
+	Node::ptr Element::offsetParent() { return nullptr; }
 
 	/// <summary>
 	/// Returns the vertical offset position of an element
@@ -1280,7 +1277,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	Node::ptr Element::removeChild(Node* node) { return nullptr; } //: Node
+	Node::ptr Element::removeChild(Node::ptr node) { return nullptr; } //: Node
 
 	/// <summary>
 	/// Removes an event handler that has been attached with the addEventListener() method
@@ -1301,7 +1298,7 @@ namespace litehtml
 	/// <param name="newnode">The newnode.</param>
 	/// <param name="oldnode">The oldnode.</param>
 	/// <returns></returns>
-	Node::ptr Element::replaceChild(Node* newnode, Node* oldnode) { return nullptr; } //: Node
+	Node::ptr Element::replaceChild(Node::ptr newnode, Node::ptr oldnode) { return nullptr; } //: Node
 
 	/// <summary>
 	/// Returns the entire height of an element, including padding
@@ -1404,4 +1401,7 @@ namespace litehtml
 	/// Converts an element to a string
 	/// </summary>
 	string Element::toString() { return nullptr; }
+
+	HTMLCollection::HTMLCollection() { }
+	HTMLCollection::HTMLCollection(elements_vector& elements) : _elems(elements) { }
 }

@@ -6,7 +6,7 @@
 
 namespace litehtml
 {
-	class document;
+	class Document;
 
 	/// <summary>
 	/// XMLHttpRequest
@@ -69,7 +69,7 @@ namespace litehtml
 		/// <summary>
 		/// Returns the response data as XML data
 		/// </summary>
-		std::shared_ptr<document> responseXML();
+		std::shared_ptr<Document> responseXML();
 
 		/// <summary>
 		/// Sends the request to the server

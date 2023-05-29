@@ -180,7 +180,7 @@ void cairo_container::draw_list_marker( litehtml::uint_ptr hdc, const litehtml::
 	}
 }
 
-void cairo_container::load_image( const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready )
+void cairo_container::load_image( const char* src, const char* baseurl, bool redraw_on_ready )
 {
 	std::wstring url;
 	make_url_utf8(src, baseurl, url);
@@ -199,7 +199,7 @@ void cairo_container::load_image( const char* src, const char* baseurl, const li
 
 }
 
-void cairo_container::get_image_size( const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz )
+void cairo_container::get_image_size( const char* src, const char* baseurl, litehtml::size& sz )
 {
 	std::wstring url;
 	make_url_utf8(src, baseurl, url);
@@ -694,6 +694,12 @@ void cairo_container::draw_borders( litehtml::uint_ptr hdc, const litehtml::bord
 	}
 	cairo_restore(cr);
 }
+
+#if H3ML
+void cairo_container::load_asset(const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready) { }
+void cairo_container::get_asset_size(const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz) { }
+void cairo_container::draw_asset(uint_ptr hdc, const std::vector<litehtml::asset_paint>& bg) { }
+#endif
 
 void cairo_container::set_clip(const litehtml::position& pos, const litehtml::border_radiuses& bdr_radius)
 {

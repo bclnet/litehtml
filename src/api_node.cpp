@@ -20,7 +20,8 @@ namespace litehtml
 /// </summary>
 namespace litehtml
 {
-	Node::Node() { }
+	Node::Node() { _elem = static_cast<element*>(this); }
+	Node::Node(element::ptr& elem) : _elem(elem.get()) { }
 
 	/// <summary>
 	/// Returns the namespace URI associated with a given prefix
@@ -69,7 +70,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	Node::ptr Attr::appendChild(Node* node) //: Node
+	Node::ptr Attr::appendChild(Node::ptr node) //: Node
 	{
 		return nullptr;
 	}
@@ -110,7 +111,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	int Attr::compareDocumentPosition(Node* node) //: Node
+	int Attr::compareDocumentPosition(Node::ptr node) //: Node
 	{
 		return 0;
 	}
@@ -158,7 +159,7 @@ namespace litehtml
 	/// <returns>
 	///   <c>true</c> if [is equal node] [the specified node]; otherwise, <c>false</c>.
 	/// </returns>
-	bool Attr::isEqualNode(Node* node) //: Node
+	bool Attr::isEqualNode(Node::ptr node) //: Node
 	{
 		return false;
 	}
@@ -170,7 +171,7 @@ namespace litehtml
 	/// <returns>
 	///   <c>true</c> if [is same node] [the specified node]; otherwise, <c>false</c>.
 	/// </returns>
-	bool Attr::isSameNode(Node* node) //: Node
+	bool Attr::isSameNode(Node::ptr node) //: Node
 	{
 		return false;
 	}
@@ -258,7 +259,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	Node::ptr Attr::removeChild(Node* node) //: Node
+	Node::ptr Attr::removeChild(Node::ptr node) //: Node
 	{
 		return nullptr;
 	}
@@ -269,7 +270,7 @@ namespace litehtml
 	/// <param name="newnode">The newnode.</param>
 	/// <param name="oldnode">The oldnode.</param>
 	/// <returns></returns>
-	Node::ptr Attr::replaceChild(Node* newnode, Node* oldnode) //: Node
+	Node::ptr Attr::replaceChild(Node::ptr newnode, Node::ptr oldnode) //: Node
 	{
 		return nullptr;
 	}
@@ -324,15 +325,11 @@ namespace litehtml
 	template<class TNode>
 	NodeList<TNode>::NodeList(elements_vector& elements) : list(elements) { }
 	template<class TNode>
-	NodeList<TNode>::~NodeList()
-	{
-		if (list != (elements_vector)0)
-			list.clear();
-	}
+	NodeList<TNode>::~NodeList() { if (list != (elements_vector)0) list.clear(); }
 	template<class TNode>
-	TNode* NodeList<TNode>::operator[](int index) { return list != (elements_vector)0 ? list[index].get() : nullptr; }
+	std::shared_ptr<TNode> NodeList<TNode>::operator[](int index) { return list != (elements_vector)0 ? list[index] : nullptr; }
 	template<class TNode>
-	TNode* NodeList<TNode>::item(int index) { return list != (elements_vector)0 ? list[index].get() : nullptr; }
+	std::shared_ptr<TNode> NodeList<TNode>::item(int index) { return list != (elements_vector)0 ? list[index] : nullptr; }
 	template<class TNode>
 	int NodeList<TNode>::length() { return list != (elements_vector)0 ? (int)list.size() : 0; }
 

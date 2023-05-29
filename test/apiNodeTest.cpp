@@ -7,35 +7,47 @@ using namespace std;
 using namespace litehtml;
 
 static test_container container(800, 600, ".");
-static document::ptr MakeDocument(char* source) { return document::createFromString(source, &container); }
+static Document::ptr MakeDocument(char* source) { return document::createFromString(source, &container); }
 
 TEST(Node, Attrib) {
 	auto document = MakeDocument(R"xyz(
 <html>
 <body>
-	<button onclick="myFunction()">Try it</button>
+	<h1>HTML DOM Attributes</h1>
+
 	<p id="demo"></p>
-	<div class="w3-code notranslate">
-		<img src="pic_bulboff.gif" width="100" height="180">
-	</div>
+
+	<img id="light" src="pic_bulboff.gif" width="100" height="180">
 </body>
 </html>)xyz");
 
 	// https://www.w3schools.com/jsref/prop_attr_name.asp
 	{
-		auto x = document->getElementsByTagName("BUTTON")[0]->attributes()[0]->name();
-		assert(!strcmp("onclick", x.c_str()));
+		auto element = document->getElementById("demo");
+		auto aName = element->attributes()[0]->name();
+		assert("tag" == aName);
 	}
 
 	// https://www.w3schools.com/jsref/prop_attr_value.asp
 	{
-		auto x = document->getElementsByTagName("BUTTON")[0]->attributes()[0]->value();
-		assert(!strcmp("myFunction()", x.c_str()));
+		auto element = document->getElementById("demo");
+		auto value = element->attributes()[0]->value();
+		assert("demo" == value);
 	}
 	{
-		auto x = document->getElementsByTagName("IMG")[0];
-		x->getAttributeNode("src")->value("pic_bulbon.gif");
-		assert(!strcmp("pic_bulbon.gif", x->getAttributeNode("src")->value().c_str()));
+		auto element = document->getElementById("demo");
+		auto value = element->getAttributeNode("id")->value();
+		assert("demo" == value);
+	}
+	{
+		auto nodeMap = document->getElementById("light")->attributes();
+		auto value = nodeMap.getNamedItem("src")->value();
+		assert("pic_bulbon.gif" == value);
+	}
+	{
+		auto element = document->getElementById("light");
+		element->getAttributeNode("src")->value("pic_bulbon.gif");
+		assert("pic_bulbon.gif" == element->getAttributeNode("src")->value());
 	}
 
 	// https://www.w3schools.com/jsref/prop_attr_specified.asp
@@ -143,7 +155,7 @@ TEST(Node, Property) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books_ns.xml", true);
@@ -178,7 +190,7 @@ TEST(Node, Property) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -212,7 +224,7 @@ TEST(Node, Property) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -252,7 +264,7 @@ TEST(Node, Property) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -292,7 +304,7 @@ TEST(Node, Property) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -335,7 +347,7 @@ TEST(Node, Property) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -362,7 +374,7 @@ TEST(Node, Property) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -389,7 +401,7 @@ TEST(Node, Property) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -416,7 +428,7 @@ TEST(Node, Property) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -444,7 +456,7 @@ TEST(Node, Property) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -471,7 +483,7 @@ TEST(Node, Property) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books_ns.xml", true);
@@ -507,7 +519,7 @@ TEST(Node, Property) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -550,7 +562,7 @@ TEST(Node, Property) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -597,7 +609,7 @@ TEST(Node, Method) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -607,7 +619,7 @@ TEST(Node, Method) {
 		{
 			auto xmlDoc = xml->responseXML();
 			auto newel = xmlDoc->createElement("edition");
-			auto x = (Element*)xmlDoc->getElementsByTagName("book")[0];
+			auto x = xmlDoc->getElementsByTagName("book")[0];
 			x->appendChild(newel);
 			document->getElementById("demo")->innerHTML(
 				x->getElementsByTagName("edition")[0]->nodeName());
@@ -626,7 +638,7 @@ TEST(Node, Method) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -669,7 +681,7 @@ TEST(Node, Method) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -697,7 +709,7 @@ TEST(Node, Method) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -724,7 +736,7 @@ TEST(Node, Method) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -751,7 +763,7 @@ TEST(Node, Method) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -791,7 +803,7 @@ TEST(Node, Method) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -819,7 +831,7 @@ TEST(Node, Method) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -847,7 +859,7 @@ TEST(Node, Method) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books_ns.xml", true);
@@ -874,7 +886,7 @@ TEST(Node, Method) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books_ns.xml", true);
@@ -906,7 +918,7 @@ TEST(Node, Method) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);
@@ -935,7 +947,7 @@ TEST(Node, Method) {
 		{
 			if (_this->readyState() == 4 && _this->status() == 200)
 			{
-				myFunction(_this);
+				myFunction(std::move(_this));
 			}
 		};
 		xhttp->open("GET", "books.xml", true);

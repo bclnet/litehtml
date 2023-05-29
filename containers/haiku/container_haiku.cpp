@@ -314,7 +314,7 @@ LiteHtmlView::draw_list_marker( litehtml::uint_ptr hdc,
 
 void 
 LiteHtmlView::load_image( const litehtml::tchar_t* src, 
-	const litehtml::tchar_t* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready )
+	const litehtml::tchar_t* baseurl, bool redraw_on_ready )
 {
 	std::cout << "load_image" << std::endl;
 	
@@ -474,6 +474,12 @@ LiteHtmlView::draw_borders(litehtml::uint_ptr hdc, const litehtml::borders& bord
 		);
 	}
 }
+
+#if H3ML
+void LiteHtmlView::load_asset(const char* src, const char* baseurl, const litehtml::string_map* attrs, bool redraw_on_ready) { }
+void LiteHtmlView::get_asset_size(const char* src, const char* baseurl, const litehtml::string_map* attrs, litehtml::size& sz) { }
+void LiteHtmlView::draw_asset(uint_ptr hdc, const std::vector<litehtml::asset_paint>& bg) { }
+#endif
 
 void 
 LiteHtmlView::transform_text(litehtml::tstring& text, litehtml::text_transform tt)

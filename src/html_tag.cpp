@@ -1176,7 +1176,7 @@ void litehtml::html_tag::init_one_background_paint(int i, position pos, backgrou
 
 	if(!bg_paint.image.empty())
 	{
-		get_document()->container()->get_image_size(bg_paint.image.c_str(), bg_paint.baseurl.c_str(), nullptr, bg_paint.image_size);
+		get_document()->container()->get_image_size(bg_paint.image.c_str(), bg_paint.baseurl.c_str(), bg_paint.image_size);
 		if(bg_paint.image_size.width && bg_paint.image_size.height)
 		{
 			litehtml::size img_new_sz = bg_paint.image_size;
@@ -1256,7 +1256,7 @@ void litehtml::html_tag::draw_list_marker( uint_ptr hdc, const position& pos )
 	{
 		lm.image   = css().get_list_style_image();
 		lm.baseurl = css().get_list_style_image_baseurl().c_str();
-		get_document()->container()->get_image_size(lm.image.c_str(), lm.baseurl, nullptr, img_size);
+		get_document()->container()->get_image_size(lm.image.c_str(), lm.baseurl, img_size);
 	} else
 	{
 		lm.baseurl = nullptr;
@@ -1344,7 +1344,7 @@ void litehtml::html_tag::draw_list_marker( uint_ptr hdc, const position& pos )
 				marker_text += ".";
 				auto tw = get_document()->container()->text_width(marker_text.c_str(), lm.font);
 				auto text_pos = lm.pos;
-				text_pos.move_to(Point(text_pos.right() - tw, text_pos.y, text_pos.z));
+				text_pos.move_to(POINT(text_pos.right() - tw, text_pos.y, text_pos.z));
 				text_pos.width = tw;
 				get_document()->container()->draw_text(hdc, marker_text.c_str(), lm.font, lm.color, text_pos);
 			}

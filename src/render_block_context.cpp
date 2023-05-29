@@ -34,7 +34,7 @@ int litehtml::render_item_block_context::_render_content(point p, bool second_pa
         {
             if(el->src_el()->css().get_position() == element_position_absolute || el->src_el()->css().get_position() == element_position_fixed)
             {
-                el->render(Point(0, child_top, 0), self_size);
+                el->render(POINT(0, child_top, 0), self_size);
             } else
             {
                 child_top = get_cleared_top(el, child_top);
@@ -78,11 +78,11 @@ int litehtml::render_item_block_context::_render_content(point p, bool second_pa
                     #endif
                 }
 
-                int rw = el->render(Point(child_x, child_top, 0), self_size.new_width(child_width));
+                int rw = el->render(POINT(child_x, child_top, 0), self_size.new_width(child_width));
 				// Render table with "width: auto" into returned width
 				if(el->src_el()->css().get_display() == display_table && rw < child_width && el->src_el()->css().get_width().is_predefined())
 				{
-                    el->render(Point(child_x, child_top, 0), self_size.new_width(rw));
+                    el->render(POINT(child_x, child_top, 0), self_size.new_width(rw));
 				}
 				int auto_margin = el->calc_auto_margins(child_width);
 				if(auto_margin)

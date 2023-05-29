@@ -36,7 +36,7 @@ namespace litehtml
 	/// <summary>
 	/// DocumentFragment
 	/// </summary>
-	class DocumentFragment
+	class DocumentFragment : public Node
 	{
 	public:
 		typedef std::unique_ptr<DocumentFragment> ptr;
@@ -68,7 +68,7 @@ namespace litehtml
 	{
 	public:
 		typedef std::unique_ptr<Console> ptr;
-	public:
+
 		/// <summary>
 		/// Writes an error message to the console if the assertion is false
 		/// </summary>
@@ -154,6 +154,8 @@ namespace litehtml
 		void warn(tany message);
 	};
 
+	class document;
+
 	/// <summary>
 	/// Document
 	/// https://www.w3schools.com/jsref/dom_obj_document.asp
@@ -163,10 +165,9 @@ namespace litehtml
 	protected:
 		document* _doc;
 	public:
-		typedef std::unique_ptr<Document> ptr;
-	public:
+		typedef std::shared_ptr<Document> ptr;
 		Document();
-		Document(std::shared_ptr<document> doc);
+		//Document(std::shared_ptr<document> doc);
 
 		/// <summary>
 		/// Returns the currently focused element in the document
@@ -174,7 +175,7 @@ namespace litehtml
 		/// <value>
 		/// The active element.
 		/// </value>
-		std::unique_ptr<Element> activeElement();
+		std::shared_ptr<Element> activeElement();
 
 		/// <summary>
 		/// Attaches an event handler to the document
@@ -189,7 +190,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		Node::ptr adoptNode(Node* node);
+		Node::ptr adoptNode(Node::ptr node);
 
 		/// <summary>
 		/// Returns a collection of all <a> elements in the document that have a name attribute
@@ -197,14 +198,14 @@ namespace litehtml
 		/// <value>
 		/// The anchors.
 		/// </value>
-		std::unique_ptr<HTMLCollection> anchors();
+		HTMLCollection anchors();
 
 		/// <summary>
 		/// Adds a new child node, to an element, as the last child node
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual Node::ptr appendChild(Node* node) override; //: Node
+		virtual Node::ptr appendChild(Node::ptr node) override; //: Node
 
 		/// <summary>
 		/// Returns a collection of all <applet> elements in the document
@@ -212,7 +213,7 @@ namespace litehtml
 		/// <value>
 		/// The applets.
 		/// </value>
-		std::unique_ptr<HTMLCollection> applets();
+		HTMLCollection applets();
 
 		/// <summary>
 		/// NotSupported - Returns a NamedNodeMap of an element's attributes
@@ -236,7 +237,7 @@ namespace litehtml
 		/// <value>
 		/// The body.
 		/// </value>
-		std::unique_ptr<Element> body();
+		std::shared_ptr<Element> body();
 		void body(Element* value);
 
 		/// <summary>
@@ -269,7 +270,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual int compareDocumentPosition(Node* node) override; //: Node
+		virtual int compareDocumentPosition(Node::ptr node) override; //: Node
 
 		/// <summary>
 		/// Returns all name/value pairs of cookies in the document
@@ -305,7 +306,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="nodename">The nodename.</param>
 		/// <returns></returns>
-		std::unique_ptr<Element> createElement(string nodename);
+		std::shared_ptr<Element> createElement(string nodename);
 
 		/// <summary>
 		/// Creates a new event
@@ -352,7 +353,7 @@ namespace litehtml
 		/// <value>
 		/// The document element.
 		/// </value>
-		std::unique_ptr<Element> documentElement();
+		std::shared_ptr<Element> documentElement();
 
 		/// <summary>
 		/// Sets or returns the location of the document
@@ -377,7 +378,7 @@ namespace litehtml
 		/// <value>
 		/// The embeds.
 		/// </value>
-		std::unique_ptr<HTMLCollection> embeds();
+		HTMLCollection embeds();
 
 		/// <summary>
 		/// Invokes the specified clipboard operation on the element currently having focus.
@@ -402,7 +403,7 @@ namespace litehtml
 		/// <value>
 		/// The forms.
 		/// </value>
-		std::unique_ptr<HTMLCollection> forms();
+		HTMLCollection forms();
 
 		/// <summary>
 		/// Returns the current element that is displayed in fullscreen mode
@@ -410,7 +411,7 @@ namespace litehtml
 		/// <value>
 		/// The fullscreen element.
 		/// </value>
-		std::unique_ptr<Element> fullscreenElement();
+		std::shared_ptr<Element> fullscreenElement();
 
 		/// <summary>
 		/// Returns a Boolean value indicating whether the document can be viewed in fullscreen mode
@@ -423,7 +424,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="elementID">The element identifier.</param>
 		/// <returns></returns>
-		std::unique_ptr<Element> getElementById(string elementID);
+		std::shared_ptr<Element> getElementById(string elementID);
 
 		/// <summary>
 		/// Returns a NodeList containing all elements with the specified class name
@@ -476,7 +477,7 @@ namespace litehtml
 		/// <value>
 		/// The head.
 		/// </value>
-		std::unique_ptr<Element> head();
+		std::shared_ptr<Element> head();
 
 		/// <summary>
 		///Returns a collection of all <img> elements in the document
@@ -484,7 +485,7 @@ namespace litehtml
 		/// <value>
 		/// The images.
 		/// </value>
-		std::unique_ptr<HTMLCollection> images();
+		HTMLCollection images();
 
 		/// <summary>
 		/// Returns the DOMImplementation object that handles this document
@@ -500,7 +501,7 @@ namespace litehtml
 		/// <param name="node">The node.</param>
 		/// <param name="deep">if set to <c>true</c> [deep].</param>
 		/// <returns></returns>
-		Node::ptr importNode(Node* node, bool deep);
+		Node::ptr importNode(Node::ptr node, bool deep);
 
 		/// <summary>
 		/// Returns the encoding, character set, used for the document
@@ -526,7 +527,7 @@ namespace litehtml
 		/// <returns>
 		///   <c>true</c> if [is equal node] [the specified node]; otherwise, <c>false</c>.
 		/// </returns>
-		virtual bool isEqualNode(Node* node) override; //: Node
+		virtual bool isEqualNode(Node::ptr node) override; //: Node
 
 		/// <summary>
 		/// Checks if two elements are the same node
@@ -535,7 +536,7 @@ namespace litehtml
 		/// <returns>
 		///   <c>true</c> if [is same node] [the specified node]; otherwise, <c>false</c>.
 		/// </returns>
-		virtual bool isSameNode(Node* node) override; //: Node
+		virtual bool isSameNode(Node::ptr node) override; //: Node
 
 		/// <summary>
 		/// Returns the last child node of an element
@@ -559,7 +560,7 @@ namespace litehtml
 		/// <value>
 		/// The links.
 		/// </value>
-		std::unique_ptr<HTMLCollection> links();
+		HTMLCollection links();
 
 		/// <summary>
 		/// Returns the next node at the same node tree level
@@ -635,7 +636,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="selectors">The selectors.</param>
 		/// <returns></returns>
-		std::unique_ptr<Element> querySelector(string selectors);
+		std::shared_ptr<Element> querySelector(string selectors);
 
 		/// <summary>
 		/// Returns a static NodeList containing all elements that matches a specified CSS selector(s) in the document
@@ -665,7 +666,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual Node::ptr removeChild(Node* node) override; //: Node
+		virtual Node::ptr removeChild(Node::ptr node) override; //: Node
 
 		/// <summary>
 		/// Removes an event handler from the document (that has been attached with the addEventListener() method)
@@ -682,7 +683,7 @@ namespace litehtml
 		/// <param name="namespaceURI">The namespace URI.</param>
 		/// <param name="nodename">The nodename.</param>
 		/// <returns></returns>
-		Node::ptr renameNode(Node* node, string namespaceURI, string nodename);
+		Node::ptr renameNode(Node::ptr node, string namespaceURI, string nodename);
 
 		/// <summary>
 		/// Replaces a child node in an element
@@ -690,7 +691,7 @@ namespace litehtml
 		/// <param name="newnode">The newnode.</param>
 		/// <param name="oldnode">The oldnode.</param>
 		/// <returns></returns>
-		virtual Node::ptr replaceChild(Node* newnode, Node* oldnode) override; //: Node
+		virtual Node::ptr replaceChild(Node::ptr newnode, Node::ptr oldnode) override; //: Node
 
 		/// <summary>
 		/// Returns a collection of <script> elements in the document
@@ -698,7 +699,7 @@ namespace litehtml
 		/// <value>
 		/// The scripts.
 		/// </value>
-		std::unique_ptr<HTMLCollection> scripts();
+		HTMLCollection scripts();
 
 		/// <summary>
 		/// Sets or returns the textual content of a node and its descendants
@@ -746,11 +747,7 @@ namespace litehtml
 	class Element : public Node
 	{
 	public:
-		typedef std::unique_ptr<Element> ptr;
-	public:
-		Element();
-		//Element(std::shared_ptr<element> elem);
-		Element(element* elem);
+		typedef std::shared_ptr<Element> ptr;
 
 		/// <summary>
 		/// Gets or sets the access key.
@@ -774,7 +771,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual Node::ptr appendChild(Node* node) override; //: Node
+		virtual Node::ptr appendChild(Node::ptr node) override; //: Node
 
 		/// <summary>
 		/// Returns a NamedNodeMap of an element's attributes
@@ -813,7 +810,7 @@ namespace litehtml
 		/// <summary>
 		/// Returns a collection of an element's child element (excluding text and comment nodes)
 		/// </summary>
-		std::unique_ptr<HTMLCollection> children();
+		HTMLCollection children();
 
 		/// <summary>
 		/// Returns the class name(s) of an element
@@ -881,7 +878,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual int compareDocumentPosition(Node* node) override; //: Node
+		virtual int compareDocumentPosition(Node::ptr node) override; //: Node
 
 		/// <summary>
 		/// Returns true if a node is a descendant of a node, otherwise false
@@ -890,7 +887,7 @@ namespace litehtml
 		/// <returns>
 		///   <c>true</c> if [contains] [the specified node]; otherwise, <c>false</c>.
 		/// </returns>
-		bool contains(Node* node);
+		bool contains(Node::ptr node);
 
 		/// <summary>
 		/// Sets or returns whether the content of an element is editable or not
@@ -929,7 +926,7 @@ namespace litehtml
 		/// <value>
 		/// The first element child.
 		/// </value>
-		std::unique_ptr<Element> firstElementChild();
+		std::shared_ptr<Element> firstElementChild();
 
 		/// <summary>
 		/// Gives focus to an element
@@ -1048,7 +1045,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="newnode">The newnode.</param>
 		/// <param name="existingnode">The existingnode.</param>
-		Node::ptr insertBefore(Node* newnode, Node* existingnode);
+		Node::ptr insertBefore(Node::ptr newnode, Node::ptr existingnode);
 
 		/// <summary>
 		/// Returns true if the content of an element is editable, otherwise false
@@ -1074,7 +1071,7 @@ namespace litehtml
 		/// <returns>
 		///   <c>true</c> if [is equal node] [the specified node]; otherwise, <c>false</c>.
 		/// </returns>
-		virtual bool isEqualNode(Node* node) override; //: Node
+		virtual bool isEqualNode(Node::ptr node) override; //: Node
 
 		/// <summary>
 		/// Checks if two elements are the same node
@@ -1083,7 +1080,7 @@ namespace litehtml
 		/// <returns>
 		///   <c>true</c> if [is same node] [the specified node]; otherwise, <c>false</c>.
 		/// </returns>
-		virtual bool isSameNode(Node* node) override; //: Node
+		virtual bool isSameNode(Node::ptr node) override; //: Node
 
 		/// <summary>
 		/// Sets or returns the value of the lang attribute of an element
@@ -1108,7 +1105,7 @@ namespace litehtml
 		/// <value>
 		/// The last element child.
 		/// </value>
-		std::unique_ptr<Element> lastElementChild();
+		std::shared_ptr<Element> lastElementChild();
 
 		/// <summary>
 		/// Returns the namespace URI of an element
@@ -1132,7 +1129,7 @@ namespace litehtml
 		/// <value>
 		/// The next element sibling.
 		/// </value>
-		std::unique_ptr<Element> nextElementSibling();
+		std::shared_ptr<Element> nextElementSibling();
 
 		/// <summary>
 		/// Returns the name of a node
@@ -1194,7 +1191,7 @@ namespace litehtml
 		/// <value>
 		/// The offset parent.
 		/// </value>
-		Node* offsetParent();
+		Node::ptr offsetParent();
 
 		/// <summary>
 		/// Returns the vertical offset position of an element
@@ -1226,7 +1223,7 @@ namespace litehtml
 		/// <value>
 		/// The parent element.
 		/// </value>
-		std::unique_ptr<Element> parentElement();
+		std::shared_ptr<Element> parentElement();
 
 		/// <summary>
 		/// Returns the previous node at the same node tree level
@@ -1242,14 +1239,14 @@ namespace litehtml
 		/// <value>
 		/// The previous element sibling.
 		/// </value>
-		std::unique_ptr<Element> previousElementSibling();
+		std::shared_ptr<Element> previousElementSibling();
 
 		/// <summary>
 		/// Returns the first child element that matches a specified CSS selector(s) of an element
 		/// </summary>
 		/// <param name="selectors">The selectors.</param>
 		/// <returns></returns>
-		std::unique_ptr<Element> querySelector(string selectors);
+		std::shared_ptr<Element> querySelector(string selectors);
 
 		/// <summary>
 		/// Returns all child elements that matches a specified CSS selector(s) of an element
@@ -1276,7 +1273,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual Node::ptr removeChild(Node* node) override; //: Node
+		virtual Node::ptr removeChild(Node::ptr node) override; //: Node
 
 		/// <summary>
 		/// Removes an event handler that has been attached with the addEventListener() method
@@ -1292,7 +1289,7 @@ namespace litehtml
 		/// <param name="newnode">The newnode.</param>
 		/// <param name="oldnode">The oldnode.</param>
 		/// <returns></returns>
-		virtual Node::ptr replaceChild(Node* newnode, Node* oldnode) override; //: Node
+		virtual Node::ptr replaceChild(Node::ptr newnode, Node::ptr oldnode) override; //: Node
 
 		/// <summary>
 		/// Shows an element in fullscreen mode
@@ -1410,7 +1407,7 @@ namespace litehtml
 	{
 	public:
 		typedef std::unique_ptr<Geolocation> ptr;
-	public:
+
 		/// <summary>
 	   /// Returns the position and altitude of the device on Earth
 	   /// </summary>
@@ -1466,7 +1463,7 @@ namespace litehtml
 	{
 	public:
 		typedef std::unique_ptr<History> ptr;
-	public:
+
 		/// <summary>
 		/// Returns the number of URLs in the history list
 		/// </summary>
@@ -1494,9 +1491,11 @@ namespace litehtml
 	/// </summary>
 	class HTMLCollection
 	{
+		elements_vector _elems;
 	public:
-		typedef std::unique_ptr<HTMLCollection> ptr;
-	public:
+		HTMLCollection();
+		HTMLCollection(elements_vector& elements);
+
 		/// <summary>
 		/// Returns the number of elements in an HTMLCollection
 		/// </summary>
@@ -1513,21 +1512,21 @@ namespace litehtml
 		/// </value>
 		/// <param name="index">The index.</param>
 		/// <returns></returns>
-		std::unique_ptr<Element> operator[](int index);
+		std::shared_ptr<Element> operator[](int index);
 
 		/// <summary>
 		/// Returns the element at the specified index in an HTMLCollection
 		/// </summary>
 		/// <param name="index">The index.</param>
 		/// <returns></returns>
-		std::unique_ptr<Element> item(int index);
+		std::shared_ptr<Element> item(int index);
 
 		/// <summary>
 		/// Returns the element with the specified ID, or name, in an HTMLCollection
 		/// </summary>
 		/// <param name="name">The name.</param>
 		/// <returns></returns>
-		std::unique_ptr<Element> namedItem(string name);
+		std::shared_ptr<Element> namedItem(string name);
 	};
 
 	/// <summary>
@@ -1538,7 +1537,7 @@ namespace litehtml
 	{
 	public:
 		typedef std::unique_ptr<Location> ptr;
-	public:
+
 		/// <summary>
 		/// Sets or returns the anchor part (#) of a URL
 		/// </summary>
@@ -1646,7 +1645,7 @@ namespace litehtml
 	{
 	public:
 		typedef std::unique_ptr<MediaQueryList> ptr;
-	public:
+
 		/// <summary>
 		/// Used to check the results of a query. Returns a boolean value: true if the document matches the media query list, otherwise false
 		/// </summary>
@@ -1686,7 +1685,7 @@ namespace litehtml
 	{
 	public:
 		typedef std::unique_ptr<Navigator> ptr;
-	public:
+
 		/// <summary>
 	    /// Returns the code name of the browser
 	    /// </summary>
@@ -1782,7 +1781,7 @@ namespace litehtml
 	{
 	public:
 		typedef std::unique_ptr<Screen> ptr;
-	public:
+
 		/// <summary>
 		/// Returns the height of the screen (excluding the Windows Taskbar)
 		/// </summary>
@@ -1840,7 +1839,7 @@ namespace litehtml
 	{
 	public:
 		typedef std::unique_ptr<Style> ptr;
-	public:
+
 		/// <summary>
 		/// Sets or returns the alignment between the lines inside a flexible container when the items do not use all available space
 		/// </summary>
@@ -3513,7 +3512,7 @@ namespace litehtml
 	{
 	public:
 		typedef std::unique_ptr<Window> ptr;
-	public:
+
 		/// <summary>
 	   /// Returns a Boolean value indicating whether a window has been closed or not
 	   /// </summary>
@@ -3553,7 +3552,7 @@ namespace litehtml
 		/// <value>
 		/// The frame element.
 		/// </value>
-		std::unique_ptr<Element> frameElement();
+		std::shared_ptr<Element> frameElement();
 
 		/// <summary>
 		/// Returns all <iframe> elements in the current window
@@ -3561,7 +3560,7 @@ namespace litehtml
 		/// <value>
 		/// The frames.
 		/// </value>
-		std::vector<std::unique_ptr<Element>> frames();
+		std::vector<std::shared_ptr<Element>> frames();
 
 		/// <summary>
 		/// Returns the History object for the window (See History object)
@@ -3943,7 +3942,7 @@ namespace litehtml
 	{
 	public:
 		typedef std::unique_ptr<Storage> ptr;
-	public:
+
 		/// <summary>
 		/// Returns the name of the nth key in the storage
 		/// </summary>

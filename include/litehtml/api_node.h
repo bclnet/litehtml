@@ -20,8 +20,9 @@ namespace litehtml
 	class Node
 	{
 	protected:
-		std::shared_ptr<element> elem;
+		element* _elem;
 	public:
+		typedef std::shared_ptr<Node> ptr;
 		Node();
 		Node(std::shared_ptr<element>& elem);
 
@@ -30,7 +31,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual Node::ptr appendChild(Node* node) = 0;
+		virtual Node::ptr appendChild(Node::ptr node) = 0;
 
 		/// <summary>
 		/// Returns a NamedNodeMap of an element's attributes
@@ -65,7 +66,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual int compareDocumentPosition(Node* node) = 0;
+		virtual int compareDocumentPosition(Node::ptr node) = 0;
 
 		/// <summary>
 		/// Returns the first child node of an element
@@ -107,7 +108,7 @@ namespace litehtml
 		/// <returns>
 		///   <c>true</c> if [is equal node] [the specified node]; otherwise, <c>false</c>.
 		/// </returns>
-		virtual bool isEqualNode(Node* node) = 0;
+		virtual bool isEqualNode(Node::ptr node) = 0;
 
 		/// <summary>
 		/// Checks if two elements are the same node
@@ -116,7 +117,7 @@ namespace litehtml
 		/// <returns>
 		///   <c>true</c> if [is same node] [the specified node]; otherwise, <c>false</c>.
 		/// </returns>
-		virtual bool isSameNode(Node* node) = 0;
+		virtual bool isSameNode(Node::ptr node) = 0;
 
 		/// <summary>
 		/// Returns the last child node of an element
@@ -184,7 +185,7 @@ namespace litehtml
 		/// <value>
 		/// The owner document.
 		/// </value>
-		virtual std::unique_ptr<Document> ownerDocument() = 0;
+		virtual std::shared_ptr<Document> ownerDocument() = 0;
 
 		/// <summary>
 		/// Returns the parent node of an element
@@ -216,7 +217,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual Node::ptr removeChild(Node* node) = 0;
+		virtual Node::ptr removeChild(Node::ptr node) = 0;
 
 		/// <summary>
 		/// Replaces a child node in an element
@@ -224,7 +225,7 @@ namespace litehtml
 		/// <param name="newnode">The newnode.</param>
 		/// <param name="oldnode">The oldnode.</param>
 		/// <returns></returns>
-		virtual Node::ptr replaceChild(Node* newnode, Node* oldnode) = 0;
+		virtual Node::ptr replaceChild(Node::ptr newnode, Node::ptr oldnode) = 0;
 
 		/// <summary>
 		/// Sets or returns the textual content of a node and its descendants
@@ -246,7 +247,6 @@ namespace litehtml
 		string _name;
 	public:
 		typedef std::shared_ptr<Attr> ptr;
-	public:
 		Attr(string_map* attrs, string name);
 
 		/// <summary>
@@ -254,7 +254,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual Node::ptr appendChild(Node* node) override; //: Node
+		virtual Node::ptr appendChild(Node::ptr node) override; //: Node
 
 		/// <summary>
 		/// Returns a NamedNodeMap of an element's attributes
@@ -289,7 +289,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual int compareDocumentPosition(Node* node) override; //: Node
+		virtual int compareDocumentPosition(Node::ptr node) override; //: Node
 
 		/// <summary>
 		/// Returns the first child node of an element
@@ -331,7 +331,7 @@ namespace litehtml
 		/// <returns>
 		///   <c>true</c> if [is equal node] [the specified node]; otherwise, <c>false</c>.
 		/// </returns>
-		virtual bool isEqualNode(Node* node) override; //: Node
+		virtual bool isEqualNode(Node::ptr node) override; //: Node
 
 		/// <summary>
 		/// Checks if two elements are the same node
@@ -340,7 +340,7 @@ namespace litehtml
 		/// <returns>
 		///   <c>true</c> if [is same node] [the specified node]; otherwise, <c>false</c>.
 		/// </returns>
-		virtual bool isSameNode(Node* node) override; //: Node
+		virtual bool isSameNode(Node::ptr node) override; //: Node
 
 		/// <summary>
 		/// Returns the last child node of an element
@@ -408,7 +408,7 @@ namespace litehtml
 		/// <value>
 		/// The owner document.
 		/// </value>
-		virtual std::unique_ptr<Document> ownerDocument() override; //: Node
+		virtual std::shared_ptr<Document> ownerDocument() override; //: Node
 
 		/// <summary>
 		/// Returns the parent node of an element
@@ -440,7 +440,7 @@ namespace litehtml
 		/// </summary>
 		/// <param name="node">The node.</param>
 		/// <returns></returns>
-		virtual Node::ptr removeChild(Node* node) override; //: Node
+		virtual Node::ptr removeChild(Node::ptr node) override; //: Node
 
 		/// <summary>
 		/// Replaces a child node in an element
@@ -448,7 +448,7 @@ namespace litehtml
 		/// <param name="newnode">The newnode.</param>
 		/// <param name="oldnode">The oldnode.</param>
 		/// <returns></returns>
-		virtual Node::ptr replaceChild(Node* newnode, Node* oldnode) override; //: Node
+		virtual Node::ptr replaceChild(Node::ptr newnode, Node::ptr oldnode) override; //: Node
 
 		/// <summary>
 		/// Sets or returns the textual content of a node and its descendants
@@ -496,8 +496,8 @@ namespace litehtml
 		NodeList();
 		NodeList(elements_vector& elements);
 		~NodeList();
-		TNode* operator[](int index);
-		TNode* item(int index);
+		std::shared_ptr<TNode> operator[](int index);
+		std::shared_ptr<TNode> item(int index);
 		int length();
 	};
 
@@ -566,7 +566,7 @@ namespace litehtml
 	{
 	public:
 		typedef std::unique_ptr<DOMTokenList> ptr;
-	public:
+
 		/// <summary>
 		/// Returns the number of classes in the list.
 		/// </summary>

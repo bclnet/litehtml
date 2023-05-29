@@ -207,7 +207,7 @@ int litehtml::render_item_table::render(point p, const containing_block_context 
                 //if (cell->el->pos().width != cell_width - cell->el->content_offset_left() -
 				//									 cell->el->content_offset_right())
                 {
-                    cell->el->render(Point(m_grid->column(col).left, 0, 0), self_size.new_width(cell_width), true);
+                    cell->el->render(POINT(m_grid->column(col).left, 0, 0), self_size.new_width(cell_width), true);
                     cell->el->pos().width = cell_width - cell->el->content_offset_left() -
 							cell->el->content_offset_right();
                 }
@@ -381,7 +381,7 @@ int litehtml::render_item_table::render(point p, const containing_block_context 
 
     for (auto& caption : m_grid->captions())
     {
-        caption->render(Point(-border_left(), captions_height, 0), self_size.new_width(table_width + border_left() + border_right()));
+        caption->render(POINT(-border_left(), captions_height, 0), self_size.new_width(table_width + border_left() + border_right()));
         captions_height += caption->height();
     }
 
@@ -408,7 +408,7 @@ int litehtml::render_item_table::render(point p, const containing_block_context 
         }
     }
 
-	m_pos.move_to(Point(p.x + content_offset_left(), p.y + content_offset_top(), p.z + content_offset_front()));
+	m_pos.move_to(POINT(p.x + content_offset_left(), p.y + content_offset_top(), p.z + content_offset_front()));
 	m_pos.width = table_width;
 	m_pos.height = table_height + captions_height;
     #if H3ML
