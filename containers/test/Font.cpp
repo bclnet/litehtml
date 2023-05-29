@@ -1,9 +1,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Font.h"
+#include "test_directory.h"
 string readfile(string filename);
 using namespace std;
 
-string Font::font_dir = "../containers/test/fonts/"; // ctest is run from litehtml/build
 Font::size_name Font::installed_fonts[] =
 {
 	{ 12, "terminus-ascii-bold-12px.yaff" },

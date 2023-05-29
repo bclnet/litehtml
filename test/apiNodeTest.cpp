@@ -14,10 +14,9 @@ TEST(Node, Attrib) {
 <html>
 <body>
 	<h1>HTML DOM Attributes</h1>
-
 	<p id="demo"></p>
-
 	<img id="light" src="pic_bulboff.gif" width="100" height="180">
+	<div id="myDiv" style="background-color:red;width:50px;height:50px"></div>
 </body>
 </html>)xyz");
 
@@ -25,24 +24,30 @@ TEST(Node, Attrib) {
 	{
 		auto element = document->getElementById("demo");
 		auto aName = element->attributes()[0]->name();
-		assert("tag" == aName);
+
+		document->getElementById("demo")->innerHTML(aName);
+		assert("id" == aName);
 	}
 
 	// https://www.w3schools.com/jsref/prop_attr_value.asp
 	{
 		auto element = document->getElementById("demo");
 		auto value = element->attributes()[0]->value();
+
+		document->getElementById("demo")->innerHTML(value);
 		assert("demo" == value);
 	}
 	{
 		auto element = document->getElementById("demo");
 		auto value = element->getAttributeNode("id")->value();
+
+		document->getElementById("demo")->innerHTML(value);
 		assert("demo" == value);
 	}
 	{
 		auto nodeMap = document->getElementById("light")->attributes();
-		auto value = nodeMap.getNamedItem("src")->value();
-		assert("pic_bulbon.gif" == value);
+		nodeMap.getNamedItem("src")->value("pic_bulbon.gif");
+		assert("pic_bulbon.gif" == nodeMap.getNamedItem("src")->value());
 	}
 	{
 		auto element = document->getElementById("light");
@@ -52,8 +57,8 @@ TEST(Node, Attrib) {
 
 	// https://www.w3schools.com/jsref/prop_attr_specified.asp
 	{
-		auto x = document->getElementById("demo")->attributes()[0]->specified();
-		assert(x);
+		auto specified = document->getElementById("myDiv")->getAttributeNode("style")->specified();
+		assert(specified);
 	}
 }
 
@@ -61,80 +66,108 @@ TEST(Node, Nodemap) {
 	auto document = MakeDocument(R"xyz(
 <html>
 <body>
-	<h1>Hello World</h1>
-	<input type="button" value="OK" />
-	<img id="myImg" alt="Flower" src="klematis.jpg" width="150" height="113">
-	<button id="myBtn" onclick="myFunction()" class="example">Try it</button>
+	<h1>HTML DOM Attributes</h1>
 	<p id="demo"></p>
+	<img id="light" src="pic_bulbon.gif" width="100" height="180">
+	<button id="myButton" onclick="myFunction() class="example"">Get it</button>
+	<div id="myDiv" style="background-color:red;width:50px;height:50px"></div>
+	<div id="myDiv2" class="class1"></div>
+	<button id="myBtn" onclick="myFunction()" class="example">Try it</button>
+	<img id="myImg" alt="Flower" src="klematis.jpg" width="150" height="113">
+	<input id="myInput" type="button" value="OK">
 </body>
 </html>)xyz");
 
 	// https://www.w3schools.com/jsref/met_namednodemap_getnameditem.asp
 	{
-		auto btn = document->getElementsByTagName("BUTTON")[0];
-		auto x = btn->attributes().getNamedItem("onclick")->value();
-		assert(!strcmp("myFunction()", x.c_str()));
+		auto nodeMap = document->getElementById("light")->attributes();
+		auto value = nodeMap.getNamedItem("src")->value();
+
+		document->getElementById("demo")->innerHTML(value);
+		assert("pic_bulbon.gif" == value);
+	}
+	{
+		auto nodeMap = document->getElementById("myButton")->attributes();
+		auto value = nodeMap.getNamedItem("onclick")->value();
+
+		document->getElementById("demo")->innerHTML(value);
+		assert("myFunction() class=" == value);
 	}
 
 	// https://www.w3schools.com/jsref/met_namednodemap_item.asp
 	{
-		auto x = document->getElementsByTagName("BUTTON")[0]->attributes().item(0)->nodeName();
-		assert(!strcmp("class", x.c_str()));
+		auto nodeMap = document->getElementById("myDiv")->attributes();
+		auto name1 = nodeMap.item(0)->name();
+		auto name2 = nodeMap.item(1)->name();
+
+		document->getElementById("demo")->innerHTML(
+			"First attribute is: " + name1 +
+			"<br>Second is: " + name2);
+		assert("id" == name1);
+		assert("style" == name2);
 	}
 	{
-		auto x = document->getElementsByTagName("BUTTON")[0]->attributes().item(1);   // The 2nd attribute
-		assert(x != nullptr);
+		auto nodeMap = document->getElementById("myDiv2")->attributes();
+		auto name1 = nodeMap[0]->name();
+		auto name2 = nodeMap[1]->name();
+
+		document->getElementById("demo")->innerHTML(
+			"First attribute is: " + name1 +
+			"<br>Second is: " + name2);
+		assert("id" != name1);
+		assert("style" != name2);
 	}
 	{
-		auto x = document->getElementsByTagName("BUTTON")[0]->attributes()[1];		// The 2nd attribute
-		assert(x != nullptr);
+		document->getElementById("myDiv2")->attributes().item(1)->value("class2");
 	}
 	{
-		document->getElementsByTagName("BUTTON")[0]->attributes()[1]->value("newClass");
+		document->getElementById("myDiv2")->attributes()[1]->value("class2");
 	}
 
 	// https://www.w3schools.com/jsref/prop_namednodemap_length.asp
 	{
-		auto x = document->getElementsByTagName("BUTTON")[0]->attributes().length();
-		assert(x == 3);
+		auto num = document->getElementById("myButton")->attributes().length();
+		document->getElementById("demo")->innerHTML(to_string(num));
+		assert(num == 3);
 	}
 	{
-		auto txt = string();
-		auto x = document->getElementById("myBtn")->attributes();
-
-		for (auto i = 0; i < x.length(); i++)
-		{
-			txt += "Attribute name: " + string(x[i]->name()) + "<br>";
+		auto text = string();
+		auto nodeMap = document->getElementById("myBtn")->attributes();
+		for (auto i = 0; i < nodeMap.length(); i++) {
+			text += nodeMap[i]->name() + "<br>";
 		}
-		assert(!strcmp("Attribute name: class<br>Attribute name: id<br>Attribute name: onclick<br>", txt.c_str()));
+		document->getElementById("demo")->innerHTML(text);
+		assert("class<br>id<br>onclick<br>" == text);
 	}
 	{
-		auto x = document->getElementById("myImg")->attributes().length();
-		assert(x == 5);
+		auto num = document->getElementById("myImg")->attributes().length();
+		document->getElementById("demo")->innerHTML(to_string(num));
+		assert(num == 5);
 	}
 	{
-		auto txt = string();
-		auto x = document->getElementById("myImg");
-
-		for (auto i = 0; i < x->attributes().length(); i++)
-		{
-			txt = txt + string(x->attributes()[i]->name()) + " = " + string(x->attributes()[i]->value()) + "<br>";
+		auto nodeMap = document->getElementById("myImg")->attributes();
+		auto text = string();
+		for (auto i = 0; i < nodeMap.length(); i++) {
+			text += nodeMap[i]->name() + " = " + nodeMap[i]->value() + "<br>";
 		}
-		assert(!strcmp("alt = Flower<br>height = 113<br>id = myImg<br>src = klematis.jpg<br>width = 150<br>", txt.c_str()));
+		document->getElementById("demo")->innerHTML(text);
+		assert("alt = Flower<br>height = 113<br>id = myImg<br>src = klematis.jpg<br>width = 150<br>" == text);
 	}
 
 	// https://www.w3schools.com/jsref/met_namednodemap_removenameditem.asp
 	{
-		auto btn = document->getElementsByTagName("INPUT")[0];
-		btn->attributes().removeNamedItem("type");
+		auto nodeMap = document->getElementById("myInput")->attributes();
+		nodeMap.removeNamedItem("type");
+		assert(2 == nodeMap.length());
 	}
 
 	// https://www.w3schools.com/jsref/met_namednodemap_setnameditem.asp
 	{
-		auto h = document->getElementsByTagName("H1")[0];
-		auto typ = document->createAttribute("class");
-		//typ->value("democlass");
-		//h->attributes().setNamedItem(typ);
+		auto nodeMap = document->getElementsByTagName("H1")[0]->attributes();
+		auto node = document->createAttribute("class");
+		node->value("democlass");
+		nodeMap.setNamedItem(node);
+		assert(1 == nodeMap.length());
 	}
 }
 

@@ -125,7 +125,7 @@ namespace litehtml
 		int		width;
 		int		height;
 		#if H3ML
-		int depth;
+		int		depth;
 		#endif
 
 		#if H3ML
@@ -170,7 +170,7 @@ namespace litehtml
 			#endif
 		}
 
-		position(point& p, size& sz)
+		position(point p, size sz)
 		{
 			x = p.x;
 			y = p.y;

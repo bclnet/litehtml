@@ -6,19 +6,13 @@
 #else
 	#include <dirent.h>
 #endif
+#include "../containers/test/test_directory.h"
 #include "../containers/test/test_container.h"
 #include "../containers/test/Bitmap.h"
 using namespace std;
 
 vector<string> find_htm_files();
 void test(string filename);
-
-const char* test_dir; 
-const char* test_dirs[] = { 
-	"../test/render/",			// ctest is run from litehtml/build
-	"../../../test/render/",	// ctest is run from litehtml/out/build/*/
-	NULL
-};
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 using render_test = testing::TestWithParam<string>;
@@ -33,24 +27,11 @@ INSTANTIATE_TEST_SUITE_P(, render_test, testing::ValuesIn(find_htm_files()));
 
 void error(const char* msg) { puts(msg); exit(1); }
 
-void find_test_dir()
-{
-	for (const char* path = test_dirs[0]; path; path++)
-	{
-		DIR* dir = opendir(path);
-		if (dir)
-		{
-			closedir(dir);
-			test_dir = path;
-			return;
-		}
-	}
-	error("Cannot find test directory!");
-}
-
 vector<string> find_htm_files()
 {
 	find_test_dir();
+	find_font_dir();
+
 	DIR* dir = opendir(test_dir);
 	if (!dir) error("Cannot read test directory!");
 	vector<string> ret;
@@ -76,9 +57,9 @@ string readfile(string filename)
 Bitmap draw(document::ptr doc, int width, int height)
 {
 	Bitmap bmp(width, height);
-	position clip(POINT(0, 0, 0), SIZE(width, height, 0));
+	position clip(point_zero, SIZE(width, height, 0));
 
-	doc->draw((uint_ptr)&bmp, POINT(0, 0, 0), &clip);
+	doc->draw((uint_ptr)&bmp, point_zero, &clip);
 
 	bmp.resize(width, height);
 

@@ -19,12 +19,8 @@ namespace litehtml
 	/// </summary>
 	class Node
 	{
-	protected:
-		element* _elem;
 	public:
 		typedef std::shared_ptr<Node> ptr;
-		Node();
-		Node(std::shared_ptr<element>& elem);
 
 		/// <summary>
 		/// Adds a new child node, to an element, as the last child node

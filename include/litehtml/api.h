@@ -746,8 +746,12 @@ namespace litehtml
 	/// </summary>
 	class Element : public Node
 	{
+	protected:
+		element* _elem;
 	public:
 		typedef std::shared_ptr<Element> ptr;
+		Element();
+		Element(std::shared_ptr<element>& elem);
 
 		/// <summary>
 		/// Gets or sets the access key.

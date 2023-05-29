@@ -163,6 +163,7 @@ set(TEST_LITEHTML
     test/url_path_test.cpp
     test/render_test.cpp
     containers/test/test_container.cpp
+    containers/test/test_directory.cpp
     containers/test/Font.cpp
     containers/test/Bitmap.cpp
     containers/test/lodepng.cpp

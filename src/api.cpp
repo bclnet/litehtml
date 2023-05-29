@@ -12,7 +12,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="assertion">The assertion.</param>
 	/// <param name="message">The message.</param>
-	void Console::assert_(bool assertion, tany message) { }
+	void Console::assert_(bool assertion, tany message) { if (!assertion) throw exception("error"); }
 
 	/// <summary>
 	/// Clears the console
@@ -225,7 +225,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="attributename">The attributename.</param>
 	/// <returns></returns>
-	Attr::ptr Document::createAttribute(string attributename) { return std::make_shared<Attr>(nullptr, attributename.c_str()); }
+	Attr::ptr Document::createAttribute(string attributename) { return std::make_shared<Attr>(new string_map(), attributename.c_str()); }
 
 	/// <summary>
 	/// Creates a Comment node with the specified text
@@ -373,6 +373,7 @@ namespace litehtml
 	{
 		litehtml::lcase(elementID);
 		css_element_selector elem;
+		elem.m_tag = _id("*");
 		css_attribute_selector attr;
 		attr.type = select_id;
 		attr.name = _id(elementID);
@@ -397,6 +398,7 @@ namespace litehtml
 	{
 		litehtml::lcase(name);
 		css_element_selector elem;
+		elem.m_tag = _id("*");
 		css_attribute_selector attr;
 		attr.type = select_equal;
 		attr.name = _id("name");
@@ -720,6 +722,9 @@ namespace litehtml
 /// </summary>
 namespace litehtml
 {
+	Element::Element() { _elem = static_cast<element*>(this); }
+	Element::Element(element::ptr& elem) : _elem(elem.get()) { }
+
 	/// <summary>
 	/// Gets or sets the access key.
 	/// </summary>
@@ -948,7 +953,9 @@ namespace litehtml
 	/// <returns></returns>
 	NodeList<Element> Element::getElementsByClassName(string classname)
 	{
+		litehtml::lcase(classname);
 		css_element_selector elem;
+		elem.m_tag = _id("*");
 		css_attribute_selector attr;
 		attr.type = select_class;
 		attr.name = _id(classname);

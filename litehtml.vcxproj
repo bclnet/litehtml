@@ -165,7 +165,7 @@
   <ItemGroup>
     <ClCompile Include="src\api_node.cpp" />
     <ClCompile Include="src\api_service.cpp" />
-	<ClCompile Include="src\api.cpp" />
+    <ClCompile Include="src\api.cpp" />
     <ClCompile Include="src\css_borders.cpp" />
     <ClCompile Include="src\css_length.cpp" />
     <ClCompile Include="src\css_properties.cpp" />
@@ -174,7 +174,7 @@
     <ClCompile Include="src\document_container.cpp" />
     <ClCompile Include="src\element.cpp" />
     <ClCompile Include="src\el_anchor.cpp" />
-	  <ClCompile Include="src\el_asset.cpp" />
+    <ClCompile Include="src\el_asset.cpp" />
     <ClCompile Include="src\el_base.cpp" />
     <ClCompile Include="src\el_before_after.cpp" />
     <ClCompile Include="src\el_body.cpp" />
@@ -211,7 +211,7 @@
     <ClCompile Include="src\line_box.cpp" />
     <ClCompile Include="src\media_query.cpp" />
     <ClCompile Include="src\num_cvt.cpp" />
-	<ClCompile Include="src\render_asset.cpp" />
+    <ClCompile Include="src\render_asset.cpp" />
     <ClCompile Include="src\render_block.cpp" />
     <ClCompile Include="src\render_block_context.cpp" />
     <ClCompile Include="src\render_flex.cpp" />
@@ -220,7 +220,7 @@
     <ClCompile Include="src\render_inline_context.cpp" />
     <ClCompile Include="src\render_item.cpp" />
     <ClCompile Include="src\render_table.cpp" />
-	<ClCompile Include="src\script_engine.cpp" />
+    <ClCompile Include="src\script_engine.cpp" />
     <ClCompile Include="src\string_id.cpp" />
     <ClCompile Include="src\strtod.cpp" />
     <ClCompile Include="src\style.cpp" />
@@ -230,10 +230,10 @@
     <ClCompile Include="src\web_color.cpp" />
   </ItemGroup>
   <ItemGroup>
-	  <ClInclude Include="include\litehtml\api.h" />
-	  <ClInclude Include="include\litehtml\api_any.h" />
-	  <ClInclude Include="include\litehtml\api_node.h" />
-	  <ClInclude Include="include\litehtml\api_service.h" />
+    <ClInclude Include="include\litehtml\api.h" />
+    <ClInclude Include="include\litehtml\api_any.h" />
+    <ClInclude Include="include\litehtml\api_node.h" />
+    <ClInclude Include="include\litehtml\api_service.h" />
     <ClInclude Include="include\litehtml\background.h" />
     <ClInclude Include="include\litehtml\borders.h" />
     <ClInclude Include="include\litehtml\box.h" />
@@ -246,7 +246,7 @@
     <ClInclude Include="include\litehtml\document_container.h" />
     <ClInclude Include="include\litehtml\element.h" />
     <ClInclude Include="include\litehtml\el_anchor.h" />
-	  <ClInclude Include="include\litehtml\el_asset.h" />
+    <ClInclude Include="include\litehtml\el_asset.h" />
     <ClInclude Include="include\litehtml\el_base.h" />
     <ClInclude Include="include\litehtml\el_before_after.h" />
     <ClInclude Include="include\litehtml\el_body.h" />
@@ -293,7 +293,7 @@
     <ClInclude Include="include\litehtml\iterators.h" />
     <ClInclude Include="include\litehtml\media_query.h" />
     <ClInclude Include="include\litehtml\os_types.h" />
-	  <ClInclude Include="include\litehtml\script_engine.h" />
+    <ClInclude Include="include\litehtml\script_engine.h" />
     <ClInclude Include="include\litehtml\style.h" />
     <ClInclude Include="include\litehtml\stylesheet.h" />
     <ClInclude Include="include\litehtml\table.h" />

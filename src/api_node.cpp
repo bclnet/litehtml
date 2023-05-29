@@ -20,9 +20,6 @@ namespace litehtml
 /// </summary>
 namespace litehtml
 {
-	Node::Node() { _elem = static_cast<element*>(this); }
-	Node::Node(element::ptr& elem) : _elem(elem.get()) { }
-
 	/// <summary>
 	/// Returns the namespace URI associated with a given prefix
 	/// </summary>
