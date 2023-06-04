@@ -29,8 +29,7 @@ void error(const char* msg) { puts(msg); exit(1); }
 
 vector<string> find_htm_files()
 {
-	find_test_dir();
-	find_font_dir();
+	find_test_dirs();
 
 	DIR* dir = opendir(test_dir);
 	if (!dir) error("Cannot read test directory!");

@@ -4,14 +4,26 @@
 #include "litehtml.h"
 #include "../containers/test/test_container.h"
 using namespace litehtml;
+using namespace std;
 
 static test_container container(800, 600, ".");
-static document::ptr MakeDocument(char* source) { return document::createFromString(source, &container); }
+static Window::ptr MakeWindow(string url, char* source) {
+	Document::ptr document = document::createFromString(source, &container);
+	return new Window();
+}
 
-TEST(Console, Test) {
-	auto console = new Console();
-	//document::ptr thedoc;
-	// https://www.w3schools.com/jsref/met_console_assert.asp
+TEST(WindowConsole, Test) {
+	auto g = MakeWindow("", R"xyz(
+<html>
+<body>
+	<h1>The Console Object</h1>
+	<p id="demo"></p>
+</body>
+</html>)xyz");
+	auto document = g->document();
+	auto console = g->console();
+
+	// assert() - https://www.w3schools.com/jsref/met_console_assert.asp
 	{
 		//: Write a message to the console:
 		{
@@ -23,16 +35,9 @@ TEST(Console, Test) {
 		{
 			auto x = 5;
 			auto y = 5;
-			std::map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
+			map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
 			console->assert_(x + y == 11, myObj);
 		}
-
-		auto document = MakeDocument(R"xyz(
-<html>
-<body>
-<p id="demo"></p>
-</body>
-</html>)xyz");
 		//: Check for an element:
 		{
 			console->assert_(!!document->getElementById("demo"), "You have no element with ID 'demo'");
@@ -46,7 +51,7 @@ TEST(Console, Test) {
 		}
 	}
 
-	// https://www.w3schools.com/jsref/met_console_clear.asp
+	// clear() - https://www.w3schools.com/jsref/met_console_clear.asp
 	{
 		//: Clear all messages in the console:
 		{
@@ -54,18 +59,18 @@ TEST(Console, Test) {
 		}
 	}
 
-	// https://www.w3schools.com/jsref/met_console_count.asp
+	// count() - https://www.w3schools.com/jsref/met_console_count.asp
 	{
 		//: Call console.count() 5 times: 
 		{
-			for (auto i = 0; i < 5; i++)
+			for (int i = 0; i < 5; i++)
 			{
 				console->count();
 			}
 		}
 		//: Call console.count() 5 times, with a label: 
 		{
-			for (auto i = 0; i < 5; i++)
+			for (int i = 0; i < 5; i++)
 			{
 				console->count("myLabel");
 			}
@@ -87,7 +92,7 @@ TEST(Console, Test) {
 		}
 	}
 
-	// https://www.w3schools.com/jsref/met_console_error.asp
+	// error() - https://www.w3schools.com/jsref/met_console_error.asp
 	{
 		//: Write an error to the console:
 		{
@@ -95,7 +100,7 @@ TEST(Console, Test) {
 		}
 		//: Use an object as the error message:
 		{
-			std::map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
+			map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
 			console->error(myObj);
 		}
 		//: Use an array as the error message:
@@ -105,7 +110,7 @@ TEST(Console, Test) {
 		}
 	}
 
-	// https://www.w3schools.com/jsref/met_console_group.asp
+	// group() - https://www.w3schools.com/jsref/met_console_group.asp
 	{
 		//: Create a group of messages in the console:
 		{
@@ -129,7 +134,7 @@ TEST(Console, Test) {
 		}
 	}
 
-	// https://www.w3schools.com/jsref/met_console_groupcollapsed.asp
+	// groupCollapsed() - https://www.w3schools.com/jsref/met_console_groupcollapsed.asp
 	{
 		//: Create a collapsed group of messages in the console:
 		{
@@ -153,7 +158,7 @@ TEST(Console, Test) {
 		}
 	}
 
-	// https://www.w3schools.com/jsref/met_console_groupend.asp
+	// groupEnd() - https://www.w3schools.com/jsref/met_console_groupend.asp
 	{
 		//: End a message group with console.groupEnd():
 		{
@@ -165,7 +170,7 @@ TEST(Console, Test) {
 		}
 	}
 
-	// https://www.w3schools.com/jsref/met_console_info.asp
+	// info() - https://www.w3schools.com/jsref/met_console_info.asp
 	{
 		//: Write a message to the console:
 		{
@@ -173,7 +178,7 @@ TEST(Console, Test) {
 		}
 		//: Using an object as the message:
 		{
-			std::map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
+			map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
 			console->info(myObj);
 		}
 		//: Using an array as the message:
@@ -183,7 +188,7 @@ TEST(Console, Test) {
 		}
 	}
 
-	// https://www.w3schools.com/jsref/met_console_log.asp
+	// log() - https://www.w3schools.com/jsref/met_console_log.asp
 	{
 		//: Write to the console:
 		{
@@ -191,7 +196,7 @@ TEST(Console, Test) {
 		}
 		//: Write an object to the console:
 		{
-			std::map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
+			map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
 			console->log(myObj);
 		}
 		//: Write an array to the console:
@@ -201,7 +206,7 @@ TEST(Console, Test) {
 		}
 	}
 
-	// https://www.w3schools.com/jsref/met_console_table.asp
+	// table() - https://www.w3schools.com/jsref/met_console_table.asp
 	{
 		//: Write an array as a table in the console:
 		{
@@ -210,31 +215,32 @@ TEST(Console, Test) {
 		}
 		//: Write an object as a table in the console:
 		{
-			std::map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
+			map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
 			console->table(&myObj);
 		}
 		//: Using an array of objects:
 		{
-			std::map<string, string> car1 = { {"name", "Audi"}, {"model", "A4"} };
-			std::map<string, string> car2 = { {"name", "Volvo"}, {"model", "XC90"} };
-			std::map<string, string> car3 = { {"name", "Ford"}, {"model", "Fusion"} };
+			map<string, string> car1 = { {"name", "Audi"}, {"model", "A4"} };
+			map<string, string> car2 = { {"name", "Volvo"}, {"model", "XC90"} };
+			map<string, string> car3 = { {"name", "Ford"}, {"model", "Fusion"} };
 
-			std::map<string, string> p0[] = { car1, car2, car3 };
+			map<string, string> p0[] = { car1, car2, car3 };
 			console->table(p0);
 		}
 		//: Only include the "model" column in the table:
 		{
-			std::map<string, string> car1 = { {"name", "Audi"}, {"model", "A4"} };
-			std::map<string, string> car2 = { {"name", "Volvo"}, {"model", "XC90"} };
-			std::map<string, string> car3 = { {"name", "Ford"}, {"model", "Fusion"} };
+			map<string, string> car1 = { {"name", "Audi"}, {"model", "A4"} };
+			map<string, string> car2 = { {"name", "Volvo"}, {"model", "XC90"} };
+			map<string, string> car3 = { {"name", "Ford"}, {"model", "Fusion"} };
 
-			std::map<string, string> p0[] = { car1, car2, car3 }; string p1[] = { "model" };
+			map<string, string> p0[] = { car1, car2, car3 }; string p1[] = { "model" };
 			console->table(p0, p1);
 		}
 	}
 
-	// https://www.w3schools.com/jsref/met_console_time.asp
+	// time() - https://www.w3schools.com/jsref/met_console_time.asp
 	{
+		//: The time it takes to run a for-loop 100.000 times:
 		{
 			console->time();
 			for (int i = 0; i < 100000; i++)
@@ -243,6 +249,7 @@ TEST(Console, Test) {
 			}
 			console->timeEnd();
 		}
+		//: Using the label parameter:
 		{
 			console->time("test1");
 			for (int i = 0; i < 100000; i++)
@@ -251,6 +258,7 @@ TEST(Console, Test) {
 			}
 			console->timeEnd("test1");
 		}
+		//: Which is fastest, the for loop or the while loop?
 		{
 			int i;
 			console->time("test for loop");
@@ -270,8 +278,9 @@ TEST(Console, Test) {
 		}
 	}
 
-	// https://www.w3schools.com/jsref/met_console_timeend.asp
+	// timeEnd() - https://www.w3schools.com/jsref/met_console_timeend.asp
 	{
+		//: How long does it take to perform a for-loop 100.000 times:
 		{
 			console->time();
 			for (int i = 0; i < 100000; i++)
@@ -280,6 +289,7 @@ TEST(Console, Test) {
 			}
 			console->timeEnd();
 		}
+		//: Using the label parameter:
 		{
 			console->time("test1");
 			for (int i = 0; i < 100000; i++)
@@ -288,6 +298,7 @@ TEST(Console, Test) {
 			}
 			console->timeEnd("test1");
 		}
+		//: Which is fastest, the for loop or the while loop?
 		{
 			int i;
 			console->time("test for loop");
@@ -307,12 +318,13 @@ TEST(Console, Test) {
 		}
 	}
 
-	// https://www.w3schools.com/jsref/met_console_trace.asp
+	// trace() - https://www.w3schools.com/jsref/met_console_trace.asp
 	{
+		//: Show how the code ended up here:
 		{
-			std::function<void()> myOtherFunction;
+			function<void()> myOtherFunction;
 
-			std::function<void()> myFunction = [myOtherFunction]()
+			function<void()> myFunction = [myOtherFunction]()
 			{
 				myOtherFunction();
 			};
@@ -326,15 +338,18 @@ TEST(Console, Test) {
 		}
 	}
 
-	// https://www.w3schools.com/jsref/met_console_warn.asp
+	// warn() - https://www.w3schools.com/jsref/met_console_warn.asp
 	{
+		//: Write a warning to the console:
 		{
 			console->warn("This is a warning!");
 		}
+		//: Use an object as the warning message:
 		{
-			std::map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
+			map<string, string> myObj = { {"firstname", "John"}, {"lastname", "Doe"} };
 			console->warn(myObj);
 		}
+		//: Use an array as the warning message:
 		{
 			string myArr[] = { "Orange", "Banana", "Mango", "Kiwi" };
 			console->warn(myArr);

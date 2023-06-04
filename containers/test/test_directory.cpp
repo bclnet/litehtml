@@ -22,8 +22,9 @@ const char* font_dirs[] = {
 	NULL
 };
 
-void find_test_dir()
+void find_test_dirs()
 {
+findTest:
 	int i = 0;
 	for (const char* path = test_dirs[0]; path; path = test_dirs[++i])
 	{
@@ -32,16 +33,12 @@ void find_test_dir()
 		{
 			closedir(dir);
 			test_dir = path;
-			return;
+			goto findFont;
 		}
 	}
-	puts("Cannot find test directory!");
-	exit(1);
-}
-
-void find_font_dir()
-{
-	int i = 0;
+	goto error;
+findFont:
+	i = 0;
 	for (const char* path = font_dirs[0]; path; path = font_dirs[++i])
 	{
 		DIR* dir = opendir(path);
@@ -52,6 +49,7 @@ void find_font_dir()
 			return;
 		}
 	}
-	puts("Cannot find font directory!");
+error:
+	puts("Cannot find test directory!");
 	exit(1);
 }
