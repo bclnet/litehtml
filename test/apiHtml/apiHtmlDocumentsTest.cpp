@@ -27,6 +27,7 @@ TEST(HtmlDocument, Test) {
 	<form id="myCarForm"></form>
 </body>
 </html>)xyz");
+	auto window = g;
 	auto document = g->document();
 
 	// activeElement - https://www.w3schools.com/jsref/prop_document_activeelement.asp
@@ -61,11 +62,11 @@ TEST(HtmlDocument, Test) {
 		}
 		//: You can add many event listeners to the document:
 		{
-			function<void()> myFunction1 = []() {
+			function<void()> myFunction1 = [document]() {
 				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "First function was executed! ")
 			};
 
-			function<void()> myFunction2 = []() {
+			function<void()> myFunction2 = [document]() {
 				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "Second function was executed! ");
 			};
 
@@ -74,15 +75,15 @@ TEST(HtmlDocument, Test) {
 		}
 		//: You can add different types of events:
 		{
-			function<void()> myFunction = []() {
+			function<void()> myFunction = [document]() {
 				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "Moused over!")
 			};
 
-			function<void()> mySecondFunction = []() {
+			function<void()> mySecondFunction = [document]() {
 				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "Clicked!<br>");
 			};
 
-			function<void()> myThirdFunction = []() {
+			function<void()> myThirdFunction = [document]() {
 				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "Moused out!<br>");
 			};
 
@@ -95,7 +96,7 @@ TEST(HtmlDocument, Test) {
 			auto p1 = 5;
 			auto p2 = 7;
 
-			function<void(int, int)> myFunction = [](int a, int b) {
+			function<void(int, int)> myFunction = [document](int a, int b) {
 				auto result = a * b;
 				document->getElementById("demo")->innerHTML(to_string(result));
 			};
@@ -106,7 +107,7 @@ TEST(HtmlDocument, Test) {
 		}
 		//: Change the background color of the document:
 		{
-			document->addEventListener("click", []() {
+			document->addEventListener("click", [document]() {
 				document->body()->style()->backgroundColor("red");
 				});
 		}
@@ -114,7 +115,7 @@ TEST(HtmlDocument, Test) {
 		{
 
 			function<void()> myFunction = [document]() {
-				document->getElementById("demo")->innerHTML(to_string(Math.random()));
+				document->getElementById("demo")->innerHTML(to_string(Math::random()));
 			};
 
 			function<void()> removeHandler = [document, myFunction]() {
@@ -133,7 +134,7 @@ TEST(HtmlDocument, Test) {
 				auto frame = document->getElementById("myFrame");
 				auto h1 = frame->contentWindow()->document()->getElementsByTagName("H1")[0];
 				auto node = document->adoptNode(h1);
-				document->body->appendChild(node);
+				document->body()->appendChild(node);
 			};
 
 			myFunction();
@@ -266,7 +267,7 @@ TEST(HtmlDocument, Test) {
 			auto att = document->createAttribute("style");
 
 			// Set the value of the class attribute
-			att->value = "color:red";
+			att->value("color:red");
 
 			// Add the class attribute to the first h1;
 			auto h1 = document->getElementsByTagName("h1")[0];
@@ -309,9 +310,9 @@ TEST(HtmlDocument, Test) {
 
 			// Create a document fragment:
 			auto dFrag = document->createDocumentFragment();
-			for (auto x in fruits) {
+			for (auto x : fruits) {
 				auto li = document->createElement("li");
-				li->textContent(fruits[x]);
+				li->textContent(x);
 				dFrag->appendChild(li);
 			}
 
@@ -324,9 +325,9 @@ TEST(HtmlDocument, Test) {
 
 			// Create a document fragment:
 			auto dFrag = document->createDocumentFragment();
-			for (auto x in fruits) {
+			for (auto x : fruits) {
 				auto li = document->createElement("li");
-				li->textContent(fruits[x]);
+				li->textContent(x);
 				dFrag->appendChild(li);
 			}
 
@@ -367,7 +368,7 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Simulate a mouseover event:
 		{
-			function<void(Event::ptr)> myFunction = [document](evnt) {
+			function<void(Event::ptr)> myFunction = [document, window](Event::ptr evnt) {
 				auto ev = document->createEvent("MouseEvent");
 				ev->initMouseEvent("mouseover", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 
@@ -425,7 +426,7 @@ TEST(HtmlDocument, Test) {
 		}
 		//: Make the document editable:
 		{
-			document->designMode = "on";
+			document->designMode("on");
 		}
 	}
 	
@@ -479,7 +480,7 @@ TEST(HtmlDocument, Test) {
 		//: Number of <embed> elements in a document:
 		{
 			auto num = document->embeds().length();
-			document->getElementById("demo")->innerHTML(num);
+			document->getElementById("demo")->innerHTML(to_string(num));
 		}
 	}
 
@@ -492,8 +493,8 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Number of <form> elements in the document:
 		{
-			auto num = document->forms()->length();
-			document->getElementById("demo")->innerHTML(num);
+			auto num = document->forms().length();
+			document->getElementById("demo")->innerHTML(to_string(num));
 		}
 		//: Get the id of the first <form> element:
 		{
@@ -507,14 +508,14 @@ TEST(HtmlDocument, Test) {
 		}
 		//: Get the HTML content of the <form> element with id="myCarForm":
 		{
-			auto html = document->forms()->namedItem("myCarForm")->innerHTML();
+			auto html = document->forms().namedItem("myCarForm")->innerHTML();
 			document->getElementById("demo")->innerHTML(html);
 		}
 		//: Loop through all <form> elements and output the id of each form:
 		{
 			auto forms = document->forms();
 			string text = "";
-			for (auto i = 0; i < forms->length(); i++) {
+			for (auto i = 0; i < forms.length(); i++) {
 				text += forms[i]->id() + "<br>";
 			}
 			document->getElementById("demo")->innerHTML(text);
@@ -523,7 +524,7 @@ TEST(HtmlDocument, Test) {
 		{
 			auto form = document->forms[0];
 			string text = "";
-			for (string i = 0; i < form->length(); i++) {
+			for (auto i = 0; i < form->length(); i++) {
 				text += form.elements[i].value + "<br>";
 			}
 			document->getElementById("demo")->innerHTML(text);

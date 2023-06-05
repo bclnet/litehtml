@@ -10,6 +10,7 @@
 
 namespace litehtml
 {
+	class document;
 	class HTMLCollection;
 	class Style;
 	class Storage;
@@ -154,13 +155,11 @@ namespace litehtml
 		void warn(tany message);
 	};
 
-	class document;
-
 	/// <summary>
 	/// Document
 	/// https://www.w3schools.com/jsref/dom_obj_document.asp
 	/// </summary>
-	class Document : public Node
+	class Document : public Node, public EventTarget
 	{
 	protected:
 		document* _doc;
@@ -183,7 +182,7 @@ namespace litehtml
 		/// <param name="event">The event.</param>
 		/// <param name="function">The function.</param>
 		/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-		void addEventListener(string event, string function, bool useCapture = false);
+		//void addEventListener(string event, void* function, bool useCapture = false); //: EventTarget
 
 		/// <summary>
 		/// Adopts a node from another document
@@ -674,7 +673,7 @@ namespace litehtml
 		/// <param name="event">The event.</param>
 		/// <param name="function">The function.</param>
 		/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-		void removeEventListener(string event, string function, bool useCapture = false);
+		//void removeEventListener(string event, void* function, bool useCapture = false); //: EventTarget
 
 		/// <summary>
 		/// NotSupported - Renames the specified node
@@ -744,7 +743,7 @@ namespace litehtml
 	/// Element
 	/// https://www.w3schools.com/jsref/dom_obj_all.asp
 	/// </summary>
-	class Element : public Node
+	class Element : public Node, public EventTarget
 	{
 	protected:
 		element* _elem;
@@ -768,7 +767,7 @@ namespace litehtml
 		/// <param name="event">The event.</param>
 		/// <param name="function">The function.</param>
 		/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-		void addEventListener(string event, string function, bool useCapture = false);
+		//void addEventListener(string event, void* function, bool useCapture = false); //: EventTarget
 
 		/// <summary>
 		/// Adds a new child node, to an element, as the last child node
@@ -1112,6 +1111,14 @@ namespace litehtml
 		std::shared_ptr<Element> lastElementChild();
 
 		/// <summary>
+		/// TBD
+		/// </summary>
+		/// <value>
+		/// TBD
+		/// </value>
+		string localName();
+
+		/// <summary>
 		/// Returns the namespace URI of an element
 		/// </summary>
 		/// <value>
@@ -1285,7 +1292,7 @@ namespace litehtml
 		/// <param name="event">The event.</param>
 		/// <param name="function">The function.</param>
 		/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-		void removeEventListener(string event, string function, bool useCapture = false);
+		//void removeEventListener(string event, void* function, bool useCapture = false); //: EventTarget
 
 		/// <summary>
 		/// Replaces a child node in an element
@@ -3512,17 +3519,19 @@ namespace litehtml
 	/// Window
 	/// https://www.w3schools.com/jsref/obj_window.asp
 	/// </summary>
-	class Window
+	class Window : public EventTarget
 	{
 	public:
 		typedef std::unique_ptr<Window> ptr;
+		Window();
+		//Window(std::shared_ptr<document> doc);
 
 		/// <summary>
-	   /// Returns a Boolean value indicating whether a window has been closed or not
-	   /// </summary>
-	   /// <value>
-	   ///   <c>true</c> if closed; otherwise, <c>false</c>.
-	   /// </value>
+		/// Returns a Boolean value indicating whether a window has been closed or not
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if closed; otherwise, <c>false</c>.
+		/// </value>
 		bool closed();
 
 		/// <summary>

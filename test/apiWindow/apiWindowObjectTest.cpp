@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include "litehtml.h"
+#include "../apiTestUtil.h"
 #include "../containers/test/test_container.h"
 using namespace litehtml;
 using namespace std;
@@ -33,8 +34,7 @@ TEST(WindowObject, Test) {
 	{
 		//: Add a click event handler to the window:
 		{
-			function<void()> myFunction = [document]()
-			{
+			function<void()> myFunction = [document]() {
 				document->getElementById("demo")->innerHTML("Hello World");
 			};
 			window->addEventListener("click", myFunction);
@@ -82,12 +82,12 @@ TEST(WindowObject, Test) {
 			auto p1 = 5;
 			auto p2 = 7;
 
-			function<void(tany, tany)> myFunction = [document](a, b) {
+			function<void(int, int)> myFunction = [document](int a, int b) {
 				auto result = a * b;
 				document->getElementById("demo")->innerHTML(to_string(result));
 			};
 
-			window->addEventListener("click", [myFunction]() {
+			window->addEventListener("click", [myFunction, p1, p2]() {
 				myFunction(p1, p2);
 				});
 		}
@@ -100,10 +100,10 @@ TEST(WindowObject, Test) {
 		//: Using the removeEventListener() method:
 		{
 			function<void()> myFunction = [document]() {
-				document->getElementById("demo")->innerHTML(Math.random());
+				document->getElementById("demo")->innerHTML(to_string(Math::random()));
 			};
 
-			function<void()> removeHandler = [window]() {
+			function<void()> removeHandler = [window, myFunction]() {
 				window->removeEventListener("mousemove", myFunction);
 			};
 
@@ -134,7 +134,7 @@ TEST(WindowObject, Test) {
 		//: Alert the hostname of the current URL:
 		{
 			function<void()> myFunction = [g]() {
-				g->alert(g->location().hostname());
+				g->alert(g->location()->hostname());
 			};
 
 			myFunction();
@@ -179,7 +179,7 @@ TEST(WindowObject, Test) {
 	{
 		//: Encode a string in base-64:
 		{
-			auto text = "Hello World!";
+			string text = "Hello World!";
 			auto encoded = window->btoa(text);
 
 			document->getElementById("demo")->innerHTML("Original: " + text + "<br>Encoded: " + encoded);
@@ -192,7 +192,7 @@ TEST(WindowObject, Test) {
 		{
 			function<void()> myTimer = [document]() {
 				auto date = new Date();
-				document->getElementById("demo")->innerHTML(date.toLocaleTimeString());
+				document->getElementById("demo")->innerHTML(date->toLocaleTimeString());
 			}
 
 			auto myInterval = setInterval(myTimer, 1000);
@@ -324,17 +324,17 @@ TEST(WindowObject, Test) {
 		{
 			Window::ptr myWindow;
 
-			function<void()> openWin = [myWindow]() {
+			function<void()> openWin = [window, myWindow]() {
 				myWindow = window->open("", "myWindow", "width=400,height=200");
 			};
 
 			function<void()> closeWin = []() {
 				if (myWindow) {
-					myWindow.close();
+					myWindow->close();
 				}
 			};
 
-			function<void()> checkWin() {
+			function<void()> checkWin = [myWindow](){
 				string text = "";
 				if (!myWindow) {
 					text = "It has never been opened!";
@@ -538,21 +538,21 @@ TEST(WindowObject, Test) {
 		{
 			auto w = window->innerWidth();
 			auto h = window->innerHeight();
-			document->getElementById("demo")->innerHTML("Width: " + w + "<br>Height: " + h);
+			document->getElementById("demo")->innerHTML("Width: " + to_string(w) + "<br>Height: " + to_string(h));
 		}
 		//:
 		{
 			auto w = g->innerWidth();
 			auto h = g->innerHeight();
-			document->getElementById("demo")->innerHTML("Width: " + w + "<br>Height: " + h);
+			document->getElementById("demo")->innerHTML("Width: " + to_string(w) + "<br>Height: " + to_string(h));
 		}
 		//: All height and width properties:
 		{
 			auto text =
-				"<p>innerWidth: " + window->innerWidth() + "</p>" +
-				"<p>innerHeight: " + window->innerHeight() + "</p>" +
-				"<p>outerWidth: " + window->outerWidth() + "</p>" +
-				"<p>outerHeight: " + window->outerHeight() + "</p>";
+				"<p>innerWidth: " + to_string(window->innerWidth()) + "</p>" +
+				"<p>innerHeight: " + to_string(window->innerHeight()) + "</p>" +
+				"<p>outerWidth: " + to_string(window->outerWidth()) + "</p>" +
+				"<p>outerHeight: " + to_string(window->outerHeight()) + "</p>";
 
 			document->getElementById("demo")->innerHTML(text);
 		}
@@ -560,15 +560,15 @@ TEST(WindowObject, Test) {
 		{
 			auto w = g->innerWidth();
 			auto h = g->innerHeight();
-			document->getElementById("demo")->innerHTML("Width: " + w + "<br>Height: " + h);
+			document->getElementById("demo")->innerHTML("Width: " + to_string(w) + "<br>Height: " + to_string(h));
 		}
 		//: All height and width properties:
 		{
 			auto text =
-				"<p>innerWidth: " + window->innerWidth() + "</p>" +
-				"<p>innerHeight: " + window->innerHeight() + "</p>" +
-				"<p>outerWidth: " + window->outerWidth() + "</p>" +
-				"<p>outerHeight: " + window->outerHeight() + "</p>";
+				"<p>innerWidth: " + to_string(window->innerWidth()) + "</p>" +
+				"<p>innerHeight: " + to_string(window->innerHeight()) + "</p>" +
+				"<p>outerWidth: " + to_string(window->outerWidth()) + "</p>" +
+				"<p>outerHeight: " + to_string(window->outerHeight()) + "</p>";
 
 			document->getElementById("demo")->innerHTML(text);
 		}
@@ -580,21 +580,21 @@ TEST(WindowObject, Test) {
 		{
 			auto w = window->innerWidth();
 			auto h = window->innerHeight();
-			document->getElementById("demo")->innerHTML("Width: " + w + "<br>Height: " + h);
+			document->getElementById("demo")->innerHTML("Width: " + to_string(w) + "<br>Height: " + to_string(h));
 		}
 		//:
 		{
 			auto w = g->innerWidth();
 			auto h = g->innerHeight();
-			document->getElementById("demo")->innerHTML("Width: " + w + "<br>Height: " + h);
+			document->getElementById("demo")->innerHTML("Width: " + to_string(w) + "<br>Height: " + to_string(h));
 		}
 		//: All height and width properties:
 		{
 			auto text =
-				"<p>innerWidth: " + window->innerWidth() + "</p>" +
-				"<p>innerHeight: " + window->innerHeight() + "</p>" +
-				"<p>outerWidth: " + window->outerWidth() + "</p>" +
-				"<p>outerHeight: " + window->outerHeight() + "</p>";
+				"<p>innerWidth: " + to_string(window->innerWidth()) + "</p>" +
+				"<p>innerHeight: " + to_string(window->innerHeight()) + "</p>" +
+				"<p>outerWidth: " + to_string(window->outerWidth()) + "</p>" +
+				"<p>outerHeight: " + to_string(window->outerHeight()) + "</p>";
 
 			document->getElementById("demo")->innerHTML(text);
 		}
@@ -628,7 +628,7 @@ TEST(WindowObject, Test) {
 		}
 		//: Count the number of times a user has clicked a button:
 		{
-			function<void()> clickCounter = []() = > {
+			function<void()> clickCounter = (){
 				if (localStorage["clickcount"]) {
 					localStorage["clickcount"] = Number(g->localStorage["clickcount"]) + 1;
 				}
@@ -1573,8 +1573,8 @@ TEST(WindowObject, Test) {
 		{
 			function<void()> startTime = [g, document]() {
 				auto date = new Date();
-				document->getElementById("demo").innerHTML = date.toLocaleTimeString();
-				g->setTimeout(function() { startTime() }, 1000);
+				document->getElementById("demo").innerHTML(date.toLocaleTimeString());
+				g->setTimeout([]() { startTime(); }, 1000);
 			};
 
 			startTime();

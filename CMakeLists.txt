@@ -16,6 +16,7 @@ if(NOT EXTERNAL_GUMBO)
 endif()
 
 set(SOURCE_LITEHTML
+    src/api_event.cpp
     src/api_node.cpp
     src/api_service.cpp
     src/api.cpp
@@ -137,24 +138,25 @@ set(HEADER_LITEHTML
 )
 
 set(TEST_LITEHTML
-    test/apiConsoleTest.cpp
-    test/apiDocumentFragmentTest.cpp
-    test/apiDocumentImplementationTest.cpp
-    test/apiDocumentTest.cpp
-    test/apiDocumentTypeTest.cpp
-    test/apiElementTest.cpp
-    test/apiGeolocationTest.cpp
-    test/apiHistoryTest.cpp
-    test/apiHTMLCollectionTest.cpp
-    test/apiLocationTest.cpp
-    test/apiMediaQueryTest.cpp
-    test/apiNavigationTest.cpp
-    test/apiNodeTest.cpp
-    test/apiRectTest.cpp
-    test/apiScreenTest.cpp
-    test/apiStorageTest.cpp
-    test/apiStyleTest.cpp
-    test/apiWindowTest.cpp
+    test/apiDom/apiDomNodeTest.cpp
+    test/apiHtml/apiHtmlAttributesTest.cpp
+    #test/apiHtml/apiHtmlDocumentsTest.cpp
+    #test/apiWeb/apiDocumentFragmentTest.cpp
+    #test/apiWeb/apiDocumentImplementationTest.cpp
+    #test/apiWeb/apiDocumentTypeTest.cpp
+    #test/apiWeb/apiElementTest.cpp
+    #test/apiWeb/apiGeolocationTest.cpp
+    #test/apiWeb/apiHTMLCollectionTest.cpp
+    #test/apiWeb/apiMediaQueryTest.cpp
+    #test/apiWeb/apiRectTest.cpp
+    #test/apiWeb/apiStorageTest.cpp
+    #test/apiWeb/apiStyleTest.cpp
+    #test/apiWindow/apiWindowConsoleTest.cpp
+    #test/apiWindow/apiWindowHistoryTest.cpp
+    #test/apiWindow/apiWindowLocationTest.cpp
+    #test/apiWindow/apiWindowNavigatorTest.cpp
+    #test/apiWindow/apiWindowObjectTest.cpp
+    #test/apiWindow/apiWindowScreenTest.cpp
     test/cssTest.cpp
     test/mediaQueryTest.cpp
     test/codepoint_test.cpp

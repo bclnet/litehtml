@@ -9,7 +9,7 @@ using namespace std;
 static test_container container(800, 600, ".");
 static Window::ptr MakeWindow(string url, char* source) {
 	Document::ptr document = document::createFromString(source, &container);
-	return new Window();
+	return nullptr; // new Window();
 }
 
 TEST(HtmlNode, Test) {
@@ -27,24 +27,24 @@ TEST(HtmlNode, Test) {
 		//: The following code fragment loads "books.xml" into xmlDoc and creates a node (<edition>), and appends it after the last child of the first <book> node:
 		{
 			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
-				Element x; int y; int i; Element::ptr newElement; string txt; Document::ptr xmlDoc;
+				Element::ptr x; Node::ptr y; int i; Element::ptr newElement; string txt; Document::ptr xmlDoc;
 				xmlDoc = xml->responseXML();
 				newElement = xmlDoc->createElement("edition");
 				x = xmlDoc->getElementsByTagName("book")[0];
 				x->appendChild(newElement);
 
 				// Display all elements
-				xlen = x->childNodes()->length();
+				auto xlen = x->childNodes().length();
 				y = x->firstChild();
 				txt = "";
 				for (i = 0; i < xlen; i++) {
-					if (y.nodeType == 1) {
-						txt += y.nodeName() + "<br>";
+					if (y->nodeType() == 1) {
+						txt += y->nodeName() + "<br>";
 					}
-					y = y.nextSibling();
+					y = y->nextSibling();
 				}
 				document->getElementById("demo")->innerHTML(txt);
-				assert("edition" = document->getElementById("demo")->innerHTML());
+				assert("edition" == document->getElementById("demo")->innerHTML());
 			};
 
 			auto xhttp = new XMLHttpRequest();
@@ -78,16 +78,12 @@ TEST(HtmlNode, Test) {
 						"<br>Base URI: " + x.item(i)->baseURI() + "</p>";
 				}
 				document->getElementById("demo")->innerHTML(txt);
-				assert(R"xyz(Base URI: https://www.w3schools.com/xml/books_ns.xml
-Base URI : https://www.w3schools.com/xml/books_ns.xml
-")xyz"), txt);
+				assert("Base URI: https://www.w3schools.com/xml/books_ns.xml<br>Base URI : https://www.w3schools.com/xml/books_ns.xml" == txt);
 			};
 
 			auto xhttp = new XMLHttpRequest();
-			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this)
-			{
-				if (_this->readyState() == 4 && _this->status() == 200)
-				{
+			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
+				if (_this->readyState() == 4 && _this->status() == 200) {
 					myFunction(move(_this));
 				}
 			};
@@ -185,7 +181,7 @@ Base URI : https://www.w3schools.com/xml/books_ns.xml
 		//: The following code fragment loads "books.xml" into xmlDoc and displays the node name of the first child node:
 		{
 			// Check if the first node is an element node
-			function<Node::ptr(Document::ptr)> get_firstchild = [](Document::ptr n)->Node::ptr {
+			function<Node::ptr(Node::ptr)> get_firstchild = [](Node::ptr n)->Node::ptr {
 				auto x = n->firstChild();
 				while (x->nodeType() != 1) {
 					x = x->nextSibling();
@@ -198,7 +194,7 @@ Base URI : https://www.w3schools.com/xml/books_ns.xml
 				// Get the first child node of the document
 				auto x = get_firstchild(xmlDoc);
 				// Get the first child node of the root element
-				auto y = get_firstchild(xmlDoc.documentElement);
+				auto y = get_firstchild(xmlDoc->documentElement());
 				document->getElementById("demo")->innerHTML(
 					"Nodename: " + x->nodeName() +
 					" (nodetype: " + to_string(x->nodeType()) + ")<br>" +
@@ -358,7 +354,7 @@ Base URI : https://www.w3schools.com/xml/books_ns.xml
 		//: The following code fragment loads "books.xml" into xmlDoc and displays the node name of the last child node of the document:
 		{
 			// Check if the last node is an element node
-			function<Node::ptr(Document::ptr)> get_lastchild = [](Document::ptr n)->Node::ptr {
+			function<Node::ptr(Node::ptr)> get_lastchild = [](Node::ptr n)->Node::ptr {
 				auto x = n->lastChild();
 				while (x->nodeType() != 1) {
 					x = x->previousSibling();
@@ -481,13 +477,13 @@ Base URI : https://www.w3schools.com/xml/books_ns.xml
 				xmlDoc = xml->responseXML();
 				txt = "";
 				x = xmlDoc->documentElement();
-				y = x->childNodes());
-				for (i = 0; i < y.length; i++) {
-					txt += "Nodename: " + y[i].nodeName() +
-						" (nodetype: " + to_string(y[i].nodeType()) + ")<br>";
-					for (auto z = 0; z < y[i].childNodes.length(); z++) {
-						txt += "Nodename: " + y[i].childNodes[z].nodeName() +
-							" (nodetype: " + to_string(y[i].childNodes[z].nodeType()) + ")<br>";
+				y = x->childNodes();
+				for (i = 0; i < y.length(); i++) {
+					txt += "Nodename: " + y[i]->nodeName() +
+						" (nodetype: " + to_string(y[i]->nodeType()) + ")<br>";
+					for (auto z = 0; z < y[i]->childNodes().length(); z++) {
+						txt += "Nodename: " + y[i]->childNodes()[z]->nodeName() +
+							" (nodetype: " + to_string(y[i]->childNodes()[z]->nodeType()) + ")<br>";
 					}
 				}
 				document->getElementById("demo")->innerHTML(
@@ -520,12 +516,12 @@ Base URI : https://www.w3schools.com/xml/books_ns.xml
 				txt = "";
 				x = xmlDoc->documentElement();
 				y = x->childNodes();
-				for (i = 0; i < y->length(); i++) {
+				for (i = 0; i < y.length(); i++) {
 					txt += "Nodename: " + y[i]->nodeName() +
 						" (nodetype: " + to_string(y[i]->nodeType()) + ")<br>";
 					for (auto z = 0; z < y[i]->childNodes().length(); z++) {
-						txt += "Nodename: " + y[i]->childNodes[z]->nodeName() +
-							" (nodetype: " + to_string(y[i]->childNodes[z]->nodeType()) + ")<br>";
+						txt += "Nodename: " + y[i]->childNodes()[z]->nodeName() +
+							" (nodetype: " + to_string(y[i]->childNodes()[z]->nodeType()) + ")<br>";
 					}
 				}
 				document->getElementById("demo")->innerHTML(
@@ -557,23 +553,23 @@ Base URI : https://www.w3schools.com/xml/books_ns.xml
 				txt = "";
 				x = xmlDoc->documentElement();
 				y = xmlDoc->documentElement()->childNodes();
-				for (i = 0; i < y->length(); i++) {
-					if (y[i]->nodeType != 3) {
+				for (i = 0; i < y.length(); i++) {
+					if (y[i]->nodeType() != 3) {
 						txt += "Nodename: " + y[i]->nodeName() +
-							" (value: " + y[i]->childNodes[0]->nodeValue() + ")<br>";
+							" (value: " + y[i]->childNodes()[0]->nodeValue() + ")<br>";
 					}
 					for (auto z = 0; z < y[i]->childNodes().length(); z++) {
-						if (y[i].childNodes[z].nodeType != 3) {
-							txt += "Nodename: " + y[i].childNodes[z].nodeName +
-								" (value: " + y[i].childNodes[z].childNodes[0].nodeValue + ")<br>";
+						if (y[i]->childNodes()[z]->nodeType() != 3) {
+							txt += "Nodename: " + y[i]->childNodes()[z]->nodeName() +
+								" (value: " + y[i]->childNodes()[z]->childNodes()[0]->nodeValue() + ")<br>";
 						}
 					}
 				}
 				document->getElementById("demo")->innerHTML(
 					"Nodename: " + xmlDoc->nodeName() +
-					" (value: " + xmlDoc->childNodes[0].nodeValue() + ")<br>" +
+					" (value: " + xmlDoc->childNodes()[0]->nodeValue() + ")<br>" +
 					"Nodename: " + x->nodeName() +
-					" (value: " + x->childNodes[0].nodeValue() + ")<br>" +
+					" (value: " + x->childNodes()[0]->nodeValue() + ")<br>" +
 					txt);
 				assert(document->getElementById("demo")->innerHTML().length() > 10);
 			};

@@ -27,7 +27,24 @@ namespace litehtml
 	{
 	protected:
 		EventTarget();
-		// virtual ~EventTarget();
+	public:
+		/// <summary>
+		/// Attaches an event handler to the document
+		/// </summary>
+		/// <param name="event">The event.</param>
+		/// <param name="function">The function.</param>
+		/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
+		void addEventListener(string event, void* function, bool useCapture = false);
+		
+		void dispatchEvent(tany evnt);
+
+		/// <summary>
+		/// Removes an event handler from the document (that has been attached with the addEventListener() method)
+		/// </summary>
+		/// <param name="event">The event.</param>
+		/// <param name="function">The function.</param>
+		/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
+		void removeEventListener(string event, void* function, bool useCapture = false);
 	};
 
 	/// <summary>
@@ -521,9 +538,9 @@ namespace litehtml
 	{
 	public:
 		/// <summary>
-        /// Returns whether the webpage was cached by the browser
-        /// </summary>
-        /// <value><c>true</c> if persisted; otherwise, <c>false</c>.</value>
+		/// Returns whether the webpage was cached by the browser
+		/// </summary>
+		/// <value><c>true</c> if persisted; otherwise, <c>false</c>.</value>
 		bool persisted();
 	};
 
@@ -639,36 +656,36 @@ namespace litehtml
 	class TouchEvent : public UiEvent
 	{
 	public:
-/// <summary>
-		/// Returns whether the "ALT" key was pressed when the touch event was triggered
-		/// </summary>
-		/// <value><c>true</c> if [alt key]; otherwise, <c>false</c>.</value>
+		/// <summary>
+				/// Returns whether the "ALT" key was pressed when the touch event was triggered
+				/// </summary>
+				/// <value><c>true</c> if [alt key]; otherwise, <c>false</c>.</value>
 		bool altKey();
-		
+
 		/// <summary>
 		/// Returns a list of all the touch objects whose state changed between the previous touch and this touch
 		/// </summary>
 		/// <value>The changed touched.</value>
 		void** changedTouched();
-		
+
 		/// <summary>
 		/// Returns whether the "CTRL" key was pressed when the touch event was triggered
 		/// </summary>
 		/// <value><c>true</c> if [control key]; otherwise, <c>false</c>.</value>
 		bool ctrlKey();
-		
+
 		/// <summary>
 		/// Returns whether the "meta" key was pressed when the touch event was triggered
 		/// </summary>
 		/// <value><c>true</c> if [meta key]; otherwise, <c>false</c>.</value>
 		bool metaKey();
-		
+
 		/// <summary>
 		/// Returns whether the "SHIFT" key was pressed when the touch event was triggered
 		/// </summary>
 		/// <value><c>true</c> if [shift key]; otherwise, <c>false</c>.</value>
 		bool shiftKey();
-		
+
 		/// <summary>
 		/// Returns a list of all the touch objects that are in contact with the surface and where the touchstart event occured on the same target element as the current target element
 		/// </summary>
@@ -720,13 +737,13 @@ namespace litehtml
 		/// </summary>
 		/// <value>The delta x.</value>
 		int deltaX();
-		
+
 		/// <summary>
 		/// Returns the vertical scroll amount of a mouse wheel (y-axis)
 		/// </summary>
 		/// <value>The delta y.</value>
 		int deltaY();
-		
+
 		/// <summary>
 		/// Returns the scroll amount of a mouse wheel for the z-axis
 		/// </summary>

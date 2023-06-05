@@ -141,7 +141,7 @@ TEST(HtmlAttribute, Test) {
 		//: Get the name of an attribute:
 		{
 			auto element = document->getElementById("demo");
-			auto aName = element->attributes[0]->name();
+			auto aName = element->attributes[0].name();
 
 			document->getElementById("demo")->innerHTML(aName);
 			assert("id" == aName);

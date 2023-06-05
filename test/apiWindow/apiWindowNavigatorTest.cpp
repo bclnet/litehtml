@@ -210,7 +210,7 @@ TEST(WindowNavigator, Test) {
 		//: Get the navigator.product:
 		{
 			auto product = navigator->product();
-			document->getElementById("demo")->innerHTML("Browser product: " + browser);
+			document->getElementById("demo")->innerHTML("Browser product: " + product);
 		}
 		//: Display all navigator properties:
 		{

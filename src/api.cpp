@@ -113,7 +113,7 @@ namespace litehtml
 	/// <param name="event">The event.</param>
 	/// <param name="function">The function.</param>
 	/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-	void Document::addEventListener(string event, string function, bool useCapture) { }
+	//void Document::addEventListener(string event, void* function, bool useCapture) { } //: EventTarget
 
 	/// <summary>
 	/// Adopts a node from another document
@@ -340,7 +340,7 @@ namespace litehtml
 	Node::ptr Document::firstChild() { return _doc->m_root->m_children[0]; } //: Node
 
 	/// <summary>
-	/// Returns a collection of all <form> elements in the document
+	/// Returns a collection of all &lt;form&gt; elements in the document
 	/// </summary>
 	/// <value>
 	/// The forms.
@@ -648,7 +648,7 @@ namespace litehtml
 	/// <param name="event">The event.</param>
 	/// <param name="function">The function.</param>
 	/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-	void Document::removeEventListener(string event, string function, bool useCapture) { }
+	//void Document::removeEventListener(string event, void* function, bool useCapture) { } //: EventTarget
 
 	/// <summary>
 	/// NotSupported - Renames the specified node
@@ -740,7 +740,7 @@ namespace litehtml
 	/// <param name="event">The event.</param>
 	/// <param name="function">The function.</param>
 	/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-	void Element::addEventListener(string event, string function, bool useCapture) { }
+	//void Element::addEventListener(string event, void* function, bool useCapture) { } //: EventTarget
 
 	/// <summary>
 	/// Adds a new child node, to an element, as the last child node
@@ -1119,6 +1119,14 @@ namespace litehtml
 	Element::ptr Element::lastElementChild() { return !_elem->m_children.empty() ? _elem->m_children[_elem->m_children.size() - 1] : nullptr; }
 
 	/// <summary>
+	/// TBD
+	/// </summary>
+	/// <value>
+	/// TBD
+	/// </value>
+	string Element::localName() { return nullptr; }
+
+	/// <summary>
 	/// Returns the namespace URI of an element
 	/// </summary>
 	/// <value>
@@ -1292,7 +1300,7 @@ namespace litehtml
 	/// <param name="event">The event.</param>
 	/// <param name="function">The function.</param>
 	/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-	void Element::removeEventListener(string event, string function, bool useCapture) { }
+	//void Element::removeEventListener(string event, void* function, bool useCapture) { } //: EventTarget
 
 	/// <summary>
 	/// Shows an element in fullscreen mode
@@ -1411,4 +1419,23 @@ namespace litehtml
 
 	HTMLCollection::HTMLCollection() { }
 	HTMLCollection::HTMLCollection(elements_vector& elements) : _elems(elements) { }
+}
+
+/// <summary>
+/// Window
+/// </summary>
+namespace litehtml
+{
+	Window::Window() { }
+
+	/// <summary>
+	/// Returns the Document object for the window (See Document object)
+	/// </summary>
+	/// <value>
+	/// The document.
+	/// </value>
+	Document::ptr Window::document()
+	{
+		return nullptr;
+	}
 }
