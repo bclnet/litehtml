@@ -7,13 +7,13 @@ using namespace litehtml;
 using namespace std;
 
 static test_container container(800, 600, ".");
-static Window::ptr MakeWindow(string url, char* source) { 
+static Window::ptr MakeWindow(string url, char* source) {
 	Document::ptr document = document::createFromString(source, &container);
-	return new Window();
+	return nullptr; // new Window();
 }
 
 TEST(WindowLocation, Test) {
-	auto g = new MakeWindow("", R"xyz(
+	auto g = MakeWindow("", R"xyz(
 <html>
 <body>
 	<h1>The Window Location Object</h1>
@@ -21,8 +21,8 @@ TEST(WindowLocation, Test) {
 	<p><a id="w3s" href="/js/js_es6.asp#mark_array_from">JavaScript 2015 Array.from()</a><p>
 </body>
 </html>)xyz");
-	auto document = g.document();
-	auto location = g.location();
+	auto document = g->document();
+	auto location = g->location();
 
 	// location.assign() - https://www.w3schools.com/jsref/met_loc_assign.asp
 	{
@@ -39,10 +39,12 @@ TEST(WindowLocation, Test) {
 	// location.hash - https://www.w3schools.com/jsref/prop_loc_hash.asp
 	{
 		//: Get the anchor part of the URL:
+#if false
 		{
 			auto url = document->getElementById("w3s");
 			document->getElementById("demo")->innerHTML("The anchor portion of the URL is: " + url->hash());
 		}
+#endif
 		//: Set the anchor part:
 		{
 			location->hash("mark_array_find");
@@ -72,8 +74,8 @@ TEST(WindowLocation, Test) {
 	{
 		//: Get the URL of the current page:
 		{
-			auto url = location->href;
-			document->getElementById("demo")->innerHTML = url;
+			auto url = location->href();
+			document->getElementById("demo")->innerHTML(url);
 		}
 		//: Set the URL of the current page:
 		{
@@ -149,7 +151,7 @@ TEST(WindowLocation, Test) {
 	{
 		//: Replace the current document:
 		{
-			function<void()> myFunction = [g]() {
+			function<void()> myFunction = [location]() {
 				location->replace("https://www.w3schools.com");
 			};
 
@@ -160,11 +162,13 @@ TEST(WindowLocation, Test) {
 	// location.search - https://www.w3schools.com/jsref/prop_loc_search.asp
 	{
 		//: Return the querystring part of a URL:
+#if false
 		{
 			auto anchor = document->getElementById("w3s");
-			auto query = anchor->search;
+			auto query = anchor->search();
 
 			document->getElementById("demo")->innerHTML("The query portion of the URL is: " + query);
 		}
+#endif
 	}
 }

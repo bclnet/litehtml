@@ -138,8 +138,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	Node::ptr Document::appendChild(Node::ptr node) //: Node
-	{
+	Node::ptr Document::appendChild(Node::ptr node) { //: Node
 		return nullptr;
 	}
 
@@ -180,10 +179,10 @@ namespace litehtml
 	void Document::body(Element* value) { }
 
 	/// <summary>
-	/// TBD
+	/// Returns the character encoding for the document
 	/// </summary>
 	/// <value>
-	/// TBD
+	/// The character set.
 	/// </value>
 	string Document::charset() { return "UTF-8"; }
 
@@ -377,8 +376,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="elementID">The element identifier.</param>
 	/// <returns></returns>
-	Element::ptr Document::getElementById(string elementID)
-	{
+	Element::ptr Document::getElementById(string elementID) {
 		litehtml::lcase(elementID);
 		css_element_selector elem;
 		elem.m_tag = _id("*");
@@ -402,8 +400,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="name">The name.</param>
 	/// <returns></returns>
-	NodeList<Element> Document::getElementsByName(string name)
-	{
+	NodeList<Element> Document::getElementsByName(string name) {
 		litehtml::lcase(name);
 		css_element_selector elem;
 		elem.m_tag = _id("*");
@@ -574,7 +571,7 @@ namespace litehtml
 	/// <value>
 	/// The node value.
 	/// </value>
-	string Document::nodeValue() { return nullptr; }  //: Node
+	string Document::nodeValue() { return ""; }  //: Node
 	void Document::nodeValue(string value) { } //: Node
 
 	/// <summary>
@@ -755,8 +752,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	Node::ptr Element::appendChild(Node::ptr node) //: Node
-	{
+	Node::ptr Element::appendChild(Node::ptr node) { //: Node
 		return nullptr;
 	}
 
@@ -779,9 +775,7 @@ namespace litehtml
 	/// <summary>
 	/// Removes focus from an element
 	/// </summary>
-	void Element::blur()
-	{
-	}
+	void Element::blur() { }
 
 	/// <summary>
 	/// Returns the number of child elements an element has
@@ -866,8 +860,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="deep">if set to <c>true</c> [deep].</param>
 	/// <returns></returns>
-	Node::ptr Element::cloneNode(bool deep /*= false*/) //: Node
-	{
+	Node::ptr Element::cloneNode(bool deep /*= false*/) { //: Node
 		return nullptr;
 	}
 
@@ -876,8 +869,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="node">The node.</param>
 	/// <returns></returns>
-	int Element::compareDocumentPosition(Node::ptr node) //: Node
-	{
+	int Element::compareDocumentPosition(Node::ptr node) { //: Node
 		return 0;
 	}
 
@@ -959,8 +951,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="classname">The classname.</param>
 	/// <returns></returns>
-	NodeList<Element> Element::getElementsByClassName(string classname)
-	{
+	NodeList<Element> Element::getElementsByClassName(string classname) {
 		litehtml::lcase(classname);
 		css_element_selector elem;
 		elem.m_tag = _id("*");
@@ -977,8 +968,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="tagname">The tagname.</param>
 	/// <returns></returns>
-	NodeList<Element> Element::getElementsByTagName(string tagname)
-	{
+	NodeList<Element> Element::getElementsByTagName(string tagname) {
 		litehtml::lcase(tagname);
 		css_element_selector elem;
 		elem.m_tag = _id(tagname);
@@ -1026,7 +1016,7 @@ namespace litehtml
 	/// <value>
 	/// The inner HTML.
 	/// </value>
-	string Element::innerHTML() { return nullptr; }
+	string Element::innerHTML() { return ""; }
 	void Element::innerHTML(string value) { }
 
 	/// <summary>
@@ -1035,7 +1025,7 @@ namespace litehtml
 	/// <value>
 	/// The inner text.
 	/// </value>
-	string Element::innerText() { return nullptr; }
+	string Element::innerText() { return ""; }
 	void Element::innerText(string value) { }
 
 	/// <summary>
@@ -1107,7 +1097,7 @@ namespace litehtml
 	/// <value>
 	/// The language.
 	/// </value>
-	string Element::lang() { return nullptr; }
+	string Element::lang() { return ""; }
 	void Element::lang(string value) { }
 
 	/// <summary>
@@ -1127,12 +1117,12 @@ namespace litehtml
 	Element::ptr Element::lastElementChild() { return !_elem->m_children.empty() ? _elem->m_children[_elem->m_children.size() - 1] : nullptr; }
 
 	/// <summary>
-	/// TBD
+	/// Returns the local name of an element
 	/// </summary>
 	/// <value>
-	/// TBD
+	/// The local name.
 	/// </value>
-	string Element::localName() { return nullptr; }
+	string Element::localName() { return ""; }
 
 	/// <summary>
 	/// Returns the namespace URI of an element
@@ -1140,7 +1130,7 @@ namespace litehtml
 	/// <value>
 	/// The namespace URI.
 	/// </value>
-	string Element::namespaceURI() { return nullptr; }
+	string Element::namespaceURI() { return ""; }
 
 	/// <summary>
 	/// Returns the next node at the same node tree level
@@ -1164,7 +1154,7 @@ namespace litehtml
 	/// <value>
 	/// The name of the node.
 	/// </value>
-	string Element::nodeName() { return nullptr; } //: Node
+	string Element::nodeName() { return ""; } //: Node
 
 	/// <summary>
 	/// Returns the node type of a node
@@ -1180,7 +1170,7 @@ namespace litehtml
 	/// <value>
 	/// The node value.
 	/// </value>
-	string Element::nodeValue() { return nullptr; } //: Node
+	string Element::nodeValue() { return ""; } //: Node
 	void Element::nodeValue(string value) { } //: Node
 
 	/// <summary>
@@ -1391,7 +1381,7 @@ namespace litehtml
 	/// <value>
 	/// The index of the tab.
 	/// </value>
-	string Element::tabIndex() { return 0; }
+	string Element::tabIndex() { return "0"; }
 	void Element::tabIndex(string value) { }
 
 	/// <summary>
@@ -1400,7 +1390,7 @@ namespace litehtml
 	/// <value>
 	/// The name of the tag.
 	/// </value>
-	string Element::tagName() { return nullptr; }
+	string Element::tagName() { return ""; }
 
 	/// <summary>
 	/// Sets or returns the textual content of a node and its descendants
@@ -1408,7 +1398,7 @@ namespace litehtml
 	/// <value>
 	/// The content of the text.
 	/// </value>
-	string Element::textContent() { return nullptr; } //: Node
+	string Element::textContent() { return ""; } //: Node
 	void Element::textContent(string value) { } //: Node
 
 	/// <summary>
@@ -1417,16 +1407,2085 @@ namespace litehtml
 	/// <value>
 	/// The title.
 	/// </value>
-	string Element::title() { return nullptr; }
+	string Element::title() { return ""; }
 	void Element::title(string value) { }
 
 	/// <summary>
 	/// Converts an element to a string
 	/// </summary>
-	string Element::toString() { return nullptr; }
+	string Element::toString() { return ""; }
+}
 
+/// <summary>
+/// Geolocation
+/// </summary>
+namespace litehtml
+{
+	/// <summary>
+	/// Returns the position and altitude of the device on Earth
+	/// </summary>
+	/// <value>The coordinates.</value>
+	void* Geolocation::coordinates() { return nullptr; }
+
+	/// <summary>
+	/// Returns the position of the concerned device at a given time
+	/// </summary>
+	/// <value>The position.</value>
+	void* Geolocation::position() { return nullptr; }
+
+	/// <summary>
+	/// Returns the reason of an error occurring when using the geolocating device
+	/// </summary>
+	/// <value>The position error.</value>
+	string Geolocation::positionError() { return ""; }
+
+	/// <summary>
+	/// Describes an object containing option properties to pass as a parameter of Geolocation.getCurrentPosition() and Geolocation.watchPosition()
+	/// </summary>
+	/// <value>The position options.</value>
+	void* Geolocation::positionOptions() { return nullptr; }
+
+	/// <summary>
+	/// Unregister location/error monitoring handlers previously installed using Geolocation.watchPosition()
+	/// </summary>
+	void Geolocation::clearWatch() { }
+
+	/// <summary>
+	/// Returns the current position of the device
+	/// </summary>
+	void* Geolocation::getCurrentPosition() { return nullptr; }
+
+	/// <summary>
+	/// Returns a watch ID value that then can be used to unregister the handler by passing it to the Geolocation.clearWatch() method
+	/// </summary>
+	int Geolocation::watchPosition() { return 0; }
+}
+
+/// <summary>
+/// History
+/// </summary>
+namespace litehtml
+{
+	/// <summary>
+	/// Returns the number of URLs in the history list
+	/// </summary>
+	int History::length() { return 0; }
+
+	/// <summary>
+	/// Loads the previous URL in the history list
+	/// </summary>
+	void History::back() { }
+
+	/// <summary>
+	/// Loads the next URL in the history list
+	/// </summary>
+	/// <value>The position error.</value>
+	void History::forward() { }
+
+	/// <summary>
+	/// Loads the next URL in the history list
+	/// </summary>
+	void History::go(int numberURL) { }
+}
+
+/// <summary>
+/// HTMLCollection
+/// </summary>
+namespace litehtml
+{
 	HTMLCollection::HTMLCollection() { }
 	HTMLCollection::HTMLCollection(elements_vector& elements) : _elems(elements) { }
+
+	/// <summary>
+	/// Returns the number of elements in an HTMLCollection
+	/// </summary>
+	/// <value>
+	/// The length.
+	/// </value>
+	int HTMLCollection::length() { return 0; }
+
+	/// <summary>
+	/// Gets the <see cref="System.Object" /> with the specified index.
+	/// </summary>
+	/// <value>
+	/// The <see cref="System.Object" />.
+	/// </value>
+	/// <param name="index">The index.</param>
+	/// <returns></returns>
+	//std::shared_ptr<Element> HTMLCollection::operator[](int index);
+
+	/// <summary>
+	/// Returns the element at the specified index in an HTMLCollection
+	/// </summary>
+	/// <param name="index">The index.</param>
+	/// <returns></returns>
+	std::shared_ptr<Element> HTMLCollection::item(int index) {
+		return nullptr;
+	}
+
+	/// <summary>
+	/// Returns the element with the specified ID, or name, in an HTMLCollection
+	/// </summary>
+	/// <param name="name">The name.</param>
+	/// <returns></returns>
+	std::shared_ptr<Element> HTMLCollection::namedItem(string name) {
+		return nullptr;
+	}
+}
+
+/// <summary>
+/// Location
+/// </summary>
+namespace litehtml
+{
+	/// <summary>
+	/// Sets or returns the anchor part (#) of a URL
+	/// </summary>
+	/// <value>
+	/// The hash.
+	/// </value>
+	string Location::hash() { return ""; }
+	void Location::hash(string value) { }
+
+	/// <summary>
+	/// Sets or returns the hostname and port number of a URL
+	/// </summary>
+	/// <value>
+	/// The host.
+	/// </value>
+	string Location::host() { return ""; }
+	void Location::host(string value) { }
+
+	/// <summary>
+	/// Sets or returns the hostname of a URL
+	/// </summary>
+	/// <value>
+	/// The hostname.
+	/// </value>
+	string Location::hostname() { return ""; }
+	void Location::hostname(string value) { }
+
+	/// <summary>
+	/// Sets or returns the entire URL
+	/// </summary>
+	/// <value>
+	/// The href.
+	/// </value>
+	string Location::href() { return ""; }
+	void Location::href(string value) { }
+
+	/// <summary>
+	/// Returns the protocol, hostname and port number of a URL
+	/// </summary>
+	/// <value>
+	/// The origin.
+	/// </value>
+	string Location::origin() { return ""; }
+
+	/// <summary>
+	/// Sets or returns the path name of a URL
+	/// </summary>
+	/// <value>
+	/// The pathname.
+	/// </value>
+	string Location::pathname() { return ""; }
+	void Location::pathname(string value) { }
+
+	/// <summary>
+	/// Sets or returns the port number of a URL
+	/// </summary>
+	/// <value>
+	/// The port.
+	/// </value>
+	string Location::port() { return ""; }
+	void Location::port(string value) { }
+
+	/// <summary>
+	/// Sets or returns the protocol of a URL
+	/// </summary>
+	/// <value>
+	/// The protocol.
+	/// </value>
+	string Location::protocol() { return ""; }
+	void Location::protocol(string value) { }
+
+	/// <summary>
+	/// Sets or returns the querystring part of a URL
+	/// </summary>
+	/// <value>
+	/// The search.
+	/// </value>
+	string Location::search() { return ""; }
+	void Location::search(string value) { }
+
+	/// <summary>
+	/// Loads a new document
+	/// </summary>
+	/// <param name="URL">The URL.</param>
+	void Location::assign(string URL) { }
+
+	/// <summary>
+	/// Reloads the current document
+	/// </summary>
+	/// <param name="forceGet">if set to <c>true</c> [force get].</param>
+	void Location::reload(bool forceGet /*= false*/) { }
+
+	/// <summary>
+	/// Replaces the current document with a new one
+	/// </summary>
+	/// <param name="newURL">The new URL.</param>
+	void Location::replace(string newURL) { }
+}
+
+/// <summary>
+/// MediaQueryList
+/// </summary>
+namespace litehtml
+{
+	/// <summary>
+	/// Used to check the results of a query. Returns a boolean value: true if the document matches the media query list, otherwise false
+	/// </summary>
+	/// <value>
+	/// The matches.
+	/// </value>
+	void* MediaQueryList::matches() { return nullptr; }
+
+	/// <summary>
+	/// A String, representing the serialized media query list
+	/// </summary>
+	/// <value>
+	/// The media.
+	/// </value>
+	string MediaQueryList::media() { return ""; }
+
+	/// <summary>
+	/// Adds a new listener function, which is executed whenever the media query's evaluated result changes
+	/// </summary>
+	/// <param name="functionref">The functionref.</param>
+	/// <exception cref="NotImplementedException"></exception>
+	void MediaQueryList::addListener(void* functionref) { }
+
+	/// <summary>
+	/// Removes a previously added listener function from the media query list. Does nothing if the specified listener is not already in the list
+	/// </summary>
+	/// <param name="functionref">The functionref.</param>
+	/// <exception cref="NotImplementedException"></exception>
+	void MediaQueryList::removeListener(void* functionref) { }
+}
+
+/// <summary>
+/// Navigator
+/// </summary>
+namespace litehtml
+{
+	/// <summary>
+	/// Returns the code name of the browser
+	/// </summary>
+	/// <value>
+	/// The name of the application code.
+	/// </value>
+	string Navigator::appCodeName() { return ""; }
+
+	/// <summary>
+	/// Returns the name of the browser
+	/// </summary>
+	/// <value>
+	/// The name of the application.
+	/// </value>
+	string Navigator::appName() { return ""; }
+
+	/// <summary>
+	/// Returns the version information of the browser
+	/// </summary>
+	/// <value>
+	/// The application version.
+	/// </value>
+	string Navigator::appVersion() { return ""; }
+
+	/// <summary>
+	/// Determines whether cookies are enabled in the browser
+	/// </summary>
+	/// <value>
+	///   <c>true</c> if [cookie enabled]; otherwise, <c>false</c>.
+	/// </value>
+	bool Navigator::cookieEnabled() { return false; }
+
+	/// <summary>
+	/// Returns a Geolocation object that can be used to locate the user's position
+	/// </summary>
+	/// <value>
+	/// The geolocation.
+	/// </value>
+	Geolocation::ptr Navigator::geolocation() { return nullptr; }
+
+	/// <summary>
+	/// Returns the language of the browser
+	/// </summary>
+	/// <value>
+	/// The language.
+	/// </value>
+	string Navigator::language() { return ""; }
+
+	/// <summary>
+	/// Determines whether the browser is online
+	/// </summary>
+	/// <value>
+	///   <c>true</c> if [on line]; otherwise, <c>false</c>.
+	/// </value>
+	bool Navigator::onLine() { return false; }
+
+	/// <summary>
+	/// Returns for which platform the browser is compiled
+	/// </summary>
+	/// <value>
+	/// The platform.
+	/// </value>
+	string Navigator::platform() { return ""; }
+
+	/// <summary>
+	/// Returns the engine name of the browser
+	/// </summary>
+	/// <value>
+	/// The product.
+	/// </value>
+	string Navigator::product() { return ""; }
+
+	/// <summary>
+	/// Returns the user-agent header sent by the browser to the server
+	/// </summary>
+	/// <value>
+	/// The user agent.
+	/// </value>
+	string Navigator::userAgent() { return ""; }
+
+	/// <summary>
+	/// Specifies whether or not the browser has Java enabled
+	/// </summary>
+	/// <returns></returns>
+	bool Navigator::javaEnabled() { return false; }
+}
+
+/// <summary>
+/// Screen
+/// </summary>
+namespace litehtml
+{
+	/// <summary>
+	/// Returns the height of the screen (excluding the Windows Taskbar)
+	/// </summary>
+	/// <value>
+	/// The height of the avail.
+	/// </value>
+	int Screen::availHeight() { return 0; }
+
+	/// <summary>
+	/// Returns the width of the screen (excluding the Windows Taskbar)
+	/// </summary>
+	/// <value>
+	/// The width of the avail.
+	/// </value>
+	int Screen::availWidth() { return 0; }
+
+	/// <summary>
+	/// Returns the bit depth of the color palette for displaying images
+	/// </summary>
+	/// <value>
+	/// The color depth.
+	/// </value>
+	int Screen::colorDepth() { return 0; }
+
+	/// <summary>
+	/// Returns the total height of the screen
+	/// </summary>
+	/// <value>
+	/// The height.
+	/// </value>
+	int Screen::height() { return 0; }
+
+	/// <summary>
+	/// Returns the color resolution (in bits per pixel) of the screen
+	/// </summary>
+	/// <value>
+	/// The pixel depth.
+	/// </value>
+	int Screen::pixelDepth() { return 0; }
+
+	/// <summary>
+	/// Returns the total width of the screen
+	/// </summary>
+	/// <value>
+	/// The width.
+	/// </value>
+	int Screen::width() { return 0; }
+}
+
+/// <summary>
+/// Style
+/// </summary>
+namespace litehtml
+{
+	/// <summary>
+	/// Sets or returns the alignment between the lines inside a flexible container when the items do not use all available space
+	/// </summary>
+	/// <value>The content of the align.</value>
+	string Style::alignContent() { return ""; }
+	void Style::alignContent(string value) { }
+
+	/// <summary>
+	/// Sets or returns the alignment for items inside a flexible container
+	/// </summary>
+	/// <value>
+	/// The align items.
+	/// </value>
+	string Style::alignItems() { return ""; }
+	void Style::alignItems(string value) { }
+
+	/// <summary>
+	/// Sets or returns the alignment for selected items inside a flexible container
+	/// </summary>
+	/// <value>
+	/// The align self.
+	/// </value>
+	string Style::alignSelf() { return ""; }
+	void Style::alignSelf(string value) { }
+
+	/// <summary>
+	/// A shorthand property for all the animation properties below, except the animationPlayState property
+	/// </summary>
+	/// <value>
+	/// The animation.
+	/// </value>
+	string Style::animation() { return ""; }
+	void Style::animation(string value) { }
+
+	/// <summary>
+	/// Sets or returns when the animation will start
+	/// </summary>
+	/// <value>
+	/// The animation delay.
+	/// </value>
+	string Style::animationDelay() { return ""; }
+	void Style::animationDelay(string value) { }
+
+	/// <summary>
+	/// Sets or returns whether or not the animation should play in reverse on alternate cycles
+	/// </summary>
+	/// <value>
+	/// The animation direction.
+	/// </value>
+	string Style::animationDirection() { return ""; }
+	void Style::animationDirection(string value) { }
+
+	/// <summary>
+	/// Sets or returns how many seconds or milliseconds an animation takes to complete one cycle
+	/// </summary>
+	/// <value>
+	/// The duration of the animation.
+	/// </value>
+	string Style::animationDuration() { return ""; }
+	void Style::animationDuration(string value) { }
+
+	/// <summary>
+	/// Sets or returns what values are applied by the animation outside the time it is executing
+	/// </summary>
+	/// <value>
+	/// The animation fill mode.
+	/// </value>
+	string Style::animationFillMode() { return ""; }
+	void Style::animationFillMode(string value) { }
+
+	/// <summary>
+	/// Sets or returns the number of times an animation should be played
+	/// </summary>
+	/// <value>
+	/// The animation iteration count.
+	/// </value>
+	string Style::animationIterationCount() { return ""; }
+	void Style::animationIterationCount(string value) { }
+
+	/// <summary>
+	/// Sets or returns a name for the @keyframes animation
+	/// </summary>
+	/// <value>
+	/// The name of the animation.
+	/// </value>
+	string Style::animationName() { return ""; }
+	void Style::animationName(string value) { }
+
+	/// <summary>
+	/// Sets or returns the speed curve of the animation
+	/// </summary>
+	/// <value>
+	/// The animation timing function.
+	/// </value>
+	string Style::animationTimingFunction() { return ""; }
+	void Style::animationTimingFunction(string value) { }
+
+	/// <summary>
+	/// Sets or returns whether the animation is running or paused
+	/// </summary>
+	/// <value>
+	/// The state of the animation play.
+	/// </value>
+	string Style::animationPlayState() { return ""; }
+	void Style::animationPlayState(string value) { }
+
+	/// <summary>
+	/// Sets or returns all the background properties in one declaration
+	/// </summary>
+	/// <value>
+	/// The background.
+	/// </value>
+	string Style::background() { return ""; }
+	void Style::background(string value) { }
+
+	/// <summary>
+	/// Sets or returns whether a background-image is fixed or scrolls with the page
+	/// </summary>
+	/// <value>
+	/// The background attachment.
+	/// </value>
+	string Style::backgroundAttachment() { return ""; }
+	void Style::backgroundAttachment(string value) { }
+
+	/// <summary>
+	/// Sets or returns the background-color of an element
+	/// </summary>
+	/// <value>
+	/// The color of the background.
+	/// </value>
+	string Style::backgroundColor() { return ""; }
+	void Style::backgroundColor(string value) { }
+
+	/// <summary>
+	/// Sets or returns the background-image for an element
+	/// </summary>
+	/// <value>
+	/// The background image.
+	/// </value>
+	string Style::backgroundImage() { return ""; }
+	void Style::backgroundImage(string value) { }
+
+	/// <summary>
+	/// Sets or returns the starting position of a background-image
+	/// </summary>
+	/// <value>
+	/// The background position.
+	/// </value>
+	string Style::backgroundPosition() { return ""; }
+	void Style::backgroundPosition(string value) { }
+
+	/// <summary>
+	/// Sets or returns how to repeat (tile) a background-image
+	/// </summary>
+	/// <value>
+	/// The background repeat.
+	/// </value>
+	string Style::backgroundRepeat() { return ""; }
+	void Style::backgroundRepeat(string value) { }
+
+	/// <summary>
+	/// Sets or returns the painting area of the background
+	/// </summary>
+	/// <value>
+	/// The background clip.
+	/// </value>
+	string Style::backgroundClip() { return ""; }
+	void Style::backgroundClip(string value) { }
+
+	/// <summary>
+	/// Sets or returns the positioning area of the background images
+	/// </summary>
+	/// <value>
+	/// The background origin.
+	/// </value>
+	string Style::backgroundOrigin() { return ""; }
+	void Style::backgroundOrigin(string value) { }
+
+	/// <summary>
+	/// Sets or returns the size of the background image
+	/// </summary>
+	/// <value>
+	/// The size of the background.
+	/// </value>
+	string Style::backgroundSize() { return ""; }
+	void Style::backgroundSize(string value) { }
+
+	/// <summary>
+	/// Sets or returns whether or not an element should be visible when not facing the screen
+	/// </summary>
+	/// <value>
+	/// The backface visibility.
+	/// </value>
+	string Style::backfaceVisibility() { return ""; }
+	void Style::backfaceVisibility(string value) { }
+
+	/// <summary>
+	/// Sets or returns borderWidth, borderStyle, and borderColor in one declaration
+	/// </summary>
+	/// <value>
+	/// The border.
+	/// </value>
+	string Style::border() { return ""; }
+	void Style::border(string value) { }
+
+	/// <summary>
+	/// Sets or returns all the borderBottom properties in one declaration
+	/// </summary>
+	/// <value>
+	/// The border bottom.
+	/// </value>
+	string Style::borderBottom() { return ""; }
+	void Style::borderBottom(string value) { }
+
+	/// <summary>
+	/// Sets or returns the color of the bottom border
+	/// </summary>
+	/// <value>
+	/// The border bottom.
+	/// </value>
+	string Style::borderBottomColor() { return ""; }
+	void Style::borderBottomColor(string value) { }
+
+	/// <summary>
+	/// Sets or returns the shape of the border of the bottom-left corner
+	/// </summary>
+	/// <value>
+	/// The border bottom.
+	/// </value>
+	string Style::borderBottomLeftRadius() { return ""; }
+	void Style::borderBottomLeftRadius(string value) { }
+
+	/// <summary>
+	/// Sets or returns the shape of the border of the bottom-right corner
+	/// </summary>
+	/// <value>
+	/// The border bottom.
+	/// </value>
+	string Style::borderBottomRightRadius() { return ""; }
+	void Style::borderBottomRightRadius(string value) { }
+
+	/// <summary>
+	/// Sets or returns the style of the bottom border
+	/// </summary>
+	/// <value>
+	/// The border bottom.
+	/// </value>
+	string Style::borderBottomStyle() { return ""; }
+	void Style::borderBottomStyle(string value) { }
+
+	/// <summary>
+	/// Sets or returns the width of the bottom border
+	/// </summary>
+	/// <value>
+	/// The border bottom.
+	/// </value>
+	string Style::borderBottomWidth() { return ""; }
+	void Style::borderBottomWidth(string value) { }
+
+	/// <summary>
+	/// Sets or returns whether the table border should be collapsed into a single border, or not
+	/// </summary>
+	/// <value>
+	/// The border collapse.
+	/// </value>
+	string Style::borderCollapse() { return ""; }
+	void Style::borderCollapse(string value) { }
+
+	/// <summary>
+	/// Sets or returns the color of an element's border (can have up to four values)
+	/// </summary>
+	/// <value>
+	/// The color of the border.
+	/// </value>
+	string Style::borderColor() { return ""; }
+	void Style::borderColor(string value) { }
+
+	/// <summary>
+	/// A shorthand property for setting or returning all the borderImage properties
+	/// </summary>
+	/// <value>
+	/// The border image.
+	/// </value>
+	string Style::borderImage() { return ""; }
+	void Style::borderImage(string value) { }
+
+	/// <summary>
+	/// Sets or returns the amount by which the border image area extends beyond the border box
+	/// </summary>
+	/// <value>
+	/// The border image outset.
+	/// </value>
+	string Style::borderImageOutset() { return ""; }
+	void Style::borderImageOutset(string value) { }
+
+	/// <summary>
+	/// Sets or returns whether the image-border should be repeated, rounded or stretched
+	/// </summary>
+	/// <value>
+	/// The border image repeat.
+	/// </value>
+	string Style::borderImageRepeat() { return ""; }
+	void Style::borderImageRepeat(string value) { }
+
+	/// <summary>
+	/// Sets or returns the inward offsets of the image-border
+	/// </summary>
+	/// <value>
+	/// The border image slice.
+	/// </value>
+	string Style::borderImageSlice() { return ""; }
+	void Style::borderImageSlice(string value) { }
+
+	/// <summary>
+	/// Sets or returns the image to be used as a border
+	/// </summary>
+	/// <value>
+	/// The border image source.
+	/// </value>
+	string Style::borderImageSource() { return ""; }
+	void Style::borderImageSource(string value) { }
+
+	/// <summary>
+	/// Sets or returns the widths of the image-border
+	/// </summary>
+	/// <value>
+	/// The width of the border image.
+	/// </value>
+	string Style::borderImageWidth() { return ""; }
+	void Style::borderImageWidth(string value) { }
+
+	/// <summary>
+	/// Sets or returns all the borderLeft properties in one declaration
+	/// </summary>
+	/// <value>
+	/// The border left.
+	/// </value>
+	string Style::borderLeft() { return ""; }
+	void Style::borderLeft(string value) { }
+
+	/// <summary>
+	/// Sets or returns the color of the left border
+	/// </summary>
+	/// <value>
+	/// The color of the border left.
+	/// </value>
+	string Style::borderLeftColor() { return ""; }
+	void Style::borderLeftColor(string value) { }
+
+	/// <summary>
+	/// Sets or returns the style of the left border
+	/// </summary>
+	/// <value>
+	/// The border left style.
+	/// </value>
+	string Style::borderLeftStyle() { return ""; }
+	void Style::borderLeftStyle(string value) { }
+
+	/// <summary>
+	/// Sets or returns the width of the left border
+	/// </summary>
+	/// <value>
+	/// The width of the border left.
+	/// </value>
+	string Style::borderLeftWidth() { return ""; }
+	void Style::borderLeftWidth(string value) { }
+
+	/// <summary>
+	/// A shorthand property for setting or returning all the four borderRadius properties
+	/// </summary>
+	/// <value>
+	/// The border radius.
+	/// </value>
+	string Style::borderRadius() { return ""; }
+	void Style::borderRadius(string value) { }
+
+	/// <summary>
+	/// Sets or returns all the borderRight properties in one declaration
+	/// </summary>
+	/// <value>
+	/// The border right.
+	/// </value>
+	string Style::borderRight() { return ""; }
+	void Style::borderRight(string value) { }
+
+	/// <summary>
+	/// Sets or returns the color of the right border
+	/// </summary>
+	/// <value>
+	/// The color of the border right.
+	/// </value>
+	string Style::borderRightColor() { return ""; }
+	void Style::borderRightColor(string value) { }
+
+	/// <summary>
+	/// Sets or returns the style of the right border
+	/// </summary>
+	/// <value>
+	/// The border right style.
+	/// </value>
+	string Style::borderRightStyle() { return ""; }
+	void Style::borderRightStyle(string value) { }
+
+	/// <summary>
+	/// Sets or returns the width of the right border
+	/// </summary>
+	/// <value>
+	/// The width of the border right.
+	/// </value>
+	string Style::borderRightWidth() { return ""; }
+	void Style::borderRightWidth(string value) { }
+
+	/// <summary>
+	/// Sets or returns the space between cells in a table
+	/// </summary>
+	/// <value>
+	/// The border spacing.
+	/// </value>
+	string Style::borderSpacing() { return ""; }
+	void Style::borderSpacing(string value) { }
+
+	/// <summary>
+	/// Sets or returns the style of an element's border (can have up to four values)
+	/// </summary>
+	/// <value>
+	/// The border style.
+	/// </value>
+	string Style::borderStyle() { return ""; }
+	void Style::borderStyle(string value) { }
+
+	/// <summary>
+	/// Sets or returns all the borderTop properties in one declaration
+	/// </summary>
+	/// <value>
+	/// The border top.
+	/// </value>
+	string Style::borderTop() { return ""; }
+	void Style::borderTop(string value) { }
+
+	/// <summary>
+	/// Sets or returns the color of the top border
+	/// </summary>
+	/// <value>
+	/// The color of the border top.
+	/// </value>
+	string Style::borderTopColor() { return ""; }
+	void Style::borderTopColor(string value) { }
+
+	/// <summary>
+	/// Sets or returns the shape of the border of the top-left corner
+	/// </summary>
+	/// <value>
+	/// The border top left radius.
+	/// </value>
+	string Style::borderTopLeftRadius() { return ""; }
+	void Style::borderTopLeftRadius(string value) { }
+
+	/// <summary>
+	/// Sets or returns the shape of the border of the top-right corner
+	/// </summary>
+	/// <value>
+	/// The border top right radius.
+	/// </value>
+	string Style::borderTopRightRadius() { return ""; }
+	void Style::borderTopRightRadius(string value) { }
+
+	/// <summary>
+	/// Sets or returns the style of the top border
+	/// </summary>
+	/// <value>
+	/// The border top style.
+	/// </value>
+	string Style::borderTopStyle() { return ""; }
+	void Style::borderTopStyle(string value) { }
+
+	/// <summary>
+	/// Sets or returns the width of the top border
+	/// </summary>
+	/// <value>
+	/// The width of the border top.
+	/// </value>
+	string Style::borderTopWidth() { return ""; }
+	void Style::borderTopWidth(string value) { }
+
+	/// <summary>
+	/// Sets or returns the width of an element's border (can have up to four values)
+	/// </summary>
+	/// <value>
+	/// The width of the border.
+	/// </value>
+	string Style::borderWidth() { return ""; }
+	void Style::borderWidth(string value) { }
+
+	/// <summary>
+	/// Sets or returns the bottom position of a positioned element
+	/// </summary>
+	/// <value>
+	/// The bottom.
+	/// </value>
+	string Style::bottom() { return ""; }
+	void Style::bottom(string value) { }
+
+	/// <summary>
+	/// Sets or returns the behaviour of the background and border of an element at page-break, or, for in-line elements, at line-break.
+	/// </summary>
+	/// <value>
+	/// The box decoration break.
+	/// </value>
+	string Style::boxDecorationBreak() { return ""; }
+	void Style::boxDecorationBreak(string value) { }
+
+	/// <summary>
+	/// Attaches one or more drop-shadows to the box
+	/// </summary>
+	/// <value>
+	/// The box shadow.
+	/// </value>
+	string Style::boxShadow() { return ""; }
+	void Style::boxShadow(string value) { }
+
+	/// <summary>
+	/// Allows you to define certain elements to fit an area in a certain way
+	/// </summary>
+	/// <value>
+	/// The box sizing.
+	/// </value>
+	string Style::boxSizing() { return ""; }
+	void Style::boxSizing(string value) { }
+
+	/// <summary>
+	/// Sets or returns the position of the table caption
+	/// </summary>
+	/// <value>
+	/// The caption side.
+	/// </value>
+	string Style::captionSide() { return ""; }
+	void Style::captionSide(string value) { }
+
+	/// <summary>
+	/// Sets or returns the position of the element relative to floating objects
+	/// </summary>
+	/// <value>
+	/// The clear.
+	/// </value>
+	string Style::clear() { return ""; }
+	void Style::clear(string value) { }
+
+	/// <summary>
+	/// Sets or returns which part of a positioned element is visible
+	/// </summary>
+	/// <value>
+	/// The clip.
+	/// </value>
+	string Style::clip() { return ""; }
+	void Style::clip(string value) { }
+
+	/// <summary>
+	/// Sets or returns the color of the text
+	/// </summary>
+	/// <value>
+	/// The color.
+	/// </value>
+	string Style::color() { return ""; }
+	void Style::color(string value) { }
+
+	/// <summary>
+	/// Sets or returns the number of columns an element should be divided into
+	/// </summary>
+	/// <value>
+	/// The column count.
+	/// </value>
+	string Style::columnCount() { return ""; }
+	void Style::columnCount(string value) { }
+
+	/// <summary>
+	/// Sets or returns how to fill columns
+	/// </summary>
+	/// <value>
+	/// The column fill.
+	/// </value>
+	string Style::columnFill() { return ""; }
+	void Style::columnFill(string value) { }
+
+	/// <summary>
+	/// Sets or returns the gap between the columns
+	/// </summary>
+	/// <value>
+	/// The column gap.
+	/// </value>
+	string Style::columnGap() { return ""; }
+	void Style::columnGap(string value) { }
+
+	/// <summary>
+	/// A shorthand property for setting or returning all the columnRule properties
+	/// </summary>
+	/// <value>
+	/// The column rule.
+	/// </value>
+	string Style::columnRule() { return ""; }
+	void Style::columnRule(string value) { }
+
+	/// <summary>
+	/// Sets or returns the color of the rule between columns
+	/// </summary>
+	/// <value>
+	/// The color of the column rule.
+	/// </value>
+	string Style::columnRuleColor() { return ""; }
+	void Style::columnRuleColor(string value) { }
+
+	/// <summary>
+	/// Sets or returns the style of the rule between columns
+	/// </summary>
+	/// <value>
+	/// The column rule style.
+	/// </value>
+	string Style::columnRuleStyle() { return ""; }
+	void Style::columnRuleStyle(string value) { }
+
+	/// <summary>
+	/// Sets or returns the width of the rule between columns
+	/// </summary>
+	/// <value>
+	/// The width of the column rule.
+	/// </value>
+	string Style::columnRuleWidth() { return ""; }
+	void Style::columnRuleWidth(string value) { }
+
+	/// <summary>
+	/// A shorthand property for setting or returning columnWidth and columnCount
+	/// </summary>
+	/// <value>
+	/// The columns.
+	/// </value>
+	string Style::columns() { return ""; }
+	void Style::columns(string value) { }
+
+	/// <summary>
+	/// Sets or returns how many columns an element should span across
+	/// </summary>
+	/// <value>
+	/// The column span.
+	/// </value>
+	string Style::columnSpan() { return ""; }
+	void Style::columnSpan(string value) { }
+
+	/// <summary>
+	/// Sets or returns the width of the columns
+	/// </summary>
+	/// <value>
+	/// The width of the column.
+	/// </value>
+	string Style::columnWidth() { return ""; }
+	void Style::columnWidth(string value) { }
+
+	/// <summary>
+	/// Used with the :before and :after pseudo-elements, to insert generated content
+	/// </summary>
+	/// <value>
+	/// The content.
+	/// </value>
+	string Style::content() { return ""; }
+	void Style::content(string value) { }
+
+	/// <summary>
+	/// Increments one or more counters
+	/// </summary>
+	/// <value>
+	/// The counter increment.
+	/// </value>
+	string Style::counterIncrement() { return ""; }
+	void Style::counterIncrement(string value) { }
+
+	/// <summary>
+	/// Creates or resets one or more counters
+	/// </summary>
+	/// <value>
+	/// The counter reset.
+	/// </value>
+	string Style::counterReset() { return ""; }
+	void Style::counterReset(string value) { }
+
+	/// <summary>
+	/// Sets or returns the type of cursor to display for the mouse pointer
+	/// </summary>
+	/// <value>
+	/// The cursor.
+	/// </value>
+	string Style::cursor() { return ""; }
+	void Style::cursor(string value) { }
+
+	/// <summary>
+	/// Sets or returns the text direction
+	/// </summary>
+	/// <value>
+	/// The direction.
+	/// </value>
+	string Style::direction() { return ""; }
+	void Style::direction(string value) { }
+
+	/// <summary>
+	/// Sets or returns an element's display type
+	/// </summary>
+	/// <value>
+	/// The display.
+	/// </value>
+	string Style::display() { return ""; }
+	void Style::display(string value) { }
+
+	/// <summary>
+	/// Sets or returns whether to show the border and background of empty cells, or not
+	/// </summary>
+	/// <value>
+	/// The empty cells.
+	/// </value>
+	string Style::emptyCells() { return ""; }
+	void Style::emptyCells(string value) { }
+
+	/// <summary>
+	/// Sets or returns image filters (visual effects, like blur and saturation)
+	/// </summary>
+	/// <value>
+	/// The filter.
+	/// </value>
+	string Style::filter() { return ""; }
+	void Style::filter(string value) { }
+
+	/// <summary>
+	/// Sets or returns the length of the item, relative to the rest
+	/// </summary>
+	/// <value>
+	/// The flex.
+	/// </value>
+	string Style::flex() { return ""; }
+	void Style::flex(string value) { }
+
+	/// <summary>
+	/// Sets or returns the initial length of a flexible item
+	/// </summary>
+	/// <value>
+	/// The flex basis.
+	/// </value>
+	string Style::flexBasis() { return ""; }
+	void Style::flexBasis(string value) { }
+
+	/// <summary>
+	/// Sets or returns the direction of the flexible items
+	/// </summary>
+	/// <value>
+	/// The flex direction.
+	/// </value>
+	string Style::flexDirection() { return ""; }
+	void Style::flexDirection(string value) { }
+
+	/// <summary>
+	/// A shorthand property for the flexDirection and the flexWrap properties
+	/// </summary>
+	/// <value>
+	/// The flex flow.
+	/// </value>
+	string Style::flexFlow() { return ""; }
+	void Style::flexFlow(string value) { }
+
+	/// <summary>
+	/// Sets or returns how much the item will grow relative to the rest
+	/// </summary>
+	/// <value>
+	/// The flex grow.
+	/// </value>
+	string Style::flexGrow() { return ""; }
+	void Style::flexGrow(string value) { }
+
+	/// <summary>
+	/// Sets or returns how the item will shrink relative to the rest
+	/// </summary>
+	/// <value>
+	/// The flex shrink.
+	/// </value>
+	string Style::flexShrink() { return ""; }
+	void Style::flexShrink(string value) { }
+
+	/// <summary>
+	/// Sets or returns whether the flexible items should wrap or not
+	/// </summary>
+	/// <value>
+	/// The flex wrap.
+	/// </value>
+	string Style::flexWrap() { return ""; }
+	void Style::flexWrap(string value) { }
+
+	/// <summary>
+	/// Sets or returns the horizontal alignment of an element
+	/// </summary>
+	/// <value>
+	/// The CSS float.
+	/// </value>
+	string Style::cssFloat() { return ""; }
+	void Style::cssFloat(string value) { }
+
+	/// <summary>
+	/// Sets or returns fontStyle, fontVariant, fontWeight, fontSize, lineHeight, and fontFamily in one declaration
+	/// </summary>
+	/// <value>
+	/// The font.
+	/// </value>
+	string Style::font() { return ""; }
+	void Style::font(string value) { }
+
+	/// <summary>
+	/// Sets or returns the font family for text
+	/// </summary>
+	/// <value>
+	/// The font family.
+	/// </value>
+	string Style::fontFamily() { return ""; }
+	void Style::fontFamily(string value) { }
+
+	/// <summary>
+	/// Sets or returns the font size of the text
+	/// </summary>
+	/// <value>
+	/// The size of the font.
+	/// </value>
+	string Style::fontSize() { return ""; }
+	void Style::fontSize(string value) { }
+
+	/// <summary>
+	/// Sets or returns whether the style of the font is normal, italic or oblique
+	/// </summary>
+	/// <value>
+	/// The font style.
+	/// </value>
+	string Style::fontStyle() { return ""; }
+	void Style::fontStyle(string value) { }
+
+	/// <summary>
+	/// Sets or returns whether the font should be displayed in small capital letters
+	/// </summary>
+	/// <value>
+	/// The font variant.
+	/// </value>
+	string Style::fontVariant() { return ""; }
+	void Style::fontVariant(string value) { }
+
+	/// <summary>
+	/// Sets or returns the boldness of the font
+	/// </summary>
+	/// <value>
+	/// The font weight.
+	/// </value>
+	string Style::fontWeight() { return ""; }
+	void Style::fontWeight(string value) { }
+
+	/// <summary>
+	/// Preserves the readability of text when font fallback occurs
+	/// </summary>
+	/// <value>
+	/// The font size adjust.
+	/// </value>
+	string Style::fontSizeAdjust() { return ""; }
+	void Style::fontSizeAdjust(string value) { }
+
+	/// <summary>
+	/// Selects a normal, condensed, or expanded face from a font family
+	/// </summary>
+	/// <value>
+	/// The font stretch.
+	/// </value>
+	string Style::fontStretch() { return ""; }
+	void Style::fontStretch(string value) { }
+
+	/// <summary>
+	/// Specifies whether a punctuation character may be placed outside the line box
+	/// </summary>
+	/// <value>
+	/// The hanging punctuation.
+	/// </value>
+	string Style::hangingPunctuation() { return ""; }
+	void Style::hangingPunctuation(string value) { }
+
+	/// <summary>
+	/// Sets or returns the height of an element
+	/// </summary>
+	/// <value>
+	/// The height.
+	/// </value>
+	string Style::height() { return ""; }
+	void Style::height(string value) { }
+
+	/// <summary>
+	/// Sets how to split words to improve the layout of paragraphs
+	/// </summary>
+	/// <value>
+	/// The hyphens.
+	/// </value>
+	string Style::hyphens() { return ""; }
+	void Style::hyphens(string value) { }
+
+	/// <summary>
+	/// Provides the author the ability to style an element with an iconic equivalent
+	/// </summary>
+	/// <value>
+	/// The icon.
+	/// </value>
+	string Style::icon() { return ""; }
+	void Style::icon(string value) { }
+
+	/// <summary>
+	/// Specifies a rotation in the right or clockwise direction that a user agent applies to an image
+	/// </summary>
+	/// <value>
+	/// The image orientation.
+	/// </value>
+	string Style::imageOrientation() { return ""; }
+	void Style::imageOrientation(string value) { }
+
+	/// <summary>
+	/// Defines whether an element must create a new stacking content
+	/// </summary>
+	/// <value>
+	/// The isolation.
+	/// </value>
+	string Style::isolation() { return ""; }
+	void Style::isolation(string value) { }
+
+	/// <summary>
+	/// Sets or returns the alignment between the items inside a flexible container when the items do not use all available space.
+	/// </summary>
+	/// <value>
+	/// The content of the justify.
+	/// </value>
+	string justifyContent() { return ""; }
+	void justifyContent(string value) { }
+
+	/// <summary>
+	/// Sets or returns the left position of a positioned element
+	/// </summary>
+	/// <value>
+	/// The left.
+	/// </value>
+	string Style::left() { return ""; }
+	void Style::left(string value) { }
+
+	/// <summary>
+	/// Sets or returns the space between characters in a text
+	/// </summary>
+	/// <value>
+	/// The letter spacing.
+	/// </value>
+	string Style::letterSpacing() { return ""; }
+	void Style::letterSpacing(string value) { }
+
+	/// <summary>
+	/// Sets or returns the distance between lines in a text
+	/// </summary>
+	/// <value>
+	/// The height of the line.
+	/// </value>
+	string Style::lineHeight() { return ""; }
+	void Style::lineHeight(string value) { }
+
+	/// <summary>
+	/// Sets or returns listStyleImage, listStylePosition, and listStyleType in one declaration
+	/// </summary>
+	/// <value>
+	/// The list style.
+	/// </value>
+	string Style::listStyle() { return ""; }
+	void Style::listStyle(string value) { }
+
+	/// <summary>
+	/// Sets or returns an image as the list-item marker
+	/// </summary>
+	/// <value>
+	/// The list style image.
+	/// </value>
+	string Style::listStyleImage() { return ""; }
+	void Style::listStyleImage(string value) { }
+
+	/// <summary>
+	/// Sets or returns the position of the list-item marker
+	/// </summary>
+	/// <value>
+	/// The list style position.
+	/// </value>
+	string Style::listStylePosition() { return ""; }
+	void Style::listStylePosition(string value) { }
+
+	/// <summary>
+	/// Sets or returns the list-item marker type
+	/// </summary>
+	/// <value>
+	/// The type of the list style.
+	/// </value>
+	string Style::listStyleType() { return ""; }
+	void Style::listStyleType(string value) { }
+
+	/// <summary>
+	/// Sets or returns the margins of an element (can have up to four values)
+	/// </summary>
+	/// <value>
+	/// The margin.
+	/// </value>
+	string Style::margin() { return ""; }
+	void Style::margin(string value) { }
+
+	/// <summary>
+	/// Sets or returns the bottom margin of an element
+	/// </summary>
+	/// <value>
+	/// The margin bottom.
+	/// </value>
+	string Style::marginBottom() { return ""; }
+	void Style::marginBottom(string value) { }
+
+	/// <summary>
+	/// Sets or returns the left margin of an element
+	/// </summary>
+	/// <value>
+	/// The margin left.
+	/// </value>
+	string Style::marginLeft() { return ""; }
+	void Style::marginLeft(string value) { }
+
+	/// <summary>
+	/// Sets or returns the right margin of an element
+	/// </summary>
+	/// <value>
+	/// The margin right.
+	/// </value>
+	string Style::marginRight() { return ""; }
+	void Style::marginRight(string value) { }
+
+	/// <summary>
+	/// Sets or returns the top margin of an element
+	/// </summary>
+	/// <value>
+	/// The margin top.
+	/// </value>
+	string Style::marginTop() { return ""; }
+	void Style::marginTop(string value) { }
+
+	/// <summary>
+	/// Sets or returns the maximum height of an element
+	/// </summary>
+	/// <value>
+	/// The maximum height.
+	/// </value>
+	string Style::maxHeight() { return ""; }
+	void Style::maxHeight(string value) { }
+
+	/// <summary>
+	/// Sets or returns the maximum width of an element
+	/// </summary>
+	/// <value>
+	/// The maximum width.
+	/// </value>
+	string Style::maxWidth() { return ""; }
+	void Style::maxWidth(string value) { }
+
+	/// <summary>
+	/// Sets or returns the minimum height of an element
+	/// </summary>
+	/// <value>
+	/// The minimum height.
+	/// </value>
+	string Style::minHeight() { return ""; }
+	void Style::minHeight(string value) { }
+
+	/// <summary>
+	/// Sets or returns the minimum width of an element
+	/// </summary>
+	/// <value>
+	/// The minimum width.
+	/// </value>
+	string Style::minWidth() { return ""; }
+	void Style::minWidth(string value) { }
+
+	/// <summary>
+	/// Sets or returns where to navigate when using the arrow-down navigation key
+	/// </summary>
+	/// <value>
+	/// The nav down.
+	/// </value>
+	string Style::navDown() { return ""; }
+	void Style::navDown(string value) { }
+
+	/// <summary>
+	/// Sets or returns the tabbing order for an element
+	/// </summary>
+	/// <value>
+	/// The index of the nav.
+	/// </value>
+	string Style::navIndex() { return ""; }
+	void Style::navIndex(string value) { }
+
+	/// <summary>
+	/// Sets or returns where to navigate when using the arrow-left navigation key
+	/// </summary>
+	/// <value>
+	/// The nav left.
+	/// </value>
+	string Style::navLeft() { return ""; }
+	void Style::navLeft(string value) { }
+
+	/// <summary>
+	/// Sets or returns where to navigate when using the arrow-right navigation key
+	/// </summary>
+	/// <value>
+	/// The nav right.
+	/// </value>
+	string Style::navRight() { return ""; }
+	void Style::navRight(string value) { }
+
+	/// <summary>
+	/// Sets or returns where to navigate when using the arrow-up navigation key
+	/// </summary>
+	/// <value>
+	/// The nav up.
+	/// </value>
+	string Style::navUp() { return ""; }
+	void Style::navUp(string value) { }
+
+	/// <summary>
+	/// Specifies how the contents of a replaced element should be fitted to the box established by its used height and width
+	/// </summary>
+	/// <value>
+	/// The object fit.
+	/// </value>
+	string Style::objectFit() { return ""; }
+	void Style::objectFit(string value) { }
+
+	/// <summary>
+	/// Specifies the alignment of the replaced element inside its box
+	/// </summary>
+	/// <value>
+	/// The object position.
+	/// </value>
+	string Style::objectPosition() { return ""; }
+	void Style::objectPosition(string value) { }
+
+	/// <summary>
+	/// Sets or returns the opacity level for an element
+	/// </summary>
+	/// <value>
+	/// The opacity.
+	/// </value>
+	string Style::opacity() { return ""; }
+	void Style::opacity(string value) { }
+
+	/// <summary>
+	/// Sets or returns the order of the flexible item, relative to the rest
+	/// </summary>
+	/// <value>
+	/// The order.
+	/// </value>
+	string Style::order() { return ""; }
+	void Style::order(string value) { }
+
+	/// <summary>
+	/// Sets or returns the minimum number of lines for an element that must be left at the bottom of a page when a page break occurs inside an element
+	/// </summary>
+	/// <value>
+	/// The orphans.
+	/// </value>
+	string Style::orphans() { return ""; }
+	void Style::orphans(string value) { }
+
+	/// <summary>
+	/// Sets or returns all the outline properties in one declaration
+	/// </summary>
+	/// <value>
+	/// The outline.
+	/// </value>
+	string Style::outline() { return ""; }
+	void Style::outline(string value) { }
+
+	/// <summary>
+	/// Sets or returns the color of the outline around a element
+	/// </summary>
+	/// <value>
+	/// The color of the outline.
+	/// </value>
+	string Style::outlineColor() { return ""; }
+	void Style::outlineColor(string value) { }
+
+	/// <summary>
+	/// Offsets an outline, and draws it beyond the border edge
+	/// </summary>
+	/// <value>
+	/// The outline offset.
+	/// </value>
+	string Style::outlineOffset() { return ""; }
+	void Style::outlineOffset(string value) { }
+
+	/// <summary>
+	/// Sets or returns the style of the outline around an element
+	/// </summary>
+	/// <value>
+	/// The outline style.
+	/// </value>
+	string Style::outlineStyle() { return ""; }
+	void Style::outlineStyle(string value) { }
+
+	/// <summary>
+	/// Sets or returns the width of the outline around an element
+	/// </summary>
+	/// <value>
+	/// The width of the outline.
+	/// </value>
+	string Style::outlineWidth() { return ""; }
+	void Style::outlineWidth(string value) { }
+
+	/// <summary>
+	/// Sets or returns what to do with content that renders outside the element box
+	/// </summary>
+	/// <value>
+	/// The overflow.
+	/// </value>
+	string Style::overflow() { return ""; }
+	void Style::overflow(string value) { }
+
+	/// <summary>
+	/// Specifies what to do with the left/right edges of the content, if it overflows the element's content area
+	/// </summary>
+	/// <value>
+	/// The overflow x.
+	/// </value>
+	string Style::overflowX() { return ""; }
+	void Style::overflowX(string value) { }
+
+	/// <summary>
+	/// Specifies what to do with the top/bottom edges of the content, if it overflows the element's content area
+	/// </summary>
+	/// <value>
+	/// The overflow y.
+	/// </value>
+	string Style::overflowY() { return ""; }
+	void Style::overflowY(string value) { }
+
+	/// <summary>
+	/// Sets or returns the padding of an element (can have up to four values)
+	/// </summary>
+	/// <value>
+	/// The padding.
+	/// </value>
+	string Style::padding() { return ""; }
+	void Style::padding(string value) { }
+
+	/// <summary>
+	/// Sets or returns the bottom padding of an element
+	/// </summary>
+	/// <value>
+	/// The padding bottom.
+	/// </value>
+	string Style::paddingBottom() { return ""; }
+	void Style::paddingBottom(string value) { }
+
+	/// <summary>
+	/// Sets or returns the left padding of an element
+	/// </summary>
+	/// <value>
+	/// The padding left.
+	/// </value>
+	string Style::paddingLeft() { return ""; }
+	void Style::paddingLeft(string value) { }
+
+	/// <summary>
+	/// Sets or returns the right padding of an element
+	/// </summary>
+	/// <value>
+	/// The padding right.
+	/// </value>
+	string Style::paddingRight() { return ""; }
+	void Style::paddingRight(string value) { }
+
+	/// <summary>
+	/// Sets or returns the top padding of an element
+	/// </summary>
+	/// <value>
+	/// The padding top.
+	/// </value>
+	string Style::paddingTop() { return ""; }
+	void Style::paddingTop(string value) { }
+
+	/// <summary>
+	/// Sets or returns the page-break behavior after an element
+	/// </summary>
+	/// <value>
+	/// The page break after.
+	/// </value>
+	string Style::pageBreakAfter() { return ""; }
+	void Style::pageBreakAfter(string value) { }
+
+	/// <summary>
+	/// Sets or returns the page-break behavior before an element
+	/// </summary>
+	/// <value>
+	/// The page break before.
+	/// </value>
+	string Style::pageBreakBefore() { return ""; }
+	void Style::pageBreakBefore(string value) { }
+
+	/// <summary>
+	/// Sets or returns the page-break behavior inside an element
+	/// </summary>
+	/// <value>
+	/// The page break inside.
+	/// </value>
+	string Style::pageBreakInside() { return ""; }
+	void Style::pageBreakInside(string value) { }
+
+	/// <summary>
+	/// Sets or returns the perspective on how 3D elements are viewed
+	/// </summary>
+	/// <value>
+	/// The perspective.
+	/// </value>
+	string Style::perspective() { return ""; }
+	void Style::perspective(string value) { }
+
+	/// <summary>
+	/// Sets or returns the bottom position of 3D elements
+	/// </summary>
+	/// <value>
+	/// The perspective origin.
+	/// </value>
+	string Style::perspectiveOrigin() { return ""; }
+	void Style::perspectiveOrigin(string value) { }
+
+	/// <summary>
+	/// Sets or returns the type of positioning method used for an element (static, relative, absolute or fixed)
+	/// </summary>
+	/// <value>
+	/// The position.
+	/// </value>
+	string Style::position() { return ""; }
+	void Style::position(string value) { }
+
+	/// <summary>
+	/// Sets or returns the type of quotation marks for embedded quotations
+	/// </summary>
+	/// <value>
+	/// The quotes.
+	/// </value>
+	string Style::quotes() { return ""; }
+	void Style::quotes(string value) { }
+
+	/// <summary>
+	/// Sets or returns whether or not an element is resizable by the user
+	/// </summary>
+	/// <value>
+	/// The resize.
+	/// </value>
+	string Style::resize() { return ""; }
+	void Style::resize(string value) { }
+
+	/// <summary>
+	/// Sets or returns the right position of a positioned element
+	/// </summary>
+	/// <value>
+	/// The right.
+	/// </value>
+	string Style::right() { return ""; }
+	void Style::right(string value) { }
+
+	/// <summary>
+	/// Sets or returns the way to lay out table cells, rows, and columns
+	/// </summary>
+	/// <value>
+	/// The table layout.
+	/// </value>
+	string Style::tableLayout() { return ""; }
+	void Style::tableLayout(string value) { }
+
+	/// <summary>
+	/// Sets or returns the length of the tab-character
+	/// </summary>
+	/// <value>
+	/// The size of the tab.
+	/// </value>
+	string Style::tabSize() { return ""; }
+	void Style::tabSize(string value) { }
+
+	/// <summary>
+	/// Sets or returns the horizontal alignment of text
+	/// </summary>
+	/// <value>
+	/// The text align.
+	/// </value>
+	string Style::textAlign() { return ""; }
+	void Style::textAlign(string value) { }
+
+	/// <summary>
+	/// Sets or returns how the last line of a block or a line right before a forced line break is aligned when text-align is "justify"
+	/// </summary>
+	/// <value>
+	/// The text align last.
+	/// </value>
+	string Style::textAlignLast() { return ""; }
+	void Style::textAlignLast(string value) { }
+
+	/// <summary>
+	/// Sets or returns the decoration of a text
+	/// </summary>
+	/// <value>
+	/// The text decoration.
+	/// </value>
+	string Style::textDecoration() { return ""; }
+	void Style::textDecoration(string value) { }
+
+	/// <summary>
+	/// Sets or returns the color of the text-decoration
+	/// </summary>
+	/// <value>
+	/// The color of the text decoration.
+	/// </value>
+	string Style::textDecorationColor() { return ""; }
+	void Style::textDecorationColor(string value) { }
+
+	/// <summary>
+	/// Sets or returns the type of line in a text-decoration
+	/// </summary>
+	/// <value>
+	/// The text decoration line.
+	/// </value>
+	string Style::textDecorationLine() { return ""; }
+	void Style::textDecorationLine(string value) { }
+
+	/// <summary>
+	/// Sets or returns the style of the line in a text decoration
+	/// </summary>
+	/// <value>
+	/// The text decoration style.
+	/// </value>
+	string Style::textDecorationStyle() { return ""; }
+	void Style::textDecorationStyle(string value) { }
+
+	/// <summary>
+	/// Sets or returns the indentation of the first line of text
+	/// </summary>
+	/// <value>
+	/// The text indent.
+	/// </value>
+	string Style::textIndent() { return ""; }
+	void Style::textIndent(string value) { }
+
+	/// <summary>
+	/// Sets or returns the justification method used when text-align is "justify"
+	/// </summary>
+	/// <value>
+	/// The text justify.
+	/// </value>
+	string Style::textJustify() { return ""; }
+	void Style::textJustify(string value) { }
+
+	/// <summary>
+	/// Sets or returns what should happen when text overflows the containing element
+	/// </summary>
+	/// <value>
+	/// The text overflow.
+	/// </value>
+	string Style::textOverflow() { return ""; }
+	void Style::textOverflow(string value) { }
+
+	/// <summary>
+	/// Sets or returns the shadow effect of a text
+	/// </summary>
+	/// <value>
+	/// The text shadow.
+	/// </value>
+	string Style::textShadow() { return ""; }
+	void Style::textShadow(string value) { }
+
+	/// <summary>
+	/// Sets or returns the capitalization of a text
+	/// </summary>
+	/// <value>
+	/// The text transform.
+	/// </value>
+	string Style::textTransform() { return ""; }
+	void Style::textTransform(string value) { }
+
+	/// <summary>
+	/// Sets or returns the top position of a positioned element
+	/// </summary>
+	/// <value>
+	/// The top.
+	/// </value>
+	string Style::top() { return ""; }
+	void Style::top(string value) { }
+
+	/// <summary>
+	/// Applies a 2D or 3D transformation to an element
+	/// </summary>
+	/// <value>
+	/// The transform.
+	/// </value>
+	string Style::transform() { return ""; }
+	void Style::transform(string value) { }
+
+	/// <summary>
+	/// Sets or returns the position of transformed elements
+	/// </summary>
+	/// <value>
+	/// The transform origin.
+	/// </value>
+	string Style::transformOrigin() { return ""; }
+	void Style::transformOrigin(string value) { }
+
+	/// <summary>
+	/// Sets or returns how nested elements are rendered in 3D space
+	/// </summary>
+	/// <value>
+	/// The transform style.
+	/// </value>
+	string Style::transformStyle() { return ""; }
+	void Style::transformStyle(string value) { }
+
+	/// <summary>
+	/// A shorthand property for setting or returning the four transition properties
+	/// </summary>
+	/// <value>
+	/// The transition.
+	/// </value>
+	string Style::transition() { return ""; }
+	void Style::transition(string value) { }
+
+	/// <summary>
+	/// Sets or returns the CSS property that the transition effect is for
+	/// </summary>
+	/// <value>
+	/// The transition property.
+	/// </value>
+	string Style::transitionProperty() { return ""; }
+	void Style::transitionProperty(string value) { }
+
+	/// <summary>
+	/// Sets or returns how many seconds or milliseconds a transition effect takes to complete
+	/// </summary>
+	/// <value>
+	/// The duration of the transition.
+	/// </value>
+	string Style::transitionDuration() { return ""; }
+	void Style::transitionDuration(string value) { }
+
+	/// <summary>
+	/// Sets or returns the speed curve of the transition effect
+	/// </summary>
+	/// <value>
+	/// The transition timing function.
+	/// </value>
+	string Style::transitionTimingFunction() { return ""; }
+	void Style::transitionTimingFunction(string value) { }
+
+	/// <summary>
+	/// Sets or returns when the transition effect will start
+	/// </summary>
+	/// <value>
+	/// The transition delay.
+	/// </value>
+	string Style::transitionDelay() { return ""; }
+	void Style::transitionDelay(string value) { }
+
+	/// <summary>
+	/// Sets or returns whether the text should be overridden to support multiple languages in the same document
+	/// </summary>
+	/// <value>
+	/// The unicode bidi.
+	/// </value>
+	string Style::unicodeBidi() { return ""; }
+	void Style::unicodeBidi(string value) { }
+
+	/// <summary>
+	/// Sets or returns whether the text of an element can be selected or not
+	/// </summary>
+	/// <value>
+	/// The user select.
+	/// </value>
+	string Style::userSelect() { return ""; }
+	void Style::userSelect(string value) { }
+
+	/// <summary>
+	/// Sets or returns the vertical alignment of the content in an element
+	/// </summary>
+	/// <value>
+	/// The vertical align.
+	/// </value>
+	string Style::verticalAlign() { return ""; }
+	void Style::verticalAlign(string value) { }
+
+	/// <summary>
+	/// Sets or returns whether an element should be visible
+	/// </summary>
+	/// <value>
+	/// The visibility.
+	/// </value>
+	string Style::visibility() { return ""; }
+	void Style::visibility(string value) { }
+
+	/// <summary>
+	/// Sets or returns how to handle tabs, line breaks and whitespace in a text
+	/// </summary>
+	/// <value>
+	/// The white space.
+	/// </value>
+	string Style::whiteSpace() { return ""; }
+	void Style::whiteSpace(string value) { }
+
+	/// <summary>
+	/// Sets or returns the width of an element
+	/// </summary>
+	/// <value>
+	/// The width.
+	/// </value>
+	string Style::width() { return ""; }
+	void Style::width(string value) { }
+
+	/// <summary>
+	/// Sets or returns line breaking rules for non-CJK scripts
+	/// </summary>
+	/// <value>
+	/// The word break.
+	/// </value>
+	string Style::wordBreak() { return ""; }
+	void Style::wordBreak(string value) { }
+
+	/// <summary>
+	/// Sets or returns the spacing between words in a text
+	/// </summary>
+	/// <value>
+	/// The word spacing.
+	/// </value>
+	string Style::wordSpacing() { return ""; }
+	void Style::wordSpacing(string value) { }
+
+	/// <summary>
+	/// Allows long, unbreakable words to be broken and wrap to the next line
+	/// </summary>
+	/// <value>
+	/// The word wrap.
+	/// </value>
+	string Style::wordWrap() { return ""; }
+	void Style::wordWrap(string value) { }
+
+	/// <summary>
+	/// Sets or returns the minimum number of lines for an element that must be visible at the top of a page
+	/// </summary>
+	/// <value>
+	/// The widows.
+	/// </value>
+	string Style::widows() { return ""; }
+	void Style::widows(string value) { }
+
+	/// <summary>
+	/// Sets or returns the stack order of a positioned element
+	/// </summary>
+	/// <value>
+	/// The index of the z.
+	/// </value>
+	string Style::zIndex() { return ""; }
+	void Style::zIndex(string value) { }
 }
 
 /// <summary>
@@ -1437,15 +3496,29 @@ namespace litehtml
 	Window::Window() { }
 
 	/// <summary>
+	/// Returns a Boolean value indicating whether a window has been closed or not
+	/// </summary>
+	/// <value>
+	///   <c>true</c> if closed; otherwise, <c>false</c>.
+	/// </value>
+	bool Window::closed() { return false; }
+
+	/// <summary>
 	/// Returns a reference to the Console object, which provides methods for logging information to the browser's console (See Console object)
 	/// </summary>
 	/// <value>
 	/// The console.
 	/// </value>
-	Console::ptr Window::console()
-	{
-		return nullptr;
-	}
+	Console::ptr Window::console() { return nullptr; }
+
+	/// <summary>
+	/// Sets or returns the default text in the statusbar of a window
+	/// </summary>
+	/// <value>
+	/// The default status.
+	/// </value>
+	string Window::defaultStatus() { return ""; }
+	void Window::defaultStatus(string value) { }
 
 	/// <summary>
 	/// Returns the Document object for the window (See Document object)
@@ -1453,8 +3526,442 @@ namespace litehtml
 	/// <value>
 	/// The document.
 	/// </value>
-	Document::ptr Window::document()
-	{
-		return nullptr;
+	Document::ptr Window::document() { return nullptr; }
+
+	/// <summary>
+	/// Returns the <iframe> element in which the current window is inserted
+	/// </summary>
+	/// <value>
+	/// The frame element.
+	/// </value>
+	std::shared_ptr<Element> Window::frameElement() { return nullptr; }
+
+	/// <summary>
+	/// Returns all <iframe> elements in the current window
+	/// </summary>
+	/// <value>
+	/// The frames.
+	/// </value>
+	std::vector<std::shared_ptr<Element>> Window::frames() {
+		std::vector<std::shared_ptr<Element>> s;
+		return s;
 	}
+
+	/// <summary>
+	/// Returns the History object for the window (See History object)
+	/// </summary>
+	/// <value>
+	/// The history.
+	/// </value>
+	History::ptr Window::history() { return nullptr; }
+
+	/// <summary>
+	/// Returns the height of the window's content area (viewport) including scrollbars
+	/// </summary>
+	/// <value>
+	/// The height of the inner.
+	/// </value>
+	int Window::innerHeight() { return 0; }
+
+	/// <summary>
+	/// Returns the width of a window's content area (viewport) including scrollbars
+	/// </summary>
+	/// <value>
+	/// The width of the inner.
+	/// </value>
+	int Window::innerWidth() { return 0; }
+
+	/// <summary>
+	/// Returns the number of <iframe> elements in the current window
+	/// </summary>
+	/// <value>
+	/// The length.
+	/// </value>
+	int Window::length() { return 0; }
+
+	/// <summary>
+	/// Allows to save key/value pairs in a web browser. Stores the data with no expiration date
+	/// </summary>
+	/// <value>
+	/// The local storage.
+	/// </value>
+	std::unique_ptr<Storage> Window::localStorage() { return nullptr; }
+
+	/// <summary>
+	/// Returns the Location object for the window (See Location object)
+	/// </summary>
+	/// <value>
+	/// The location.
+	/// </value>
+	Location::ptr Window::location() { return nullptr; }
+
+	/// <summary>
+	/// Sets or returns the name of a window
+	/// </summary>
+	/// <value>
+	/// The name.
+	/// </value>
+	string Window::name() { return ""; }
+	void Window::name(string value) { }
+
+	/// <summary>
+	/// Returns the Navigator object for the window (See Navigator object)
+	/// </summary>
+	/// <value>
+	/// The navigator.
+	/// </value>
+	Navigator::ptr Window::navigator() { return nullptr; }
+
+	/// <summary>
+	/// Returns a reference to the window that created the window
+	/// </summary>
+	/// <value>
+	/// The opener.
+	/// </value>
+	Window::ptr Window::opener() { return nullptr; }
+
+	/// <summary>
+	/// Returns the height of the browser window, including toolbars/scrollbars
+	/// </summary>
+	/// <value>
+	/// The height of the outer.
+	/// </value>
+	int Window::outerHeight() { return 0; }
+
+	/// <summary>
+	/// Returns the width of the browser window, including toolbars/scrollbars
+	/// </summary>
+	/// <value>
+	/// The width of the outer.
+	/// </value>
+	int Window::outerWidth() { return 0; }
+
+	/// <summary>
+	/// Returns the pixels the current document has been scrolled (horizontally) from the upper left corner of the window
+	/// </summary>
+	/// <value>
+	/// The page x offset.
+	/// </value>
+	int Window::pageXOffset() { return 0; }
+
+	/// <summary>
+	/// Returns the pixels the current document has been scrolled (vertically) from the upper left corner of the window
+	/// </summary>
+	/// <value>
+	/// The page y offset.
+	/// </value>
+	int Window::pageYOffset() { return 0; }
+
+	/// <summary>
+	/// Returns the parent window of the current window
+	/// </summary>
+	/// <value>
+	/// The parent.
+	/// </value>
+	Window::ptr Window::parent() { return nullptr; }
+
+	/// <summary>
+	/// Returns the Screen object for the window (See Screen object)
+	/// </summary>
+	/// <value>
+	/// The screen.
+	/// </value>
+	Screen::ptr Window::screen() { return nullptr; }
+
+	/// <summary>
+	/// Returns the horizontal coordinate of the window relative to the screen
+	/// </summary>
+	/// <value>
+	/// The screen left.
+	/// </value>
+	int Window::screenLeft() { return 0; }
+
+	/// <summary>
+	/// Returns the vertical coordinate of the window relative to the screen
+	/// </summary>
+	/// <value>
+	/// The screen top.
+	/// </value>
+	int Window::screenTop() { return 0; }
+
+	/// <summary>
+	/// Returns the horizontal coordinate of the window relative to the screen
+	/// </summary>
+	/// <value>
+	/// The screen x.
+	/// </value>
+	int Window::screenX() { return 0; }
+
+	/// <summary>
+	/// Returns the vertical coordinate of the window relative to the screen
+	/// </summary>
+	/// <value>
+	/// The screen y.
+	/// </value>
+	int Window::screenY() { return 0; }
+
+	/// <summary>
+	/// Allows to save key/value pairs in a web browser. Stores the data for one session
+	/// </summary>
+	/// <value>
+	/// The session storage.
+	/// </value>
+	std::unique_ptr<Storage> Window::sessionStorage() { return nullptr; }
+
+	/// <summary>
+	/// An alias of pageXOffset
+	/// </summary>
+	/// <value>
+	/// The scroll x.
+	/// </value>
+	int Window::scrollX() { return 0; }
+
+	/// <summary>
+	/// An alias of pageYOffset
+	/// </summary>
+	/// <value>
+	/// The scroll y.
+	/// </value>
+	int Window::scrollY() { return 0; }
+
+	/// <summary>
+	/// Returns the current window
+	/// </summary>
+	/// <value>
+	/// The self.
+	/// </value>
+	Window::ptr Window::self() { return nullptr; }
+
+	/// <summary>
+	/// Sets or returns the text in the statusbar of a window
+	/// </summary>
+	/// <value>
+	/// The status.
+	/// </value>
+	string Window::status() { return ""; }
+	void Window::status(string value) { }
+
+	/// <summary>
+	/// Returns the topmost browser window
+	/// </summary>
+	/// <value>
+	/// The top.
+	/// </value>
+	Window::ptr Window::top() { return nullptr; }
+
+	/// <summary>
+	/// Displays an alert box with a message and an OK button
+	/// </summary>
+	/// <param name="message">The message.</param>
+	void Window::alert(string message) { }
+
+	/// <summary>
+	/// Decodes a base-64 encoded string
+	/// </summary>
+	/// <param name="encodedStr">The encoded string.</param>
+	/// <returns></returns>
+	string Window::atob(string encodedStr) { return ""; }
+
+	/// <summary>
+	/// Removes focus from the current window
+	/// </summary>
+	void Window::blur() { }
+
+	/// <summary>
+	/// Encodes a string in base-64
+	/// </summary>
+	/// <param name="str">The string.</param>
+	/// <returns></returns>
+	string Window::btoa(string str) { return ""; }
+
+	/// <summary>
+	/// Clears a timer set with setInterval()
+	/// </summary>
+	/// <param name="var">The variable.</param>
+	void Window::clearInterval(string var) { }
+
+	/// <summary>
+	/// Clears a timer set with setTimeout()
+	/// </summary>
+	/// <param name="id_of_settimeout">The identifier of settimeout.</param>
+	void Window::clearTimeout(string id_of_settimeout) { }
+
+	/// <summary>
+	/// Closes the current window
+	/// </summary>
+	void Window::close() { }
+
+	/// <summary>
+	/// Displays a dialog box with a message and an OK and a Cancel button
+	/// </summary>
+	/// <param name="message">The message.</param>
+	/// <returns></returns>
+	bool Window::confirm(string message) { return false; }
+
+	/// <summary>
+	/// Sets focus to the current window
+	/// </summary>
+	void Window::focus() { }
+
+	/// <summary>
+	/// Gets the current computed CSS styles applied to an element
+	/// </summary>
+	/// <param name="element">The element.</param>
+	/// <param name="pseudoElement">The pseudo element.</param>
+	/// <returns></returns>
+	std::unique_ptr<Style> Window::getComputedStyle(string element, string pseudoElement) { return nullptr; }
+
+	/// <summary>
+	/// Returns a Selection object representing the range of text selected by the user
+	/// </summary>
+	/// <returns></returns>
+	void* Window::getSelection() { return nullptr; }
+
+	/// <summary>
+	/// Returns a MediaQueryList object representing the specified CSS media query string
+	/// </summary>
+	/// <param name="mediaQueryString">The media query string.</param>
+	/// <returns></returns>
+	MediaQueryList::ptr Window::matchMedia(string mediaQueryString) { return nullptr; }
+
+	/// <summary>
+	/// Moves a window relative to its current position
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	void Window::moveBy(int x, int y) { }
+
+	/// <summary>
+	/// Moves a window to the specified position
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	void Window::moveTo(int x, int y) { }
+
+	/// <summary>
+	/// Opens a new browser window
+	/// </summary>
+	/// <param name="URL">The URL.</param>
+	/// <param name="name">The name.</param>
+	/// <param name="specs">The specs.</param>
+	/// <param name="replace">The replace.</param>
+	/// <returns></returns>
+	Window::ptr Window::open(string URL /*= nullptr*/, string name /*= nullptr*/, string specs /*= nullptr*/, bool replace /*= true*/) { return nullptr; }
+
+	/// <summary>
+	/// Prints the content of the current window
+	/// </summary>
+	void Window::print() { }
+
+	/// <summary>
+	/// Displays a dialog box that prompts the visitor for input
+	/// </summary>
+	/// <param name="text">The text.</param>
+	/// <param name="defaultText">The default text.</param>
+	/// <returns></returns>
+	string Window::prompt(string text, string defaultText /*= nullptr*/) { return ""; }
+
+	/// <summary>
+	/// Requests the browser to call a function to update an animation before the next repaint
+	/// </summary>
+	/// <returns></returns>
+	void* Window::requestAnimationFrame() { return nullptr; }
+
+	/// <summary>
+	/// Resizes the window by the specified pixels
+	/// </summary>
+	/// <param name="width">The width.</param>
+	/// <param name="height">The height.</param>
+	void Window::resizeBy(int width, int height) { }
+
+	/// <summary>
+	/// Resizes the window to the specified width and height
+	/// </summary>
+	/// <param name="width">The width.</param>
+	/// <param name="height">The height.</param>
+	void Window::resizeTo(int width, int height) { }
+
+	/// <summary>
+	/// Scrolls the document by the specified number of pixels
+	/// </summary>
+	/// <param name="xnum">The xnum.</param>
+	/// <param name="ynum">The ynum.</param>
+	void Window::scrollBy(int xnum, int ynum) { }
+
+	/// <summary>
+	/// Scrolls the document to the specified coordinates
+	/// </summary>
+	/// <param name="xpos">The xpos.</param>
+	/// <param name="ypos">The ypos.</param>
+	void Window::scrollTo(int xpos, int ypos) { }
+
+	/// <summary>
+	/// Calls a function or evaluates an expression at specified intervals (in milliseconds)
+	/// </summary>
+	/// <param name="function">The function.</param>
+	/// <param name="milliseconds">The milliseconds.</param>
+	/// <param name="args">The arguments.</param>
+	/// <returns></returns>
+	int Window::setInterval(string function, int milliseconds, ...) { return 0; }
+
+	/// <summary>
+	/// Calls a function or evaluates an expression after a specified number of milliseconds
+	/// </summary>
+	/// <param name="function">The function.</param>
+	/// <param name="milliseconds">The milliseconds.</param>
+	/// <param name="args">The arguments.</param>
+	/// <returns></returns>
+	int Window::setTimeout(string function, int milliseconds, ...) { return 0; }
+
+	/// <summary>
+	/// Stops the window from loading
+	/// </summary>
+	void Window::stop() { }
+}
+
+/// <summary>
+/// Storage
+/// </summary>
+namespace litehtml
+{
+	/// <summary>
+	/// Returns the name of the nth key in the storage
+	/// </summary>
+	/// <param name="index">The index.</param>
+	/// <returns></returns>
+	string Storage::key(int index) { return ""; }
+
+	/// <summary>
+	/// Returns the number of data items stored in the Storage object
+	/// </summary>
+	/// <value>
+	/// The length.
+	/// </value>
+	int Storage::length() { return 0; }
+
+	/// <summary>
+	/// Returns the value of the specified key name
+	/// </summary>
+	/// <param name="keyname">The keyname.</param>
+	/// <returns></returns>
+	string Storage::getItem(string keyname) { return ""; }
+
+	/// <summary>
+	/// Adds that key to the storage, or update that key's value if it already exists
+	/// </summary>
+	/// <param name="keyname">The keyname.</param>
+	/// <param name="value">The value.</param>
+	/// <returns></returns>
+	string Storage::setItem(string keyname, string value) { return ""; }
+
+	/// <summary>
+	/// Removes that key from the storage
+	/// </summary>
+	/// <param name="keyname">The keyname.</param>
+	void Storage::removeItem(string keyname) { }
+
+	/// <summary>
+	/// Empty all key out of the storage
+	/// </summary>
+	void Storage::clear() { }
 }

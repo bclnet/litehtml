@@ -242,12 +242,12 @@ namespace litehtml
 		void body(Element* value);
 		
 		/// <summary>
-		/// TBD
+		/// Returns the character encoding for the document
 		/// </summary>
 		/// <value>
-		/// TBD
+		/// The character set.
 		/// </value>
-		string charset(); // TODO
+		string charset();
 
 		/// <summary>
 		/// Returns the character encoding for the document
@@ -337,7 +337,7 @@ namespace litehtml
 		/// <value>
 		/// The default view.
 		/// </value>
-		std::unique_ptr<Window> defaultView();
+		std::shared_ptr<Window> defaultView();
 
 		/// <summary>
 		/// Controls whether the entire document should be editable or not.
@@ -345,7 +345,7 @@ namespace litehtml
 		/// <value>
 		/// The design mode.
 		/// </value>
-		string designMode(); //= "off"
+		string designMode();
 		void designMode(string value);
 
 		/// <summary>
@@ -1121,10 +1121,10 @@ namespace litehtml
 		std::shared_ptr<Element> lastElementChild();
 
 		/// <summary>
-		/// TBD
+		/// Returns the local name of an element
 		/// </summary>
 		/// <value>
-		/// TBD
+		/// The local name.
 		/// </value>
 		string localName();
 
@@ -1430,10 +1430,10 @@ namespace litehtml
 		typedef std::unique_ptr<Geolocation> ptr;
 
 		/// <summary>
-	   /// Returns the position and altitude of the device on Earth
-	   /// </summary>
-	   /// <value>The coordinates.</value>
-	   /// <exception cref="NotImplementedException"></exception>
+		/// Returns the position and altitude of the device on Earth
+		/// </summary>
+		/// <value>The coordinates.</value>
+		/// <exception cref="NotImplementedException"></exception>
 		void* coordinates();
 
 		/// <summary>
@@ -1557,7 +1557,7 @@ namespace litehtml
 	class Location
 	{
 	public:
-		typedef std::unique_ptr<Location> ptr;
+		typedef std::shared_ptr<Location> ptr;
 
 		/// <summary>
 		/// Sets or returns the anchor part (#) of a URL
@@ -3036,7 +3036,7 @@ namespace litehtml
 		/// The outline.
 		/// </value>
 		string outline();
-		void outline(string);
+		void outline(string value);
 
 		/// <summary>
 		/// Sets or returns the color of the outline around a element
@@ -3532,7 +3532,7 @@ namespace litehtml
 	class Window : public EventTarget
 	{
 	public:
-		typedef std::unique_ptr<Window> ptr;
+		typedef std::shared_ptr<Window> ptr;
 		Window();
 		//Window(std::shared_ptr<document> doc);
 
