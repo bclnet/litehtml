@@ -8,7 +8,10 @@ namespace litehtml
 	class Date
 	{
 	public:
+		Date();
+		Date(int64_t ticks);
 		string toLocaleTimeString();
+		string toString();
 	};
 
 	class Math

@@ -9,7 +9,7 @@ using namespace std;
 static test_container container(800, 600, ".");
 static Window::ptr MakeWindow(string url, char* source) {
 	Document::ptr document = document::createFromString(source, &container);
-	return new Window();
+	return nullptr; // new Window();
 }
 
 TEST(HtmlAttribute, Test) {
@@ -94,7 +94,7 @@ TEST(HtmlAttribute, Test) {
 			function<void()> myFunction = [document]() {
 				document->getElementById("myDiv2")->attributes()[1]->value("class2");
 				assert("class2" == document->getElementById("myDiv2")->attributes()[1]->value());
-			}
+			};
 
 			myFunction();
 		}
@@ -141,7 +141,7 @@ TEST(HtmlAttribute, Test) {
 		//: Get the name of an attribute:
 		{
 			auto element = document->getElementById("demo");
-			auto aName = element->attributes[0].name();
+			auto aName = element->attributes()[0]->name();
 
 			document->getElementById("demo")->innerHTML(aName);
 			assert("id" == aName);
@@ -176,7 +176,7 @@ TEST(HtmlAttribute, Test) {
 		{
 			auto element = document->getElementsByTagName("H1")[0];
 			element->setAttribute("class", "democlass");
-			assert("democlass" == element.getAttribute("class"));
+			assert("democlass" == element->getAttribute("class"));
 		}
 	}
 

@@ -59,6 +59,8 @@ namespace litehtml
 	{
 	public:
 		typedef std::unique_ptr<DocumentImplementation> ptr;
+
+		bool hasFeature(string x, string y);
 	};
 
 	/// <summary>
@@ -68,7 +70,7 @@ namespace litehtml
 	class Console
 	{
 	public:
-		typedef std::unique_ptr<Console> ptr;
+		typedef std::shared_ptr<Console> ptr;
 
 		/// <summary>
 		/// Writes an error message to the console if the assertion is false
@@ -238,6 +240,14 @@ namespace litehtml
 		/// </value>
 		std::shared_ptr<Element> body();
 		void body(Element* value);
+		
+		/// <summary>
+		/// TBD
+		/// </summary>
+		/// <value>
+		/// TBD
+		/// </value>
+		string charset(); // TODO
 
 		/// <summary>
 		/// Returns the character encoding for the document

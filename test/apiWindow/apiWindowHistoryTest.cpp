@@ -9,7 +9,7 @@ using namespace std;
 static test_container container(800, 600, ".");
 static Window::ptr MakeWindow(string url, char* source) {
 	Document::ptr document = document::createFromString(source, &container);
-	return new Window();
+	return nullptr; // new Window();
 }
 
 TEST(WindowHistory, Test) {
@@ -20,6 +20,7 @@ TEST(WindowHistory, Test) {
 	<p id="demo"></p>
 </body>
 </html>)xyz");
+	auto window = g;
 	auto document = g->document();
 	auto history = g->history();
 

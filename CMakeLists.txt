@@ -151,8 +151,8 @@ set(TEST_LITEHTML
     #test/apiWeb/apiRectTest.cpp
     #test/apiWeb/apiStorageTest.cpp
     #test/apiWeb/apiStyleTest.cpp
-    #test/apiWindow/apiWindowConsoleTest.cpp
-    #test/apiWindow/apiWindowHistoryTest.cpp
+    test/apiWindow/apiWindowConsoleTest.cpp
+    test/apiWindow/apiWindowHistoryTest.cpp
     #test/apiWindow/apiWindowLocationTest.cpp
     #test/apiWindow/apiWindowNavigatorTest.cpp
     #test/apiWindow/apiWindowObjectTest.cpp

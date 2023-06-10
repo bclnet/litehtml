@@ -128,7 +128,7 @@ namespace litehtml
 	/// <value>
 	/// The anchors.
 	/// </value>
-	HTMLCollection Document::anchors() { 
+	HTMLCollection Document::anchors() {
 		auto s = elements_vector();
 		return s;
 	}
@@ -178,6 +178,14 @@ namespace litehtml
 	/// </value>
 	Element::ptr Document::body() { return nullptr; }
 	void Document::body(Element* value) { }
+
+	/// <summary>
+	/// TBD
+	/// </summary>
+	/// <value>
+	/// TBD
+	/// </value>
+	string Document::charset() { return "UTF-8"; }
 
 	/// <summary>
 	/// Returns the character encoding for the document
@@ -759,7 +767,7 @@ namespace litehtml
 	/// The attributes.
 	/// </value>
 	NamedNodeMap Element::attributes() { return dynamic_cast<html_tag*>(_elem)->m_attrs; } //: Node
-	
+
 	/// <summary>
 	/// Returns the absolute base URI of a node
 	/// </summary>
@@ -912,7 +920,7 @@ namespace litehtml
 	/// The first child.
 	/// </value>
 	Node::ptr Element::firstChild() { return _elem->m_children[0]; } //: Node
-	
+
 	/// <summary>
 	/// Returns the first child element of an element
 	/// </summary>
@@ -986,7 +994,7 @@ namespace litehtml
 	///   <c>true</c> if the specified attributename has attribute; otherwise, <c>false</c>.
 	/// </returns>
 	bool Element::hasAttribute(string attributename) { return false; } //: Node
-	
+
 	/// <summary>
 	/// Returns true if an element has any attributes, otherwise false
 	/// </summary>
@@ -1002,7 +1010,7 @@ namespace litehtml
 	///   <c>true</c> if [has child nodes]; otherwise, <c>false</c>.
 	/// </returns>
 	bool Element::hasChildNodes() { return !_elem->m_children.empty(); } //: Node
-	
+
 	/// <summary>
 	/// Sets or returns the value of the id attribute of an element
 	/// </summary>
@@ -1427,6 +1435,17 @@ namespace litehtml
 namespace litehtml
 {
 	Window::Window() { }
+
+	/// <summary>
+	/// Returns a reference to the Console object, which provides methods for logging information to the browser's console (See Console object)
+	/// </summary>
+	/// <value>
+	/// The console.
+	/// </value>
+	Console::ptr Window::console()
+	{
+		return nullptr;
+	}
 
 	/// <summary>
 	/// Returns the Document object for the window (See Document object)

@@ -9,7 +9,7 @@ using namespace std;
 static test_container container(800, 600, ".");
 static Window::ptr MakeWindow(string url, char* source) {
 	Document::ptr document = document::createFromString(source, &container);
-	return new Window();
+	return nullptr; // new Window();
 }
 
 TEST(WindowConsole, Test) {
@@ -334,7 +334,7 @@ TEST(WindowConsole, Test) {
 				console->trace();
 			};
 
-			//myFunction();
+			myFunction();
 		}
 	}
 

@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include "litehtml.h"
+#include "../apiTestUtil.h"
 #include "../containers/test/test_container.h"
 using namespace litehtml;
 using namespace std;
@@ -9,12 +10,15 @@ using namespace std;
 static test_container container(800, 600, ".");
 static Window::ptr MakeWindow(string url, char* source) {
 	Document::ptr document = document::createFromString(source, &container);
-	return new Window();
+	return nullptr; // new Window();
 }
 
 TEST(HtmlDocument, Test) {
 	auto g = MakeWindow("", R"xyz(
 <html>
+<head>
+  <title>My title</title>
+</head>
 <body>
 	<h1>The Document Object</h1>
 	<p id="demo"></p>
@@ -25,6 +29,15 @@ TEST(HtmlDocument, Test) {
 	<embed type="image/jpg" src="pic_trulli.jpg">
 	<embed type="image/jpg" src="pic_trulli.jpg">
 	<form id="myCarForm"></form>
+	<div class="example">Element1</div>
+	<div class="example">Element2</div>
+	<p>First Name: <input name="fname" type="text" value="Michael"></p>
+	<p>First Name: <input name="fname" type="text" value="Doug"></p>
+	<input name="animal" type="checkbox" value="Cats">
+	<input name="animal" type="checkbox" value="Dogs">
+	<img src="klematis.jpg" alt="flower" width="150" height="113">
+	<img src="klematis2.jpg" alt="flower" width="152" height="128">
+	<img src="smiley.gif" alt="Smiley face" width="42" height="42">
 </body>
 </html>)xyz");
 	auto window = g;
@@ -101,7 +114,7 @@ TEST(HtmlDocument, Test) {
 				document->getElementById("demo")->innerHTML(to_string(result));
 			};
 
-			document->addEventListener("click", []() {
+			document->addEventListener("click", [myFunction, p1, p2]() {
 				myFunction(p1, p2);
 				});
 		}
@@ -164,8 +177,8 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Get the HTML content of a document:
 		{
-			auto myBody = document->body->innerHTML();
-			document->getElementById("demo").innerHTML(myBody);
+			auto myBody = document->body()->innerHTML();
+			document->getElementById("demo")->innerHTML(myBody);
 		}
 		//: Change the background color of a document:
 		{
@@ -184,7 +197,7 @@ TEST(HtmlDocument, Test) {
 				auto node = document->createTextNode("This is a paragraph.");
 
 				para->appendChild(node);
-				document->body->appendChild(para);
+				document->body()->appendChild(para);
 			};
 
 			myFunction();
@@ -231,7 +244,7 @@ TEST(HtmlDocument, Test) {
 				myWindow->document()->open();
 				myWindow->document()->write("<h1>Hello World!</h1>");
 				myWindow->document()->close();
-			}
+			};
 		}
 	}
 
@@ -370,7 +383,7 @@ TEST(HtmlDocument, Test) {
 		{
 			function<void(Event::ptr)> myFunction = [document, window](Event::ptr evnt) {
 				auto ev = document->createEvent("MouseEvent");
-				ev->initMouseEvent("mouseover", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+				ev->initMouseEvent("mouseover", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, nullptr);
 
 				document->getElementById("myDiv")->dispatchEvent(ev);
 			}
@@ -429,7 +442,7 @@ TEST(HtmlDocument, Test) {
 			document->designMode("on");
 		}
 	}
-	
+
 	// doctype - https://www.w3schools.com/jsref/prop_document_doctype.asp
 	{
 		//: Get the doctype name of an HTML document:
@@ -498,7 +511,7 @@ TEST(HtmlDocument, Test) {
 		}
 		//: Get the id of the first <form> element:
 		{
-			auto id = document->forms[0]->id();
+			auto id = document->forms()[0]->id();
 			document->getElementById("demo")->innerHTML(id);
 		}
 		//: Get the id of the first <form> element:
@@ -522,10 +535,10 @@ TEST(HtmlDocument, Test) {
 		}
 		//: Using the form.elements collection to get the value of each element in the form:
 		{
-			auto form = document->forms[0];
+			auto form = document->forms()[0];
 			string text = "";
 			for (auto i = 0; i < form->length(); i++) {
-				text += form.elements[i].value + "<br>";
+				text += form->elements()[i]->value() + "<br>";
 			}
 			document->getElementById("demo")->innerHTML(text);
 
@@ -553,19 +566,25 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Get all elements with class="example":
 		{
-
+			auto collection = document->getElementsByClassName("example");
+			collection[0]->innerHTML("Hello World!");
 		}
 		//: Get all elements with both the "example" and "color" classes:
 		{
-
+			auto collection = document->getElementsByClassName("example color");
+			collection[0]->style()->backgroundColor("red");
 		}
 		//: Number of elements with class="example":
 		{
-
+			auto numb = document->getElementsByClassName("example").length();
+			document->getElementById("demo")->innerHTML(to_string(numb));
 		}
 		//: Change the background color of all elements with class="example":
 		{
-
+			auto collection = document->getElementsByClassName("example");
+			for (auto i = 0; i < collection.length(); i++) {
+				collection[i]->style()->backgroundColor("red");
+			}
 		}
 	}
 
@@ -573,15 +592,22 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Get all elements with the name "fname":
 		{
-
+			auto elements = document->getElementsByName("fname");
+			document->getElementById("demo")->innerHTML(elements[0]->tagName());
 		}
 		//: Number of elements with name="animal":
 		{
-
+			auto num = document->getElementsByName("animal").length();
+			document->getElementById("demo")->innerHTML(to_string(num));
 		}
 		//: Check all <input> elements with type="checkbox" that have the name "animal":
 		{
-
+			auto collection = document->getElementsByName("animal");
+			for (auto i = 0; i < collection.length(); i++) {
+				if (collection[i]->type() == "checkbox") {
+					collection[i]->checked(true);
+				}
+			}
 		}
 	}
 
@@ -589,23 +615,33 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Get all elements with the tag name "li":
 		{
-
+			auto collection = document->getElementsByTagName("li");
+			document->getElementById("demo")->innerHTML(collection[1]->innerHTML());
 		}
 		//: Get all elements in the document:
 		{
-
+			auto collection = document->getElementsByTagName("*");
+			string text = "";
+			for (auto i = 0; i < collection.length(); i++) {
+				text += collection[i]->tagName() + "<br>";
+			}
+			document->getElementById("demo")->innerHTML(text);
 		}
 		//: Change the inner HTML of the first <p> element in the document:
 		{
-
+			document->getElementsByTagName("p")[0]->innerHTML("Hello World!");
 		}
 		//: The number of <li> elements in the document:
 		{
-
+			auto collection = document->getElementsByTagName("li");
+			document->getElementById("demo")->innerHTML(collection.length());
 		}
 		//: Change the background color of all <p> elements:
 		{
-
+			auto collection = document->getElementsByTagName("P");
+			for (auto i = 0; i < collection.length(); i++) {
+				collection[i]->style()->backgroundColor("red");
+			}
 		}
 	}
 
@@ -613,7 +649,18 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Display if the document has focus:
 		{
+			function<void()> myFunction = [document]() {
+				string text;
+				if (document->hasFocus()) {
+					text = "The document has focus.";
+				}
+				else {
+					text = "The document does NOT have focus.";
+				}
+				document->getElementById("demo")->innerHTML(text);
+			};
 
+			g->setInterval(myFunction, 1);
 		}
 	}
 
@@ -621,19 +668,23 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Get the tag name of the the <head> element:
 		{
-
+			auto tag = document->head()->tagName();
+			document->getElementById("demo")->innerHTML(tag);
 		}
 		//: Try with a document without a <head> element:
 		{
-
+			auto tag = document->head()->tagName();
+			document->getElementById("demo")->innerHTML(tag);
 		}
 		//: Get the tag name of the the first child element of the <head> element:
 		{
-
+			auto tag = document->head()->firstElementChild()->tagName();
+			document->getElementById("demo")->innerHTML(tag);
 		}
 		//: You can also access the <head> element with getElementsByTagName("head"):
 		{
-
+			auto tag = document->getElementsByTagName("head")[0]->tagName();
+			document->getElementById("demo")->innerHTML(tag);
 		}
 	}
 
@@ -641,27 +692,37 @@ TEST(HtmlDocument, Test) {
 	{
 		//: The number of <img> elements in the document:
 		{
-
+			auto numb = document->images().length();
+			document->getElementById("demo")->innerHTML(to_string(numb));
 		}
 		//: Loop over all <img> elements, and output the URL (src) of each:
 		{
-
+			auto myImages = document->images();
+			string text = "";
+			for (auto i = 0; i < myImages.length(); i++) {
+				text += myImages[i]->src() + "<br>";
+			}
+			document->getElementById("demo")->innerHTML(text);
 		}
 		//: The URL of the first <img> element is:
 		{
-
+			auto src = document->images()[0]->src();
+			document->getElementById("demo")->innerHTML(src);
 		}
 		//: The URL of the first <img> element is:
 		{
-
+			auto src = document->images().item(0)->src();
+			document->getElementById("demo")->innerHTML(src);
 		}
 		//: The URL of the <img> element with id="myImg" is:
 		{
-
+			auto src = document->images().namedItem("myImg")->src();
+			document->getElementById("demo")->innerHTML(src);
 		}
 		//: Add a black border to the first <img> element:
 		{
-
+			auto src = document->images().namedItem("myImg")->src();
+			document->getElementById("demo")->innerHTML(src);
 		}
 	}
 
@@ -669,11 +730,13 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Does this document has the feature DOM 1.0?
 		{
-
+			auto answer = document->implementation()->hasFeature("DOM", "1.0");
+			document->getElementById("demo")->innerHTML(to_string(answer));
 		}
 		//: Does this document has the feature TESLA X?
 		{
-
+			auto answer = document->implementation()->hasFeature("TESLA", "X");
+			document->getElementById("demo")->innerHTML(to_string(answer));
 		}
 	}
 
@@ -681,7 +744,14 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Import the first <h1> element from an iframe (another document):
 		{
+			function<void()> myFunction = [document]() {
+				auto frame = document->getElementById("myFrame");
+				auto h1 = frame->contentWindow()->document->getElementsByTagName("H1")[0];
+				auto node = document->importNode(h1, true);
+				document->body()->appendChild(node);
+			};
 
+			myFunction();
 		}
 	}
 
@@ -694,11 +764,13 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Get the date and time the document was last modified:
 		{
-
+			auto text = document->lastModified();
+			document->getElementById("demo")->innerHTML(to_string(text));
 		}
 		//: Convert the lastModified property into a date object:
 		{
-
+			Date date(document->lastModified());
+			document->getElementById("demo")->innerHTML(date.toString());
 		}
 	}
 
@@ -706,7 +778,8 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Number of links in the document:
 		{
-
+			auto numb = document->links().length();
+			document->getElementById("demo")->innerHTML(to_string(numb));
 		}
 		//: Get the URL of the first link in the document:
 		{
@@ -883,7 +956,7 @@ TEST(HtmlDocument, Test) {
 	{
 		// DEPRECATED
 	}
-	
+
 	// title - https://www.w3schools.com/jsref/prop_doc_title.asp
 	{
 		//: Return the title of the document:

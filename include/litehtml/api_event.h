@@ -28,6 +28,8 @@ namespace litehtml
 	protected:
 		EventTarget();
 	public:
+		typedef std::unique_ptr<EventTarget> ptr;
+
 		/// <summary>
 		/// Attaches an event handler to the document
 		/// </summary>
@@ -36,7 +38,7 @@ namespace litehtml
 		/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
 		void addEventListener(string event, void* function, bool useCapture = false);
 		
-		void dispatchEvent(tany evnt);
+		void dispatchEvent(EventTarget::ptr evnt);
 
 		/// <summary>
 		/// Removes an event handler from the document (that has been attached with the addEventListener() method)
