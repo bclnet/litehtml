@@ -1,6 +1,36 @@
 #include "html.h"
 #include "document.h"
+#include <iterator>
 using namespace std;
+
+/// <summary>
+/// Rect
+/// </summary>
+namespace litehtml
+{
+};
+
+/// <summary>
+/// DocumentFragment
+/// </summary>
+namespace litehtml
+{
+};
+
+/// <summary>
+/// DocumentType
+/// </summary>
+namespace litehtml
+{
+	//DocumentType::_toHTML() { return "<!DOCTYPE html>"; }
+};
+
+/// <summary>
+/// DocumentImplementation
+/// </summary>
+namespace litehtml
+{
+};
 
 /// <summary>
 /// Console
@@ -377,6 +407,7 @@ namespace litehtml
 	/// <param name="elementID">The element identifier.</param>
 	/// <returns></returns>
 	Element::ptr Document::getElementById(string elementID) {
+		//TODO return this._childNodesRecursiveFind(node = > node instanceof Element && node.getAttribute('id') == = id) || null;
 		litehtml::lcase(elementID);
 		css_element_selector elem;
 		elem.m_tag = _id("*");
@@ -418,7 +449,16 @@ namespace litehtml
 	/// </summary>
 	/// <param name="tagname">The tagname.</param>
 	/// <returns></returns>
-	NodeList<Element> Document::getElementsByTagName(string tagname) { return _doc->m_root->getElementsByTagName(tagname); }
+	NodeList<Element> Document::getElementsByTagName(string tagname) {
+		//TODO
+		//if (!tagName) {
+		//	return this._createCollection(child = > true);
+		//}
+
+		//tagName = tagName.toLowerCase();
+		//return this._createCollection(child = > child.nodeName.toLowerCase() == = tagName);
+		return _doc->m_root->getElementsByTagName(tagname);
+	}
 
 	/// <summary>
 	/// Not Supported - Returns true if the specified node has any attributes, otherwise false
@@ -713,13 +753,13 @@ namespace litehtml
 	/// Writes HTML expressions or JavaScript code to a document
 	/// </summary>
 	/// <param name="args">The arguments.</param>
-	void Document::write(void** args) { }
+	void Document::write(void* args) { }
 
 	/// <summary>
 	/// Same as write(), but adds a newline character after each statement
 	/// </summary>
 	/// <param name="args">The arguments.</param>
-	void Document::writeln(void** args) { }
+	void Document::writeln(void* args) { }
 }
 
 /// <summary>
@@ -783,7 +823,9 @@ namespace litehtml
 	/// <value>
 	/// The child element count.
 	/// </value>
-	int Element::childElementCount() { return (int)_elem->m_children.size(); }
+	int Element::childElementCount() {
+		return (int)_elem->m_children.size();
+	}
 
 	/// <summary>
 	/// Returns a collection of an element's child nodes (including text and comment nodes)
@@ -793,9 +835,10 @@ namespace litehtml
 	/// <summary>
 	/// Returns a collection of an element's child element (excluding text and comment nodes)
 	/// </summary>
-	HTMLCollection Element::children() { // (_elem->_children)
-		auto s = elements_vector();
-		return s;
+	HTMLCollection Element::children() {
+		elements_vector out;
+		copy_if(begin(_elem->m_children), end(_elem->m_children), std::back_inserter(out), [](element::ptr node) { return node->nodeType() == 0; });
+		return out;
 	}
 
 	/// <summary>
@@ -919,7 +962,9 @@ namespace litehtml
 	/// <value>
 	/// The first element child.
 	/// </value>
-	Element::ptr Element::firstElementChild() { return !_elem->m_children.empty() ? _elem->m_children[0] : nullptr; }
+	Element::ptr Element::firstElementChild() {
+		return !_elem->m_children.empty() ? _elem->m_children[0] : nullptr;
+	}
 
 	/// <summary>
 	/// Gives focus to an element
@@ -951,13 +996,16 @@ namespace litehtml
 	/// </summary>
 	/// <param name="classname">The classname.</param>
 	/// <returns></returns>
-	NodeList<Element> Element::getElementsByClassName(string classname) {
-		litehtml::lcase(classname);
+	NodeList<Element> Element::getElementsByClassName(string classnames) {
+		//TODO
+		//const classes = names.split(' ');
+		//return this._createCollection(child = > classes.every(token = > child.classList.contains(token)));
+		litehtml::lcase(classnames);
 		css_element_selector elem;
 		elem.m_tag = _id("*");
 		css_attribute_selector attr;
 		attr.type = select_class;
-		attr.name = _id(classname);
+		attr.name = _id(classnames);
 		elem.m_attrs.push_back(attr);
 		css_selector sel(elem);
 		return _elem->select_all(sel);
@@ -1007,8 +1055,8 @@ namespace litehtml
 	/// <value>
 	/// The identifier.
 	/// </value>
-	string Element::id() { return _elem->get_attr("id"); }
-	void Element::id(string value) { _elem->set_attr("id", value.c_str()); }
+	string Element::id() { return getAttribute("id"); }
+	void Element::id(string id) { setAttribute("id", id); }
 
 	/// <summary>
 	/// Sets or returns the content of an element
@@ -1106,7 +1154,9 @@ namespace litehtml
 	/// <value>
 	/// The last child.
 	/// </value>
-	Node::ptr Element::lastChild() { return !_elem->m_children.empty() ? _elem->m_children[_elem->m_children.size() - 1] : nullptr; } //: Node
+	Node::ptr Element::lastChild() {
+		return _elem->m_children.empty() ? nullptr : _elem->m_children[_elem->m_children.size() - 1];
+	} //: Node
 
 	/// <summary>
 	/// Returns the last child element of an element
@@ -1114,7 +1164,9 @@ namespace litehtml
 	/// <value>
 	/// The last element child.
 	/// </value>
-	Element::ptr Element::lastElementChild() { return !_elem->m_children.empty() ? _elem->m_children[_elem->m_children.size() - 1] : nullptr; }
+	Element::ptr Element::lastElementChild() {
+		return _elem->m_children.empty() ? nullptr : _elem->m_children[_elem->m_children.size() - 1];
+	}
 
 	/// <summary>
 	/// Returns the local name of an element
@@ -1146,7 +1198,17 @@ namespace litehtml
 	/// <value>
 	/// The next element sibling.
 	/// </value>
-	Element::ptr Element::nextElementSibling() { return nullptr; }
+	Element::ptr Element::nextElementSibling() {
+		auto siblings = _elem->m_parent.lock()->m_children;
+		//if (siblings && siblings.size() > 1) {
+		//	let index = siblings.indexOf(this);
+		//	if (index + 1 < siblings.length) {
+		//		return siblings[index + 1];
+		//	}
+		//}
+
+		return nullptr;
+	}
 
 	/// <summary>
 	/// Returns the name of a node
@@ -1256,21 +1318,39 @@ namespace litehtml
 	/// <value>
 	/// The previous element sibling.
 	/// </value>
-	Element::ptr Element::previousElementSibling() { return nullptr; }
+	Element::ptr Element::previousElementSibling() {
+		auto siblings = _elem->m_parent.lock()->m_children;
+		//if (siblings && siblings.length > 1) {
+		//	let index = siblings.indexOf(this);
+		//	if (index != = 0) {
+		//		return siblings[index - 1];
+		//	}
+		//}
+
+		return nullptr;
+	}
 
 	/// <summary>
 	/// Returns the first child element that matches a specified CSS selector(s) of an element
 	/// </summary>
 	/// <param name="selectors">The selectors.</param>
 	/// <returns></returns>
-	Element::ptr Element::querySelector(string selectors) { return _elem->select_one(selectors); }
+	Element::ptr Element::querySelector(string selectors) {
+		//TODO
+		//return _querySelector(this, query);
+		return _elem->select_one(selectors);
+	}
 
 	/// <summary>
 	/// Returns all child elements that matches a specified CSS selector(s) of an element
 	/// </summary>
 	/// <param name="selectors">The selectors.</param>
 	/// <returns></returns>
-	NodeList<Element> Element::querySelectorAll(string selectors) { return NodeList<Element>(); }
+	NodeList<Element> Element::querySelectorAll(string selectors) {
+		//TODO
+		//return _querySelectorAll(this, query);
+		return NodeList<Element>();
+	}
 
 	/// <summary>
 	/// Removes a specified attribute from an element
@@ -1358,7 +1438,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="attributename">The attributename.</param>
 	/// <param name="attributevalue">The attributevalue.</param>
-	void Element::setAttribute(string attributename, string attributevalue) { }
+	void Element::setAttribute(string attributename, string attributevalue) { _elem->set_attr(attributename.c_str(), attributevalue.c_str()); }
 
 	/// <summary>
 	/// Sets or changes the specified attribute node
@@ -1390,7 +1470,7 @@ namespace litehtml
 	/// <value>
 	/// The name of the tag.
 	/// </value>
-	string Element::tagName() { return ""; }
+	string Element::tagName() { return nodeName(); }
 
 	/// <summary>
 	/// Sets or returns the textual content of a node and its descendants
@@ -1422,16 +1502,54 @@ namespace litehtml
 namespace litehtml
 {
 	/// <summary>
+	/// Returns the position's latitude in decimal degrees
+	/// </summary>
+	int Geolocation::Coordinates::latitude() { return 0; }
+	/// <summary>
+	/// Returns the position's longitude in decimal degrees
+	/// </summary>
+	int Geolocation::Coordinates::longitude() { return 0; }
+	/// <summary>
+	/// Returns the position's altitude in meters, relative to sea level
+	/// </summary>
+	int Geolocation::Coordinates::altitude() { return 0; }
+	/// <summary>
+	/// Returns the accuracy of the latitude and longitude properties in meters
+	/// </summary>
+	int Geolocation::Coordinates::accuracy() { return 0; }
+	/// <summary>
+	/// Returns the accuracy of the altitude property in meters
+	/// </summary>
+	int Geolocation::Coordinates::altitudeAccuracy() { return 0; }
+	/// <summary>
+	/// Returns the direction in which the device is traveling. This value, specified in degrees, indicates how far off from heading true north the device is. 0 degrees represents true north, and the direction is determined clockwise (east is 90 degrees and west is 270 degrees). If speed is 0, heading is NaN. If the device is unable to provide heading information, this value is null
+	/// </summary>
+	int Geolocation::Coordinates::heading() { return 0; }
+	/// <summary>
+	/// Returns the velocity of the device in meters per second. This value can be null
+	/// </summary>
+	int Geolocation::Coordinates::speed() { return 0; }
+
+	/// <summary>
+	/// Returns a Coordinates object that defines the current location
+	/// </summary>
+	Geolocation::Coordinates::ptr Geolocation::Position::coords() { return nullptr; }
+	/// <summary>
+	/// Returns a DOMTimeStamp representing the time at which the location was retrieved
+	/// </summary>
+	int64_t Geolocation::Position::timestamp() { return 0; }
+
+	/// <summary>
 	/// Returns the position and altitude of the device on Earth
 	/// </summary>
 	/// <value>The coordinates.</value>
-	void* Geolocation::coordinates() { return nullptr; }
+	Geolocation::Coordinates::ptr Geolocation::coordinates() { return nullptr; }
 
 	/// <summary>
 	/// Returns the position of the concerned device at a given time
 	/// </summary>
 	/// <value>The position.</value>
-	void* Geolocation::position() { return nullptr; }
+	Geolocation::Position::ptr Geolocation::position() { return nullptr; }
 
 	/// <summary>
 	/// Returns the reason of an error occurring when using the geolocating device
@@ -1453,7 +1571,7 @@ namespace litehtml
 	/// <summary>
 	/// Returns the current position of the device
 	/// </summary>
-	void* Geolocation::getCurrentPosition() { return nullptr; }
+	void Geolocation::getCurrentPosition(function<void(Position::ptr)> success, function<void(string)> error /*= nullptr*/, function<void(tany)> options /*= nullptr*/) { }
 
 	/// <summary>
 	/// Returns a watch ID value that then can be used to unregister the handler by passing it to the Geolocation.clearWatch() method
@@ -1512,14 +1630,14 @@ namespace litehtml
 	/// </value>
 	/// <param name="index">The index.</param>
 	/// <returns></returns>
-	//std::shared_ptr<Element> HTMLCollection::operator[](int index);
+	//Element::ptr HTMLCollection::operator[](int index);
 
 	/// <summary>
 	/// Returns the element at the specified index in an HTMLCollection
 	/// </summary>
 	/// <param name="index">The index.</param>
 	/// <returns></returns>
-	std::shared_ptr<Element> HTMLCollection::item(int index) {
+	Element::ptr HTMLCollection::item(int index) {
 		return nullptr;
 	}
 
@@ -1528,7 +1646,7 @@ namespace litehtml
 	/// </summary>
 	/// <param name="name">The name.</param>
 	/// <returns></returns>
-	std::shared_ptr<Element> HTMLCollection::namedItem(string name) {
+	Element::ptr HTMLCollection::namedItem(string name) {
 		return nullptr;
 	}
 }
@@ -1663,14 +1781,14 @@ namespace litehtml
 	/// </summary>
 	/// <param name="functionref">The functionref.</param>
 	/// <exception cref="NotImplementedException"></exception>
-	void MediaQueryList::addListener(void* functionref) { }
+	void MediaQueryList::addListener(tfunc functionref) { }
 
 	/// <summary>
 	/// Removes a previously added listener function from the media query list. Does nothing if the specified listener is not already in the list
 	/// </summary>
 	/// <param name="functionref">The functionref.</param>
 	/// <exception cref="NotImplementedException"></exception>
-	void MediaQueryList::removeListener(void* functionref) { }
+	void MediaQueryList::removeListener(tfunc functionref) { }
 }
 
 /// <summary>
@@ -3534,7 +3652,7 @@ namespace litehtml
 	/// <value>
 	/// The frame element.
 	/// </value>
-	std::shared_ptr<Element> Window::frameElement() { return nullptr; }
+	Element::ptr Window::frameElement() { return nullptr; }
 
 	/// <summary>
 	/// Returns all <iframe> elements in the current window
@@ -3542,8 +3660,8 @@ namespace litehtml
 	/// <value>
 	/// The frames.
 	/// </value>
-	std::vector<std::shared_ptr<Element>> Window::frames() {
-		std::vector<std::shared_ptr<Element>> s;
+	std::vector<Window::ptr> Window::frames() {
+		std::vector<Window::ptr> s;
 		return s;
 	}
 
@@ -3585,7 +3703,7 @@ namespace litehtml
 	/// <value>
 	/// The local storage.
 	/// </value>
-	std::unique_ptr<Storage> Window::localStorage() { return nullptr; }
+	Storage::ptr Window::localStorage() { return nullptr; }
 
 	/// <summary>
 	/// Returns the Location object for the window (See Location object)
@@ -3594,6 +3712,7 @@ namespace litehtml
 	/// The location.
 	/// </value>
 	Location::ptr Window::location() { return nullptr; }
+	void Window::location(string value) { }
 
 	/// <summary>
 	/// Sets or returns the name of a window
@@ -3706,7 +3825,7 @@ namespace litehtml
 	/// <value>
 	/// The session storage.
 	/// </value>
-	std::unique_ptr<Storage> Window::sessionStorage() { return nullptr; }
+	Storage::ptr Window::sessionStorage() { return nullptr; }
 
 	/// <summary>
 	/// An alias of pageXOffset
@@ -3778,13 +3897,13 @@ namespace litehtml
 	/// Clears a timer set with setInterval()
 	/// </summary>
 	/// <param name="var">The variable.</param>
-	void Window::clearInterval(string var) { }
+	void Window::clearInterval(int var) { }
 
 	/// <summary>
 	/// Clears a timer set with setTimeout()
 	/// </summary>
 	/// <param name="id_of_settimeout">The identifier of settimeout.</param>
-	void Window::clearTimeout(string id_of_settimeout) { }
+	void Window::clearTimeout(int id_of_settimeout) { }
 
 	/// <summary>
 	/// Closes the current window
@@ -3809,7 +3928,7 @@ namespace litehtml
 	/// <param name="element">The element.</param>
 	/// <param name="pseudoElement">The pseudo element.</param>
 	/// <returns></returns>
-	std::unique_ptr<Style> Window::getComputedStyle(string element, string pseudoElement) { return nullptr; }
+	CSSStyleDeclaration::ptr Window::getComputedStyle(Element::ptr element, string pseudoElement) { return nullptr; }
 
 	/// <summary>
 	/// Returns a Selection object representing the range of text selected by the user
@@ -3902,7 +4021,7 @@ namespace litehtml
 	/// <param name="milliseconds">The milliseconds.</param>
 	/// <param name="args">The arguments.</param>
 	/// <returns></returns>
-	int Window::setInterval(string function, int milliseconds, ...) { return 0; }
+	int Window::setInterval(tfunc function, int milliseconds, ...) { return 0; }
 
 	/// <summary>
 	/// Calls a function or evaluates an expression after a specified number of milliseconds
@@ -3911,7 +4030,7 @@ namespace litehtml
 	/// <param name="milliseconds">The milliseconds.</param>
 	/// <param name="args">The arguments.</param>
 	/// <returns></returns>
-	int Window::setTimeout(string function, int milliseconds, ...) { return 0; }
+	int Window::setTimeout(tfunc function, int milliseconds, ...) { return 0; }
 
 	/// <summary>
 	/// Stops the window from loading
@@ -3924,6 +4043,11 @@ namespace litehtml
 /// </summary>
 namespace litehtml
 {
+	/// <summary>
+	/// Overloading [] operator to access elements in array style
+	/// </summary>
+	tany Storage::operator[](string key) { return tany(); }
+
 	/// <summary>
 	/// Returns the name of the nth key in the storage
 	/// </summary>
@@ -3964,4 +4088,51 @@ namespace litehtml
 	/// Empty all key out of the storage
 	/// </summary>
 	void Storage::clear() { }
+}
+
+/// <summary>
+/// CSSStyleDeclaration
+/// </summary>
+namespace litehtml
+{
+	/// <summary>
+	/// Sets or returns the textual representation of a CSS declaration block
+	/// </summary>
+	string CSSStyleDeclaration::cssText() { return ""; }
+	void CSSStyleDeclaration::cssText(string value) { }
+
+	/// <summary>
+	/// Returns whether or not the specified CSS property has the "important!" priority set
+	/// </summary>
+	string CSSStyleDeclaration::getPropertyPriority(string propertyName) { return ""; }
+
+	/// <summary>
+	/// Returns the value of the specified CSS property
+	/// </summary>
+	string CSSStyleDeclaration::getPropertyValue(string propertyName) { return ""; }
+
+	/// <summary>
+	/// Returns the CSS property name from a CSS declaration block, by index
+	/// </summary>
+	string CSSStyleDeclaration::item(int index) { return ""; }
+
+	/// <summary>
+/// Returns the number of style declarations in a CSS declaration block
+/// </summary>
+	int CSSStyleDeclaration::length() { return 0; }
+
+	/// <summary>
+	/// Returns a CSS rule that is the parent of the style block
+	/// </summary>
+	void* CSSStyleDeclaration::parentRule() { return nullptr; }
+
+	/// <summary>
+	/// Removes a CSS property from a CSS declaration block
+	/// </summary>
+	void CSSStyleDeclaration::removeProperty(string propertyName) { }
+
+	/// <summary>
+	/// Sets a new or modifies an existing CSS property in a CSS declaration block
+	/// </summary>
+	void CSSStyleDeclaration::setProperty(string propertyName, string value, string important) { }
 }

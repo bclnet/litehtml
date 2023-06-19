@@ -9,19 +9,19 @@ using namespace std;
 static test_container container(800, 600, ".");
 static Window::ptr MakeWindow(string url, char* source) {
 	Document::ptr document = document::createFromString(source, &container);
-	return new Window();
+	return nullptr; // new Window();
 }
 
 TEST(WindowScreen, Test) {
-	auto g = new MakeWindow("", R"xyz(
+	auto g = MakeWindow("", R"xyz(
 <html>
 <body>
 	<h1>The Window Screen Object</h1>
 	<p id="demo"></p>
 </body>
 </html>)xyz");
-	auto document = g.document();
-	auto screen = g.screen();
+	auto document = g->document();
+	auto screen = g->screen();
 
 	// screen.availHeight - https://www.w3schools.com/jsref/prop_screen_availheight.asp
 	{
@@ -32,10 +32,10 @@ TEST(WindowScreen, Test) {
 		}
 		//: All screen properties:
 		{
-			auto text = "Total width/height: " + screen->width() + "*" + screen->height() + "<br>" +
-				"Available width/height: " + screen->availWidth() + "*" + screen->availHeight() + "<br>" +
-				"Color depth: " + screen->colorDepth() + "<br>" +
-				"Color resolution: " + screen->pixelDepth();
+			auto text = "Total width/height: " + to_string(screen->width()) + "*" + to_string(screen->height()) + "<br>" +
+				"Available width/height: " + to_string(screen->availWidth()) + "*" + to_string(screen->availHeight()) + "<br>" +
+				"Color depth: " + to_string(screen->colorDepth()) + "<br>" +
+				"Color resolution: " + to_string(screen->pixelDepth());
 
 			document->getElementById("demo")->innerHTML(text);
 		}
@@ -50,10 +50,10 @@ TEST(WindowScreen, Test) {
 		}
 		//: All screen properties:
 		{
-			auto text = "Total width/height: " + screen->width() + "*" + screen->height() + "<br>" +
-				"Available width/height: " + screen->availWidth() + "*" + screen->availHeight() + "<br>" +
-				"Color depth: " + screen->colorDepth() + "<br>" +
-				"Color resolution: " + screen->pixelDepth();
+			auto text = "Total width/height: " + to_string(screen->width()) + "*" + to_string(screen->height()) + "<br>" +
+				"Available width/height: " + to_string(screen->availWidth()) + "*" + to_string(screen->availHeight()) + "<br>" +
+				"Color depth: " + to_string(screen->colorDepth()) + "<br>" +
+				"Color resolution: " + to_string(screen->pixelDepth());
 
 			document->getElementById("demo")->innerHTML(text);
 		}
@@ -77,10 +77,10 @@ TEST(WindowScreen, Test) {
 		} 
 		//: All screen properties:
 		{
-			auto text = "Total width/height: " + screen->width() + "*" + screen->height() + "<br>" +
-				"Available width/height: " + screen->availWidth() + "*" + screen->availHeight() + "<br>" +
-				"Color depth: " + screen->colorDepth() + "<br>" +
-				"Color resolution: " + screen->pixelDepth();
+			auto text = "Total width/height: " + to_string(screen->width()) + "*" + to_string(screen->height()) + "<br>" +
+				"Available width/height: " + to_string(screen->availWidth()) + "*" + to_string(screen->availHeight()) + "<br>" +
+				"Color depth: " + to_string(screen->colorDepth()) + "<br>" +
+				"Color resolution: " + to_string(screen->pixelDepth());
 
 			document->getElementById("demo")->innerHTML(text);
 		}
@@ -95,10 +95,10 @@ TEST(WindowScreen, Test) {
 		}
 		//: All screen properties:
 		{
-			auto text = "Total width/height: " + screen->width() + "*" + screen->height() + "<br>" +
-				"Available width/height: " + screen->availWidth() + "*" + screen->availHeight() + "<br>" +
-				"Color depth: " + screen->colorDepth() + "<br>" +
-				"Color resolution: " + screen->pixelDepth();
+			auto text = "Total width/height: " + to_string(screen->width()) + "*" + to_string(screen->height()) + "<br>" +
+				"Available width/height: " + to_string(screen->availWidth()) + "*" + to_string(screen->availHeight()) + "<br>" +
+				"Color depth: " + to_string(screen->colorDepth()) + "<br>" +
+				"Color resolution: " + to_string(screen->pixelDepth());
 
 			document->getElementById("demo")->innerHTML(text);
 		}
@@ -113,10 +113,10 @@ TEST(WindowScreen, Test) {
 		}
 		//: All screen properties:
 		{
-			auto text = "Total width/height: " + screen->width() + "*" + screen->height() + "<br>" +
-				"Available width/height: " + screen->availWidth() + "*" + screen->availHeight() + "<br>" +
-				"Color depth: " + screen->colorDepth() + "<br>" +
-				"Color resolution: " + screen->pixelDepth();
+			auto text = "Total width/height: " + to_string(screen->width()) + "*" + to_string(screen->height()) + "<br>" +
+				"Available width/height: " + to_string(screen->availWidth()) + "*" + to_string(screen->availHeight()) + "<br>" +
+				"Color depth: " + to_string(screen->colorDepth()) + "<br>" +
+				"Color resolution: " + to_string(screen->pixelDepth());
 
 			document->getElementById("demo")->innerHTML(text);
 		}
@@ -131,10 +131,10 @@ TEST(WindowScreen, Test) {
 		}
 		//: All screen properties:
 		{
-			auto text = "Total width/height: " + screen->width() + "*" + screen->height() + "<br>" +
-				"Available width/height: " + screen->availWidth() + "*" + screen->availHeight() + "<br>" +
-				"Color depth: " + screen->colorDepth() + "<br>" +
-				"Color resolution: " + screen->pixelDepth();
+			auto text = "Total width/height: " + to_string(screen->width()) + "*" + to_string(screen->height()) + "<br>" +
+				"Available width/height: " + to_string(screen->availWidth()) + "*" + to_string(screen->availHeight()) + "<br>" +
+				"Color depth: " + to_string(screen->colorDepth()) + "<br>" +
+				"Color resolution: " + to_string(screen->pixelDepth());
 
 			document->getElementById("demo")->innerHTML(text);
 		}

@@ -33,20 +33,20 @@ namespace litehtml
 		/// <summary>
 		/// Attaches an event handler to the document
 		/// </summary>
-		/// <param name="event">The event.</param>
+		/// <param name="evnt">The event.</param>
 		/// <param name="function">The function.</param>
 		/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-		void addEventListener(string event, void* function, bool useCapture = false);
+		void addEventListener(string evnt, tfunc function, bool useCapture = false);
 		
 		void dispatchEvent(EventTarget::ptr evnt);
 
 		/// <summary>
 		/// Removes an event handler from the document (that has been attached with the addEventListener() method)
 		/// </summary>
-		/// <param name="event">The event.</param>
+		/// <param name="evnt">The event.</param>
 		/// <param name="function">The function.</param>
 		/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-		void removeEventListener(string event, void* function, bool useCapture = false);
+		void removeEventListener(string evnt, tfunc function, bool useCapture = false);
 	};
 
 	/// <summary>

@@ -16,7 +16,9 @@ if(NOT EXTERNAL_GUMBO)
 endif()
 
 set(SOURCE_LITEHTML
+    src/api_any.cpp
     src/api_event.cpp
+    src/api_htmlelement.cpp
     src/api_node.cpp
     src/api_service.cpp
     src/api.cpp
@@ -154,9 +156,10 @@ set(TEST_LITEHTML
     test/apiWindow/apiWindowConsoleTest.cpp
     test/apiWindow/apiWindowHistoryTest.cpp
     test/apiWindow/apiWindowLocationTest.cpp
-    #test/apiWindow/apiWindowNavigatorTest.cpp
-    #test/apiWindow/apiWindowObjectTest.cpp
-    #test/apiWindow/apiWindowScreenTest.cpp
+    test/apiWindow/apiWindowNavigatorTest.cpp
+    test/apiWindow/apiWindowObjectTest.cpp
+    test/apiWindow/apiWindowScreenTest.cpp
+    test/apiTestUtil.cpp
     test/cssTest.cpp
     test/mediaQueryTest.cpp
     test/codepoint_test.cpp
@@ -178,7 +181,7 @@ add_library(${PROJECT_NAME} ${SOURCE_LITEHTML})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_LIB_VERSION} SOVERSION ${PROJECT_SO_VERSION})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    CXX_STANDARD 11
+    CXX_STANDARD 17
     C_STANDARD 99
     PUBLIC_HEADER "${HEADER_LITEHTML}"
 )
@@ -235,7 +238,7 @@ if (BUILD_TESTING)
     set(TEST_NAME ${PROJECT_NAME}_tests)
     add_executable(${TEST_NAME} ${TEST_LITEHTML})
     set_target_properties(${TEST_NAME} PROPERTIES
-        CXX_STANDARD 11
+        CXX_STANDARD 17
         C_STANDARD 99
         PUBLIC_HEADER "${HEADER_LITEHTML}"
     )

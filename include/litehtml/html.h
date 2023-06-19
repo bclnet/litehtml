@@ -1,6 +1,8 @@
 #ifndef LH_HTML_H
 #define LH_HTML_H
 
+#undef _HAS_STD_BYTE
+#define _HAS_STD_BYTE 0
 #include <stdlib.h>
 #include <string>
 #include <ctype.h>
@@ -8,6 +10,7 @@
 #include <map>
 #include <cstring>
 #include <algorithm>
+#include <any>
 #include <functional>
 #include "os_types.h"
 #include "string_id.h"

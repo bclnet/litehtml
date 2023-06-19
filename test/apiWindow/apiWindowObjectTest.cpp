@@ -10,7 +10,7 @@ using namespace std;
 static test_container container(800, 600, ".");
 static Window::ptr MakeWindow(string url, char* source) {
 	Document::ptr document = document::createFromString(source, &container);
-	return new Window();
+	return nullptr; // new Window();
 }
 
 TEST(WindowObject, Test) {
@@ -34,44 +34,44 @@ TEST(WindowObject, Test) {
 	{
 		//: Add a click event handler to the window:
 		{
-			function<void()> myFunction = [document]() {
+			tfunc myFunction = _f([document]() {
 				document->getElementById("demo")->innerHTML("Hello World");
-			};
+				});
 			window->addEventListener("click", myFunction);
 		}
 		//: Simpler syntax:
 		{
-			window->addEventListener("click", [document]() {
+			window->addEventListener("click", _f([document]() {
 				document->getElementById("demo")->innerHTML("Hello World!");
-				});
+				}));
 		}
 		//: You can add many event listeners to a window:
 		{
-			function<void()> myFunction1 = [document]() {
+			tfunc myFunction1 = _f([document]() {
 				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "First function was executed! ");
-			};
+				});
 
-			function<void()> myFunction2 = [document]() {
+			tfunc myFunction2 = _f([document]() {
 				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "Second function was executed! ");
-			};
+				});
 
 			window->addEventListener("click", myFunction1);
 			window->addEventListener("click", myFunction2);
 		}
 		//: You can add different types of events:
 		{
-			function<void()> myFunction = [document]() {
+			tfunc myFunction = _f([document]() {
 				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "Moused over! ");
-			};
+				});
 
-			function<void()> mySecondFunction = [document]() {
+			tfunc mySecondFunction = _f([document]() {
 
 				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "Clicked! ");
-			};
+				});
 
-			function<void()> myThirdFunction = [document]() {
+			tfunc myThirdFunction = _f([document]() {
 				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "Moused out! ");
-			};
+				});
 
 			window->addEventListener("mouseover", myFunction);
 			window->addEventListener("click", mySecondFunction);
@@ -82,30 +82,30 @@ TEST(WindowObject, Test) {
 			auto p1 = 5;
 			auto p2 = 7;
 
-			function<void(int, int)> myFunction = [document](int a, int b) {
+			auto myFunction = _f2<int, int>([document](int a, int b) {
 				auto result = a * b;
 				document->getElementById("demo")->innerHTML(to_string(result));
-			};
-
-			window->addEventListener("click", [myFunction, p1, p2]() {
-				myFunction(p1, p2);
 				});
+
+			window->addEventListener("click", _f([myFunction, p1, p2]() {
+				myFunction(p1, p2);
+				}));
 		}
 		//: Change the background color of a document:
 		{
-			document->addEventListener("click", [document]() {
+			document->addEventListener("click", _f([document]() {
 				document->body()->style()->backgroundColor("red");
-				});
+				}));
 		}
 		//: Using the removeEventListener() method:
 		{
-			function<void()> myFunction = [document]() {
+			tfunc myFunction = _f([document]() {
 				document->getElementById("demo")->innerHTML(to_string(Math::random()));
-			};
+				});
 
-			function<void()> removeHandler = [window, myFunction]() {
+			tfunc removeHandler = _f([window, myFunction]() {
 				window->removeEventListener("mousemove", myFunction);
-			};
+				});
 
 			window->addEventListener("mousemove", myFunction);
 
@@ -117,25 +117,25 @@ TEST(WindowObject, Test) {
 	{
 		//: Display an alert box:
 		{
-			function<void()> myFunction = [g]() {
+			tfunc myFunction = _f([g]() {
 				g->alert("Hello! I am an alert box!");
-			};
+				});
 
 			myFunction();
 		}
 		//: Alert box with line-breaks:
 		{
-			function<void()> myFunction = [g]() {
+			tfunc myFunction = _f([g]() {
 				g->alert("Hello\nHow are you?");
-			};
+				});
 
 			myFunction();
 		}
 		//: Alert the hostname of the current URL:
 		{
-			function<void()> myFunction = [g]() {
+			tfunc myFunction = _f([g]() {
 				g->alert(g->location()->hostname());
-			};
+				});
 
 			myFunction();
 		}
@@ -157,19 +157,19 @@ TEST(WindowObject, Test) {
 	{
 		//: Open a new window and blur it:
 		{
-			function<void()> myFunction = [window]() {
+			tfunc myFunction = _f([window]() {
 				auto myWindow = window->open("", "", "width=200, height=100");
 				myWindow->blur();
-			};
+				});
 
 			myFunction();
 		}
 		//: Open a new window and set focus to it:
 		{
-			function<void()> myFunction = [window]() {
+			tfunc myFunction = _f([window]() {
 				auto myWindow = window->open("", "", "width=200,height=100");
 				myWindow->focus();
-			}
+				});
 
 			myFunction();
 		}
@@ -190,50 +190,51 @@ TEST(WindowObject, Test) {
 	{
 		//: Display the time once every second. Use clearInterval() to stop the time:
 		{
-			function<void()> myTimer = [document]() {
-				auto date = new Date();
-				document->getElementById("demo")->innerHTML(date->toLocaleTimeString());
-			}
+			tfunc myTimer = _f([document]() {
+				Date date;
+				document->getElementById("demo")->innerHTML(date.toLocaleTimeString());
+				});
 
-			auto myInterval = setInterval(myTimer, 1000);
+			auto myInterval = g->setInterval(myTimer, 1000);
 
-			function<void()> myStop = [g, myInterval]() {
+			tfunc myStop = _f([g, myInterval]() {
 				g->clearInterval(myInterval);
-			};
+				});
 
 			myStop();
 		}
 		//: Toggle between two background colors once every 500 milliseconds:
 		{
-			function<void()> setColor = [document]() {
+			tfunc setColor = _f([document]() {
 				auto x = document->body();
-				x->style->backgroundColor(x->style()->backgroundColor() == "yellow" ? "pink" : "yellow");
-			};
+				x->style()->backgroundColor(x->style()->backgroundColor() == "yellow" ? "pink" : "yellow");
+				});
 
-			auto myInterval = g->setInterval(setColor, 500);
+			auto myInterval = g->setInterval(_f(setColor), 500);
 
-			function<void()> stopColor = [g, myInterval]() {
+			tfunc stopColor = _f([g, myInterval]() {
 				g->clearInterval(myInterval);
-			};
+				});
 
 			stopColor();
 		}
 		//: Using setInterval() and clearInterval() to create a dynamic progress bar:
 		{
-			function<void()> move = [g, document]() {
+			tfunc move = _f([g, document]() {
 				auto element = document->getElementById("myBar");
 				auto width = 0;
-				function<void()> frame = [g, element, width]() {
+				int id;
+				tfunc frame = [g, element, &width, id]() {
 					if (width == 100) {
 						g->clearInterval(id);
 					}
 					else {
 						width++;
-						element->style()->width(width + '%');
+						element->style()->width(to_string(width) + '%');
 					}
 				};
-				auto id = g->setInterval(frame, 10);
-			}
+				id = g->setInterval(_f(frame), 10);
+				});
 
 			move();
 		}
@@ -243,41 +244,41 @@ TEST(WindowObject, Test) {
 	{
 		//: How to prevent myGreeting() to execute:
 		{
-			function<void()> myGreeting = [document]() {
+			tfunc myGreeting = _f([document]() {
 				document->getElementById("demo")->innerHTML("Happy Birthday!");
-			};
+				});
 
 			auto myTimeout = g->setTimeout(myGreeting, 3000);
 
-			function<void()> myStopFunction = [g, myTimeout]() {
+			tfunc myStopFunction = _f([g, myTimeout]() {
 				g->clearTimeout(myTimeout);
-			};
+				});
 
 			myStopFunction();
 		}
 		//: This example has a "Start" button to start a timer, an input field for a counter, and a "Stop" button to stop the timer:
 		{
 			auto counter = 0;
-			auto timeout;
+			int timeout;
 			auto timer_on = 0;
 
-			function<void()> timedCount = [g, document, counter, timeout]() {
-				document->getElementById("demo").value(counter);
+			tfunc timedCount = _f([g, document, &counter, &timeout, timedCount]() {
+				static_pointer_cast<HTMLInputElement>(document->getElementById("demo"))->value(to_string(counter));
 				counter++;
 				timeout = g->setTimeout(timedCount, 1000);
-			};
+				});
 
-			function<void()> startCount = [timer_on, timedCount]() {
+			tfunc startCount = _f([&timer_on, timedCount]() {
 				if (!timer_on) {
 					timer_on = 1;
 					timedCount();
 				}
-			};
+				});
 
-			function<void()> stopCount = [g, timeout, timer_on]() {
+			tfunc stopCount = _f([g, timeout, &timer_on]() {
 				g->clearTimeout(timeout);
 				timer_on = 0;
-			};
+				});
 
 			startCount();
 			stopCount();
@@ -290,13 +291,13 @@ TEST(WindowObject, Test) {
 		{
 			Window::ptr myWindow;
 
-			function<void()> openWin = [window, myWindow]() {
+			tfunc openWin = _f([window, &myWindow]() {
 				myWindow = window->open("", "", "width=200,height=100");
-			};
+				});
 
-			function<void()> closeWin = [myWindow]() {
+			tfunc closeWin = _f([myWindow]() {
 				myWindow->close();
-			};
+				});
 
 			openWin();
 			closeWin();
@@ -305,13 +306,13 @@ TEST(WindowObject, Test) {
 		{
 			Window::ptr myWindow;
 
-			function<void()> openWin = [window, myWindow]() {
+			tfunc openWin = _f([window, &myWindow]() {
 				myWindow = window->open("https://www.w3schools.com", "_blank", "width=500, height=500");
-			}
+				});
 
-				function<void()> closeWin = [myWindow]() {
+			tfunc closeWin = _f([myWindow]() {
 				myWindow->close();
-			};
+				});
 
 			openWin();
 			closeWin();
@@ -324,17 +325,17 @@ TEST(WindowObject, Test) {
 		{
 			Window::ptr myWindow;
 
-			function<void()> openWin = [window, myWindow]() {
+			tfunc openWin = _f([window, &myWindow]() {
 				myWindow = window->open("", "myWindow", "width=400,height=200");
-			};
+				});
 
-			function<void()> closeWin = []() {
+			tfunc closeWin = _f([myWindow]() {
 				if (myWindow) {
 					myWindow->close();
 				}
-			};
+				});
 
-			function<void()> checkWin = [myWindow](){
+			tfunc checkWin = _f([document, myWindow]() {
 				string text = "";
 				if (!myWindow) {
 					text = "It has never been opened!";
@@ -348,7 +349,7 @@ TEST(WindowObject, Test) {
 					}
 				}
 				document->getElementById("demo")->innerHTML(text);
-			};
+				});
 
 			openWin();
 			checkWin();
@@ -360,14 +361,14 @@ TEST(WindowObject, Test) {
 	{
 		//: Display a confirmation box:
 		{
-			function<void()> myFunction = [g]() {
+			tfunc myFunction = _f([g]() {
 				g->confirm("Press a button!");
-			}
+				});
 			myFunction();
 		}
 		//: Confirmation box with line-breaks:
 		{
-			function<void()> myFunction = [g]() {
+			tfunc myFunction = _f([g, document]() {
 				string text = "Press a button!\nEither OK or Cancel.";
 				if (g->confirm(text) == true) {
 					text = "You pressed OK!";
@@ -376,12 +377,12 @@ TEST(WindowObject, Test) {
 					text = "You canceled!";
 				}
 				document->getElementById("demo")->innerHTML(text);
-			}
+				});
 			myFunction();
 		}
 		//: Display a confirmation box, and output what the user clicked:
 		{
-			function<void()> myFunction = [g]() {
+			tfunc myFunction = _f([g, document]() {
 				string text;
 				if (g->confirm("Press a button!") == true) {
 					text = "You pressed OK!";
@@ -390,7 +391,7 @@ TEST(WindowObject, Test) {
 					text = "You canceled!";
 				}
 				document->getElementById("demo")->innerHTML(text);
-			}
+				});
 			myFunction();
 		}
 	}
@@ -403,7 +404,7 @@ TEST(WindowObject, Test) {
 		}
 		//:
 		{
-			g->console->error("You made a mistake");
+			g->console()->error("You made a mistake");
 		}
 	}
 
@@ -416,7 +417,7 @@ TEST(WindowObject, Test) {
 	{
 		//:
 		{
-			auto url = window->document->URL();
+			auto url = window->document()->URL();
 			document->getElementById("demo")->innerHTML(url);
 		}
 		//:
@@ -430,18 +431,18 @@ TEST(WindowObject, Test) {
 	{
 		//: Open a new window and set focus to it:
 		{
-			function<void()> myFunction = [window]() {
+			tfunc myFunction = _f([window]() {
 				auto myWindow = window->open("", "", "width=200,height=100");
 				myWindow->focus();
-			}
+				});
 			myFunction();
 		}
 		//: Open a new window and blur it:
 		{
-			function<void()> myFunction = [window]() {
+			tfunc myFunction = _f([window]() {
 				auto myWindow = window->open("", "", "width=200, height=100");
 				myWindow->blur();
-			}
+				});
 			myFunction();
 		}
 	}
@@ -460,7 +461,7 @@ TEST(WindowObject, Test) {
 		}
 		//: If the window is in a frame, change the URL to "w3schools.com":
 		{
-			auto frame = window->frameElement();
+			auto frame = static_pointer_cast<HTMLIFrameElement>(window->frameElement());
 			if (frame) {
 				frame->src("https://www.w3schools.com/");
 			}
@@ -471,15 +472,15 @@ TEST(WindowObject, Test) {
 	{
 		//: Change the location of the first frame:
 		{
-			function<void()> myFunction = [window]() {
-				window->frames[0]->location("https://www.w3schools.com/jsref/");
-			}
+			tfunc myFunction = _f([window]() {
+				window->frames()[0]->location("https://www.w3schools.com/jsref/");
+				});
 			myFunction();
 		}
 		//: Loop through all frames and change the color:
 		{
 			auto frames = window->frames();
-			for (auto i = 0; i < frames().length; i++) {
+			for (auto i = 0; i < frames.size(); i++) {
 				frames[i]->document()->body()->style()->background("red");
 			}
 		}
@@ -489,7 +490,7 @@ TEST(WindowObject, Test) {
 	{
 		//:
 		{
-			auto length = history->length();
+			auto length = g->history()->length();
 			document->getElementById("demo")->innerHTML(to_string(length));
 		}
 		//:
@@ -504,7 +505,7 @@ TEST(WindowObject, Test) {
 		//: Get the computed background color of an element:
 		{
 			auto element = document->getElementById("test");
-			auto cssObj = window->getComputedStyle(element, null);
+			auto cssObj = window->getComputedStyle(element, nullptr);
 
 			auto bgColor = cssObj->getPropertyValue("background-color");
 			document->getElementById("demo")->innerHTML(bgColor);
@@ -512,11 +513,11 @@ TEST(WindowObject, Test) {
 		//: Get all the computed styles from an element:
 		{
 			auto element = document->getElementById("test");
-			auto cssObj = window->getComputedStyle(element, null);
+			auto cssObj = window->getComputedStyle(element, nullptr);
 
-			auto text = "";
-			for (x in cssObj) {
-				cssObjProp = cssObj.item(x);
+			string text = "";
+			for (auto x = 0; x < cssObj->length(); x++) {
+				auto cssObjProp = cssObj->item(x);
 				text += cssObjProp + " = " + cssObj->getPropertyValue(cssObjProp) + "<br>";
 			}
 
@@ -611,7 +612,7 @@ TEST(WindowObject, Test) {
 		//: Loop through all frames and change the color:
 		{
 			auto frames = window->frames();
-			for (auto i = 0; i < frames->length(); i++) {
+			for (auto i = 0; i < frames.size(); i++) {
 				frames[i]->document()->body()->style()->background("red");
 			}
 		}
@@ -619,24 +620,25 @@ TEST(WindowObject, Test) {
 
 	// localStorage* - https://www.w3schools.com/jsref/prop_win_localstorage.asp
 	{
+		auto localStorage = g->localStorage();
 		//: Set and retrieve localStorage name/value pair:
 		{
 			// Set Item
-			g->localStorage->setItem("lastname", "Smith");
+			localStorage->setItem("lastname", "Smith");
 			// Retrieve
-			document->getElementById("demo")->innerHTML(g->localStorage->getItem("lastname"));
+			document->getElementById("demo")->innerHTML(localStorage->getItem("lastname"));
 		}
 		//: Count the number of times a user has clicked a button:
 		{
-			function<void()> clickCounter = (){
-				if (localStorage["clickcount"]) {
-					localStorage["clickcount"] = Number(g->localStorage["clickcount"]) + 1;
+			tfunc clickCounter = _f([document, localStorage]() {
+				if ((*localStorage)["clickcount"].type() != typeid(int)) {
+					(*localStorage)["clickcount"] = Number((*localStorage)["clickcount"]) + 1;
 				}
 				else {
-					localStorage["clickcount"] = 1;
+					(*localStorage)["clickcount"] = 1;
 				}
-				document->getElementById("demo")->innerHTML(g->localStorage["clickcount"]);
-			};
+				document->getElementById("demo")->innerHTML(to_string((*localStorage)["clickcount"]));
+				});
 			clickCounter();
 		}
 	}
@@ -679,14 +681,14 @@ TEST(WindowObject, Test) {
 		//: If the viewport is less or equal to 500 pixels wide, set background color to yellow, otherwise to pink:
 		{
 			// Create a match Function
-			function<void(MediaQueryList::ptr)> myFunction = [document](MediaQueryList::ptr x) = > {
+			tfunc1<MediaQueryList::ptr> myFunction = _f1<MediaQueryList::ptr>([document](MediaQueryList::ptr x) {
 				if (x->matches()) {
-					document->body()->style->backgroundColor("yellow");
+					document->body()->style()->backgroundColor("yellow");
 				}
 				else {
 					document->body()->style()->backgroundColor("pink");
 				}
-			};
+				});
 
 			// Create a MediaQueryList object
 			auto mmObj = window->matchMedia("(max-width: 500px)");
@@ -695,7 +697,7 @@ TEST(WindowObject, Test) {
 			myFunction(mmObj);
 
 			// Add the match function as a listener for state changes:
-			mmObj->addListener(myFunction);
+			mmObj->addListener(to_func(myFunction));
 		}
 	}
 
@@ -705,13 +707,13 @@ TEST(WindowObject, Test) {
 		{
 			Window::ptr myWindow;
 
-			function<void()> openWin = [myWindow]() {
+			tfunc openWin = _f([window, &myWindow]() {
 				myWindow = window->open("", "", "width=400, height=400");
-			};
+				});
 
-			function<void()> moveWin = [myWindow]() {
+			tfunc moveWin = _f([myWindow]() {
 				myWindow->moveBy(250, 250);
-			};
+				});
 
 			openWin();
 			moveWin();
@@ -720,17 +722,17 @@ TEST(WindowObject, Test) {
 		{
 			Window::ptr myWindow;
 
-			function<void()> openWin = [myWindow]() {
+			tfunc openWin = _f([window, &myWindow]() {
 				myWindow = window->open("", "", "width=400, height=400");
-			};
+				});
 
-			function<void()> moveWinTo = [myWindow]() {
+			tfunc moveWinTo = _f([myWindow]() {
 				myWindow->moveTo(150, 150);
-			};
+				});
 
-			function<void()> moveWinBy = [myWindow]() {
+			tfunc moveWinBy = _f([myWindow]() {
 				myWindow->moveBy(75, 75);
-			};
+				});
 
 			openWin();
 			moveWinTo();
@@ -744,13 +746,13 @@ TEST(WindowObject, Test) {
 		{
 			Window::ptr myWindow;
 
-			function<void()> openWin = [myWindow]() {
+			tfunc openWin = _f([window, &myWindow]() {
 				myWindow = window->open("", "", "width=400, height=200");
-			};
+				});
 
-			function<void()> moveWin = [myWindow]() {
+			tfunc moveWin = _f([myWindow]() {
 				myWindow->moveTo(500, 100);
-			};
+				});
 
 			openWin();
 			moveWin();
@@ -759,17 +761,17 @@ TEST(WindowObject, Test) {
 		{
 			Window::ptr myWindow;
 
-			function<void()> openWin = [myWindow]() {
+			tfunc openWin = _f([window, &myWindow]() {
 				myWindow = window->open("", "", "width=400, height=400");
-			};
+				});
 
-			function<void()> moveWinTo = [myWindow]() {
+			tfunc moveWinTo = _f([myWindow]() {
 				myWindow->moveTo(150, 150);
-			};
+				});
 
-			function<void()> moveWinBy = [myWindow]() {
+			tfunc moveWinBy = _f([myWindow]() {
 				myWindow->moveBy(75, 75);
-			};
+				});
 
 			openWin();
 			moveWinTo();
@@ -805,7 +807,7 @@ TEST(WindowObject, Test) {
 		}
 		//:
 		{
-			auto language = navigator()->language();
+			auto language = g->navigator()->language();
 			document->getElementById("demo")->innerHTML("Browser language: " + language);
 		}
 	}
@@ -814,52 +816,52 @@ TEST(WindowObject, Test) {
 	{
 		//: Open "www.w3schools.com" in a new browser tab:
 		{
-			function<void()> myFunction = [window]() {
+			tfunc myFunction = _f([window]() {
 				window->open("https://www.w3schools.com");
-			};
+				});
 
 			myFunction();
 		}
 		//: Open an about:blank page in a new window/tab:
 		{
-			function<void()> myFunction = [window]() {
+			tfunc myFunction = _f([window]() {
 				auto myWindow = window->open("", "", "width=200,height=100");
-			};
+				});
 
 			myFunction();
 		}
 		//: Open a new window called "MsgWindow", and write some text into it:
 		{
-			function<void()> myFunction = [window]() {
+			tfunc myFunction = _f([window]() {
 				auto myWindow = window->open("", "MsgWindow", "width=200,height=100");
-				myWindow->document->write("<p>This is 'MsgWindow'. I am 200px wide and 100px tall!</p>");
-			};
+				myWindow->document()->write("<p>This is 'MsgWindow'. I am 200px wide and 100px tall!</p>");
+				});
 
 			myFunction();
 		}
 		//: Replace the current window with a new window:
 		{
-			function<void()> myFunction = [window]() {
+			tfunc myFunction = _f([window]() {
 				auto myWindow = window->open("", "_self");
-				myWindow->document->write("<p>I replaced the current window.</p>");
-			};
+				myWindow->document()->write("<p>I replaced the current window.</p>");
+				});
 
 			myFunction();
 		}
 		//: Open a new window and control its appearance:
 		{
-			function<void()> myFunction = [window]() {
+			tfunc myFunction = _f([window]() {
 				window->open("https://www.w3schools.com", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
-			};
+				});
 
 			myFunction();
 		}
 		//: Open multiple tabs:
 		{
-			function<void()> myFunction = [window]() {
+			tfunc myFunction = _f([window]() {
 				window->open("http://www.google.com/");
 				window->open("https://www.w3schools.com/");
-			};
+				});
 
 			myFunction();
 		}
@@ -867,13 +869,13 @@ TEST(WindowObject, Test) {
 		{
 			Window::ptr myWindow;
 
-			function<void()> openWin = [window, myWindow]() {
+			tfunc openWin = _f([window, &myWindow]() {
 				myWindow = window->open("", "", "width=200,height=100");
-			};
+				});
 
-			function<void()> closeWin = [window]() {
+			tfunc closeWin = _f([myWindow]() {
 				myWindow->close();
-			};
+				});
 
 			openWin();
 			closeWin();
@@ -885,10 +887,10 @@ TEST(WindowObject, Test) {
 		}
 		//: Using the opener property to return a reference to the window that created the new window:
 		{
-			function<void()> myFunction = [window]() {
+			tfunc myFunction = _f([window]() {
 				auto myWindow = window->open("", "", "width=300,height=300");
 				myWindow->opener()->document()->getElementById("demo")->innerHTML("HELLO!");
-			};
+				});
 
 			myFunction();
 		}
@@ -898,10 +900,10 @@ TEST(WindowObject, Test) {
 	{
 		//: Open a window and write some text in the opener window:
 		{
-			function<void()> myFunction = [window]() {
+			tfunc myFunction = _f([window]() {
 				auto myWindow = window->open("", "", "width=300,height=300");
-				myWindow->opener->document->getElementById("demo")->innerHTML("HELLO!");
-			};
+				myWindow->opener()->document()->getElementById("demo")->innerHTML("HELLO!");
+				});
 			myFunction();
 		}
 	}
@@ -912,21 +914,21 @@ TEST(WindowObject, Test) {
 		{
 			auto w = window->outerWidth();
 			auto h = window->outerHeight();
-			document->getElementById("demo")->innerHTML("Width: " + w + "<br>Height: " + h);
+			document->getElementById("demo")->innerHTML("Width: " + to_string(w) + "<br>Height: " + to_string(h));
 		}
 		//:
 		{
 			auto w = g->outerWidth();
 			auto h = g->outerHeight();
-			document->getElementById("demo")->innerHTML("Width: " + w + "<br>Height: " + h);
+			document->getElementById("demo")->innerHTML("Width: " + to_string(w) + "<br>Height: " + to_string(h));
 		}
 		//: All height and width properties:
 		{
 			auto text =
-				"<p>innerWidth: " + window->innerWidth() + "</p>" +
-				"<p>innerHeight: " + window->innerHeight() + "</p>" +
-				"<p>outerWidth: " + window->outerWidth() + "</p>" +
-				"<p>outerHeight: " + window->outerHeight() + "</p>";
+				"<p>innerWidth: " + to_string(window->innerWidth()) + "</p>" +
+				"<p>innerHeight: " + to_string(window->innerHeight()) + "</p>" +
+				"<p>outerWidth: " + to_string(window->outerWidth()) + "</p>" +
+				"<p>outerHeight: " + to_string(window->outerHeight()) + "</p>";
 
 			document->getElementById("demo")->innerHTML(text);
 		}
@@ -938,21 +940,21 @@ TEST(WindowObject, Test) {
 		{
 			auto w = window->outerWidth();
 			auto h = window->outerHeight();
-			document->getElementById("demo")->innerHTML("Width: " + w + "<br>Height: " + h);
+			document->getElementById("demo")->innerHTML("Width: " + to_string(w) + "<br>Height: " + to_string(h));
 		}
 		//:
 		{
 			auto w = g->outerWidth();
 			auto h = g->outerHeight();
-			document->getElementById("demo")->innerHTML("Width: " + w + "<br>Height: " + h);
+			document->getElementById("demo")->innerHTML("Width: " + to_string(w) + "<br>Height: " + to_string(h));
 		}
 		//: All height and width properties:
 		{
 			auto text =
-				"<p>innerWidth: " + window->innerWidth() + "</p>" +
-				"<p>innerHeight: " + window->innerHeight() + "</p>" +
-				"<p>outerWidth: " + window->outerWidth() + "</p>" +
-				"<p>outerHeight: " + window->outerHeight() + "</p>";
+				"<p>innerWidth: " + to_string(window->innerWidth()) + "</p>" +
+				"<p>innerHeight: " + to_string(window->innerHeight()) + "</p>" +
+				"<p>outerWidth: " + to_string(window->outerWidth()) + "</p>" +
+				"<p>outerHeight: " + to_string(window->outerHeight()) + "</p>";
 
 			document->getElementById("demo")->innerHTML(text);
 		}
@@ -962,10 +964,10 @@ TEST(WindowObject, Test) {
 	{
 		//: Scroll the content by 100 pixels, and alert the pageXOffset and pageYOffset:
 		{
-			function<void()> myFunction = [window]() {
+			tfunc myFunction = _f([g, window]() {
 				window->scrollBy(100, 100);
-				g->alert("pageXOffset: " + window->pageXOffset() + ", pageYOffset: " + window->pageYOffset());
-			};
+				g->alert("pageXOffset: " + to_string(window->pageXOffset()) + ", pageYOffset: " + to_string(window->pageYOffset()));
+				});
 			myFunction();
 		}
 		//: Create a sticky navigation bar:
@@ -973,14 +975,14 @@ TEST(WindowObject, Test) {
 			auto navbar = document->getElementById("navbar");
 			auto sticky = navbar->offsetTop();
 
-			function<void()> myFunction = [window, sticky]() {
+			tfunc myFunction = _f([window, navbar, sticky]() {
 				if (window->pageYOffset() >= sticky) {
-					navbar->classList->add("sticky");
+					navbar->classList()->add("sticky");
 				}
 				else {
-					navbar->classList->remove("sticky");
+					navbar->classList()->remove("sticky");
 				}
-			}
+				});
 			myFunction();
 		}
 	}
@@ -989,10 +991,10 @@ TEST(WindowObject, Test) {
 	{
 		//: Scroll the content by 100 pixels, and alert the pageXOffset and pageYOffset:
 		{
-			function<void()> myFunction = [window]() {
+			tfunc myFunction = _f([g, window]() {
 				window->scrollBy(100, 100);
-				g->alert("pageXOffset: " + window->pageXOffset() + ", pageYOffset: " + window->pageYOffset());
-			};
+				g->alert("pageXOffset: " + to_string(window->pageXOffset()) + ", pageYOffset: " + to_string(window->pageYOffset()));
+				});
 			myFunction();
 		}
 		//: Create a sticky navigation bar:
@@ -1000,14 +1002,14 @@ TEST(WindowObject, Test) {
 			auto navbar = document->getElementById("navbar");
 			auto sticky = navbar->offsetTop();
 
-			function<void()> myFunction = [window, sticky]() {
+			tfunc myFunction = _f([window, navbar, sticky]() {
 				if (window->pageYOffset() >= sticky) {
-					navbar->classList->add("sticky");
+					navbar->classList()->add("sticky");
 				}
 				else {
-					navbar->classList->remove("sticky");
+					navbar->classList()->remove("sticky");
 				}
-			}
+				});
 			myFunction();
 		}
 	}
@@ -1020,7 +1022,7 @@ TEST(WindowObject, Test) {
 		}
 		//: The location of the parent window:
 		{
-			document->getElementById("demo")->innerHTML(window->parent->location());
+			document->getElementById("demo")->innerHTML(to_string(window->parent()->location()));
 		}
 	}
 
@@ -1036,34 +1038,34 @@ TEST(WindowObject, Test) {
 	{
 		//: Prompt for a user name and output a message:
 		{
-			function<void()> myFunction = [g, document]() {
+			tfunc myFunction = _f([g, document]() {
 				auto person = g->prompt("Please enter your name", "Harry Potter");
-				if (person != null) {
+				if (!person.empty()) {
 					document->getElementById("demo")->innerHTML("Hello " + person + "! How are you today?");
 				}
-			};
+				});
 			myFunction();
 		}
 		//: Prompt for his favourite drink:
 		{
-			function<void()> myFunction = [g, document]() {
+			tfunc myFunction = _f([g, document]() {
 				string text;
 				auto favDrink = g->prompt("What's your favorite drink?", "Coca-Cola");
-				switch (favDrink) {
-				case "Coca-Cola":
+				switch (string_hash(favDrink)) {
+				case "Coca-Cola"_sh:
 					text = "Excellent choice. Coca-Cola is good for your soul.";
 					break;
-				case "Pepsi":
+				case "Pepsi"_sh:
 					text = "Pepsi is my favorite too!";
 					break;
-				case "Sprite":
+				case "Sprite"_sh:
 					text = "Really? Are you sure the Sprite is your favorite?";
 					break;
 				default:
 					text = "I have never heard of that one..";
 				}
 				document->getElementById("demo")->innerHTML(text);
-			};
+				});
 			myFunction();
 		}
 	}
@@ -1072,15 +1074,15 @@ TEST(WindowObject, Test) {
 	{
 		//: Remove a "mousemove" event handler:
 		{
+			tfunc myFunction = _f([document]() {
+				document->getElementById("demo")->innerHTML(to_string(Math::random()));
+				});
+
 			window->addEventListener("mousemove", myFunction);
 
-			function<void()> myFunction = [document]() {
-				document->getElementById("demo")->innerHTML(Math.random());
-			};
-
-			function<void()> removeHandler = []() {
+			tfunc removeHandler = _f([window, myFunction]() {
 				window->removeEventListener("mousemove", myFunction);
-			};
+				});
 
 			removeHandler();
 		}
@@ -1092,13 +1094,13 @@ TEST(WindowObject, Test) {
 		{
 			Window::ptr myWindow;
 
-			function<void()> openWin = [myWindow]() {
+			tfunc openWin = _f([window, &myWindow]() {
 				myWindow = window->open("", "", "width=100, height=100");
-			};
+				});
 
-			function<void()> resizeWin = [myWindow]() {
+			tfunc resizeWin = _f([myWindow]() {
 				myWindow->resizeBy(250, 250);
-			};
+				});
 
 			openWin();
 			resizeWin();
@@ -1107,13 +1109,13 @@ TEST(WindowObject, Test) {
 		{
 			Window::ptr myWindow;
 
-			function<void()> openWin = [myWindow]() {
+			tfunc openWin = _f([window, &myWindow]() {
 				myWindow = window->open("", "", "width=500, height=500");
-			};
+				});
 
-			function<void()> resizeWin = [myWindow]() {
+			tfunc resizeWin = _f([myWindow]() {
 				myWindow->resizeBy(-50, 50);
-			};
+				});
 
 			openWin();
 			resizeWin();
@@ -1122,17 +1124,17 @@ TEST(WindowObject, Test) {
 		{
 			Window::ptr myWindow;
 
-			function<void()> openWin = [myWindow]() {
+			tfunc openWin = _f([window, &myWindow]() {
 				myWindow = window->open("", "", "width=250, height=250");
-			};
+				});
 
-			function<void()> resizeWinTo = [myWindow]() {
+			tfunc resizeWinTo = _f([myWindow]() {
 				myWindow->resizeBy(800, 600);
-			};
+				});
 
-			function<void()> resizeWinBy = [myWindow]() {
+			tfunc resizeWinBy = _f([myWindow]() {
 				myWindow->resizeBy(-100, -50);
-			};
+				});
 
 			openWin();
 			resizeWinTo();
@@ -1146,13 +1148,13 @@ TEST(WindowObject, Test) {
 		{
 			Window::ptr myWindow;
 
-			function<void()> openWin = [myWindow]() {
+			tfunc openWin = _f([window, &myWindow]() {
 				myWindow = window->open("", "", "width=200, height=100");
-			};
+				});
 
-			function<void()> resizeWin = [myWindow]() {
+			tfunc resizeWin = _f([myWindow]() {
 				myWindow->resizeTo(300, 300);
-			};
+				});
 
 			openWin();
 			resizeWin();
@@ -1161,17 +1163,17 @@ TEST(WindowObject, Test) {
 		{
 			Window::ptr myWindow;
 
-			function<void()> openWin = [myWindow]() {
+			tfunc openWin = _f([window, &myWindow]() {
 				myWindow = window->open("", "", "width=250, height=250");
-			};
+				});
 
-			function<void()> resizeWinTo = [myWindow]() {
+			tfunc resizeWinTo = _f([myWindow]() {
 				myWindow->resizeBy(800, 600);
-			};
+				});
 
-			function<void()> resizeWinBy = [myWindow]() {
+			tfunc resizeWinBy = _f([myWindow]() {
 				myWindow->resizeBy(-100, -50);
-			};
+				});
 
 			openWin();
 			resizeWinTo();
@@ -1190,7 +1192,7 @@ TEST(WindowObject, Test) {
 		{
 			auto x = window->screenLeft();
 			auto y = window->screenTop();
-			document->getElementById("demo")->innerHTML("Left: " + x + ", Top: " + y);
+			document->getElementById("demo")->innerHTML("Left: " + to_string(x) + ", Top: " + to_string(y));
 		}
 	}
 
@@ -1200,7 +1202,7 @@ TEST(WindowObject, Test) {
 		{
 			auto x = window->screenLeft();
 			auto y = window->screenTop();
-			document->getElementById("demo")->innerHTML("Left: " + x + ", Top: " + y);
+			document->getElementById("demo")->innerHTML("Left: " + to_string(x) + ", Top: " + to_string(y));
 		}
 	}
 
@@ -1208,22 +1210,22 @@ TEST(WindowObject, Test) {
 	{
 		//: Open a new window with a specified left and top position, and return its coordinates:
 		{
-			function<void()> myFunction = [document]() {
+			tfunc myFunction = _f([window, document]() {
 				auto myWin = window->open("", "", "left=700, top=350, width=200, height=100");
 				auto x = myWin->screenX();
 				auto y = myWin->screenY();
-				document->getElementById("demo")->innerHTML("myWin.screenX= " + x + "<br>myWin.screenY= " + y);
-			};
+				document->getElementById("demo")->innerHTML("myWin.screenX= " + to_string(x) + "<br>myWin.screenY= " + to_string(y));
+				});
 			myFunction();
 		}
 		//: Open a new window and return its coordinates:
 		{
-			function<void()> myFunction = [document]() {
+			tfunc myFunction = _f([window, document]() {
 				auto myWin = window->open("", "", "width=200, height=100");
 				auto x = myWin->screenX();
 				auto y = myWin->screenY();
-				document->getElementById("demo")->innerHTML("myWin.screenX= " + x + "<br>myWin.screenY= " + y);
-			};
+				document->getElementById("demo")->innerHTML("myWin.screenX= " + to_string(x) + "<br>myWin.screenY= " + to_string(y));
+				});
 			myFunction();
 		}
 	}
@@ -1232,22 +1234,22 @@ TEST(WindowObject, Test) {
 	{
 		//: Open a new window with a specified left and top position, and return its coordinates:
 		{
-			function<void()> myFunction = [document]() {
+			tfunc myFunction = _f([window, document]() {
 				auto myWin = window->open("", "", "left=700, top=350, width=200, height=100");
 				auto x = myWin->screenX();
 				auto y = myWin->screenY();
-				document.getElementById("demo").innerHTML("myWin.screenX= " + x + "<br>myWin.screenY= " + y);
-			};
+				document->getElementById("demo")->innerHTML("myWin.screenX= " + to_string(x) + "<br>myWin.screenY= " + to_string(y));
+				});
 			myFunction();
 		}
 		//: Open a new window and return its coordinates:
 		{
-			function<void()> myFunction = [document]() {
+			tfunc myFunction = _f([window, document]() {
 				auto myWin = window->open("", "", "width=200, height=100");
 				auto x = myWin->screenX();
 				auto y = myWin->screenY();
-				document->getElementById("demo")->innerHTML("myWin.screenX= " + x + "<br>myWin.screenY= " + y);
-			};
+				document->getElementById("demo")->innerHTML("myWin.screenX= " + to_string(x) + "<br>myWin.screenY= " + to_string(y));
+				});
 			myFunction();
 		}
 	}
@@ -1256,31 +1258,31 @@ TEST(WindowObject, Test) {
 	{
 		//: Scroll the document 100px horizontally:
 		{
-			function<void()> scrollWin = [window]() {
+			tfunc scrollWin = _f([window]() {
 				window->scrollBy(100, 0);
-			};
+				});
 			scrollWin();
 		}
 		//: Scroll the document 100px vertically:
 		{
-			function<void()> scrollWin = [window]() {
+			tfunc scrollWin = _f([window]() {
 				window->scrollBy(0, 100);
-			};
+				});
 			scrollWin();
 		}
 		//: Scroll the document up and down:
 		{
-			function<void(int, int)> scrollWin = [window](int x, int y) {
+			tfunc2<int, int> scrollWin = _f2<int, int>([window](int x, int y) {
 				window->scrollBy(x, y);
-			};
+				});
 			scrollWin(0, 50);
 			scrollWin(0, -50);
 		}
 		//: Scroll the document right and left:
 		{
-			function<void(int, int)> scrollWin = [window](int x, int y) {
+			tfunc2<int, int> scrollWin = _f2<int, int>([window](int x, int y) {
 				window->scrollBy(x, y);
-			};
+				});
 			scrollWin(100, 0);
 			scrollWin(-100, 0);
 		}
@@ -1290,23 +1292,23 @@ TEST(WindowObject, Test) {
 	{
 		//: Scroll the document to the horizontal position 500:
 		{
-			function<void()> scrollWin = [window]() {
+			tfunc scrollWin = _f([window]() {
 				window->scrollTo(200, 0);
-			};
+				});
 			scrollWin();
 		}
 		//: Scroll the document to the vertical position 500:
 		{
-			function<void()> scrollWin = [window]() {
+			tfunc scrollWin = _f([window]() {
 				window->scrollTo(0, 500);
-			};
+				});
 			scrollWin();
 		}
 		//: Scroll the document to position 300 horizontally and 500 vertically:
 		{
-			function<void()> scrollWin = [window]() {
+			tfunc scrollWin = _f([window]() {
 				window->scrollTo(300, 500);
-			};
+				});
 			scrollWin();
 		}
 	}
@@ -1315,10 +1317,10 @@ TEST(WindowObject, Test) {
 	{
 		//: Scroll the content by 100 pixels, and alert the scrollX and scrollY:
 		{
-			function<void()> myFunction = [g, window]() {
+			tfunc myFunction = _f([g, window]() {
 				window->scrollBy(100, 100);
-				g->alert("pageXOffset: " + window->scrollX() + ", scrollY: " + window->scrollY());
-			}
+				g->alert("pageXOffset: " + to_string(window->scrollX()) + ", scrollY: " + to_string(window->scrollY()));
+				});
 			myFunction();
 		}
 		//: Create a sticky navigation bar:
@@ -1326,14 +1328,14 @@ TEST(WindowObject, Test) {
 			auto navbar = document->getElementById("navbar");
 			auto sticky = navbar->offsetTop();
 
-			function<void()> myFunction = [window, navbar]() {
+			tfunc myFunction = _f([window, navbar, sticky]() {
 				if (window->scrollY() >= sticky) {
-					navbar->classList->add("sticky")
+					navbar->classList()->add("sticky");
 				}
 				else {
-					navbar->classList->remove("sticky");
+					navbar->classList()->remove("sticky");
 				}
-			}
+				});
 			myFunction();
 		}
 	}
@@ -1342,10 +1344,10 @@ TEST(WindowObject, Test) {
 	{
 		//: Scroll the content by 100 pixels, and alert the scrollX and scrollY:
 		{
-			function<void()> myFunction = [g, window]() {
+			tfunc myFunction = _f([g, window]() {
 				window->scrollBy(100, 100);
-				g->alert("pageXOffset: " + window->scrollX() + ", scrollY: " + window->scrollY());
-			}
+				g->alert("pageXOffset: " + to_string(window->scrollX()) + ", scrollY: " + to_string(window->scrollY()));
+				});
 			myFunction();
 		}
 		//: Create a sticky navigation bar:
@@ -1353,37 +1355,38 @@ TEST(WindowObject, Test) {
 			auto navbar = document->getElementById("navbar");
 			auto sticky = navbar->offsetTop();
 
-			function<void()> myFunction = [window, navbar]() {
+			tfunc myFunction = _f([window, navbar, sticky]() {
 				if (window->scrollY() >= sticky) {
-					navbar->classList->add("sticky")
+					navbar->classList()->add("sticky");
 				}
 				else {
-					navbar->classList->remove("sticky");
+					navbar->classList()->remove("sticky");
 				}
-			}
+				});
 			myFunction();
 		}
 	}
 
 	// sessionStorage* - https://www.w3schools.com/jsref/prop_win_sessionstorage.asp
 	{
+		auto sessionStorage = g->sessionStorage();
 		//: Set and retrieve a sessionStorage name/value pair:
 		{
-			g->sessionStorage->setItem("lastname", "Smith");
-			auto personName = g->sessionStorage->getItem("lastname");
+			sessionStorage->setItem("lastname", "Smith");
+			auto personName = sessionStorage->getItem("lastname");
 			document->getElementById("demo")->innerHTML(personName);
 		}
 		//: Count the number of times a user has clicked a button:
 		{
-			function<void()> clickCounter = [g, document]() {
-				if (g->sessionStorage["clickcount"]) {
-					g->sessionStorage["clickcount"] = Number(g->sessionStorage["clickcount"]) + 1;
+			tfunc clickCounter = _f([g, document, sessionStorage]() {
+				if ((*sessionStorage)["clickcount"].type() != typeid(int)) {
+					(*sessionStorage)["clickcount"] = Number((*sessionStorage)["clickcount"]) + 1;
 				}
 				else {
-					g->sessionStorage["clickcount"] = 1;
+					(*sessionStorage)["clickcount"] = 1;
 				}
-				document->getElementById("demo")->innerHTML(g->sessionStorage['clickcount']);
-			};
+				document->getElementById("demo")->innerHTML(to_string((*sessionStorage)["clickcount"]));
+				});
 			clickCounter();
 		}
 	}
@@ -1408,84 +1411,85 @@ TEST(WindowObject, Test) {
 		//: Display "Hello" every second (1000 milliseconds):
 		{
 			auto element = document->getElementById("demo");
-			g->setInterval([element]() { element->innerHTML(element->innerHTML() + "Hello"); }, 1000);
+			g->setInterval(_f([element]() { element->innerHTML(element->innerHTML() + "Hello"); }), 1000);
 		}
 		//: Call displayHello every second:
 		{
-			function<void()> displayHello = [document]() {
-				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML + "Hello");
-			};
+			tfunc displayHello = _f([document]() {
+				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "Hello");
+				});
 			g->setInterval(displayHello, 1000);
 		}
 		//: Display the time like a digital watch:
 		{
-			function<void()> myTimer = [document]() {
+			tfunc myTimer = _f([document]() {
 				auto date = new Date();
 				document->getElementById("demo")->innerHTML(date->toLocaleTimeString());
-			};
+				});
 			g->setInterval(myTimer, 1000);
 		}
 		//: Using clearInterval() to stop the digital watch:
 		{
-			function<void()> myTimer = [document]() {
+			tfunc myTimer = _f([document]() {
 				auto date = new Date();
 				document->getElementById("demo")->innerHTML(date->toLocaleTimeString());
-			};
+				});
 			auto myInterval = g->setInterval(myTimer, 1000);
 
-			function<void()> myStopFunction = [g, myInterval]() {
+			tfunc myStopFunction = _f([g, myInterval]() {
 				g->clearInterval(myInterval);
-			};
+				});
 			myStopFunction();
 		}
 		//: Using setInterval() and clearInterval() to create a dynamic progress bar:
 		{
-			function<void()> move = [g, document]() {
+			tfunc move = _f([g, document]() {
 				auto element = document->getElementById("myBar");
 				auto width = 0;
-				function<void()> frame = (g, element, width)[]() {
+				int id;
+				tfunc frame = [g, element, &width, id]() {
 					if (width == 100) {
 						g->clearInterval(id);
 					}
 					else {
 						width++;
-						element->style()->width(width + '%');
+						element->style()->width(to_string(width) + '%');
 					}
 				};
-				auto id = g->setInterval(frame, 10);
-			};
+				id = g->setInterval(frame, 10);
+				});
 			move();
 		}
 		//: Toggle between two background colors once every 500 milliseconds:
 		{
-			function<void()> setColor = [document]() {
+			tfunc setColor = _f([document]() {
 				auto x = document->body();
-				x->style().backgroundColor(x->style()->backgroundColor() == "yellow" ? "pink" : "yellow");
-			};
-			auto myInterval = g->setInterval(setColor, 500);
+				x->style()->backgroundColor(x->style()->backgroundColor() == "yellow" ? "pink" : "yellow");
+				});
+			auto myInterval = g->setInterval(_f(setColor), 500);
 
-			function<void()> stopColor = [g, myInterval]() {
+			tfunc stopColor = _f([g, myInterval]() {
 				g->clearInterval(myInterval);
-			};
+				});
 			stopColor();
 		}
 		//: Pass parameters to the function (does not work in IE9 and earlier):
 		{
-			function<void(tany, tany)> myFunc = [document](tany p1, tany p2) {
+			tfunc2<tany, tany> myFunc = _f2<tany, tany>([document](tany p1, tany p2) {
 				document->getElementById("demo1")->innerHTML(document->getElementById("demo1")->innerHTML() + "Hello");
-				document->getElementById("demo2")->innerHTML("Parameters passed: " + p1 + " " + p2);
-			};
+				document->getElementById("demo2")->innerHTML("Parameters passed: " + to_string(p1) + " " + to_string(p2));
+				});
 
-			g->setInterval(myFunc, 2000, "param1", "param2");
+			g->setInterval(to_func(myFunc), 2000, "param1", "param2");
 		}
 		//: However, if you use an anonymous function it works in all browsers:
 		{
-			function<void(tany, tany)> myFunc = [document](tany p1, tany p2) {
+			tfunc2<tany, tany> myFunc = _f2<tany, tany>([document](tany p1, tany p2) {
 				document->getElementById("demo1")->innerHTML(document->getElementById("demo1")->innerHTML() + "Hello");
-				document->getElementById("demo2")->innerHTML("Parameters passed: " + p1 + " " + p2);
-			};
+				document->getElementById("demo2")->innerHTML("Parameters passed: " + to_string(p1) + " " + to_string(p2));
+				});
 
-			g->setInterval(() { myFunc("param1", "param2"); }, 2000);
+			g->setInterval(_f([myFunc]() { myFunc("param1", "param2"); }), 2000);
 		}
 	}
 
@@ -1493,23 +1497,23 @@ TEST(WindowObject, Test) {
 	{
 		//: Wait 5 seconds for the greeting:
 		{
-			function<void()> myGreeting = [document]() {
+			tfunc myGreeting = _f([document]() {
 				document->getElementById("demo")->innerHTML("Happy Birthday!");
-			};
+				});
 
 			auto myTimeout = g->setTimeout(myGreeting, 5000);
 		}
 		//: Use clearTimeout(myTimeout) to prevent myGreeting from running:
 		{
-			function<void()> myGreeting = [document]() {
+			tfunc myGreeting = _f([document]() {
 				document->getElementById("demo")->innerHTML("Happy Birthday!");
-			};
+				});
 
 			auto myTimeout = g->setTimeout(myGreeting, 5000);
 
-			function<void()> myStopFunction = [g, myTimeout]() {
+			tfunc myStopFunction = _f([g, myTimeout]() {
 				g->clearTimeout(myTimeout);
-			};
+				});
 
 			myStopFunction();
 		}
@@ -1517,30 +1521,30 @@ TEST(WindowObject, Test) {
 		{
 			int timeout;
 
-			function<void()> alertFunc = (){
+			tfunc alertFunc = _f([g]() {
 				g->alert("Hello!");
-			};
-			function<void()> myFunction = [g, timeout, alertFunc]() {
+				});
+			tfunc myFunction = _f([g, &timeout, alertFunc]() {
 				timeout = g->setTimeout(alertFunc, 3000);
-			};
+				});
 
 			myFunction();
 		}
 		//: Display a timed text:
 		{
-			auto x = document->getElementById("txt");
-			g->setTimeout([x]() { x->value("2 seconds"); }, 2000);
-			g->setTimeout([x]() { x->value("4 seconds"); }, 4000);
-			g->setTimeout([x]() { x->value("6 seconds"); }, 6000);
+			auto x = static_pointer_cast<HTMLInputElement>(document->getElementById("txt"));
+			g->setTimeout(_f([x]() { x->value("2 seconds"); }), 2000);
+			g->setTimeout(_f([x]() { x->value("4 seconds"); }), 4000);
+			g->setTimeout(_f([x]() { x->value("6 seconds"); }), 6000);
 		}
 		//: Open a new window and close the window after three seconds (3000 milliseconds):
 		{
-			function<void()> openWin = [g, window]() {
+			tfunc openWin = _f([g, window]() {
 				auto myWindow = window->open("", "", "width=200, height=100");
 				g->setTimeout([myWindow]() { myWindow->close(); }, 3000);
-			};
+				});
 
-			openWin()
+			openWin();
 		}
 		//: Count forever - but with the ability to stop the count:
 		{
@@ -1548,51 +1552,51 @@ TEST(WindowObject, Test) {
 			int timeout;
 			int timer_on = 0;
 
-			function<void()> timedCount = [g, document, counter]() {
-				document->getElementById("demo")->value(to_string(counter));
+			tfunc timedCount = _f([g, document, &counter, timedCount, &timeout]() {
+				static_pointer_cast<HTMLInputElement>(document->getElementById("demo"))->value(to_string(counter));
 				counter++;
 				timeout = g->setTimeout(timedCount, 1000);
-			};
+				});
 
-			function<void()> startCount = [timer_on, timer_on, timedCount]() {
+			tfunc startCount = _f([&timer_on, timedCount]() {
 				if (!timer_on) {
 					timer_on = 1;
 					timedCount();
 				}
-			};
+				});
 
-			function<void()> stopCount = [g, timeout, timer_on]() {
+			tfunc stopCount = _f([g, timeout, &timer_on]() {
 				g->clearTimeout(timeout);
 				timer_on = 0;
-			};
+				});
 
 			startCount();
 			stopCount();
 		}
 		//: A clock created with timing events:
 		{
-			function<void()> startTime = [g, document]() {
-				auto date = new Date();
-				document->getElementById("demo").innerHTML(date.toLocaleTimeString());
-				g->setTimeout([]() { startTime(); }, 1000);
-			};
+			tfunc startTime = _f([g, document, startTime]() {
+				Date date;
+				document->getElementById("demo")->innerHTML(date.toLocaleTimeString());
+				g->setTimeout([startTime]() { startTime(); }, 1000);
+				});
 
 			startTime();
 		}
 		//: Pass parameters to the function (does not work in IE9 and earlier):
 		{
-			function<void(tany, tany)> myFunc = [document](tany p1, tany p2) {
-				document->getElementById("demo")->innerHTML("Parameters: " + p1 + " " + p2);
-			}
+			tfunc2<tany, tany> myFunc = _f2<tany, tany>([document](tany p1, tany p2) {
+				document->getElementById("demo")->innerHTML("Parameters: " + to_string(p1) + " " + to_string(p2));
+				});
 
-			g->setTimeout(myFunc, 2000, "param1", "param2");
+			g->setTimeout(to_func(myFunc), 2000, "param1", "param2");
 		}
 		//: However, if you use an anonymous function, it will work in all browsers:
 		{
-			function<void(tany, tany)> myFunc = [document](tany p1, tany p2) {
-				document->getElementById("demo")->innerHTML("Parameters: " + p1 + " " + p2);
-			};
-			g->setTimeout([myFunc]() { myFunc("param1", "param2"); }, 2000);
+			tfunc2<tany, tany> myFunc = _f2<tany, tany>([document](tany p1, tany p2) {
+				document->getElementById("demo")->innerHTML("Parameters: " + to_string(p1) + " " + to_string(p2));
+				});
+			g->setTimeout(_f([myFunc]() { myFunc("param1", "param2"); }), 2000);
 		}
 	}
 

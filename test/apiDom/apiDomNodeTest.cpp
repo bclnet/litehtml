@@ -106,7 +106,7 @@ TEST(HtmlNode, Test) {
 						" (nodetype: " + to_string(x[i]->nodeType()) + ")<br>";
 				}
 				document->getElementById("demo")->innerHTML(txt);
-				assert("Nodename: bookstore (nodetype: 1)", document->getElementById("demo")->innerHTML());
+				assert("Nodename: bookstore (nodetype: 1)" == document->getElementById("demo")->innerHTML());
 			};
 
 			auto xhttp = new XMLHttpRequest();
@@ -162,7 +162,7 @@ TEST(HtmlNode, Test) {
 				auto y = xmlDoc->getElementsByTagName("book")[2];
 				document->getElementById("demo")->innerHTML(
 					to_string(x->compareDocumentPosition(y)));
-				assert("4", document->getElementById("demo")->innerHTML());
+				assert("4" == document->getElementById("demo")->innerHTML());
 			};
 
 			auto xhttp = new XMLHttpRequest();
@@ -200,7 +200,7 @@ TEST(HtmlNode, Test) {
 					" (nodetype: " + to_string(x->nodeType()) + ")<br>" +
 					"Nodename: " + y->nodeName() +
 					" (nodetype: " + to_string(y->nodeType()) + ")<br>");
-				assert("Nodename: bookstore (nodetype: 1)<br>Nodename: book (nodetype: 1)<br>", document.getElementById("demo").innerHTML);
+				assert("Nodename: bookstore (nodetype: 1)<br>Nodename: book (nodetype: 1)<br>" == document->getElementById("demo")->innerHTML());
 			};
 
 			auto xhttp = new XMLHttpRequest();
@@ -283,7 +283,7 @@ TEST(HtmlNode, Test) {
 				x->insertBefore(newNode, y[3]);
 				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() +
 					"Book elements after: " + to_string(y.length()));
-				assert("Book elements before : 4<br>Book elements after : 5<br>", document->getElementById("demo")->innerHTML());
+				assert("Book elements before : 4<br>Book elements after : 5<br>" == document->getElementById("demo")->innerHTML());
 			};
 
 			auto xhttp = new XMLHttpRequest();
@@ -373,7 +373,7 @@ TEST(HtmlNode, Test) {
 					" (nodetype: " + to_string(x->nodeType()) + ")<br>" +
 					"Nodename: " + y->nodeName() +
 					" (nodetype: " + to_string(y->nodeType()) + ")<br>");
-				assert("Nodename: bookstore (nodetype: 1)<br>Nodename: book (nodetype: 1)<br>", document->getElementById("demo")->innerHTML());
+				assert("Nodename: bookstore (nodetype: 1)<br>Nodename: book (nodetype: 1)<br>" == document->getElementById("demo")->innerHTML());
 			};
 
 			auto xhttp = new XMLHttpRequest();
@@ -712,7 +712,7 @@ TEST(HtmlNode, Test) {
 				auto removedNode = currNode->removeChild(currNode->childNodes()[1]);
 				document->getElementById("demo")->innerHTML(
 					"Removed node: " + removedNode->nodeName());
-				assert("Removed node: title", document.getElementById("demo").innerHTML);
+				assert("Removed node: title" == document->getElementById("demo")->innerHTML());
 			};
 
 			auto xhttp = new XMLHttpRequest();
@@ -758,7 +758,7 @@ TEST(HtmlNode, Test) {
 					txt += z[i]->childNodes()[0]->nodeValue() + "<br>";
 				}
 				document->getElementById("demo")->innerHTML(txt);
-				assert("A Notebook<br>Harry Potter<br>XQuery Kick Start<<br>Learning XML<br>", document.getElementById("demo").innerHTML);
+				assert("A Notebook<br>Harry Potter<br>XQuery Kick Start<<br>Learning XML<br>" == document->getElementById("demo")->innerHTML());
 			};
 
 			auto xhttp = new XMLHttpRequest();

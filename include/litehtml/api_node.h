@@ -1,8 +1,6 @@
 #ifndef LH_API_NODE_H
 #define LH_API_NODE_H
 
-#include <string>
-
 namespace litehtml
 {
 	class Document;

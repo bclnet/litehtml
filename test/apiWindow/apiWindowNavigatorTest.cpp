@@ -9,19 +9,19 @@ using namespace std;
 static test_container container(800, 600, ".");
 static Window::ptr MakeWindow(string url, char* source) {
 	Document::ptr document = document::createFromString(source, &container);
-	return new Window();
+	return nullptr; // new Window();
 }
 
 TEST(WindowNavigator, Test) {
-	auto g = new MakeWindow("", R"xyz(
+	auto g = MakeWindow("", R"xyz(
 <html>
 <body>
 	<h1>The Window Navigator Object</h1>
 	<p id="demo"></p>
 </body>
 </html>)xyz");
-	auto document = g.document();
-	auto navigator = g.navigator();
+	auto document = g->document();
+	auto navigator = g->navigator();
 
 	// navigator.appCodeName - https://www.w3schools.com/jsref/prop_nav_appcodename.asp
 	{
@@ -35,9 +35,9 @@ TEST(WindowNavigator, Test) {
 			auto text = "<p>Browser CodeName: " + navigator->appCodeName() + "</p>" +
 				"<p>Browser Name: " + navigator->appName() + "</p>" +
 				"<p>Browser Version: " + navigator->appVersion() + "</p>" +
-				"<p>Cookies Enabled: " + navigator->cookieEnabled() + "</p>" +
+				"<p>Cookies Enabled: " + to_string(navigator->cookieEnabled()) + "</p>" +
 				"<p>Browser Language: " + navigator->language() + "</p>" +
-				"<p>Browser Online: " + navigator->onLine() + "</p>" +
+				"<p>Browser Online: " + to_string(navigator->onLine()) + "</p>" +
 				"<p>Platform: " + navigator->platform() + "</p>" +
 				"<p>User-agent header: " + navigator->userAgent() + "</p>";
 
@@ -57,9 +57,9 @@ TEST(WindowNavigator, Test) {
 			auto text = "<p>Browser CodeName: " + navigator->appCodeName() + "</p>" +
 				"<p>Browser Name: " + navigator->appName() + "</p>" +
 				"<p>Browser Version: " + navigator->appVersion() + "</p>" +
-				"<p>Cookies Enabled: " + navigator->cookieEnabled() + "</p>" +
+				"<p>Cookies Enabled: " + to_string(navigator->cookieEnabled()) + "</p>" +
 				"<p>Browser Language: " + navigator->language() + "</p>" +
-				"<p>Browser Online: " + navigator->onLine() + "</p>" +
+				"<p>Browser Online: " + to_string(navigator->onLine()) + "</p>" +
 				"<p>Platform: " + navigator->platform() + "</p>" +
 				"<p>User-agent header: " + navigator->userAgent() + "</p>";
 
@@ -79,9 +79,9 @@ TEST(WindowNavigator, Test) {
 			auto text = "<p>Browser CodeName: " + navigator->appCodeName() + "</p>" +
 				"<p>Browser Name: " + navigator->appName() + "</p>" +
 				"<p>Browser Version: " + navigator->appVersion() + "</p>" +
-				"<p>Cookies Enabled: " + navigator->cookieEnabled() + "</p>" +
+				"<p>Cookies Enabled: " + to_string(navigator->cookieEnabled()) + "</p>" +
 				"<p>Browser Language: " + navigator->language() + "</p>" +
-				"<p>Browser Online: " + navigator->onLine() + "</p>" +
+				"<p>Browser Online: " + to_string(navigator->onLine()) + "</p>" +
 				"<p>Platform: " + navigator->platform() + "</p>" +
 				"<p>User-agent header: " + navigator->userAgent() + "</p>";
 
@@ -101,9 +101,9 @@ TEST(WindowNavigator, Test) {
 			auto text = "<p>Browser CodeName: " + navigator->appCodeName() + "</p>" +
 				"<p>Browser Name: " + navigator->appName() + "</p>" +
 				"<p>Browser Version: " + navigator->appVersion() + "</p>" +
-				"<p>Cookies Enabled: " + navigator->cookieEnabled() + "</p>" +
+				"<p>Cookies Enabled: " + to_string(navigator->cookieEnabled()) + "</p>" +
 				"<p>Browser Language: " + navigator->language() + "</p>" +
-				"<p>Browser Online: " + navigator->onLine() + "</p>" +
+				"<p>Browser Online: " + to_string(navigator->onLine()) + "</p>" +
 				"<p>Platform: " + navigator->platform() + "</p>" +
 				"<p>User-agent header: " + navigator->userAgent() + "</p>";
 
@@ -115,17 +115,17 @@ TEST(WindowNavigator, Test) {
 	{
 		//: Get the latitude and longitude of the user's position:
 		{
-			function<void(tany)> showPosition = [document](tany position) {
+			function<void(Geolocation::Position::ptr)> showPosition = [document](Geolocation::Position::ptr position) {
 				document->getElementById("demo")->innerHTML(
-					"Latitude: " + position->coords()->latitude() + "<br>" +
-					"Longitude: " + position->coords()->longitude());
+					"Latitude: " + to_string(position->coords()->latitude()) + "<br>" +
+					"Longitude: " + to_string(position->coords()->longitude()));
 			};
 
 			if (navigator->geolocation()) {
 				navigator->geolocation()->getCurrentPosition(showPosition);
 			}
 			else {
-				document->getElementById("demo").innerHTML("Geolocation is not supported by this browser.");
+				document->getElementById("demo")->innerHTML("Geolocation is not supported by this browser.");
 			}
 		}
 	}
@@ -151,9 +151,9 @@ TEST(WindowNavigator, Test) {
 			auto text = "<p>Browser CodeName: " + navigator->appCodeName() + "</p>" +
 				"<p>Browser Name: " + navigator->appName() + "</p>" +
 				"<p>Browser Version: " + navigator->appVersion() + "</p>" +
-				"<p>Cookies Enabled: " + navigator->cookieEnabled() + "</p>" +
+				"<p>Cookies Enabled: " + to_string(navigator->cookieEnabled()) + "</p>" +
 				"<p>Browser Language: " + navigator->language() + "</p>" +
-				"<p>Browser Online: " + navigator->onLine() + "</p>" +
+				"<p>Browser Online: " + to_string(navigator->onLine()) + "</p>" +
 				"<p>Platform: " + navigator->platform() + "</p>" +
 				"<p>User-agent header: " + navigator->userAgent() + "</p>";
 
@@ -173,9 +173,9 @@ TEST(WindowNavigator, Test) {
 			auto text = "<p>Browser CodeName: " + navigator->appCodeName() + "</p>" +
 				"<p>Browser Name: " + navigator->appName() + "</p>" +
 				"<p>Browser Version: " + navigator->appVersion() + "</p>" +
-				"<p>Cookies Enabled: " + navigator->cookieEnabled() + "</p>" +
+				"<p>Cookies Enabled: " + to_string(navigator->cookieEnabled()) + "</p>" +
 				"<p>Browser Language: " + navigator->language() + "</p>" +
-				"<p>Browser Online: " + navigator->onLine() + "</p>" +
+				"<p>Browser Online: " + to_string(navigator->onLine()) + "</p>" +
 				"<p>Platform: " + navigator->platform() + "</p>" +
 				"<p>User-agent header: " + navigator->userAgent() + "</p>";
 
@@ -195,9 +195,9 @@ TEST(WindowNavigator, Test) {
 			auto text = "<p>Browser CodeName: " + navigator->appCodeName() + "</p>" +
 				"<p>Browser Name: " + navigator->appName() + "</p>" +
 				"<p>Browser Version: " + navigator->appVersion() + "</p>" +
-				"<p>Cookies Enabled: " + navigator->cookieEnabled() + "</p>" +
+				"<p>Cookies Enabled: " + to_string(navigator->cookieEnabled()) + "</p>" +
 				"<p>Browser Language: " + navigator->language() + "</p>" +
-				"<p>Browser Online: " + navigator->onLine() + "</p>" +
+				"<p>Browser Online: " + to_string(navigator->onLine()) + "</p>" +
 				"<p>Platform: " + navigator->platform() + "</p>" +
 				"<p>User-agent header: " + navigator->userAgent() + "</p>";
 
@@ -217,9 +217,9 @@ TEST(WindowNavigator, Test) {
 			auto text = "<p>Browser CodeName: " + navigator->appCodeName() + "</p>" +
 				"<p>Browser Name: " + navigator->appName() + "</p>" +
 				"<p>Browser Version: " + navigator->appVersion() + "</p>" +
-				"<p>Cookies Enabled: " + navigator->cookieEnabled() + "</p>" +
+				"<p>Cookies Enabled: " + to_string(navigator->cookieEnabled()) + "</p>" +
 				"<p>Browser Language: " + navigator->language() + "</p>" +
-				"<p>Browser Online: " + navigator->onLine() + "</p>" +
+				"<p>Browser Online: " + to_string(navigator->onLine()) + "</p>" +
 				"<p>Platform: " + navigator->platform() + "</p>" +
 				"<p>User-agent header: " + navigator->userAgent() + "</p>";
 
@@ -239,9 +239,9 @@ TEST(WindowNavigator, Test) {
 			auto text = "<p>Browser CodeName: " + navigator->appCodeName() + "</p>" +
 				"<p>Browser Name: " + navigator->appName() + "</p>" +
 				"<p>Browser Version: " + navigator->appVersion() + "</p>" +
-				"<p>Cookies Enabled: " + navigator->cookieEnabled() + "</p>" +
+				"<p>Cookies Enabled: " + to_string(navigator->cookieEnabled()) + "</p>" +
 				"<p>Browser Language: " + navigator->language() + "</p>" +
-				"<p>Browser Online: " + navigator->onLine() + "</p>" +
+				"<p>Browser Online: " + to_string(navigator->onLine()) + "</p>" +
 				"<p>Platform: " + navigator->platform() + "</p>" +
 				"<p>User-agent header: " + navigator->userAgent() + "</p>";
 

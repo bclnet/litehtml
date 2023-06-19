@@ -98,6 +98,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <AdditionalIncludeDirectories>./src/gumbo/visualc/include;./src/gumbo/include/gumbo;./src/gumbo/include;./include/litehtml</AdditionalIncludeDirectories>
+	  <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
@@ -118,6 +119,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>./src/gumbo/visualc/include;./src/gumbo/include/gumbo;./src/gumbo/include;./include/litehtml</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
@@ -136,6 +138,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <AdditionalIncludeDirectories>./src/gumbo/visualc/include;./src/gumbo/include/gumbo;./src/gumbo/include;./include/litehtml</AdditionalIncludeDirectories>
+	  <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
@@ -157,12 +160,16 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>./src/gumbo/visualc/include;./src/gumbo/include/gumbo;./src/gumbo/include;./include/litehtml</AdditionalIncludeDirectories>
+	  <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\api_any.cpp" />
+    <ClCompile Include="src\api_event.cpp" />
+    <ClCompile Include="src\api_htmlelement.cpp" />
     <ClCompile Include="src\api_node.cpp" />
     <ClCompile Include="src\api_service.cpp" />
     <ClCompile Include="src\api.cpp" />
@@ -232,6 +239,8 @@
   <ItemGroup>
     <ClInclude Include="include\litehtml\api.h" />
     <ClInclude Include="include\litehtml\api_any.h" />
+    <ClInclude Include="include\litehtml\api_event.h" />
+    <ClInclude Include="include\litehtml\api_htmlelement.h" />
     <ClInclude Include="include\litehtml\api_node.h" />
     <ClInclude Include="include\litehtml\api_service.h" />
     <ClInclude Include="include\litehtml\background.h" />

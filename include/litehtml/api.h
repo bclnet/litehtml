@@ -15,6 +15,7 @@ namespace litehtml
 	class Style;
 	class Storage;
 	class Element;
+	class CSSStyleDeclaration;
 
 	/// <summary>
 	/// Rect
@@ -40,7 +41,7 @@ namespace litehtml
 	class DocumentFragment : public Node
 	{
 	public:
-		typedef std::unique_ptr<DocumentFragment> ptr;
+		typedef std::shared_ptr<DocumentFragment> ptr;
 	};
 
 	/// <summary>
@@ -49,7 +50,7 @@ namespace litehtml
 	class DocumentType
 	{
 	public:
-		typedef std::unique_ptr<DocumentType> ptr;
+		typedef std::shared_ptr<DocumentType> ptr;
 	};
 
 	/// <summary>
@@ -58,7 +59,7 @@ namespace litehtml
 	class DocumentImplementation
 	{
 	public:
-		typedef std::unique_ptr<DocumentImplementation> ptr;
+		typedef std::shared_ptr<DocumentImplementation> ptr;
 
 		bool hasFeature(string x, string y);
 	};
@@ -740,13 +741,13 @@ namespace litehtml
 		/// Writes HTML expressions or JavaScript code to a document
 		/// </summary>
 		/// <param name="args">The arguments.</param>
-		void write(void** args);
+		void write(void* args);
 
 		/// <summary>
 		/// Same as write(), but adds a newline character after each statement
 		/// </summary>
 		/// <param name="args">The arguments.</param>
-		void writeln(void** args);
+		void writeln(void* args);
 	};
 
 	/// <summary>
@@ -969,9 +970,9 @@ namespace litehtml
 		/// <summary>
 		/// Returns a collection of all child elements with the specified class name
 		/// </summary>
-		/// <param name="classname">The classname.</param>
+		/// <param name="classnames">The classnames.</param>
 		/// <returns></returns>
-		NodeList<Element> getElementsByClassName(string classname);
+		NodeList<Element> getElementsByClassName(string classnames);
 
 		/// <summary>
 		/// Returns a collection of all child elements with the specified tag name
@@ -1012,7 +1013,7 @@ namespace litehtml
 		/// The identifier.
 		/// </value>
 		string id();
-		void id(string value);
+		void id(string id);
 
 		/// <summary>
 		/// Sets or returns the content of an element
@@ -1377,7 +1378,7 @@ namespace litehtml
 		/// <value>
 		/// The style.
 		/// </value>
-		std::unique_ptr<Style> style();
+		std::shared_ptr<Style> style();
 
 		/// <summary>
 		/// Sets or returns the value of the tabindex attribute of an element
@@ -1427,21 +1428,79 @@ namespace litehtml
 	class Geolocation
 	{
 	public:
-		typedef std::unique_ptr<Geolocation> ptr;
+		typedef std::shared_ptr<Geolocation> ptr;
+
+		/// <summary>
+		/// Coordinates
+		/// https://www.w3schools.com/jsref/prop_geo_coordinates.asp
+		/// </summary>
+		class Coordinates
+		{
+		public:
+			typedef std::unique_ptr<Coordinates> ptr;
+
+			/// <summary>
+			/// Returns the position's latitude in decimal degrees
+			/// </summary>
+			int latitude();
+			/// <summary>
+			/// Returns the position's longitude in decimal degrees
+			/// </summary>
+			int longitude();
+			/// <summary>
+			/// Returns the position's altitude in meters, relative to sea level
+			/// </summary>
+			int altitude();
+			/// <summary>
+			/// Returns the accuracy of the latitude and longitude properties in meters
+			/// </summary>
+			int accuracy();
+			/// <summary>
+			/// Returns the accuracy of the altitude property in meters
+			/// </summary>
+			int altitudeAccuracy();
+			/// <summary>
+			/// Returns the direction in which the device is traveling. This value, specified in degrees, indicates how far off from heading true north the device is. 0 degrees represents true north, and the direction is determined clockwise (east is 90 degrees and west is 270 degrees). If speed is 0, heading is NaN. If the device is unable to provide heading information, this value is null
+			/// </summary>
+			int heading();
+			/// <summary>
+			/// Returns the velocity of the device in meters per second. This value can be null
+			/// </summary>
+			int speed();
+		};
+
+		/// <summary>
+		/// Position
+		/// https://www.w3schools.com/jsref/prop_geo_position.asp
+		/// </summary>
+		class Position
+		{
+		public:
+			typedef std::unique_ptr<Position> ptr;
+
+			/// <summary>
+			/// Returns a Coordinates object that defines the current location
+			/// </summary>
+			Coordinates::ptr coords();
+			/// <summary>
+			/// Returns a DOMTimeStamp representing the time at which the location was retrieved
+			/// </summary>
+			int64_t timestamp();
+		};
 
 		/// <summary>
 		/// Returns the position and altitude of the device on Earth
 		/// </summary>
 		/// <value>The coordinates.</value>
 		/// <exception cref="NotImplementedException"></exception>
-		void* coordinates();
+		Coordinates::ptr coordinates();
 
 		/// <summary>
 		/// Returns the position of the concerned device at a given time
 		/// </summary>
 		/// <value>The position.</value>
 		/// <exception cref="System.NotImplementedException"></exception>
-		void* position();
+		Position::ptr position();
 
 		/// <summary>
 		/// Returns the reason of an error occurring when using the geolocating device
@@ -1466,7 +1525,7 @@ namespace litehtml
 		/// </summary>
 		/// <returns>System.Object.</returns>
 		/// <exception cref="System.NotImplementedException"></exception>
-		void* getCurrentPosition();
+		void getCurrentPosition(tfunc1<Position::ptr> success, tfunc1<string> error = nullptr, tfunc1<tany> options = nullptr);
 
 		/// <summary>
 		/// Returns a watch ID value that then can be used to unregister the handler by passing it to the Geolocation.clearWatch() method
@@ -1483,7 +1542,7 @@ namespace litehtml
 	class History
 	{
 	public:
-		typedef std::unique_ptr<History> ptr;
+		typedef std::shared_ptr<History> ptr;
 
 		/// <summary>
 		/// Returns the number of URLs in the history list
@@ -1665,7 +1724,7 @@ namespace litehtml
 	class MediaQueryList
 	{
 	public:
-		typedef std::unique_ptr<MediaQueryList> ptr;
+		typedef std::shared_ptr<MediaQueryList> ptr;
 
 		/// <summary>
 		/// Used to check the results of a query. Returns a boolean value: true if the document matches the media query list, otherwise false
@@ -1688,14 +1747,14 @@ namespace litehtml
 		/// </summary>
 		/// <param name="functionref">The functionref.</param>
 		/// <exception cref="NotImplementedException"></exception>
-		void addListener(void* functionref);
+		void addListener(tfunc functionref);
 
 		/// <summary>
 		/// Removes a previously added listener function from the media query list. Does nothing if the specified listener is not already in the list
 		/// </summary>
 		/// <param name="functionref">The functionref.</param>
 		/// <exception cref="NotImplementedException"></exception>
-		void removeListener(void* functionref);
+		void removeListener(tfunc functionref);
 	};
 
 	/// <summary>
@@ -1705,7 +1764,7 @@ namespace litehtml
 	class Navigator
 	{
 	public:
-		typedef std::unique_ptr<Navigator> ptr;
+		typedef std::shared_ptr<Navigator> ptr;
 
 		/// <summary>
 	    /// Returns the code name of the browser
@@ -1801,7 +1860,7 @@ namespace litehtml
 	class Screen
 	{
 	public:
-		typedef std::unique_ptr<Screen> ptr;
+		typedef std::shared_ptr<Screen> ptr;
 
 		/// <summary>
 		/// Returns the height of the screen (excluding the Windows Taskbar)
@@ -1859,7 +1918,7 @@ namespace litehtml
 	class Style
 	{
 	public:
-		typedef std::unique_ptr<Style> ptr;
+		typedef std::shared_ptr<Style> ptr;
 
 		/// <summary>
 		/// Sets or returns the alignment between the lines inside a flexible container when the items do not use all available space
@@ -3583,7 +3642,7 @@ namespace litehtml
 		/// <value>
 		/// The frames.
 		/// </value>
-		std::vector<std::shared_ptr<Element>> frames();
+		std::vector<Window::ptr> frames();
 
 		/// <summary>
 		/// Returns the History object for the window (See History object)
@@ -3623,7 +3682,7 @@ namespace litehtml
 		/// <value>
 		/// The local storage.
 		/// </value>
-		std::unique_ptr<Storage> localStorage();
+		std::shared_ptr<Storage> localStorage();
 
 		/// <summary>
 		/// Returns the Location object for the window (See Location object)
@@ -3632,6 +3691,7 @@ namespace litehtml
 		/// The location.
 		/// </value>
 		Location::ptr location();
+		void location(string value);
 
 		/// <summary>
 		/// Sets or returns the name of a window
@@ -3744,7 +3804,7 @@ namespace litehtml
 		/// <value>
 		/// The session storage.
 		/// </value>
-		std::unique_ptr<Storage> sessionStorage();
+		std::shared_ptr<Storage> sessionStorage();
 
 		/// <summary>
 		/// An alias of pageXOffset
@@ -3816,13 +3876,13 @@ namespace litehtml
 		/// Clears a timer set with setInterval()
 		/// </summary>
 		/// <param name="var">The variable.</param>
-		void clearInterval(string var);
+		void clearInterval(int var);
 
 		/// <summary>
 		/// Clears a timer set with setTimeout()
 		/// </summary>
 		/// <param name="id_of_settimeout">The identifier of settimeout.</param>
-		void clearTimeout(string id_of_settimeout);
+		void clearTimeout(int id_of_settimeout);
 
 		/// <summary>
 		/// Closes the current window
@@ -3847,7 +3907,7 @@ namespace litehtml
 		/// <param name="element">The element.</param>
 		/// <param name="pseudoElement">The pseudo element.</param>
 		/// <returns></returns>
-		std::unique_ptr<Style> getComputedStyle(string element, string pseudoElement);
+		std::shared_ptr<CSSStyleDeclaration> getComputedStyle(Element::ptr element, string pseudoElement);
 
 		/// <summary>
 		/// Returns a Selection object representing the range of text selected by the user
@@ -3940,7 +4000,7 @@ namespace litehtml
 		/// <param name="milliseconds">The milliseconds.</param>
 		/// <param name="args">The arguments.</param>
 		/// <returns></returns>
-		int setInterval(string function, int milliseconds, ...);
+		int setInterval(tfunc function, int milliseconds, ...);
 
 		/// <summary>
 		/// Calls a function or evaluates an expression after a specified number of milliseconds
@@ -3949,7 +4009,7 @@ namespace litehtml
 		/// <param name="milliseconds">The milliseconds.</param>
 		/// <param name="args">The arguments.</param>
 		/// <returns></returns>
-		int setTimeout(string function, int milliseconds, ...);
+		int setTimeout(tfunc function, int milliseconds, ...);
 
 		/// <summary>
 		/// Stops the window from loading
@@ -3964,7 +4024,12 @@ namespace litehtml
 	class Storage
 	{
 	public:
-		typedef std::unique_ptr<Storage> ptr;
+		typedef std::shared_ptr<Storage> ptr;
+
+		/// <summary>
+		/// Overloading [] operator to access elements in array style
+		/// </summary>
+		tany operator[](string key);
 
 		/// <summary>
 		/// Returns the name of the nth key in the storage
@@ -4007,6 +4072,61 @@ namespace litehtml
 		/// </summary>
 		void clear();
 	};
+
+	/// <summary>
+	/// CSSStyleDeclaration
+	/// https://www.w3schools.com/jsref/obj_cssstyledeclaration.asp
+	/// https://html-document.github.io/html-document/docs/file/src/HTMLElement/CSSStyleDeclaration.js.html
+	/// https://html-document.github.io/html-document/docs/file/src/Abstract/AbstractCSSStyleDeclaration.js.html
+	/// </summary>
+	class CSSStyleDeclaration
+	{
+	public:
+		typedef std::shared_ptr<CSSStyleDeclaration> ptr;
+		
+		/// <summary>
+		/// Sets or returns the textual representation of a CSS declaration block
+		/// </summary>
+		string cssText();
+		void cssText(string value);
+
+		/// <summary>
+		/// Returns whether or not the specified CSS property has the "important!" priority set
+		/// </summary>
+		string getPropertyPriority(string propertyName);
+
+		/// <summary>
+		/// Returns the value of the specified CSS property
+		/// </summary>
+		string getPropertyValue(string propertyName);
+
+		/// <summary>
+		/// Returns the CSS property name from a CSS declaration block, by index
+		/// </summary>
+		string item(int index);
+
+		/// <summary>
+		/// Returns the number of style declarations in a CSS declaration block
+		/// </summary>
+		int length();
+
+		/// <summary>
+		/// Returns a CSS rule that is the parent of the style block
+		/// </summary>
+		void* parentRule(); //: CSSRule
+
+		/// <summary>
+		/// Removes a CSS property from a CSS declaration block
+		/// </summary>
+		void removeProperty(string propertyName);
+
+		/// <summary>
+		/// Sets a new or modifies an existing CSS property in a CSS declaration block
+		/// </summary>
+		void setProperty(string propertyName, string value, string important);
+	};
 }
+
+#include "api_htmlelement.h"
 
 #endif  // LH_API_H
