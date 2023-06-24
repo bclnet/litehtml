@@ -120,8 +120,7 @@ namespace litehtml
 
 		#if H3ML
 		size(int w, int h, int d) : width(w), height(h), depth(d)
-		{
-		}
+		{}
 		#endif
 
 		size(int w, int h) : width(w), height(h)

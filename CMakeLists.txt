@@ -68,6 +68,7 @@ set(SOURCE_LITEHTML
     src/css_properties.cpp
     src/line_box.cpp
     src/css_borders.cpp
+    src/render_asset.cpp
     src/render_item.cpp
     src/render_block_context.cpp
     src/render_block.cpp
@@ -134,6 +135,7 @@ set(HEADER_LITEHTML
     include/litehtml/num_cvt.h
     include/litehtml/css_properties.h
     include/litehtml/line_box.h
+    include/litehtml/render_asset.h
     include/litehtml/render_item.h
     include/litehtml/render_flex.h
     include/litehtml/render_image.h
@@ -205,7 +207,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 target_include_directories(${PROJECT_NAME} PRIVATE include/${PROJECT_NAME})
 
 # Options
-option(H3ML "H3ml build (experimental)" OFF)
+option(H3ML "H3ml build (experimental)" ON)
 if (H3ML)
     target_compile_definitions(${PROJECT_NAME} PUBLIC H3ML)
 endif()

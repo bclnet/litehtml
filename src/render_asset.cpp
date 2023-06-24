@@ -1,8 +1,9 @@
+#if H3ML
 #include "html.h"
-#include "render_item.h"
+#include "render_asset.h"
 #include "document.h"
 
-int litehtml::render_item_asset::render(point p, const containing_block_context &containing_block_size, bool second_pass)
+int litehtml::render_item_asset::_render(point p, const containing_block_context &containing_block_size, formatting_context* fmt_ctx, bool second_pass)
 {
     int parent_width = containing_block_size.width;
 
@@ -157,3 +158,4 @@ int litehtml::render_item_asset::calc_max_height(int asset_height, int containin
     return doc->to_pixels(src_el()->css().get_max_height(), src_el()->css().get_font_size(),
 						  containing_block_height == 0 ? asset_height : containing_block_height);
 }
+#endif

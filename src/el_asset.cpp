@@ -1,7 +1,7 @@
 #if H3ML
 #include "html.h"
 #include "el_asset.h"
-#include "render_item.h"
+#include "render_asset.h"
 
 litehtml::el_asset::el_asset(const document::ptr& doc) : html_tag(doc)
 {
@@ -81,11 +81,11 @@ void litehtml::el_asset::draw(uint_ptr hdc, point p, const position *clip, const
 			bg.border_box			+= ri->get_borders();
 			bg.image_size.width		= pos.width;
 			bg.image_size.height	= pos.height;
-			bg.border_radius		= css().get_borders().radius.calc_percents(bg.border_box.sz());
-			bg.position				= pos.p();
 			#if H3ML
 			bg.image_size.depth		= pos.depth;
 			#endif
+			bg.border_radius		= css().get_borders().radius.calc_percents(bg.border_box.sz());
+			bg.position				= pos.p();
 			get_document()->container()->draw_asset(hdc, {bg});
 		}
 	}
@@ -100,7 +100,7 @@ void litehtml::el_asset::draw(uint_ptr hdc, point p, const position *clip, const
 		borders bdr = css().get_borders();
 		bdr.radius = css().get_borders().radius.calc_percents(border_box.sz());
 
-		get_document()->container()->draw_borders(hdc, bdr, border_box, !have_parent());
+		get_document()->container()->draw_borders(hdc, bdr, border_box, is_root());
 	}
 }
 

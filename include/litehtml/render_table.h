@@ -12,6 +12,9 @@ namespace litehtml
 		std::unique_ptr<table_grid>	m_grid;
 		int						    m_border_spacing_x;
 		int						    m_border_spacing_y;
+		#if H3ML
+		int						    m_border_spacing_z;
+		#endif
 
 		int _render(point p, const containing_block_context &containing_block_size, formatting_context* fmt_ctx, bool second_pass) override;
 

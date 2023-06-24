@@ -97,7 +97,7 @@ int litehtml::render_item_inline_context::_render_content(point p, bool second_p
             m_margins.front = std::max(m_line_boxes.front()->front_margin(), m_margins.front);
             if (m_margins.front != old_front)
             {
-                update_floats(m_margins.front - old_front, shared_from_this());
+                fmt_ctx->update_floats(m_margins.front - old_front, shared_from_this());
             }
         }
         if (collapse_back_margin())
