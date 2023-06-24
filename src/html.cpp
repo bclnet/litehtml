@@ -2,6 +2,14 @@
 #include "types.h"
 #include "utf8_strings.h"
 
+#if H3ML
+litehtml::point litehtml::point_zero { 0, 0, 0 };
+litehtml::size litehtml::size_zero { 0, 0, 0 };
+#else
+litehtml::point litehtml::point_zero { 0, 0 };
+litehtml::size litehtml::size_zero { 0, 0 };
+#endif
+
 void litehtml::trim(string &s) 
 {
 	string::size_type pos = s.find_first_not_of(" \n\r\t");

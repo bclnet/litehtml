@@ -154,6 +154,7 @@ bool litehtml::render_item::get_predefined_height(int& p_height, int containing_
     return true;
 }
 
+#if H3ML
 bool litehtml::render_item::get_predefined_depth(int& p_depth, int containing_block_depth) const
 {
     css_length d = src_el()->css().get_depth();
@@ -170,6 +171,7 @@ bool litehtml::render_item::get_predefined_depth(int& p_depth, int containing_bl
     p_depth = src_el()->get_document()->to_pixels(d, src_el()->css().get_font_size());
     return true;
 }
+#endif
 
 int litehtml::render_item::calc_width(int defVal, int containing_block_width) const
 {

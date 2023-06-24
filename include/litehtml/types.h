@@ -52,14 +52,6 @@ namespace litehtml
 		#endif
 	};
 
-	#if H3ML
-	#define point_zero { 0, 0, 0 }
-	#define POINT(x, y, z) litehtml::point(x, y, z)
-	#else
-	#define point_zero { 0, 0 }
-	#define POINT(x, y, z) litehtml::point(x, y)
-	#endif
-
 	struct point
 	{
 		int x;
@@ -111,13 +103,12 @@ namespace litehtml
 			return *this;
 		}
 	};
+	extern point point_zero;
 
 	#if H3ML
-	#define size_zero { 0, 0, 0 }
-	#define SIZE(w, h, d) litehtml::size(w, h, d)
+	#define POINT(x, y, z) litehtml::point(x, y, z)
 	#else
-	#define size_zero { 0, 0 }
-	#define SIZE(w, h, d) litehtml::size(w, h)
+	#define POINT(x, y, z) litehtml::point(x, y)
 	#endif
 
 	struct size
@@ -148,6 +139,13 @@ namespace litehtml
 		{
 		}
 	};
+	extern size size_zero;
+
+	#if H3ML
+	#define SIZE(w, h, d) litehtml::size(w, h, d)
+	#else
+	#define SIZE(w, h, d) litehtml::size(w, h)
+	#endif
 
 	struct position : Rect
 	{
@@ -175,7 +173,7 @@ namespace litehtml
 			x = p.x;
 			y = p.y;
 			width = sz.width;
-			height = sz.width;
+			height = sz.height;
 			#if H3ML
 			z = p.z;
 			depth = sz.depth;

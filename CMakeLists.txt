@@ -140,6 +140,21 @@ set(HEADER_LITEHTML
 )
 
 set(TEST_LITEHTML
+    test/cssTest.cpp
+    test/mediaQueryTest.cpp
+    test/codepoint_test.cpp
+    test/tstring_view_test.cpp
+    test/url_test.cpp
+    test/url_path_test.cpp
+    test/render_test.cpp
+    containers/test/test_container.cpp
+    containers/test/test_directory.cpp
+    containers/test/Font.cpp
+    containers/test/Bitmap.cpp
+    containers/test/lodepng.cpp
+)
+
+set(TEST_LITEHTML_API
     test/apiDom/apiDomNodeTest.cpp
     test/apiHtml/apiHtmlAttributesTest.cpp
     #test/apiHtml/apiHtmlDocumentsTest.cpp
@@ -160,18 +175,6 @@ set(TEST_LITEHTML
     test/apiWindow/apiWindowObjectTest.cpp
     test/apiWindow/apiWindowScreenTest.cpp
     test/apiTestUtil.cpp
-    test/cssTest.cpp
-    test/mediaQueryTest.cpp
-    test/codepoint_test.cpp
-    test/tstring_view_test.cpp
-    test/url_test.cpp
-    test/url_path_test.cpp
-    test/render_test.cpp
-    containers/test/test_container.cpp
-    containers/test/test_directory.cpp
-    containers/test/Font.cpp
-    containers/test/Bitmap.cpp
-    containers/test/lodepng.cpp
 )
 
 set(PROJECT_LIB_VERSION ${PROJECT_MAJOR}.${PROJECT_MINOR}.0)
@@ -194,7 +197,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 target_include_directories(${PROJECT_NAME} PRIVATE include/${PROJECT_NAME})
 
 # Options
-option(H3ML "H3ml build (experimental)" ON)
+option(H3ML "H3ml build (experimental)" OFF)
 if (H3ML)
     target_compile_definitions(${PROJECT_NAME} PUBLIC H3ML)
 endif()

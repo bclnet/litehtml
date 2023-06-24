@@ -1,3 +1,4 @@
+#if H3ML
 #include "html.h"
 #include "el_asset.h"
 #include "render_item.h"
@@ -130,3 +131,4 @@ std::shared_ptr<litehtml::render_item> litehtml::el_asset::create_render_item(co
 	ret->parent(parent_ri);
 	return ret;
 }
+#endif
