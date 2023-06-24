@@ -5,6 +5,7 @@
 #include <memory>
 #include <map>
 #include <vector>
+#include <list>
 #include "api.h"
 
 namespace litehtml
@@ -14,7 +15,7 @@ namespace litehtml
 	class script_engine;
 
 	typedef std::map<string, string>					string_map;
-	typedef std::vector< std::shared_ptr<element> >		elements_vector;
+	typedef std::list< std::shared_ptr<element> >		elements_list;
 	typedef std::vector<int>							int_vector;
 	typedef std::vector<string>							string_vector;
 
@@ -770,6 +771,7 @@ namespace litehtml
 		element_clear	                clear_floats;
 		std::shared_ptr<render_item>	el;
 		int								context;
+		int 							min_width;
 
 		floated_box() = default;
 		floated_box(const floated_box& val)
@@ -779,6 +781,7 @@ namespace litehtml
 			clear_floats = val.clear_floats;
 			el = val.el;
 			context = val.context;
+			min_width = val.min_width;
 		}
 		floated_box& operator=(const floated_box& val)
 		{
@@ -787,6 +790,7 @@ namespace litehtml
 			clear_floats = val.clear_floats;
 			el = val.el;
 			context = val.context;
+			min_width = val.min_width;
 			return *this;
 		}
 		floated_box(floated_box&& val)
@@ -796,6 +800,7 @@ namespace litehtml
 			clear_floats = val.clear_floats;
 			el = std::move(val.el);
 			context = val.context;
+			min_width = val.min_width;
 		}
 		void operator=(floated_box&& val)
 		{
@@ -804,6 +809,7 @@ namespace litehtml
 			clear_floats = val.clear_floats;
 			el = std::move(val.el);
 			context = val.context;
+			min_width = val.min_width;
 		}
 	};
 

@@ -31,13 +31,13 @@ namespace litehtml
 	protected:
 		std::weak_ptr<element>					m_parent;
 		std::weak_ptr<document>					m_doc;
-		elements_vector							m_children;
+		elements_list							m_children;
 		css_properties							m_css;
 		std::list<std::weak_ptr<render_item>>	m_renders;
 		used_selector::vector					m_used_styles;
 
-		virtual void select_all(const css_selector& selector, elements_vector& res);
-		element::ptr _add_before_after(int type, const litehtml::style& style);
+		virtual void select_all(const css_selector& selector, elements_list& res);
+		element::ptr _add_before_after(int type, const style& style);
 	public:
 		explicit element(const std::shared_ptr<document>& doc);
 		virtual ~element() = default;
@@ -46,13 +46,14 @@ namespace litehtml
 		css_properties&				css_w();
 
 		bool						in_normal_flow()			const;
-		bool						is_inline_box()				const;
+		bool						is_inline()					const;	// returns true if element is inline
+		bool						is_inline_box()				const;	// returns true if element is inline box (inline-table, inline-box, inline-flex)
 		bool						is_block_box()				const;
 		position					get_placement()				const;
 		bool						is_positioned()				const;
 		bool						is_float()					const;
+		bool						is_block_formatting_context() const;
 
-		bool						have_parent() const;
 		bool						is_root() const;
 		element::ptr				parent() const;
 		void						parent(const element::ptr& par);
@@ -60,9 +61,10 @@ namespace litehtml
 		bool						is_table_skip() const;
 
 		std::shared_ptr<document>	get_document() const;
+		const std::list<std::shared_ptr<element>>& children() const;
 
-		virtual elements_vector		select_all(const string& selector);
-		virtual elements_vector		select_all(const css_selector& selector);
+		virtual elements_list		select_all(const string& selector);
+		virtual elements_list		select_all(const css_selector& selector);
 
 		virtual element::ptr		select_one(const string& selector);
 		virtual element::ptr		select_one(const css_selector& selector);
@@ -76,8 +78,6 @@ namespace litehtml
 		virtual const char*			get_tagName() const;
 		virtual void				set_tagName(const char* tag);
 		virtual void				set_data(const char* data);
-		virtual size_t				get_children_count() const;
-		virtual element::ptr		get_child(int idx) const;
 
 		virtual void				set_attr(const char* name, const char* val);
 		virtual const char*			get_attr(const char* name, const char* def = nullptr) const;
@@ -122,12 +122,10 @@ namespace litehtml
 		virtual element::ptr		find_adjacent_sibling(const element::ptr& el, const css_selector& selector, bool apply_pseudo = true, bool* is_pseudo = nullptr);
 		virtual element::ptr		find_sibling(const element::ptr& el, const css_selector& selector, bool apply_pseudo = true, bool* is_pseudo = nullptr);
 		virtual void				get_content_size(size& sz, int max_width);
-		virtual bool				is_floats_holder() const;
-		virtual void				update_floats(int dy, const ptr &parent);
 		virtual bool				is_nth_child(const element::ptr& el, int num, int off, bool of_type) const;
 		virtual bool				is_nth_last_child(const element::ptr& el, int num, int off, bool of_type) const;
 		virtual bool				is_only_child(const element::ptr& el, bool of_type) const;
-		virtual void				add_style(const litehtml::style& style);
+		virtual void				add_style(const style& style);
 		virtual const background*	get_background(bool own_only = false);
 
 		virtual string				dump_get_name();
@@ -139,11 +137,11 @@ namespace litehtml
 		bool requires_styles_update();
 		void add_render(const std::shared_ptr<render_item>& ri);
 		bool find_styles_changes( position::vector& redraw_boxes);
-		element::ptr add_pseudo_before(const litehtml::style& style)
+		element::ptr add_pseudo_before(const style& style)
 		{
 			return _add_before_after(0, style);
 		}
-		element::ptr add_pseudo_after(const litehtml::style& style)
+		element::ptr add_pseudo_after(const style& style)
 		{
 			return _add_before_after(1, style);
 		}
@@ -213,6 +211,11 @@ namespace litehtml
 			return true;
 		}
 		return false;
+	}
+
+	inline const std::list<std::shared_ptr<element>>& element::children() const
+	{
+		return m_children;
 	}
 }
 

@@ -1,12 +1,12 @@
 #include "html.h"
-#include "render_item.h"
+#include "render_block_context.h"
 #include "document.h"
 
-int litehtml::render_item_block_context::_render_content(point p, bool second_pass, int ret_width,
-														 const containing_block_context &self_size)
+int litehtml::render_item_block_context::_render_content(point p, bool second_pass, const containing_block_context &self_size, formatting_context* fmt_ctx)
 {
     element_position el_position;
 
+	int ret_width = 0;
     int child_top = 0;
     #if H3ML
     int child_front = 0;
@@ -25,7 +25,7 @@ int litehtml::render_item_block_context::_render_content(point p, bool second_pa
 
         if(el->src_el()->css().get_float() != float_none)
         {
-            int rw = place_float(el, child_top, self_size);
+            int rw = place_float(el, child_top, self_size, fmt_ctx);
             if (rw > ret_width)
             {
                 ret_width = rw;
@@ -34,10 +34,14 @@ int litehtml::render_item_block_context::_render_content(point p, bool second_pa
         {
             if(el->src_el()->css().get_position() == element_position_absolute || el->src_el()->css().get_position() == element_position_fixed)
             {
-                el->render(POINT(0, child_top, 0), self_size);
+				int min_rendered_width = el->render(POINT(0, child_top, 0), self_size, fmt_ctx);
+				if(min_rendered_width < el->width() && el->src_el()->css().get_width().is_predefined())
+				{
+					el->render(POINT(0, child_top, 0), self_size.new_width(min_rendered_width), fmt_ctx);
+				}
             } else
             {
-                child_top = get_cleared_top(el, child_top);
+                child_top = fmt_ctx->get_cleared_top(el, child_top);
                 int child_x  = 0;
                 int child_width = self_size.render_width;
 
@@ -62,11 +66,11 @@ int litehtml::render_item_block_context::_render_content(point p, bool second_pa
                     }
                 }
 
-                if(el->src_el()->is_replaced() || el->src_el()->is_floats_holder() || el->src_el()->css().get_display() == display_table)
+                if(el->src_el()->is_replaced() || el->src_el()->is_block_formatting_context() || el->src_el()->css().get_display() == display_table)
                 {
                     int ln_left = 0;
                     int ln_right = child_width;
-                    get_line_left_right(child_top, child_width, ln_left, ln_right);
+                    fmt_ctx->get_line_left_right(child_top, child_width, ln_left, ln_right);
                     child_x = ln_left;
                     child_width = ln_right - ln_left;
 
@@ -78,11 +82,11 @@ int litehtml::render_item_block_context::_render_content(point p, bool second_pa
                     #endif
                 }
 
-                int rw = el->render(POINT(child_x, child_top, 0), self_size.new_width(child_width));
+                int rw = el->render(POINT(child_x, child_top, 0), self_size.new_width(child_width), fmt_ctx);
 				// Render table with "width: auto" into returned width
 				if(el->src_el()->css().get_display() == display_table && rw < child_width && el->src_el()->css().get_width().is_predefined())
 				{
-                    el->render(POINT(child_x, child_top, 0), self_size.new_width(rw));
+					el->render(POINT(child_x, child_top, 0), self_size.new_width(rw), fmt_ctx);
 				}
 				int auto_margin = el->calc_auto_margins(child_width);
 				if(auto_margin)

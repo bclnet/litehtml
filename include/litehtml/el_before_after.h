@@ -10,8 +10,7 @@ namespace litehtml
 	public:
 		el_before_after_base(const std::shared_ptr<document>& doc, bool before);
 
-		void add_style(const litehtml::style& style) override;
-		void apply_stylesheet(const litehtml::css& stylesheet) override;
+		void add_style(const style& style) override;
 	private:
 		void	add_text(const string& txt);
 		void	add_function(const string& fnc, const string& params);

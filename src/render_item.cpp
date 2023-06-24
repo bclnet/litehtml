@@ -38,6 +38,42 @@ litehtml::render_item::render_item(std::shared_ptr<element>  _src_el) :
     #endif
 }
 
+int litehtml::render_item::render(point p, const containing_block_context& containing_block_size, formatting_context* fmt_ctx, bool second_pass)
+{
+	int ret;
+
+	calc_outlines(containing_block_size.width);
+
+	m_pos.clear();
+	m_pos.move_to(p);
+
+	int content_left = content_offset_left();
+	int content_top = content_offset_top();
+	#if H3ML
+	int content_front = content_offset_front();
+	#endif
+
+	m_pos.x += content_left;
+	m_pos.y += content_top;
+	#if H3ML
+	m_pos.z += content_front;
+	#endif
+
+
+	if(src_el()->is_block_formatting_context() || ! fmt_ctx)
+	{
+		formatting_context fmt;
+		fmt.push_position(POINT(content_left, content_top, content_front));
+		ret = _render(p, containing_block_size, &fmt, second_pass);
+		fmt.apply_relative_shift(containing_block_size);
+	} else
+	{
+		fmt_ctx->push_position(POINT(x + content_left, y + content_top, z + content_front));
+		ret = _render(p, containing_block_size, fmt_ctx, second_pass);
+		fmt_ctx->pop_position(POINT(x + content_left, y + content_top, z + content_front));
+	}
+	return ret;
+}
 
 void litehtml::render_item::calc_outlines( int parent_width )
 {
@@ -148,10 +184,10 @@ bool litehtml::render_item::get_predefined_height(int& p_height, int containing_
     if(h.units() == css_units_percentage)
     {
 		p_height = h.calc_percent(containing_block_height);
-		return containing_block_height != 0;
+		return containing_block_height > 0;
     }
     p_height = src_el()->get_document()->to_pixels(h, src_el()->css().get_font_size());
-    return true;
+    return p_height > 0;
 }
 
 #if H3ML
@@ -166,10 +202,10 @@ bool litehtml::render_item::get_predefined_depth(int& p_depth, int containing_bl
     if(d.units() == css_units_percentage)
     {
 		p_depth = d.calc_percent(containing_block_depth);
-		return containing_block_depth != 0;
+		return containing_block_depth > 0;
     }
     p_depth = src_el()->get_document()->to_pixels(d, src_el()->css().get_font_size());
-    return true;
+    return p_depth > 0;
 }
 #endif
 
@@ -584,7 +620,7 @@ void litehtml::render_item::render_positioned(render_type rt)
             if(need_render)
             {
                 position pos = el->m_pos;
-				el->render(POINT(el->left(), el->top(), el->front()), containing_block_size.new_width(el->width()), true);
+				el->render(POINT(el->left(), el->top(), el->front()), containing_block_size.new_width(el->width()), nullptr, true);
                 el->m_pos = pos;
             }
 
@@ -797,7 +833,7 @@ void litehtml::render_item::draw_children(uint_ptr hdc, point p, const position*
                     }
                     break;
                 case draw_block:
-                    if (!el->src_el()->is_inline_box() && el->src_el()->css().get_float() == float_none && !el->src_el()->is_positioned())
+                    if (!el->src_el()->is_inline() && el->src_el()->css().get_float() == float_none && !el->src_el()->is_positioned())
                     {
                         el->src_el()->draw(hdc, pos.p(), clip, el);
                     }
@@ -811,7 +847,7 @@ void litehtml::render_item::draw_children(uint_ptr hdc, point p, const position*
                     }
                     break;
                 case draw_inlines:
-                    if (el->src_el()->is_inline_box() && el->src_el()->css().get_float() == float_none && !el->src_el()->is_positioned())
+                    if (el->src_el()->is_inline() && el->src_el()->css().get_float() == float_none && !el->src_el()->is_positioned())
                     {
                         el->src_el()->draw(hdc, pos.p(), clip, el);
                         if (el->src_el()->css().get_display() == display_inline_block)
@@ -902,7 +938,7 @@ std::shared_ptr<litehtml::element>  litehtml::render_item::get_child_by_point(po
                     }
                     break;
                 case draw_block:
-                    if(!el->src_el()->is_inline_box() && el->src_el()->css().get_float() == float_none && !el->src_el()->is_positioned())
+                    if(!el->src_el()->is_inline() && el->src_el()->css().get_float() == float_none && !el->src_el()->is_positioned())
                     {
                         if(el->is_point_inside(el_pos.p()))
                         {
@@ -923,7 +959,7 @@ std::shared_ptr<litehtml::element>  litehtml::render_item::get_child_by_point(po
                     }
                     break;
                 case draw_inlines:
-                    if(el->src_el()->is_inline_box() && el->src_el()->css().get_float() == float_none && !el->src_el()->is_positioned())
+                    if(el->src_el()->is_inline() && el->src_el()->css().get_float() == float_none && !el->src_el()->is_positioned())
                     {
                         if(el->src_el()->css().get_display() == display_inline_block ||
                                 el->src_el()->css().get_display() == display_inline_table ||
@@ -1254,27 +1290,4 @@ litehtml::containing_block_context litehtml::render_item::calculate_containing_b
         #endif
 	}
 	return ret;
-}
-
-void litehtml::render_item_table_row::get_inline_boxes( position::vector& boxes ) const
-{
-	position pos;
-	for(auto& el : m_children)
-	{
-		if(el->src_el()->css().get_display() == display_table_cell)
-		{
-			pos.x		= el->left() + el->margin_left();
-			pos.y		= el->top() - m_padding.top - m_borders.top;
-
-			pos.width	= el->right() - pos.x - el->margin_right() - el->margin_left();
-			pos.height	= el->height() + m_padding.top + m_padding.bottom + m_borders.top + m_borders.bottom;
-
-            #if H3ML
-            pos.z       = el->front() - m_padding.front - m_borders.front;
-            pos.depth   = el->depth() + m_padding.front + m_padding.back + m_borders.front + m_borders.back;
-            #endif
-
-			boxes.push_back(pos);
-		}
-	}
 }
