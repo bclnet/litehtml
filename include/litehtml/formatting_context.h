@@ -15,19 +15,28 @@ namespace litehtml
 		int_int_cache m_cache_line_right;
 		int m_current_top;
 		int m_current_left;
+		#if H3ML
+		int m_current_front;
+		#endif
 
 	public:
 		formatting_context() : m_current_top(0), m_current_left(0)	{}
 
-		void push_position(int x, int y)
+		void push_position(point p)
 		{
-			m_current_left += x;
-			m_current_top += y;
+			m_current_left += p.x;
+			m_current_top += p.y;
+			#if H3ML
+			m_current_front += p.z;
+			#endif
 		}
-		void pop_position(int x, int y)
+		void pop_position(point p)
 		{
-			m_current_left -= x;
-			m_current_top -= y;
+			m_current_left -= p.x;
+			m_current_top -= p.y;
+			#if H3ML
+			m_current_front += p.z;
+			#endif
 		}
 
 		void add_float(const std::shared_ptr<render_item> &el, int min_width, int context);

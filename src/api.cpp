@@ -159,7 +159,7 @@ namespace litehtml
 	/// The anchors.
 	/// </value>
 	HTMLCollection Document::anchors() {
-		auto s = elements_vector();
+		auto s = elements_list();
 		return s;
 	}
 
@@ -179,7 +179,7 @@ namespace litehtml
 	/// The applets.
 	/// </value>
 	HTMLCollection Document::applets() {
-		auto s = elements_vector();
+		auto s = elements_list();
 		return s;
 	}
 
@@ -355,7 +355,7 @@ namespace litehtml
 	/// The embeds.
 	/// </value>
 	HTMLCollection Document::embeds() {
-		auto s = elements_vector();
+		auto s = elements_list();
 		return s;
 	}
 
@@ -374,7 +374,7 @@ namespace litehtml
 	/// <value>
 	/// The first child.
 	/// </value>
-	Node::ptr Document::firstChild() { return _doc->m_root->m_children[0]; } //: Node
+	Node::ptr Document::firstChild() { return _doc->m_root->m_children.front(); } //: Node
 
 	/// <summary>
 	/// Returns a collection of all &lt;form&gt; elements in the document
@@ -383,7 +383,7 @@ namespace litehtml
 	/// The forms.
 	/// </value>
 	HTMLCollection Document::forms() {
-		auto s = elements_vector();
+		auto s = elements_list();
 		return s;
 	}
 
@@ -499,7 +499,7 @@ namespace litehtml
 	/// The images.
 	/// </value>
 	HTMLCollection Document::images() {
-		auto s = elements_vector();
+		auto s = elements_list();
 		return s;
 	}
 
@@ -560,7 +560,7 @@ namespace litehtml
 	/// <value>
 	/// The last child.
 	/// </value>
-	Node::ptr Document::lastChild() { auto children = _doc->m_root->m_children; return children.size() > 0 ? children[children.size() - 1] : nullptr; } //: Node
+	Node::ptr Document::lastChild() { auto children = _doc->m_root->m_children; return children.size() > 0 ? children.back() : nullptr; } //: Node
 
 	/// <summary>
 	/// Returns the date and time the document was last modified
@@ -577,7 +577,7 @@ namespace litehtml
 	/// The links.
 	/// </value>
 	HTMLCollection Document::links() {
-		auto s = elements_vector();
+		auto s = elements_list();
 		return s;
 	}
 
@@ -719,7 +719,7 @@ namespace litehtml
 	/// The scripts.
 	/// </value>
 	HTMLCollection Document::scripts() {
-		auto s = elements_vector();
+		auto s = elements_list();
 		return s;
 	}
 
@@ -836,7 +836,7 @@ namespace litehtml
 	/// Returns a collection of an element's child element (excluding text and comment nodes)
 	/// </summary>
 	HTMLCollection Element::children() {
-		elements_vector out;
+		elements_list out;
 		copy_if(begin(_elem->m_children), end(_elem->m_children), std::back_inserter(out), [](element::ptr node) { return node->nodeType() == 0; });
 		return out;
 	}
@@ -954,7 +954,7 @@ namespace litehtml
 	/// <value>
 	/// The first child.
 	/// </value>
-	Node::ptr Element::firstChild() { return _elem->m_children[0]; } //: Node
+	Node::ptr Element::firstChild() { return _elem->m_children.front(); } //: Node
 
 	/// <summary>
 	/// Returns the first child element of an element
@@ -963,7 +963,7 @@ namespace litehtml
 	/// The first element child.
 	/// </value>
 	Element::ptr Element::firstElementChild() {
-		return !_elem->m_children.empty() ? _elem->m_children[0] : nullptr;
+		return !_elem->m_children.empty() ? _elem->m_children.front() : nullptr;
 	}
 
 	/// <summary>
@@ -1155,7 +1155,7 @@ namespace litehtml
 	/// The last child.
 	/// </value>
 	Node::ptr Element::lastChild() {
-		return _elem->m_children.empty() ? nullptr : _elem->m_children[_elem->m_children.size() - 1];
+		return _elem->m_children.empty() ? nullptr : _elem->m_children.back();
 	} //: Node
 
 	/// <summary>
@@ -1165,7 +1165,7 @@ namespace litehtml
 	/// The last element child.
 	/// </value>
 	Element::ptr Element::lastElementChild() {
-		return _elem->m_children.empty() ? nullptr : _elem->m_children[_elem->m_children.size() - 1];
+		return _elem->m_children.empty() ? nullptr : _elem->m_children.back();
 	}
 
 	/// <summary>
@@ -1453,7 +1453,7 @@ namespace litehtml
 	/// <value>
 	/// The style.
 	/// </value>
-	Style::ptr Element::style() { return nullptr; }
+	Style::ptr Element::style_() { return nullptr; }
 
 	/// <summary>
 	/// Sets or returns the value of the tabindex attribute of an element
@@ -1612,7 +1612,7 @@ namespace litehtml
 namespace litehtml
 {
 	HTMLCollection::HTMLCollection() { }
-	HTMLCollection::HTMLCollection(elements_vector& elements) : _elems(elements) { }
+	HTMLCollection::HTMLCollection(elements_list& elements) : _elems(elements) { }
 
 	/// <summary>
 	/// Returns the number of elements in an HTMLCollection

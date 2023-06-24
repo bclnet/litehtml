@@ -68,9 +68,9 @@ int litehtml::render_item::render(point p, const containing_block_context& conta
 		fmt.apply_relative_shift(containing_block_size);
 	} else
 	{
-		fmt_ctx->push_position(POINT(x + content_left, y + content_top, z + content_front));
+		fmt_ctx->push_position(POINT(p.x + content_left, p.y + content_top, p.z + content_front));
 		ret = _render(p, containing_block_size, fmt_ctx, second_pass);
-		fmt_ctx->pop_position(POINT(x + content_left, y + content_top, z + content_front));
+		fmt_ctx->pop_position(POINT(p.x + content_left, p.y + content_top, p.z + content_front));
 	}
 	return ret;
 }

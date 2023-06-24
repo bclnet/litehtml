@@ -317,18 +317,12 @@ namespace litehtml
 /// </summary>
 namespace litehtml
 {
-	template<class TNode>
-	NodeList<TNode>::NodeList() : list((elements_vector)0) { }
-	template<class TNode>
-	NodeList<TNode>::NodeList(elements_vector& elements) : list(elements) { }
-	template<class TNode>
-	NodeList<TNode>::~NodeList() { if (list != (elements_vector)0) list.clear(); }
-	template<class TNode>
-	std::shared_ptr<TNode> NodeList<TNode>::operator[](int index) { return list != (elements_vector)0 ? list[index] : nullptr; }
-	template<class TNode>
-	std::shared_ptr<TNode> NodeList<TNode>::item(int index) { return list != (elements_vector)0 ? list[index] : nullptr; }
-	template<class TNode>
-	int NodeList<TNode>::length() { return list != (elements_vector)0 ? (int)list.size() : 0; }
+	template<class TNode> NodeList<TNode>::NodeList() : list((elements_list)0) { }
+	template<class TNode> NodeList<TNode>::NodeList(elements_list& elements) : list(elements) { }
+	template<class TNode> NodeList<TNode>::~NodeList() { if (list != (elements_list)0) list.clear(); }
+	template<class TNode> std::shared_ptr<TNode> NodeList<TNode>::operator[](int index) { return list != (elements_list)0 ? *std::next(list.begin(), index) : nullptr; }
+	template<class TNode> std::shared_ptr<TNode> NodeList<TNode>::item(int index) { return list != (elements_list)0 ? *std::next(list.begin(), index) : nullptr; }
+	template<class TNode> int NodeList<TNode>::length() { return list != (elements_list)0 ? (int)list.size() : 0; }
 
 	template class NodeList<Node>;
 	template class NodeList<Element>;

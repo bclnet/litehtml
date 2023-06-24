@@ -28,7 +28,7 @@ namespace litehtml
 	protected:
 		std::list<std::unique_ptr<flex_item>>   m_flex_items;
 
-		int _render_content(int x, int y, bool second_pass, const containing_block_context &self_size, formatting_context* fmt_ctx) override;
+		int _render_content(point p, bool second_pass, const containing_block_context &self_size, formatting_context* fmt_ctx) override;
 
 	public:
 		explicit render_item_flex(std::shared_ptr<element>  src_el) : render_item_block(std::move(src_el))
@@ -38,7 +38,7 @@ namespace litehtml
 		{
 			return std::make_shared<render_item_flex>(src_el());
 		}
-		void draw_children(uint_ptr hdc, int x, int y, const position* clip, draw_flag flag, int zindex) override;
+		void draw_children(uint_ptr hdc, point p, const position* clip, draw_flag flag, int zindex) override;
 		std::shared_ptr<render_item> init() override;
 	};
 }

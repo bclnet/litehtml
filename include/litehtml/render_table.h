@@ -13,7 +13,7 @@ namespace litehtml
 		int						    m_border_spacing_x;
 		int						    m_border_spacing_y;
 
-		int _render(int x, int y, const containing_block_context &containing_block_size, formatting_context* fmt_ctx, bool second_pass) override;
+		int _render(point p, const containing_block_context &containing_block_size, formatting_context* fmt_ctx, bool second_pass) override;
 
 	public:
 		explicit render_item_table(std::shared_ptr<element>  src_el);
@@ -22,7 +22,7 @@ namespace litehtml
 		{
 			return std::make_shared<render_item_table>(src_el());
 		}
-		void draw_children(uint_ptr hdc, int x, int y, const position* clip, draw_flag flag, int zindex) override;
+		void draw_children(uint_ptr hdc, point p, const position* clip, draw_flag flag, int zindex) override;
 		int get_draw_vertical_offset() override;
 		std::shared_ptr<render_item> init() override;
 	};

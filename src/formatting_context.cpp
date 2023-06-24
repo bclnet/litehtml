@@ -14,6 +14,10 @@ void litehtml::formatting_context::add_float(const std::shared_ptr<render_item> 
 	fb.el			= el;
 	fb.context		= context;
 	fb.min_width	= min_width;
+	#if H3ML
+	fb.pos.z		= el->front() + m_current_front;
+	fb.pos.depth	= el->depth();
+	#endif
 
 	if(fb.float_side == float_left)
 	{

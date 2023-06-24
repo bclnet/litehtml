@@ -306,7 +306,7 @@ void litehtml::render_item_inline_context::place_inline(std::unique_ptr<line_box
 	{
 		if(item->get_el()->src_el()->is_inline_box())
 		{
-			int min_rendered_width = item->get_el()->render(line_ctx.left, line_ctx.top, self_size.new_width(line_ctx.right), fmt_ctx);
+			int min_rendered_width = item->get_el()->render(POINT(line_ctx.left, line_ctx.top, line_ctx.front), self_size.new_width(line_ctx.right), fmt_ctx);
 			if(min_rendered_width < item->get_el()->width() && item->get_el()->src_el()->css().get_width().is_predefined())
 			{
 				item->get_el()->render(POINT(line_ctx.left, line_ctx.top, line_ctx.front), self_size.new_width(min_rendered_width), fmt_ctx);

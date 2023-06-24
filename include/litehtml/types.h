@@ -87,19 +87,19 @@ namespace litehtml
 
 		point operator+(const point& p)
 		{
-			x -= p.x;
-			y -= p.y;
+			x += p.x;
+			y += p.y;
 			#if H3ML
-			z -= p.z;
+			z += p.z;
 			#endif
 			return *this;
 		}
 		point operator-(const point& p)
 		{
-			x += p.x;
-			y += p.y;
+			x -= p.x;
+			y -= p.y;
 			#if H3ML
-			z += p.z;
+			z -= p.z;
 			#endif
 			return *this;
 		}

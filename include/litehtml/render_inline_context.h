@@ -31,7 +31,7 @@ namespace litehtml
 		std::vector<std::unique_ptr<litehtml::line_box> > m_line_boxes;
 		int m_max_line_width;
 
-		int _render_content(int x, int y, bool second_pass, const containing_block_context &self_size, formatting_context* fmt_ctx) override;
+		int _render_content(point p, bool second_pass, const containing_block_context &self_size, formatting_context* fmt_ctx) override;
 		void fix_line_width(element_float flt,
 							const containing_block_context &self_size, formatting_context* fmt_ctx) override;
 

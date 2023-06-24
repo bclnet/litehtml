@@ -262,7 +262,7 @@ bool element::find_styles_changes( position::vector& redraw_boxes)
 	return ret;
 }
 
-element::ptr element::_add_before_after(int type, const style& style)
+element::ptr element::_add_before_after(int type, const style & style)
 {
 	element::ptr el;
 	if(type == 0)

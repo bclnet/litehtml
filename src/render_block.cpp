@@ -9,14 +9,15 @@ int litehtml::render_item_block::place_float(const std::shared_ptr<render_item> 
     int line_top	= fmt_ctx->get_cleared_top(el, top);
     int line_left	= 0;
     int line_right	= self_size.render_width;
+    int line_front = 0;
 	fmt_ctx->get_line_left_right(line_top, self_size.render_width, line_left, line_right);
 
     int ret_width = 0;
 
-	int min_rendered_width = el->render(line_left, line_top, self_size.new_width(line_right), fmt_ctx);
+	int min_rendered_width = el->render(POINT(line_left, line_top, line_front), self_size.new_width(line_right), fmt_ctx);
 	if(min_rendered_width < el->width() && el->src_el()->css().get_width().is_predefined())
 	{
-		el->render(line_left, line_top, self_size.new_width(min_rendered_width), fmt_ctx);
+		el->render(POINT(line_left, line_top, line_front), self_size.new_width(min_rendered_width), fmt_ctx);
 	}
 
     if (el->src_el()->css().get_float() == float_left)

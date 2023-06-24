@@ -1378,7 +1378,7 @@ namespace litehtml
 		/// <value>
 		/// The style.
 		/// </value>
-		std::shared_ptr<Style> style();
+		std::shared_ptr<Style> style_();
 
 		/// <summary>
 		/// Sets or returns the value of the tabindex attribute of an element
@@ -1571,10 +1571,10 @@ namespace litehtml
 	/// </summary>
 	class HTMLCollection
 	{
-		elements_vector _elems;
+		elements_list _elems;
 	public:
 		HTMLCollection();
-		HTMLCollection(elements_vector& elements);
+		HTMLCollection(elements_list& elements);
 
 		/// <summary>
 		/// Returns the number of elements in an HTMLCollection

@@ -10,7 +10,7 @@ namespace litehtml
 	class element;
 	class html_tag;
 	typedef std::map<string, string> string_map;
-	typedef std::vector<std::shared_ptr<element>> elements_vector;
+	typedef std::list<std::shared_ptr<element>> elements_list;
 
 	/// <summary>
 	/// Node
@@ -485,10 +485,10 @@ namespace litehtml
 	template<class TNode>
 	class NodeList
 	{
-		elements_vector list;
+		elements_list list;
 	public:
 		NodeList();
-		NodeList(elements_vector& elements);
+		NodeList(elements_list& elements);
 		~NodeList();
 		std::shared_ptr<TNode> operator[](int index);
 		std::shared_ptr<TNode> item(int index);
