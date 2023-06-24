@@ -87,21 +87,19 @@ namespace litehtml
 
 		point operator+(const point& p)
 		{
-			x += p.x;
-			y += p.y;
-			#if H3ML
-			z += p.z;
-			#endif
-			return *this;
+			return point(x + p.x, y + p.y
+				#if H3ML
+				, z + p.z
+				#endif
+			);
 		}
 		point operator-(const point& p)
 		{
-			x -= p.x;
-			y -= p.y;
-			#if H3ML
-			z -= p.z;
-			#endif
-			return *this;
+			return point(x - p.x, y - p.y
+				#if H3ML
+				, z - p.z
+				#endif
+			);
 		}
 	};
 	extern point point_zero;
@@ -130,15 +128,13 @@ namespace litehtml
 			#if H3ML
 			, depth(0)
 			#endif
-		{
-		}
+		{}
 
 		size() : width(0), height(0)
 			#if H3ML
 			, depth(0)
 			#endif
-		{
-		}
+		{}
 	};
 	extern size size_zero;
 
@@ -180,17 +176,8 @@ namespace litehtml
 			depth = sz.depth;
 			#endif
 		}
-
-		point p() 		const		{ return { x, y
-			#if H3ML
-			, z
-			#endif
-		};	}
-		size sz()		const		{ return { width, height
-			#if H3ML
-			, depth
-			#endif
-		}; }
+		point p() 		const 		{ return *(point*)&x; 	}
+		size sz() 		const 		{ return *(size*)&width;}
 		int right()		const		{ return x + width;		}
 		int bottom()	const		{ return y + height;	}
 		int left()		const		{ return x;				}
@@ -207,7 +194,7 @@ namespace litehtml
 			width	+= mg.left + mg.right;
 			height	+= mg.top + mg.bottom;
 			#if H3ML
-			z		-= mg.front;
+			z		+= mg.front;
 			depth 	+= mg.front + mg.back;
 			#endif
 		}
