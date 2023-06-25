@@ -149,10 +149,12 @@ namespace litehtml
 
 		int	x;
 		int	y;
+		#if H3ML
+		int z;
+		#endif
 		int	width;
 		int	height;
 		#if H3ML
-		int z;
 		int depth;
 		#endif
 
@@ -193,7 +195,7 @@ namespace litehtml
 			width	+= mg.left + mg.right;
 			height	+= mg.top + mg.bottom;
 			#if H3ML
-			z		+= mg.front;
+			z		-= mg.front;
 			depth 	+= mg.front + mg.back;
 			#endif
 		}
@@ -231,7 +233,7 @@ namespace litehtml
 			width	= sz.width;
 			height	= sz.height;
 			#if H3ML
-			depth = sz.depth;
+			depth	= sz.depth;
 			#endif
 		}
 

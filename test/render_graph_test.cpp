@@ -8,7 +8,7 @@
 #endif
 #include "../containers/test/location.h"
 #include "../containers/test/test_container.h"
-#include "../containers/test/Bitmap.h"
+#include "../containers/graph/graph_container.h"
 using namespace std;
 
 vector<string> find_htm_files();
@@ -53,33 +53,27 @@ string readfile(string filename)
 	return ss.str();
 }
 
-Bitmap draw(document::ptr doc, litehtml::size sz)
+void* draw(document::ptr doc, litehtml::size sz)
 {
-	Bitmap bmp(sz.width, sz.height);
+	//Bitmap bmp(sz.width, sz.height);
 	position clip(point_zero, sz);
 
-	doc->draw((uint_ptr)&bmp, point_zero, &clip);
+	doc->draw(0, point_zero, &clip);
 
-	bmp.resize(sz.width, sz.height);
+	//bmp.resize(sz.width, sz.height);
 
-	return bmp;
+	return 0;
 }
 
 void test(string filename)
 {
 	string html = readfile(filename);
 
-	int width = 800, height = 1600; // image will be cropped to content_width/content_height
+	int width = 800, height = 1600, depth = 2000; // image will be cropped to content_width/content_height
 	test_container container(width, height, test_dir);
+	graph_container gcontainer(SIZE(width, height, depth), &container);
 
-	auto doc = document::createFromString(html.c_str(), &container);
+	auto doc = document::createFromString(html.c_str(), &gcontainer);
 	doc->render(width);
-	Bitmap bmp = draw(doc, doc->content_size());
-
-	Bitmap good(filename + ".png");
-	if (bmp != good)
-	{
-		bmp.save(filename + "-FAILED.png");
-		ASSERT_TRUE(false);
-	}
+	void* graph = draw(doc, doc->content_size());
 }

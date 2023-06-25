@@ -20,7 +20,11 @@ namespace litehtml
 		#endif
 
 	public:
-		formatting_context() : m_current_top(0), m_current_left(0)	{}
+		formatting_context() : m_current_top(0), m_current_left(0)
+			#if H3ML
+			, m_current_front(0)
+			#endif
+		{}
 
 		void push_position(point p)
 		{

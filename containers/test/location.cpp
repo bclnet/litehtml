@@ -1,11 +1,11 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <fstream>
 #ifdef _WIN32
-	#include "dirent.h"
+#include "dirent.h"
 #else
-	#include <dirent.h>
+#include <dirent.h>
 #endif
-#include "test_directory.h"
+#include "location.h"
 using namespace std;
 
 const char* test_dir;

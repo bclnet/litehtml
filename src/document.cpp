@@ -299,6 +299,10 @@ int litehtml::document::render( int max_width, render_type rt )
 		cb_context.width.type = containing_block_context::cbc_value_type_absolute;
 		cb_context.height = client_rc.height;
 		cb_context.height.type = containing_block_context::cbc_value_type_absolute;
+		#if H3ML
+		cb_context.depth = client_rc.depth;
+		cb_context.depth.type = containing_block_context::cbc_value_type_absolute;
+		#endif
 
 		if(rt == render_fixed_only)
 		{
@@ -429,6 +433,11 @@ void litehtml::document::cvt_units( css_length& val, int fontSize, int size ) co
 	}
 }
 
+litehtml::size litehtml::document::size() const
+{
+	return m_size;
+}
+
 int litehtml::document::width() const
 {
 	return m_size.width;
@@ -437,6 +446,11 @@ int litehtml::document::width() const
 int litehtml::document::height() const
 {
 	return m_size.height;
+}
+
+litehtml::size litehtml::document::content_size() const
+{
+	return m_content_size;
 }
 
 int litehtml::document::content_width() const
@@ -449,6 +463,17 @@ int litehtml::document::content_height() const
 	return m_content_size.height;
 }
 
+#if H3ML
+int litehtml::document::depth() const
+{
+	return m_size.depth;
+}
+
+int litehtml::document::content_depth() const
+{
+	return m_content_size.depth;
+}
+#endif
 
 void litehtml::document::add_stylesheet( const char* str, const char* baseurl, const char* media )
 {

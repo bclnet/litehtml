@@ -85,10 +85,16 @@ namespace litehtml
 		int								to_pixels(const char* str, int fontSize, bool* is_percent = nullptr) const;
 		void 							cvt_units(css_length& val, int fontSize, int size = 0) const;
 		int								to_pixels(const css_length& val, int fontSize, int size = 0) const;
+		litehtml::size					size() const;
 		int								width() const;
 		int								height() const;
+		litehtml::size					content_size() const;
 		int								content_width() const;
 		int								content_height() const;
+		#if H3ML
+		int								depth() const;
+		int								content_depth() const;
+		#endif
 		void							add_stylesheet(const char* str, const char* baseurl, const char* media);
 		bool							on_mouse_over(point p, point client_p, position::vector& redraw_boxes);
 		bool							on_lbutton_down(point p, point client_p, position::vector& redraw_boxes);

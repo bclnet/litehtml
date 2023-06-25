@@ -1,6 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Font.h"
-#include "test_directory.h"
+#include "location.h"
 string readfile(string filename);
 using namespace std;
 
