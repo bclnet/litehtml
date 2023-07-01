@@ -146,7 +146,7 @@ int litehtml::render_item_asset::_render(point p, const containing_block_context
     m_pos.x	+= content_offset_left();
     m_pos.y += content_offset_top();
     #if H3ML
-    m_pos.z += content_offset_front();
+    m_pos.z += content_offset_back();
     #endif
 
     return m_pos.width + content_offset_left() + content_offset_right();

@@ -666,40 +666,40 @@ void style::add_property(string_id name, const string& val, const string& baseur
 			add_parsed_property(_id(_s(name) + "-right"),	property_value(len[1], important));
 			add_parsed_property(_id(_s(name) + "-bottom"),	property_value(len[2], important));
 			add_parsed_property(_id(_s(name) + "-left"),	property_value(len[3], important));
-			#if H3ML
-			add_parsed_property(_id(_s(name) + "-front"),	property_value(len[0], important));
-			add_parsed_property(_id(_s(name) + "-back"),	property_value(len[2], important));
-			#endif
+			//#if H3ML
+			//add_parsed_property(_id(_s(name) + "-front"),	property_value(len[0], important));
+			//add_parsed_property(_id(_s(name) + "-back"),	property_value(len[2], important));
+			//#endif
 			break;
 		case 3:
 			add_parsed_property(_id(_s(name) + "-top"),		property_value(len[0], important));
 			add_parsed_property(_id(_s(name) + "-right"),	property_value(len[1], important));
 			add_parsed_property(_id(_s(name) + "-left"),	property_value(len[1], important));
 			add_parsed_property(_id(_s(name) + "-bottom"),	property_value(len[2], important));
-			#if H3ML
-			add_parsed_property(_id(_s(name) + "-front"),	property_value(len[0], important));
-			add_parsed_property(_id(_s(name) + "-back"),	property_value(len[2], important));
-			#endif
+			//#if H3ML
+			//add_parsed_property(_id(_s(name) + "-front"),	property_value(len[0], important));
+			//add_parsed_property(_id(_s(name) + "-back"),	property_value(len[2], important));
+			//#endif
 			break;
 		case 2:
 			add_parsed_property(_id(_s(name) + "-top"),		property_value(len[0], important));
 			add_parsed_property(_id(_s(name) + "-bottom"),	property_value(len[0], important));
 			add_parsed_property(_id(_s(name) + "-right"),	property_value(len[1], important));
 			add_parsed_property(_id(_s(name) + "-left"),	property_value(len[1], important));
-			#if H3ML
-			add_parsed_property(_id(_s(name) + "-front"),	property_value(len[0], important));
-			add_parsed_property(_id(_s(name) + "-back"),	property_value(len[1], important));
-			#endif
+			//#if H3ML
+			//add_parsed_property(_id(_s(name) + "-front"),	property_value(len[0], important));
+			//add_parsed_property(_id(_s(name) + "-back"),	property_value(len[1], important));
+			//#endif
 			break;
 		case 1:
 			add_parsed_property(_id(_s(name) + "-top"),		property_value(len[0], important));
 			add_parsed_property(_id(_s(name) + "-bottom"),	property_value(len[0], important));
 			add_parsed_property(_id(_s(name) + "-right"),	property_value(len[0], important));
 			add_parsed_property(_id(_s(name) + "-left"),	property_value(len[0], important));
-			#if H3ML
-			add_parsed_property(_id(_s(name) + "-front"),	property_value(len[0], important));
-			add_parsed_property(_id(_s(name) + "-back"),	property_value(len[0], important));
-			#endif
+			//#if H3ML
+			//add_parsed_property(_id(_s(name) + "-front"),	property_value(len[0], important));
+			//add_parsed_property(_id(_s(name) + "-back"),	property_value(len[0], important));
+			//#endif
 			break;
 		}
 		break;

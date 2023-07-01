@@ -94,7 +94,7 @@ TEST(WindowObject, Test) {
 		//: Change the background color of a document:
 		{
 			document->addEventListener("click", _f([document]() {
-				document->body()->style()->backgroundColor("red");
+				document->body()->style_()->backgroundColor("red");
 				}));
 		}
 		//: Using the removeEventListener() method:
@@ -207,7 +207,7 @@ TEST(WindowObject, Test) {
 		{
 			tfunc setColor = _f([document]() {
 				auto x = document->body();
-				x->style()->backgroundColor(x->style()->backgroundColor() == "yellow" ? "pink" : "yellow");
+				x->style_()->backgroundColor(x->style_()->backgroundColor() == "yellow" ? "pink" : "yellow");
 				});
 
 			auto myInterval = g->setInterval(_f(setColor), 500);
@@ -230,7 +230,7 @@ TEST(WindowObject, Test) {
 					}
 					else {
 						width++;
-						element->style()->width(to_string(width) + '%');
+						element->style_()->width(to_string(width) + '%');
 					}
 				};
 				id = g->setInterval(_f(frame), 10);
@@ -481,7 +481,7 @@ TEST(WindowObject, Test) {
 		{
 			auto frames = window->frames();
 			for (auto i = 0; i < frames.size(); i++) {
-				frames[i]->document()->body()->style()->background("red");
+				frames[i]->document()->body()->style_()->background("red");
 			}
 		}
 	}
@@ -613,7 +613,7 @@ TEST(WindowObject, Test) {
 		{
 			auto frames = window->frames();
 			for (auto i = 0; i < frames.size(); i++) {
-				frames[i]->document()->body()->style()->background("red");
+				frames[i]->document()->body()->style_()->background("red");
 			}
 		}
 	}
@@ -683,10 +683,10 @@ TEST(WindowObject, Test) {
 			// Create a match Function
 			tfunc1<MediaQueryList::ptr> myFunction = _f1<MediaQueryList::ptr>([document](MediaQueryList::ptr x) {
 				if (x->matches()) {
-					document->body()->style()->backgroundColor("yellow");
+					document->body()->style_()->backgroundColor("yellow");
 				}
 				else {
-					document->body()->style()->backgroundColor("pink");
+					document->body()->style_()->backgroundColor("pink");
 				}
 				});
 
@@ -1453,7 +1453,7 @@ TEST(WindowObject, Test) {
 					}
 					else {
 						width++;
-						element->style()->width(to_string(width) + '%');
+						element->style_()->width(to_string(width) + '%');
 					}
 				};
 				id = g->setInterval(frame, 10);
@@ -1464,7 +1464,7 @@ TEST(WindowObject, Test) {
 		{
 			tfunc setColor = _f([document]() {
 				auto x = document->body();
-				x->style()->backgroundColor(x->style()->backgroundColor() == "yellow" ? "pink" : "yellow");
+				x->style_()->backgroundColor(x->style_()->backgroundColor() == "yellow" ? "pink" : "yellow");
 				});
 			auto myInterval = g->setInterval(_f(setColor), 500);
 

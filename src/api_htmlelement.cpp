@@ -466,10 +466,32 @@ namespace litehtml
 namespace litehtml
 {
 	/// <summary>
+	/// Gets the content window.
+	/// </summary>
+	Window::ptr HTMLIFrameElement::contentWindow() { return nullptr; }
+
+	/// <summary>
+	/// Gets the content document.
+	/// </summary>
+	Document::ptr HTMLIFrameElement::contentDocument() { return nullptr; }
+
+	/// <summary>
 	/// Gets or sets the src.
 	/// </summary>
 	string HTMLIFrameElement::src() { return ""; }
 	void HTMLIFrameElement::src(string value) { }
+}
+
+/// <summary>
+/// HTMLImageElement
+/// </summary>
+namespace litehtml
+{
+	/// <summary>
+	/// Gets or sets the src.
+	/// </summary>
+	string HTMLImageElement::src() { return ""; }
+	void HTMLImageElement::src(string value) { }
 }
 
 /// <summary>
@@ -478,8 +500,47 @@ namespace litehtml
 namespace litehtml
 {
 	/// <summary>
+	/// Gets the type.
+	/// </summary>
+	string HTMLInputElement::type() { return ""; }
+
+	/// <summary>
+	/// Gets or sets the checked.
+	/// </summary>
+	bool HTMLInputElement::checked() { return false; }
+	void HTMLInputElement::checked(bool value) { }
+
+	/// <summary>
 	/// Gets or sets the value.
 	/// </summary>
 	string HTMLInputElement::value() { return ""; }
 	void HTMLInputElement::value(string value) { }
+}
+
+/// <summary>
+/// HTMLFormElement
+/// </summary>
+namespace litehtml
+{
+	/// <summary>
+	/// Gets the length.
+	/// </summary>
+	HTMLCollection HTMLFormElement::elements() { return HTMLCollection(); }
+
+	/// <summary>
+	/// Gets the length.
+	/// </summary>
+	int HTMLFormElement::length() { return 0; }
+}
+
+/// <summary>
+/// HTMLScriptElement
+/// </summary>
+namespace litehtml
+{
+	/// <summary>
+	/// Gets or sets the text.
+	/// </summary>
+	string HTMLScriptElement::text() { return ""; }
+	void HTMLScriptElement::text(string value) { }
 }

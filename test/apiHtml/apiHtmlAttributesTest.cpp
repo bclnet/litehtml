@@ -12,7 +12,7 @@ static Window::ptr MakeWindow(string url, char* source) {
 	return nullptr; // new Window();
 }
 
-TEST(HtmlAttribute, Test) {
+TEST(HtmlAttributes, Test) {
 	auto g = MakeWindow("", R"xyz(
 <html>
 <body>

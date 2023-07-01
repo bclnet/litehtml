@@ -1,12 +1,22 @@
 #define _CRT_SECURE_NO_WARNINGS
+#include <sstream>
 #include <fstream>
 #ifdef _WIN32
 #include "dirent.h"
 #else
 #include <dirent.h>
 #endif
-#include "location.h"
+#include "test_utils.h"
 using namespace std;
+
+void error(const char* msg) { puts(msg); exit(1); }
+
+string readfile(string filename)
+{
+	stringstream ss;
+	ifstream(filename) >> ss.rdbuf();
+	return ss.str();
+}
 
 const char* test_dir;
 const char* test_dirs[] = {

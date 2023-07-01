@@ -25,6 +25,17 @@ namespace litehtml
 
 	template <class T1> tfunc to_func(tfunc1<T1> t);
 	template <class T1, class T2> tfunc to_func(tfunc2<T1, T2> t);
+
+	// array
+	using Int8Array = std::list<int8_t>;
+	using Uint8Array = std::list<uint8_t>;
+	//using Uint8ClampedArray = std::list<uint8_t>;
+	using Int16Array = std::list<int16_t>;
+	using Uint16Array = std::list<uint16_t>;
+	using Int32Array = std::list<int32_t>;
+	using Uint32Array = std::list<uint32_t>;
+	using BigInt64Array = std::list<int64_t>;
+	using BigUint64Array = std::list<uint64_t>;
 }
 
 #endif  // LH_API_ANY_H

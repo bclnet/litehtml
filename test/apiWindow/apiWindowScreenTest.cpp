@@ -70,10 +70,10 @@ TEST(WindowScreen, Test) {
 		{
 			if (screen->colorDepth() <= 8)
 				//simple blue background color for 8 bit screens
-				document->body()->style()->background("#0000FF");
+				document->body()->style_()->background("#0000FF");
 			else
 				//fancy blue background color for modern screens
-				document->body()->style()->background("#87CEFA");
+				document->body()->style_()->background("#87CEFA");
 		} 
 		//: All screen properties:
 		{

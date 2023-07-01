@@ -12,8 +12,8 @@ namespace litehtml
 		css_length	right;
 		css_length	bottom;
 		#if H3ML
-		css_length	front;
 		css_length	back;
+		css_length	front;
 		#endif
 
 		css_offsets() = default;
@@ -25,8 +25,8 @@ namespace litehtml
 			right	= val.right;
 			bottom	= val.bottom;
 			#if H3ML
-			front	= val.front;
 			back	= val.back;
+			front	= val.front;
 			#endif
 		}
 
@@ -37,8 +37,8 @@ namespace litehtml
 			right	= val.right;
 			bottom	= val.bottom;
 			#if H3ML
-			front	= val.front;
 			back	= val.back;
+			front	= val.front;
 			#endif
 			return *this;
 		}
@@ -50,8 +50,8 @@ namespace litehtml
 					", right: " + right.to_string() +
 					", bottom: " + bottom.to_string()
 					#if H3ML
-					+ ", front: " + front.to_string() +
-					", back: " + back.to_string()
+					+ ", back: " + back.to_string() +
+					", front: " + front.to_string()
 					#endif
 					;
 		}

@@ -23,6 +23,11 @@ namespace litehtml
 namespace litehtml
 {
 	//DocumentType::_toHTML() { return "<!DOCTYPE html>"; }
+
+	/// <summary>
+	/// Gets the name.
+	/// </summary>
+	string DocumentType::name() { return ""; }
 };
 
 /// <summary>
@@ -30,6 +35,10 @@ namespace litehtml
 /// </summary>
 namespace litehtml
 {
+	/// <summary>
+	/// Gets has feature
+	/// </summary>
+	bool DocumentImplementation::hasFeature(string x, string y) { return false; }
 };
 
 /// <summary>
@@ -386,20 +395,6 @@ namespace litehtml
 		auto s = elements_list();
 		return s;
 	}
-
-	/// <summary>
-	/// Returns the current element that is displayed in fullscreen mode
-	/// </summary>
-	/// <value>
-	/// The fullscreen element.
-	/// </value>
-	Element::ptr Document::fullscreenElement() { return nullptr; }
-
-	/// <summary>
-	/// Returns a Boolean value indicating whether the document can be viewed in fullscreen mode
-	/// </summary>
-	/// <returns></returns>
-	bool Document::fullscreenEnabled() { return false; }
 
 	/// <summary>
 	/// Returns the element that has the ID attribute with the specified value
@@ -760,6 +755,25 @@ namespace litehtml
 	/// </summary>
 	/// <param name="args">The arguments.</param>
 	void Document::writeln(void* args) { }
+
+	/// <summary>
+	/// Fullscreen API: Cancels an element in fullscreen mode
+	/// </summary>
+	void Document::exitFullscreen() { }
+
+	/// <summary>
+	/// Fullscreen API: Returns the current element that is displayed in fullscreen mode
+	/// </summary>
+	/// <value>
+	/// The fullscreen element.
+	/// </value>
+	Element::ptr Document::fullscreenElement() { return nullptr; }
+
+	/// <summary>
+	/// Fullscreen API: Returns a Boolean value indicating whether the document can be viewed in fullscreen mode
+	/// </summary>
+	/// <returns></returns>
+	bool Document::fullscreenEnabled() { return false; }
 }
 
 /// <summary>
@@ -942,11 +956,6 @@ namespace litehtml
 	/// </value>
 	string Element::dir() { return ""; }
 	void Element::dir(string value) { }
-
-	/// <summary>
-	/// Cancels an element in fullscreen mode
-	/// </summary>
-	void Element::exitFullscreen() { }
 
 	/// <summary>
 	/// Returns the first child node of an element
@@ -1381,11 +1390,6 @@ namespace litehtml
 	//void Element::removeEventListener(string event, void* function, bool useCapture) { } //: EventTarget
 
 	/// <summary>
-	/// Shows an element in fullscreen mode
-	/// </summary>
-	void Element::requestFullscreen() { }
-
-	/// <summary>
 	/// Replaces a child node in an element
 	/// </summary>
 	/// <param name="newnode">The newnode.</param>
@@ -1494,6 +1498,11 @@ namespace litehtml
 	/// Converts an element to a string
 	/// </summary>
 	string Element::toString() { return ""; }
+
+	/// <summary>
+	/// Fullscreen API: Shows an element in fullscreen mode
+	/// </summary>
+	void Element::requestFullscreen() { }
 }
 
 /// <summary>
@@ -1630,7 +1639,7 @@ namespace litehtml
 	/// </value>
 	/// <param name="index">The index.</param>
 	/// <returns></returns>
-	//Element::ptr HTMLCollection::operator[](int index);
+	std::shared_ptr<Element> HTMLCollection::operator[](int index) { return nullptr; }
 
 	/// <summary>
 	/// Returns the element at the specified index in an HTMLCollection
@@ -4076,7 +4085,7 @@ namespace litehtml
 	/// <param name="keyname">The keyname.</param>
 	/// <param name="value">The value.</param>
 	/// <returns></returns>
-	string Storage::setItem(string keyname, string value) { return ""; }
+	string Storage::setItem(string keyname, tany value) { return ""; }
 
 	/// <summary>
 	/// Removes that key from the storage
@@ -4135,4 +4144,19 @@ namespace litehtml
 	/// Sets a new or modifies an existing CSS property in a CSS declaration block
 	/// </summary>
 	void CSSStyleDeclaration::setProperty(string propertyName, string value, string important) { }
+}
+
+/// <summary>
+/// crypto
+/// </summary>
+namespace litehtml
+{
+	Int8Array* crypto::getRandomValues(Int8Array* value) { return value; }
+	Uint8Array* crypto::getRandomValues(Uint8Array* value) { return value; }
+	//Uint8ClampedArray* crypto::getRandomValues(Uint8ClampedArray* value) { return value; }
+	Uint16Array* crypto::getRandomValues(Uint16Array* value) { return value; }
+	Int32Array* crypto::getRandomValues(Int32Array* value) { return value; }
+	Uint32Array* crypto::getRandomValues(Uint32Array* value) { return value; }
+	BigInt64Array* crypto::getRandomValues(BigInt64Array* value) { return value; }
+	BigUint64Array* crypto::getRandomValues(BigUint64Array* value) { return value; }
 }

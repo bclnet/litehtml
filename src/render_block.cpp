@@ -28,7 +28,7 @@ int litehtml::render_item_block::place_float(const std::shared_ptr<render_item> 
             el->pos().x = fmt_ctx->get_line_left(line_top) + el->content_offset_left();
             el->pos().y = line_top + el->content_offset_top();
             #if H3ML
-            el->pos().z = el->content_offset_front();
+            el->pos().z = el->content_offset_back();
             #endif
         }
 		fmt_ctx->add_float(el, min_rendered_width, self_size.context_idx);
@@ -43,7 +43,7 @@ int litehtml::render_item_block::place_float(const std::shared_ptr<render_item> 
             el->pos().x = fmt_ctx->get_line_right(new_top, self_size.render_width) - el->width() + el->content_offset_left();
             el->pos().y = new_top + el->content_offset_top();
             #if H3ML
-            el->pos().z = el->content_offset_front();
+            el->pos().z = el->content_offset_back();
             #endif
         } else
         {
@@ -334,7 +334,7 @@ int litehtml::render_item_block::_render(point p, const containing_block_context
     m_pos.x += content_offset_left();
     m_pos.y += content_offset_top();
     #if H3ML
-    m_pos.z += content_offset_front();
+    m_pos.z += content_offset_back();
     #endif
 
     if (src_el()->css().get_display() == display_list_item)

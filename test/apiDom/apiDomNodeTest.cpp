@@ -12,7 +12,7 @@ static Window::ptr MakeWindow(string url, char* source) {
 	return nullptr; // new Window();
 }
 
-TEST(HtmlNode, Test) {
+TEST(DomNode, Test) {
 	auto g = MakeWindow("", R"xyz(
 <html>
 <body>
@@ -26,7 +26,7 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml" into xmlDoc and creates a node (<edition>), and appends it after the last child of the first <book> node:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				Element::ptr x; Node::ptr y; int i; Element::ptr newElement; string txt; Document::ptr xmlDoc;
 				xmlDoc = xml->responseXML();
 				newElement = xmlDoc->createElement("edition");
@@ -45,7 +45,7 @@ TEST(HtmlNode, Test) {
 				}
 				document->getElementById("demo")->innerHTML(txt);
 				assert("edition" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -66,7 +66,7 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books_ns.xml" into xmlDoc and returns the base URI of the <title> elements:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				NodeList<Element> x; int i; Document::ptr xmlDoc; string txt;
 				xmlDoc = xml->responseXML();
 				txt = "";
@@ -79,7 +79,7 @@ TEST(HtmlNode, Test) {
 				}
 				document->getElementById("demo")->innerHTML(txt);
 				assert("Base URI: https://www.w3schools.com/xml/books_ns.xml<br>Base URI : https://www.w3schools.com/xml/books_ns.xml" == txt);
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -96,7 +96,7 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml" into xmlDoc and displays the child nodes of the XML document:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				NodeList<Node> x; int i; Document::ptr xmlDoc; string txt;
 				xmlDoc = xml->responseXML();
 				txt = "";
@@ -107,7 +107,7 @@ TEST(HtmlNode, Test) {
 				}
 				document->getElementById("demo")->innerHTML(txt);
 				assert("Nodename: bookstore (nodetype: 1)" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -124,7 +124,7 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml", clones the first <book> node and then adds it to the end of the node list:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				Node::ptr x; NodeList<Element> y; Node::ptr cloneNode; int i; Document::ptr xmlDoc; string txt;
 				xmlDoc = xml->responseXML();
 				txt = "";
@@ -139,7 +139,7 @@ TEST(HtmlNode, Test) {
 				}
 				document->getElementById("demo")->innerHTML(txt);
 				assert("Everyday Italian<br>Harry Potter<br>XQuery Kick Start<br>Learning XML<br>Everyday Italian <br>" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -156,14 +156,14 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml" into xmlDoc and compares the placement of two nodes (the first and the third <book> element) in the DOM hierarchy:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				auto xmlDoc = xml->responseXML();
 				auto x = xmlDoc->getElementsByTagName("book")[0];
 				auto y = xmlDoc->getElementsByTagName("book")[2];
 				document->getElementById("demo")->innerHTML(
 					to_string(x->compareDocumentPosition(y)));
 				assert("4" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -189,7 +189,7 @@ TEST(HtmlNode, Test) {
 				return x;
 			};
 
-			function<void(XMLHttpRequest::ptr)> myFunction = [get_firstchild, document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([get_firstchild, document](XMLHttpRequest::ptr xml) {
 				auto xmlDoc = xml->responseXML();
 				// Get the first child node of the document
 				auto x = get_firstchild(xmlDoc);
@@ -201,7 +201,7 @@ TEST(HtmlNode, Test) {
 					"Nodename: " + y->nodeName() +
 					" (nodetype: " + to_string(y->nodeType()) + ")<br>");
 				assert("Nodename: bookstore (nodetype: 1)<br>Nodename: book (nodetype: 1)<br>" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -226,13 +226,13 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml" into xmlDoc and returns whether the first <book> element has any attributes:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				auto xmlDoc = xml->responseXML();
 				auto x = xmlDoc->getElementsByTagName("book")[0];
 				document->getElementById("demo")->innerHTML(
 					x->hasAttributes() ? "true" : "false");
 				assert("true" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -249,13 +249,13 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml" into xmlDoc and returns whether the first <book> element has any child nodes:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				auto xmlDoc = xml->responseXML();
 				auto x = xmlDoc->getElementsByTagName("book")[0];
 				document->getElementById("demo")->innerHTML(
 					x->hasChildNodes() ? "true" : "false");
 				assert("true" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -272,7 +272,7 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml", creates a new <book> node and inserts it before the last <book> node:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				auto xmlDoc = xml->responseXML();
 				auto newNode = xmlDoc->createElement("book");
 				auto x = xmlDoc->documentElement();
@@ -284,7 +284,7 @@ TEST(HtmlNode, Test) {
 				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() +
 					"Book elements after: " + to_string(y.length()));
 				assert("Book elements before : 4<br>Book elements after : 5<br>" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -305,14 +305,14 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml" into xmlDoc and returns whether two nodes are equal:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				auto xmlDoc = xml->responseXML();
 				auto x = xmlDoc->getElementsByTagName("book")[0];
 				auto y = xmlDoc->getElementsByTagName("book")[2];
 				document->getElementById("demo")->innerHTML(
 					x->isEqualNode(y) ? "true" : "false");
 				assert("true" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -329,14 +329,14 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml" into xmlDoc and tests whether the two nodes are the same node:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				auto xmlDoc = xml->responseXML();
 				auto x = xmlDoc->getElementsByTagName("book")[1];
 				auto y = xmlDoc->getElementsByTagName("book")[1];
 				document->getElementById("demo")->innerHTML(
 					x->isSameNode(y) ? "true" : "false");
 				assert("true" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -362,7 +362,7 @@ TEST(HtmlNode, Test) {
 				return x;
 			};
 
-			function<void(XMLHttpRequest::ptr)> myFunction = [get_lastchild, document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([get_lastchild, document](XMLHttpRequest::ptr xml) {
 				auto xmlDoc = xml->responseXML();
 				// Get the last child node of the document
 				auto x = get_lastchild(xmlDoc);
@@ -374,7 +374,7 @@ TEST(HtmlNode, Test) {
 					"Nodename: " + y->nodeName() +
 					" (nodetype: " + to_string(y->nodeType()) + ")<br>");
 				assert("Nodename: bookstore (nodetype: 1)<br>Nodename: book (nodetype: 1)<br>" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -391,13 +391,13 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books_ns.xml" into xmlDoc and finds the namespace URI for the given "c" prefix:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				auto xmlDoc = xml->responseXML();
 				auto x = xmlDoc->getElementsByTagName("book")[0];
 				document->getElementById("demo")->innerHTML(
 					x->lookupNamespaceURI("c"));
 				assert("https://www.w3schools.com/children/" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -414,13 +414,13 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books_ns.xml" into xmlDoc and finds the prefix for the given namespace URI:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				auto xmlDoc = xml->responseXML();
 				auto x = xmlDoc->getElementsByTagName("book")[0];
 				document->getElementById("demo")->innerHTML(
 					x->lookupPrefix("https://www.w3schools.com/children/"));
 				assert("c" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -446,7 +446,7 @@ TEST(HtmlNode, Test) {
 				return x;
 			};
 
-			function<void(XMLHttpRequest::ptr)> myFunction = [get_nextsibling, document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([get_nextsibling, document](XMLHttpRequest::ptr xml) {
 				auto xmlDoc = xml->responseXML();
 				auto x = xmlDoc->getElementsByTagName("title")[0];
 				auto y = get_nextsibling(x);
@@ -455,7 +455,7 @@ TEST(HtmlNode, Test) {
 					"<br>Next sibling: " + y->nodeName() + " = " +
 					y->childNodes()[0]->nodeValue());
 				assert("title = Everyday Italian<br>Next sibling: author = Giada De Laurentiis<br>" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -472,7 +472,7 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml" into xmlDoc and displays the node name and node type of the root node:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				Element::ptr x; NodeList<Node> y; int i; Document::ptr xmlDoc; string txt;
 				xmlDoc = xml->responseXML();
 				txt = "";
@@ -493,7 +493,7 @@ TEST(HtmlNode, Test) {
 					" (nodetype: " + to_string(x->nodeType()) + ")<br>" +
 					txt);
 				assert(document->getElementById("demo")->innerHTML().length() > 10);
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -510,7 +510,7 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml" into xmlDoc and displays the node name and node type of the root node:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				Element::ptr x; NodeList<Node> y; int i; Document::ptr xmlDoc; string txt;
 				xmlDoc = xml->responseXML();
 				txt = "";
@@ -530,7 +530,7 @@ TEST(HtmlNode, Test) {
 					"Nodename: " + x->nodeName() +
 					" (nodetype: " + to_string(x->nodeType()) + ")<br>");
 				assert(document->getElementById("demo")->innerHTML().length() > 10);
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -547,7 +547,7 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml" into xmlDoc and displays the node name and node value of the root node:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				Element::ptr x; NodeList<Node> y; int i; Document::ptr xmlDoc; string txt;
 				xmlDoc = xml->responseXML();
 				txt = "";
@@ -572,7 +572,7 @@ TEST(HtmlNode, Test) {
 					" (value: " + x->childNodes()[0]->nodeValue() + ")<br>" +
 					txt);
 				assert(document->getElementById("demo")->innerHTML().length() > 10);
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -593,14 +593,14 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml" into xmlDoc and returns the root element of the first <title> node:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				auto xmlDoc = xml->responseXML();
 				auto x = xmlDoc->getElementsByTagName("title")[0]->ownerDocument();
 				document->getElementById("demo")->innerHTML(
 					"Nodename: " + x->nodeName() +
 					" (nodetype: " + to_string(x->nodeType()) + ")");
 				assert("Nodename: #document (nodetype: 9)" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -617,13 +617,13 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml" into xmlDoc and returns the parent node of the first <title> element:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				auto xmlDoc = xml->responseXML();
 				auto x = xmlDoc->getElementsByTagName("title")[0];
 				document->getElementById("demo")->innerHTML(
 					"Parent node: " + x->parentNode()->nodeName());
 				assert("Parent node: book" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -640,7 +640,7 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books_ns.xml" into xmlDoc and returns the namespace prefix of the <title> elements:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				NodeList<Element> x; int i; Document::ptr xmlDoc; string txt;
 				xmlDoc = xml->responseXML();
 				txt = "";
@@ -653,7 +653,7 @@ TEST(HtmlNode, Test) {
 				}
 				document->getElementById("demo")->innerHTML(txt);
 				assert("Prefix: c<br>Prefix : x<br>" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -679,7 +679,7 @@ TEST(HtmlNode, Test) {
 				return x;
 			};
 
-			function<void(XMLHttpRequest::ptr)> myFunction = [get_previoussibling, document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([get_previoussibling, document](XMLHttpRequest::ptr xml) {
 				auto xmlDoc = xml->responseXML();
 				auto x = xmlDoc->getElementsByTagName("author")[0];
 				auto y = get_previoussibling(x);
@@ -688,7 +688,7 @@ TEST(HtmlNode, Test) {
 					"<br>Previous sibling: " + y->nodeName() + " = " +
 					y->childNodes()[0]->nodeValue());
 				assert("author = Giada De Laurentiis<br>Previous sibling: title = Everyday Italian<br>" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -705,7 +705,7 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml" into xmlDoc and removes the first child node in the first <book> node:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				auto xmlDoc = xml->responseXML();
 				auto root = xmlDoc->documentElement();
 				auto currNode = root->childNodes()[1];
@@ -713,7 +713,7 @@ TEST(HtmlNode, Test) {
 				document->getElementById("demo")->innerHTML(
 					"Removed node: " + removedNode->nodeName());
 				assert("Removed node: title" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -730,7 +730,7 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml" into xmlDoc and replaces the first <book> element:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				Element::ptr x; Node::ptr y; NodeList<Element> z; int i; Element::ptr newNode; Element::ptr newTitle; Node::ptr newText; Document::ptr xmlDoc; string txt;
 				xmlDoc = xml->responseXML();
 				txt = "";
@@ -759,7 +759,7 @@ TEST(HtmlNode, Test) {
 				}
 				document->getElementById("demo")->innerHTML(txt);
 				assert("A Notebook<br>Harry Potter<br>XQuery Kick Start<<br>Learning XML<br>" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {
@@ -780,7 +780,7 @@ TEST(HtmlNode, Test) {
 	{
 		//: The following code fragment loads "books.xml" into xmlDoc and returns the textual content of the <book> elements:
 		{
-			function<void(XMLHttpRequest::ptr)> myFunction = [document](XMLHttpRequest::ptr xml) {
+			tfunc1<XMLHttpRequest::ptr> myFunction = _f1<XMLHttpRequest::ptr>([document](XMLHttpRequest::ptr xml) {
 				NodeList<Element> x; int i; Document::ptr xmlDoc; string txt;
 				xmlDoc = xml->responseXML();
 				txt = "";
@@ -790,7 +790,7 @@ TEST(HtmlNode, Test) {
 				}
 				document->getElementById("demo")->innerHTML(txt);
 				assert("Everyday Italian Giada De Laurentiis 2005 30.00<br>Harry Potter J K.Rowling 2005 29.99<br>XQuery Kick Start James McGovern Per Bothner Kurt Cagle James Linn<br>Vaidyanathan Nagarajan 2003 49.99<br>Learning XML Erik T.Ray 2003 39.95<br>" == document->getElementById("demo")->innerHTML());
-			};
+			});
 
 			auto xhttp = new XMLHttpRequest();
 			xhttp->onreadystatechange = [myFunction](XMLHttpRequest::ptr _this) {

@@ -6,13 +6,13 @@
 #else
 #include <dirent.h>
 #endif
-#include "../containers/test/location.h"
+#include "../containers/test/test_utils.h"
 #include "../containers/test/test_container.h"
 #include "../containers/test/Bitmap.h"
 using namespace std;
 
-vector<string> find_htm_files();
-void test(string filename);
+static vector<string> find_htm_files();
+static void test(string filename);
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 using render_test = testing::TestWithParam<string>;
@@ -25,9 +25,7 @@ TEST_P(render_test, _)
 INSTANTIATE_TEST_SUITE_P(, render_test, testing::ValuesIn(find_htm_files()));
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-void error(const char* msg) { puts(msg); exit(1); }
-
-vector<string> find_htm_files()
+static vector<string> find_htm_files()
 {
 	find_test_dirs();
 
@@ -46,14 +44,7 @@ vector<string> find_htm_files()
 	return ret;
 }
 
-string readfile(string filename)
-{
-	stringstream ss;
-	ifstream(filename) >> ss.rdbuf();
-	return ss.str();
-}
-
-Bitmap draw(document::ptr doc, litehtml::size sz)
+static Bitmap draw(document::ptr doc, litehtml::size sz)
 {
 	Bitmap bmp(sz.width, sz.height);
 	position clip(point_zero, sz);
@@ -65,7 +56,7 @@ Bitmap draw(document::ptr doc, litehtml::size sz)
 	return bmp;
 }
 
-void test(string filename)
+static void test(string filename)
 {
 	string html = readfile(filename);
 

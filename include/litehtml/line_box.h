@@ -17,7 +17,7 @@ namespace litehtml
         int left;
         int right;
 		#if H3ML
-		int front;
+		int back;
 		#endif
 
         int width() const
@@ -133,13 +133,13 @@ namespace litehtml
 		int 					m_min_width;
 		std::list< std::unique_ptr<line_box_item> > m_items;
 		#if H3ML
-		int						m_front;
+		int						m_back;
 		int						m_depth;
 		#endif
     public:
         line_box(int top, int left, int right,
 			#if H3ML
-			int front,
+			int back,
 			#endif
 			int line_height, const font_metrics& fm, text_align align) :
 				m_top(top),
@@ -154,7 +154,7 @@ namespace litehtml
 				m_text_align(align),
 				m_min_width(0)
 				#if H3ML
-				, m_front(front),
+				, m_back(back),
 				m_depth(0)
 				#endif
 		{
@@ -169,8 +169,8 @@ namespace litehtml
 		int	 	line_right() const	{ return m_right;			}
 		int	 	min_width() const	{ return m_min_width;		}
 		#if H3ML
-		int		front() const	{ return m_front;			}
-		int		back() const	{ return m_front + depth();	}
+		int		back() const	{ return m_back;			}
+		int		front() const	{ return m_back + depth();	}
 		int		depth() const	{ return m_depth;			}
 		#endif
 
@@ -181,8 +181,8 @@ namespace litehtml
         int					top_margin() const;
         int					bottom_margin() const;
 		#if H3ML
-		int					front_margin() const;
 		int					back_margin() const;
+		int					front_margin() const;
 		#endif
         void				y_shift(int shift);
 		std::list< std::unique_ptr<line_box_item> >	finish(bool last_box, const containing_block_context &containing_block_size);

@@ -13,7 +13,7 @@ static Window::ptr MakeWindow(string url, char* source) {
 	return nullptr; // new Window();
 }
 
-TEST(HtmlDocument, Test) {
+TEST(HtmlDocuments, Test) {
 	auto g = MakeWindow("", R"xyz(
 <html>
 <head>
@@ -47,10 +47,10 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Get the currently focused element:
 		{
-			function<void()> myFunction = [document]() {
+			tfunc myFunction = _f([document]() {
 				auto element = document->activeElement()->tagName();
 				document->getElementById("demo")->innerHTML(element);
-			};
+				});
 
 			myFunction();
 		}
@@ -60,9 +60,9 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Add a click event to the document:
 		{
-			function<void()> myFunction = [document]() {
+			tfunc myFunction = _f([document]() {
 				document->getElementById("demo")->innerHTML("Hello World");
-			};
+				});
 
 			document->addEventListener("click", myFunction);
 
@@ -75,30 +75,30 @@ TEST(HtmlDocument, Test) {
 		}
 		//: You can add many event listeners to the document:
 		{
-			function<void()> myFunction1 = [document]() {
-				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "First function was executed! ")
-			};
+			tfunc myFunction1 = _f([document]() {
+				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "First function was executed! ");
+				});
 
-			function<void()> myFunction2 = [document]() {
+			tfunc myFunction2 = _f([document]() {
 				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "Second function was executed! ");
-			};
+				});
 
 			document->addEventListener("click", myFunction1);
 			document->addEventListener("click", myFunction2);
 		}
 		//: You can add different types of events:
 		{
-			function<void()> myFunction = [document]() {
-				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "Moused over!")
-			};
+			tfunc myFunction = _f([document]() {
+				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "Moused over!");
+				});
 
-			function<void()> mySecondFunction = [document]() {
+			tfunc mySecondFunction = _f([document]() {
 				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "Clicked!<br>");
-			};
+				});
 
-			function<void()> myThirdFunction = [document]() {
+			tfunc myThirdFunction = _f([document]() {
 				document->getElementById("demo")->innerHTML(document->getElementById("demo")->innerHTML() + "Moused out!<br>");
-			};
+				});
 
 			document->addEventListener("mouseover", myFunction);
 			document->addEventListener("click", mySecondFunction);
@@ -109,10 +109,10 @@ TEST(HtmlDocument, Test) {
 			auto p1 = 5;
 			auto p2 = 7;
 
-			function<void(int, int)> myFunction = [document](int a, int b) {
+			_f2<int, int> myFunction = _f2<int, int>([document](int a, int b) {
 				auto result = a * b;
 				document->getElementById("demo")->innerHTML(to_string(result));
-			};
+				});
 
 			document->addEventListener("click", [myFunction, p1, p2]() {
 				myFunction(p1, p2);
@@ -121,17 +121,17 @@ TEST(HtmlDocument, Test) {
 		//: Change the background color of the document:
 		{
 			document->addEventListener("click", [document]() {
-				document->body()->style()->backgroundColor("red");
+				document->body()->style_()->backgroundColor("red");
 				});
 		}
 		//: Using the removeEventListener() method:
 		{
 
-			function<void()> myFunction = [document]() {
+			tfunc myFunction = [document]() {
 				document->getElementById("demo")->innerHTML(to_string(Math::random()));
 			};
 
-			function<void()> removeHandler = [document, myFunction]() {
+			tfunc removeHandler = [document, myFunction]() {
 				document->removeEventListener("mousemove", myFunction);
 			};
 
@@ -143,12 +143,12 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Adopt the first <h1> element that appears in an iframe (another document):
 		{
-			function<void()> myFunction = [document]() {
-				auto frame = document->getElementById("myFrame");
+			tfunc myFunction = _f([document]() {
+				auto frame = static_pointer_cast<HTMLIFrameElement>(document->getElementById("myFrame"));
 				auto h1 = frame->contentWindow()->document()->getElementsByTagName("H1")[0];
 				auto node = document->adoptNode(h1);
 				document->body()->appendChild(node);
-			};
+				});
 
 			myFunction();
 		}
@@ -182,8 +182,8 @@ TEST(HtmlDocument, Test) {
 		}
 		//: Change the background color of a document:
 		{
-			document->body()->style()->backgroundColor("yellow");
-			assert("yellow" == document->body()->style()->backgroundColor());
+			document->body()->style_()->backgroundColor("yellow");
+			assert("yellow" == document->body()->style_()->backgroundColor());
 		}
 		//: Change the <body> of a document (overwrite all existing content):
 		{
@@ -192,7 +192,7 @@ TEST(HtmlDocument, Test) {
 		}
 		//: Create a <p> element and append it to the document's body:
 		{
-			function<void()> myFunction = [document]() {
+			tfunc myFunction = [document]() {
 				auto para = document->createElement("p");
 				auto node = document->createTextNode("This is a paragraph.");
 
@@ -228,23 +228,25 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Open a document, write some text to it, and close it:
 		{
-			function<void()> myFunction = [document]() {
+			tfunc myFunction = _f([document]() {
 				document->open();
 				document->write("<h1>Hello World</h1>");
 				document->write("<p>Open a document owerwrites the original content.</p>");
 				document->close();
-			};
+				});
 
 			myFunction();
 		}
 		//: Open a new window, then open a document, write some text to it, and close it:
 		{
-			function<void()> myFunction = [window]() {
+			tfunc myFunction = _f([window]() {
 				auto myWindow = window->open();
 				myWindow->document()->open();
 				myWindow->document()->write("<h1>Hello World!</h1>");
 				myWindow->document()->close();
-			};
+				});
+
+			myFunction();
 		}
 	}
 
@@ -261,7 +263,7 @@ TEST(HtmlDocument, Test) {
 	{
 		//:
 		{
-			function<void()> myFunction = [document]() {
+			tfunc myFunction = _f([document]() {
 				// Create a class attribute:
 				auto att = document->createAttribute("class");
 
@@ -270,7 +272,7 @@ TEST(HtmlDocument, Test) {
 
 				// Add the class attribute to the first h1;
 				document->getElementsByTagName("h1")[0]->setAttributeNode(att);
-			};
+				});
 
 			myFunction();
 		}
@@ -288,7 +290,7 @@ TEST(HtmlDocument, Test) {
 		}
 		//: Add a href="www.w3schools.com" attribute an anchor element:
 		{
-			function<void()> myFunction = [document]() {
+			tfunc myFunction = _f([document]() {
 				// Create a href attribute:
 				auto attr = document->createAttribute("href");
 
@@ -297,7 +299,7 @@ TEST(HtmlDocument, Test) {
 
 				// Add the href attribute to an element:
 				document->getElementById("myAnchor")->setAttributeNode(attr);
-			};
+				});
 
 			myFunction();
 		}
@@ -381,12 +383,12 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Simulate a mouseover event:
 		{
-			function<void(Event::ptr)> myFunction = [document, window](Event::ptr evnt) {
-				auto ev = document->createEvent("MouseEvent");
+			tfunc1<Event::ptr> myFunction = _f1<Event::ptr>([document, window](Event::ptr evnt) {
+				auto ev = static_pointer_cast<MouseEvent, Event>(document->createEvent("MouseEvent"));
 				ev->initMouseEvent("mouseover", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, nullptr);
 
 				document->getElementById("myDiv")->dispatchEvent(ev);
-			}
+				});
 
 			myFunction(nullptr);
 		}
@@ -420,7 +422,7 @@ TEST(HtmlDocument, Test) {
 		//: Get the document's window object:
 		{
 			auto view = document->defaultView();
-			document->getElementById("demo")->innerHTML(view);
+			document->getElementById("demo")->innerHTML(to_string(view));
 		}
 		//: Get the size of the window:
 		{
@@ -535,13 +537,12 @@ TEST(HtmlDocument, Test) {
 		}
 		//: Using the form.elements collection to get the value of each element in the form:
 		{
-			auto form = document->forms()[0];
+			auto form = static_pointer_cast<HTMLFormElement>(document->forms()[0]);
 			string text = "";
 			for (auto i = 0; i < form->length(); i++) {
-				text += form->elements()[i]->value() + "<br>";
+				text += static_pointer_cast<HTMLInputElement>(form->elements()[i])->value() + "<br>";
 			}
 			document->getElementById("demo")->innerHTML(text);
-
 		}
 	}
 
@@ -554,11 +555,11 @@ TEST(HtmlDocument, Test) {
 		//: Get the element and change its color:
 		{
 			auto myElement = document->getElementById("demo");
-			myElement->style()->color("red");
+			myElement->style_()->color("red");
 		}
 		//: Or just change its color:
 		{
-			document->getElementById("demo")->style()->color("red");
+			document->getElementById("demo")->style_()->color("red");
 		}
 	}
 
@@ -572,7 +573,7 @@ TEST(HtmlDocument, Test) {
 		//: Get all elements with both the "example" and "color" classes:
 		{
 			auto collection = document->getElementsByClassName("example color");
-			collection[0]->style()->backgroundColor("red");
+			collection[0]->style_()->backgroundColor("red");
 		}
 		//: Number of elements with class="example":
 		{
@@ -583,7 +584,7 @@ TEST(HtmlDocument, Test) {
 		{
 			auto collection = document->getElementsByClassName("example");
 			for (auto i = 0; i < collection.length(); i++) {
-				collection[i]->style()->backgroundColor("red");
+				collection[i]->style_()->backgroundColor("red");
 			}
 		}
 	}
@@ -604,8 +605,8 @@ TEST(HtmlDocument, Test) {
 		{
 			auto collection = document->getElementsByName("animal");
 			for (auto i = 0; i < collection.length(); i++) {
-				if (collection[i]->type() == "checkbox") {
-					collection[i]->checked(true);
+				if (static_pointer_cast<HTMLInputElement>(collection[i])->type() == "checkbox") {
+					static_pointer_cast<HTMLInputElement>(collection[i])->checked(true);
 				}
 			}
 		}
@@ -634,13 +635,13 @@ TEST(HtmlDocument, Test) {
 		//: The number of <li> elements in the document:
 		{
 			auto collection = document->getElementsByTagName("li");
-			document->getElementById("demo")->innerHTML(collection.length());
+			document->getElementById("demo")->innerHTML(to_string(collection.length()));
 		}
 		//: Change the background color of all <p> elements:
 		{
 			auto collection = document->getElementsByTagName("P");
 			for (auto i = 0; i < collection.length(); i++) {
-				collection[i]->style()->backgroundColor("red");
+				collection[i]->style_()->backgroundColor("red");
 			}
 		}
 	}
@@ -649,7 +650,7 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Display if the document has focus:
 		{
-			function<void()> myFunction = [document]() {
+			tfunc myFunction = _f([document]() {
 				string text;
 				if (document->hasFocus()) {
 					text = "The document has focus.";
@@ -658,7 +659,7 @@ TEST(HtmlDocument, Test) {
 					text = "The document does NOT have focus.";
 				}
 				document->getElementById("demo")->innerHTML(text);
-			};
+				});
 
 			g->setInterval(myFunction, 1);
 		}
@@ -700,28 +701,28 @@ TEST(HtmlDocument, Test) {
 			auto myImages = document->images();
 			string text = "";
 			for (auto i = 0; i < myImages.length(); i++) {
-				text += myImages[i]->src() + "<br>";
+				text += static_pointer_cast<HTMLImageElement>(myImages[i])->src() + "<br>";
 			}
 			document->getElementById("demo")->innerHTML(text);
 		}
 		//: The URL of the first <img> element is:
 		{
-			auto src = document->images()[0]->src();
+			auto src = static_pointer_cast<HTMLImageElement>(document->images()[0])->src();
 			document->getElementById("demo")->innerHTML(src);
 		}
 		//: The URL of the first <img> element is:
 		{
-			auto src = document->images().item(0)->src();
+			auto src = static_pointer_cast<HTMLImageElement>(document->images().item(0))->src();
 			document->getElementById("demo")->innerHTML(src);
 		}
 		//: The URL of the <img> element with id="myImg" is:
 		{
-			auto src = document->images().namedItem("myImg")->src();
+			auto src = static_pointer_cast<HTMLImageElement>(document->images().namedItem("myImg"))->src();
 			document->getElementById("demo")->innerHTML(src);
 		}
 		//: Add a black border to the first <img> element:
 		{
-			auto src = document->images().namedItem("myImg")->src();
+			auto src = static_pointer_cast<HTMLImageElement>(document->images().namedItem("myImg"))->src();
 			document->getElementById("demo")->innerHTML(src);
 		}
 	}
@@ -744,12 +745,12 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Import the first <h1> element from an iframe (another document):
 		{
-			function<void()> myFunction = [document]() {
-				auto frame = document->getElementById("myFrame");
-				auto h1 = frame->contentWindow()->document->getElementsByTagName("H1")[0];
+			tfunc myFunction = _f([document]() {
+				auto frame = static_pointer_cast<HTMLIFrameElement>(document->getElementById("myFrame"));
+				auto h1 = frame->contentWindow()->document()->getElementsByTagName("H1")[0];
 				auto node = document->importNode(h1, true);
 				document->body()->appendChild(node);
-			};
+				});
 
 			myFunction();
 		}
@@ -770,7 +771,7 @@ TEST(HtmlDocument, Test) {
 		//: Convert the lastModified property into a date object:
 		{
 			Date date(document->lastModified());
-			document->getElementById("demo")->innerHTML(date.toString());
+			document->getElementById("demo")->innerHTML(to_string(date));
 		}
 	}
 
@@ -783,23 +784,31 @@ TEST(HtmlDocument, Test) {
 		}
 		//: Get the URL of the first link in the document:
 		{
-
+			auto url = static_pointer_cast<HTMLAnchorElement>(document->links()[0])->href();
+			document->getElementById("demo")->innerHTML(url);
 		}
 		//: Get the URL of the first link in the document:
 		{
-
+			auto url = static_pointer_cast<HTMLAnchorElement>(document->links().item(0))->href();
+			document->getElementById("demo")->innerHTML(url);
 		}
 		//: Get the URL of the element with id="myLink":
 		{
-
+			auto url = static_pointer_cast<HTMLAnchorElement>(document->links().namedItem("myLink"))->href();
+			document->getElementById("demo")->innerHTML(url);
 		}
 		//: Add a red border to the first link in the document:
 		{
-
+			document->links()[0]->style_()->border("5px solid red");
 		}
 		//: Loop over all links and output the URL (href) of each:
 		{
-
+			auto links = document->links();
+			string text = "";
+			for (int i = 0; i < links.length(); i++) {
+				text += static_pointer_cast<HTMLAnchorElement>(links[i])->href() + "<br>";
+			}
+			document->getElementById("demo")->innerHTML(text);
 		}
 	}
 
@@ -812,15 +821,32 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Open this document, write some text, and close:
 		{
+			tfunc myFunction = _f([document]() {
+				document->open();
+				document->write("<h1>Hello World</h1>");
+				document->close();
+				});
 
+			myFunction();
 		}
 		//: Using document.open() in a new window:
 		{
+			tfunc myFunction = _f([window]() {
+				auto myWindow = window->open();
+				myWindow->document()->open();
+				myWindow->document()->write("<h1>Hello World!</h1>");
+				myWindow->document()->close();
+				});
 
+			myFunction();
 		}
 		//: If document.write() is used on a closed document, document.open() is automatically called. This will delete existing content.
 		{
+			tfunc myFunction = _f([document]() {
+				document->write("<h1>Hello World</h1>");
+				});
 
+			myFunction();
 		}
 	}
 
@@ -828,35 +854,40 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Get the first <p> element:
 		{
-
+			document->querySelector("p")->style_()->backgroundColor("red");
 		}
 		//: Get the first element with class="example":
 		{
-
+			document->querySelector(".example")->style_()->backgroundColor("red");
 		}
 		//: Get the first <p> element in with class="example":
 		{
-
+			document->querySelector("p.example")->style_()->backgroundColor("red");
 		}
 		//: Change the text of the element with id="demo":
 		{
-
+			document->querySelector("#demo")->innerHTML("Hello World!");
 		}
 		//: Select the first <p> element with the parent is a <div> element.
 		{
-
+			document->querySelector("#demo")->innerHTML("Hello World!");
 		}
 		//: Select the first <a> element that has a "target" attribute:
 		{
+			tfunc myFunction = _f([document]() {
+				auto x = document->querySelector("div > p");
+				x->style_()->backgroundColor("red");
+				});
 
+			myFunction();
 		}
 		//: Select the first <h3> or the first <h4>:
 		{
-
+			document->querySelector("h3, h4")->style_()->backgroundColor("red");
 		}
 		//: Select the first <h3> or the first <h4>:
 		{
-
+			document->querySelector("h3, h4")->style_()->backgroundColor("red");
 		}
 	}
 
@@ -864,39 +895,60 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Select all elements with class="example":
 		{
-
+			auto nodeList = document->querySelectorAll(".example");
+			for (int i = 0; i < nodeList.length(); i++) {
+				nodeList[i]->style_()->backgroundColor("red");
+			}
 		}
 		//: Add a background color to the first <p> element:
 		{
-
+			auto nodeList = document->querySelectorAll("p");
+			nodeList[0]->style_()->backgroundColor("red");
 		}
 		//: Add a background color to the first <p> element with class="example":
 		{
-
+			auto nodeList = document->querySelectorAll("p.example");
+			nodeList[0]->style_()->backgroundColor("red");
 		}
 		//: Number of elements with class="example":
 		{
-
+			auto nodeList = document->querySelectorAll(".example");
+			document->getElementById("demo")->innerHTML(to_string(nodeList.length()));
 		}
 		//: Set the background color of all elements with class="example":
 		{
-
+			auto nodeList = document->querySelectorAll(".example");
+			for (int i = 0; i < nodeList.length(); i++) {
+				nodeList[i]->style_()->backgroundColor("red");
+			}
 		}
 		//: Set the background color of all <p> elements:
 		{
-
+			auto nodeList = document->querySelectorAll("p");
+			for (int i = 0; i < nodeList.length(); i++) {
+				nodeList[i]->style_()->backgroundColor("red");
+			}
 		}
 		//: Set the border of all <a> elements with a "target" attribute:
 		{
-
+			auto nodeList = document->querySelectorAll("a[target]");
+			for (int i = 0; i < nodeList.length(); i++) {
+				nodeList[i]->style_()->border("10px solid red");
+			}
 		}
 		//: Set the background color of every <p> element where the parent is a <div> element:
 		{
-
+			auto nodeList = document->querySelectorAll("div > p");
+			for (int i = 0; i < nodeList.length(); i++) {
+				nodeList[i]->style_()->backgroundColor("red");
+			}
 		}
 		//: Set the background color of all <h3>, <div> and <span> elements:
 		{
-
+			auto nodeList = document->querySelectorAll("h3, div, span");
+			for (int i = 0; i < nodeList.length(); i++) {
+				nodeList[i]->style_()->backgroundColor("red");
+			}
 		}
 	}
 
@@ -904,7 +956,7 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Return the loading status of the document:
 		{
-
+			document->getElementById("demo")->innerHTML(document->readyState());
 		}
 	}
 
@@ -912,7 +964,7 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Return the referrer of the document:
 		{
-
+			document->getElementById("demo")->innerHTML(document->referrer());
 		}
 	}
 
@@ -920,7 +972,17 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Remove a "mousemove" event handler:
 		{
+			tfunc myFunction = _f([document]() {
+				document->getElementById("demo")->innerHTML(to_string(Math::random()));
+				});
 
+			document->addEventListener("mousemove", myFunction);
+
+			tfunc removeHandler = _f([document, myFunction]() {
+				document->removeEventListener("mousemove", myFunction);
+				});
+
+			removeHandler();
 		}
 	}
 
@@ -933,22 +995,29 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Number of <script> elements in the document:
 		{
+			document->getElementById("demo")->innerHTML(to_string(document->scripts().length()));
 		}
 		//: Return the content of the first <script> element:
 		{
-
+			document->getElementById("demo")->innerHTML(static_pointer_cast<HTMLScriptElement>(document->scripts()[0])->text());
 		}
 		//: Return the content of the first <script> element:
 		{
-
+			document->getElementById("demo")->innerHTML(static_pointer_cast<HTMLScriptElement>(document->scripts().item(0))->text());
 		}
 		//: Return the content of the <script> element with id="myScript":
 		{
-
+			auto text = static_pointer_cast<HTMLScriptElement>(document->scripts().namedItem("myScript"))->text();
+			document->getElementById("demo")->innerHTML(text);
 		}
 		//: Loop over all <script> elements and output each id:
 		{
-
+			auto collection = document->scripts();
+			string text = "";
+			for (int i = 0; i < collection.length(); i++) {
+				text += collection[i]->id() + "<br>";
+			}
+			document->getElementById("demo")->innerHTML(text);
 		}
 	}
 
@@ -961,11 +1030,12 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Return the title of the document:
 		{
-
+			document->getElementById("demo")->innerHTML(document->title());
 		}
 		//: Change the title of the document:
 		{
-
+			document->title("A new title");
+			document->getElementById("demo")->innerHTML(document->title());
 		}
 	}
 
@@ -973,7 +1043,8 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Return the full URL of the document:
 		{
-
+			auto url = document->URL();
+			document->getElementById("demo")->innerHTML(url);
 		}
 	}
 
@@ -981,34 +1052,62 @@ TEST(HtmlDocument, Test) {
 	{
 		//: Write some text directly to the HTML output:
 		{
-
+			document->write("Hello World!");
 		}
 		//: Write some HTML elements directly to the HTML output:
 		{
+			document->write("<h2>Hello World!</h2><p>Have a nice day!</p>");
 		}
 		//: Using document.write() after a document is loaded, deletes all existing HTML:
 		{
+			tfunc myFunction = _f([document]() {
+				document->write("Hello World");
+				});
+
+			myFunction();
 		}
 		//: Write a date object directly to the HTML ouput:
 		{
-
+			document->write((void*)to_string(Date()).c_str());
 		}
 		//: Open an output stream, add some HTML, then close the output stream:
 		{
+			tfunc myFunction = _f([document]() {
+				document->open();
+				document->write("<h1>Hello World</h1>");
+				document->close();
+				});
 
+			myFunction();
 		}
 		//: Open a new window and write some HTML into it:
 		{
+			tfunc myFunction = _f([window]() {
+				auto myWindow = window->open();
+				myWindow->document()->write("<h1>New Window</h1>");
+				myWindow->document()->write("<p>Hello World!</p>");
+				});
 
+			myFunction();
+		}
+		//: The writeln( ) method is only useful when writing to text documents (type=".txt").
+		{
+			document->write("Hello World!");
+			document->write("Have a nice day!");
+			document->write("<br>");
+			document->writeln("Hello World!");
+			document->writeln("Have a nice day!");
 		}
 		//:
 		{
+			document->write("Hello World!");
+			document->write("<br>");
+			document->write("Have a nice day!");
 		}
 		//:
 		{
-		}
-		//:
-		{
+			document->write("<p>Hello World!</p>");
+			document->write("<p>Have a nice day!</p>");
 		}
 	}
 
@@ -1016,12 +1115,30 @@ TEST(HtmlDocument, Test) {
 	{
 		//:
 		{
+			document->write("Hello World!");
+			document->write("Have a nice day!");
+			document->write("<br>");
+			document->writeln("Hello World!");
+			document->writeln("Have a nice day!");
+		}
+		//: writeln() adds a newline character after each statement. write() does not.
+		{
+			document->write("Hello World!");
+			document->write("Have a nice day!");
+			document->write("<br>");
+			document->writeln("Hello World!");
+			document->writeln("Have a nice day!");
 		}
 		//:
 		{
+			document->write("Hello World!");
+			document->write("<br>");
+			document->write("Have a nice day!");
 		}
 		//:
 		{
+			document->write("<p>Hello World!</p>");
+			document->write("<p>Have a nice day!</p>");
 		}
 	}
 }

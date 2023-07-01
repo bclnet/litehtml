@@ -8,6 +8,7 @@ namespace litehtml
 	// prototypes
 	class Window;
 	class Element;
+	class Event;
 
 	/// <summary>
 	/// EventListenerOptions
@@ -37,8 +38,8 @@ namespace litehtml
 		/// <param name="function">The function.</param>
 		/// <param name="useCapture">if set to <c>true</c> [use capture].</param>
 		void addEventListener(string evnt, tfunc function, bool useCapture = false);
-		
-		void dispatchEvent(EventTarget::ptr evnt);
+
+		void dispatchEvent(std::shared_ptr<Event> evnt);
 
 		/// <summary>
 		/// Removes an event handler from the document (that has been attached with the addEventListener() method)
@@ -165,7 +166,7 @@ namespace litehtml
 		/// <value>
 		/// The type.
 		/// </value>
-		wchar_t* type();
+		string type();
 	};
 
 	/// <summary>
@@ -195,6 +196,11 @@ namespace litehtml
 	class MouseEvent : public UiEvent
 	{
 	public:
+		/// <summary>
+		/// 
+		/// </summary>
+		void initMouseEvent(string type, bool canBubble, bool cancelable, std::shared_ptr<Window> view, int detail, int screenX, int screenY, int clientX, int clientY, bool ctrlKey, bool altKey, bool shiftKey, bool metaKey, int button, Event::ptr relatedTarget);
+
 		/// <summary>
 		/// Returns whether the "ALT" key was pressed when the mouse event was triggered
 		/// </summary>
@@ -285,7 +291,7 @@ namespace litehtml
 		/// Gets the region.
 		/// </summary>
 		/// <value>The region.</value>
-		wchar_t* region();
+		string region();
 
 		/// <summary>
 		/// Returns the element related to the element that triggered the mouse event
@@ -329,7 +335,7 @@ namespace litehtml
 		/// Returns the name of the animation
 		/// </summary>
 		/// <value>The name of the animation.</value>
-		wchar_t* animationName();
+		string animationName();
 
 		/// <summary>
 		/// Returns the number of seconds an animation has been running
@@ -341,7 +347,7 @@ namespace litehtml
 		/// Returns the name of the pseudo-element of the animation
 		/// </summary>
 		/// <value>The pseudo element.</value>
-		wchar_t* pseudoElement();
+		string pseudoElement();
 	};
 
 	/// <summary>
@@ -435,13 +441,13 @@ namespace litehtml
 		/// Returns the type of the change (i.e "inserting" or "deleting")
 		/// </summary>
 		/// <value>The type of the input.</value>
-		wchar_t* inputType();
+		string inputType();
 
 		/// <summary>
 		/// Returns whether the state of the event is composing or not
 		/// </summary>
 		/// <value>The is composing.</value>
-		wchar_t* isComposing();
+		string isComposing();
 	};
 
 	/// <summary>
@@ -551,6 +557,8 @@ namespace litehtml
 	/// </summary>
 	class PlatformKeyboardEvent
 	{
+	public:
+		typedef std::unique_ptr<PlatformKeyboardEvent> ptr;
 	};
 
 	/// <summary>
@@ -558,6 +566,8 @@ namespace litehtml
 	/// </summary>
 	class PlatformMouseEvent
 	{
+	public:
+		typedef std::unique_ptr<PlatformMouseEvent> ptr;
 	};
 
 	/// <summary>
@@ -566,6 +576,8 @@ namespace litehtml
 	class PlatformWheelEvent
 	{
 	public:
+		typedef std::unique_ptr<PlatformWheelEvent> ptr;
+
 		bool deltaX();
 		bool deltaY();
 	private:
@@ -659,9 +671,9 @@ namespace litehtml
 	{
 	public:
 		/// <summary>
-				/// Returns whether the "ALT" key was pressed when the touch event was triggered
-				/// </summary>
-				/// <value><c>true</c> if [alt key]; otherwise, <c>false</c>.</value>
+		/// Returns whether the "ALT" key was pressed when the touch event was triggered
+		/// </summary>
+		/// <value><c>true</c> if [alt key]; otherwise, <c>false</c>.</value>
 		bool altKey();
 
 		/// <summary>
@@ -712,7 +724,7 @@ namespace litehtml
 		/// Returns the name of the transition
 		/// </summary>
 		/// <value>The name of the property.</value>
-		wchar_t* propertyName();
+		string propertyName();
 
 		/// <summary>
 		/// Returns the number of seconds a transition has been running

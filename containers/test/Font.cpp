@@ -1,7 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Font.h"
-#include "location.h"
-string readfile(string filename);
+#include "test_utils.h"
 using namespace std;
 
 Font::size_name Font::installed_fonts[] =

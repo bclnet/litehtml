@@ -90,19 +90,19 @@ namespace litehtml
         }
 
         #if H3ML
-		int front() const
-		{
-			return m_pos.front() - m_margins.front - m_padding.front - m_borders.front;
-		}
-
 		int back() const
 		{
-			return front() + depth();
+			return m_pos.back() - m_margins.back - m_padding.back - m_borders.back;
+		}
+
+		int front() const
+		{
+			return back() + depth();
 		}
 
         int depth() const
 		{
-			return m_pos.depth + m_margins.front + m_margins.back + m_padding.depth() + m_borders.depth();
+			return m_pos.depth + m_margins.back + m_margins.front + m_padding.depth() + m_borders.depth();
 		}
 		#endif
 
@@ -167,19 +167,14 @@ namespace litehtml
         }
 
         #if H3ML
-        int padding_front() const
-		{
-			return m_padding.front;
-		}
-
 		int padding_back() const
 		{
 			return m_padding.back;
 		}
 
-        int border_front() const
+        int padding_front() const
 		{
-			return m_borders.front;
+			return m_padding.front;
 		}
 
 		int border_back() const
@@ -187,14 +182,19 @@ namespace litehtml
 			return m_borders.back;
 		}
 
-        int margin_front() const
+        int border_front() const
 		{
-			return m_margins.front;
+			return m_borders.front;
 		}
-		
+
 		int margin_back() const
 		{
 			return m_margins.back;
+		}
+
+        int margin_front() const
+		{
+			return m_margins.front;
 		}
         #endif
 
@@ -272,19 +272,19 @@ namespace litehtml
         }
 
         #if H3ML
-        int content_offset_front() const
-		{
-			return m_margins.front + m_padding.front + m_borders.front;
-		}
-
 		int content_offset_back() const
 		{
 			return m_margins.back + m_padding.back + m_borders.back;
 		}
 
+        int content_offset_front() const
+		{
+			return m_margins.front + m_padding.front + m_borders.front;
+		}
+
         int content_offset_depth() const
 		{
-			return content_offset_front() + content_offset_back();
+			return content_offset_back() + content_offset_front();
 		}
 		#endif
 
@@ -319,19 +319,19 @@ namespace litehtml
 		}
 
         #if H3ML
-        int box_sizing_front() const
-		{
-			return m_padding.front + m_borders.front;
-		}
-
 		int box_sizing_back() const
 		{
 			return m_padding.back + m_borders.back;
 		}
 
+        int box_sizing_front() const
+		{
+			return m_padding.front + m_borders.front;
+		}
+
         int box_sizing_depth() const
 		{
-			return box_sizing_front() + box_sizing_back();
+			return box_sizing_back() + box_sizing_front();
 		}
 		#endif
 
@@ -382,23 +382,23 @@ namespace litehtml
         }
 
         #if H3ML
-        bool collapse_front_margin() const
-		{
-			return !m_borders.front &&
-				   !m_padding.front &&
-				   m_element->in_normal_flow() &&
-				   m_element->css().get_float() == float_none &&
-				   m_margins.front >= 0 &&
-                   !is_root();
-		}
-
-		bool collapse_back_margin() const
+        bool collapse_back_margin() const
 		{
 			return !m_borders.back &&
 				   !m_padding.back &&
 				   m_element->in_normal_flow() &&
 				   m_element->css().get_float() == float_none &&
 				   m_margins.back >= 0 &&
+                   !is_root();
+		}
+
+		bool collapse_front_margin() const
+		{
+			return !m_borders.front &&
+				   !m_padding.front &&
+				   m_element->in_normal_flow() &&
+				   m_element->css().get_float() == float_none &&
+				   m_margins.front >= 0 &&
                    !is_root();
 		}
 		#endif

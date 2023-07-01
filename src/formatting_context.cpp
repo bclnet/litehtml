@@ -15,7 +15,7 @@ void litehtml::formatting_context::add_float(const std::shared_ptr<render_item> 
 	fb.context		= context;
 	fb.min_width	= min_width;
 	#if H3ML
-	fb.pos.z		= el->front() + m_current_front;
+	fb.pos.z		= el->back() + m_current_back;
 	fb.pos.depth	= el->depth();
 	#endif
 

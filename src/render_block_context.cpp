@@ -8,12 +8,13 @@ int litehtml::render_item_block_context::_render_content(point p, bool second_pa
 
 	int ret_width = 0;
     int child_top = 0;
-    #if H3ML
-    int child_front = 0;
-    #endif
-    int last_margin = 0;
+    int last_margin_bottom = 0;
 	std::shared_ptr<render_item> last_margin_el;
     bool is_first = true;
+    #if H3ML
+    int child_back = 0;
+    int last_margin_front = 0;
+    #endif
     for (const auto& el : m_children)
     {
         // we don't need to process absolute and fixed positioned element on the second pass
@@ -34,10 +35,10 @@ int litehtml::render_item_block_context::_render_content(point p, bool second_pa
         {
             if(el->src_el()->css().get_position() == element_position_absolute || el->src_el()->css().get_position() == element_position_fixed)
             {
-				int min_rendered_width = el->render(POINT(0, child_top, 0), self_size, fmt_ctx);
+				int min_rendered_width = el->render(POINT(0, child_top, child_back), self_size, fmt_ctx);
 				if(min_rendered_width < el->width() && el->src_el()->css().get_width().is_predefined())
 				{
-					el->render(POINT(0, child_top, 0), self_size.new_width(min_rendered_width), fmt_ctx);
+					el->render(POINT(0, child_top, child_back), self_size.new_width(min_rendered_width), fmt_ctx);
 				}
             } else
             {
@@ -57,14 +58,37 @@ int litehtml::render_item_block_context::_render_content(point p, bool second_pa
                     }
                 } else
                 {
-                    if(last_margin > el->get_margins().top)
+                    if(last_margin_bottom > el->get_margins().top)
                     {
                         child_top -= el->get_margins().top;
                     } else
                     {
-                        child_top -= last_margin;
+                        child_top -= last_margin_bottom;
                     }
                 }
+
+                #if H3ML
+                // Collapse back margin
+                if (is_first && collapse_back_margin())
+                {
+                    child_back -= el->get_margins().back;
+                    if (el->get_margins().back > get_margins().back)
+                    {
+                        m_margins.back = el->get_margins().back;
+                    }
+                }
+                else
+                {
+                    if (last_margin_front > el->get_margins().back)
+                    {
+                        child_back -= el->get_margins().back;
+                    }
+                    else
+                    {
+                        child_back -= last_margin_front;
+                    }
+                }
+                #endif
 
                 if(el->src_el()->is_replaced() || el->src_el()->is_block_formatting_context() || el->src_el()->css().get_display() == display_table)
                 {
@@ -82,11 +106,11 @@ int litehtml::render_item_block_context::_render_content(point p, bool second_pa
                     #endif
                 }
 
-                int rw = el->render(POINT(child_x, child_top, 0), self_size.new_width(child_width), fmt_ctx);
+                int rw = el->render(POINT(child_x, child_top, child_back), self_size.new_width(child_width), fmt_ctx);
 				// Render table with "width: auto" into returned width
 				if(el->src_el()->css().get_display() == display_table && rw < child_width && el->src_el()->css().get_width().is_predefined())
 				{
-					el->render(POINT(child_x, child_top, 0), self_size.new_width(rw), fmt_ctx);
+					el->render(POINT(child_x, child_top, child_back), self_size.new_width(rw), fmt_ctx);
 				}
 				int auto_margin = el->calc_auto_margins(child_width);
 				if(auto_margin)
@@ -98,7 +122,11 @@ int litehtml::render_item_block_context::_render_content(point p, bool second_pa
                     ret_width = rw;
                 }
                 child_top += el->height();
-                last_margin = el->get_margins().bottom;
+                last_margin_bottom = el->get_margins().bottom;
+                #if H3ML
+                child_back += el->depth();
+                last_margin_front = el->get_margins().front;
+                #endif
 				last_margin_el = el;
                 is_first = false;
 
@@ -119,10 +147,10 @@ int litehtml::render_item_block_context::_render_content(point p, bool second_pa
         m_pos.height = child_top;
         if(collapse_bottom_margin())
         {
-            m_pos.height -= last_margin;
-            if(m_margins.bottom < last_margin)
+            m_pos.height -= last_margin_bottom;
+            if(m_margins.bottom < last_margin_bottom)
             {
-                m_margins.bottom = last_margin;
+                m_margins.bottom = last_margin_bottom;
             }
 			if(last_margin_el)
 			{
@@ -138,17 +166,17 @@ int litehtml::render_item_block_context::_render_content(point p, bool second_pa
         m_pos.depth = block_depth;
     } else
     {
-        m_pos.depth = child_front;
-        if(collapse_back_margin())
+        m_pos.depth = child_back;
+        if(collapse_front_margin())
         {
-            m_pos.depth -= last_margin;
-            if(m_margins.back < last_margin)
+            m_pos.depth -= last_margin_front;
+            if(m_margins.front < last_margin_front)
             {
-                m_margins.back = last_margin;
+                m_margins.front = last_margin_front;
             }
 			if(last_margin_el)
 			{
-				last_margin_el->get_margins().back = 0;
+				last_margin_el->get_margins().front = 0;
 			}
         }
     }

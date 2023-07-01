@@ -16,13 +16,13 @@ namespace litehtml
 		int m_current_top;
 		int m_current_left;
 		#if H3ML
-		int m_current_front;
+		int m_current_back;
 		#endif
 
 	public:
 		formatting_context() : m_current_top(0), m_current_left(0)
 			#if H3ML
-			, m_current_front(0)
+			, m_current_back(0)
 			#endif
 		{}
 
@@ -31,7 +31,7 @@ namespace litehtml
 			m_current_left += p.x;
 			m_current_top += p.y;
 			#if H3ML
-			m_current_front += p.z;
+			m_current_back += p.z;
 			#endif
 		}
 		void pop_position(point p)
@@ -39,7 +39,7 @@ namespace litehtml
 			m_current_left -= p.x;
 			m_current_top -= p.y;
 			#if H3ML
-			m_current_front += p.z;
+			m_current_back += p.z;
 			#endif
 		}
 

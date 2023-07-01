@@ -51,6 +51,11 @@ namespace litehtml
 	{
 	public:
 		typedef std::shared_ptr<DocumentType> ptr;
+
+		/// <summary>
+		/// Gets the name.
+		/// </summary>
+		string name();
 	};
 
 	/// <summary>
@@ -61,6 +66,9 @@ namespace litehtml
 	public:
 		typedef std::shared_ptr<DocumentImplementation> ptr;
 
+		/// <summary>
+		/// Gets has feature
+		/// </summary>
 		bool hasFeature(string x, string y);
 	};
 
@@ -416,20 +424,6 @@ namespace litehtml
 		HTMLCollection forms();
 
 		/// <summary>
-		/// Returns the current element that is displayed in fullscreen mode
-		/// </summary>
-		/// <value>
-		/// The fullscreen element.
-		/// </value>
-		std::shared_ptr<Element> fullscreenElement();
-
-		/// <summary>
-		/// Returns a Boolean value indicating whether the document can be viewed in fullscreen mode
-		/// </summary>
-		/// <returns></returns>
-		bool fullscreenEnabled();
-
-		/// <summary>
 		/// Returns the element that has the ID attribute with the specified value
 		/// </summary>
 		/// <param name="elementID">The element identifier.</param>
@@ -748,6 +742,25 @@ namespace litehtml
 		/// </summary>
 		/// <param name="args">The arguments.</param>
 		void writeln(void* args);
+
+		/// <summary>
+		/// Fullscreen API: Cancels an element in fullscreen mode
+		/// </summary>
+		void exitFullscreen();
+
+		/// <summary>
+		/// Fullscreen API: Returns the current element that is displayed in fullscreen mode
+		/// </summary>
+		/// <value>
+		/// The fullscreen element.
+		/// </value>
+		std::shared_ptr<Element> fullscreenElement();
+
+		/// <summary>
+		/// Fullscreen API: Returns a Boolean value indicating whether the document can be viewed in fullscreen mode
+		/// </summary>
+		/// <returns></returns>
+		bool fullscreenEnabled();
 	};
 
 	/// <summary>
@@ -920,11 +933,6 @@ namespace litehtml
 		/// </value>
 		string dir();
 		void dir(string value);
-
-		/// <summary>
-		/// Cancels an element in fullscreen mode
-		/// </summary>
-		void exitFullscreen();
 
 		/// <summary>
 		/// Returns the first child node of an element
@@ -1314,11 +1322,6 @@ namespace litehtml
 		virtual Node::ptr replaceChild(Node::ptr newnode, Node::ptr oldnode) override; //: Node
 
 		/// <summary>
-		/// Shows an element in fullscreen mode
-		/// </summary>
-		void requestFullscreen();
-
-		/// <summary>
 		/// Returns the entire height of an element, including padding
 		/// </summary>
 		/// <value>
@@ -1419,6 +1422,11 @@ namespace litehtml
 		/// Converts an element to a string
 		/// </summary>
 		string toString();
+
+		/// <summary>
+		/// Fullscreen API: Shows an element in fullscreen mode
+		/// </summary>
+		void requestFullscreen();
 	};
 
 	/// <summary>
@@ -4059,7 +4067,7 @@ namespace litehtml
 		/// <param name="keyname">The keyname.</param>
 		/// <param name="value">The value.</param>
 		/// <returns></returns>
-		string setItem(string keyname, string value);
+		string setItem(string keyname, tany value);
 
 		/// <summary>
 		/// Removes that key from the storage
@@ -4125,6 +4133,21 @@ namespace litehtml
 		/// </summary>
 		void setProperty(string propertyName, string value, string important);
 	};
+}
+
+/// <summary>
+/// crypto
+/// </summary>
+namespace litehtml::crypto
+{
+	Int8Array* getRandomValues(Int8Array* value);
+	Uint8Array* getRandomValues(Uint8Array* value);
+	//Uint8ClampedArray* getRandomValues(Uint8ClampedArray* value);
+	Uint16Array* getRandomValues(Uint16Array* value);
+	Int32Array* getRandomValues(Int32Array* value);
+	Uint32Array* getRandomValues(Uint32Array* value);
+	BigInt64Array* getRandomValues(BigInt64Array* value);
+	BigUint64Array* getRandomValues(BigUint64Array* value);
 }
 
 #include "api_htmlelement.h"

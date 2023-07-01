@@ -142,11 +142,11 @@ void litehtml::css_properties::compute(const element* el, const document::ptr& d
 	doc->cvt_units(m_css_margins.bottom, font_size);
 
 	#if H3ML
-	m_css_margins.front  = el->get_length_property(_margin_front_,   false, 0, offset(m_css_margins.front));
 	m_css_margins.back   = el->get_length_property(_margin_back_,    false, 0, offset(m_css_margins.back));
+	m_css_margins.front  = el->get_length_property(_margin_front_,   false, 0, offset(m_css_margins.front));
 
-	doc->cvt_units(m_css_margins.front,  font_size);
 	doc->cvt_units(m_css_margins.back,   font_size);
+	doc->cvt_units(m_css_margins.front,  font_size);
 	#endif
 
 	m_css_padding.left   = el->get_length_property(_padding_left_,   false, 0, offset(m_css_padding.left));
@@ -160,11 +160,11 @@ void litehtml::css_properties::compute(const element* el, const document::ptr& d
 	doc->cvt_units(m_css_padding.bottom, font_size);
 
 	#if H3ML
-	m_css_padding.front  = el->get_length_property(_padding_front_,   false, 0, offset(m_css_padding.front));
 	m_css_padding.back   = el->get_length_property(_padding_back_,    false, 0, offset(m_css_padding.back));
+	m_css_padding.front  = el->get_length_property(_padding_front_,   false, 0, offset(m_css_padding.front));
 
-	doc->cvt_units(m_css_padding.front, font_size);
 	doc->cvt_units(m_css_padding.back,  font_size);
+	doc->cvt_units(m_css_padding.front, font_size);
 	#endif
 
 	m_css_borders.left.color   = el->get_color_property(_border_left_color_,   false, m_color, offset(m_css_borders.left.color));
@@ -197,20 +197,20 @@ void litehtml::css_properties::compute(const element* el, const document::ptr& d
 	doc->cvt_units(m_css_borders.bottom.width,	font_size);
 
 	#if H3ML
-	m_css_borders.front.color   = el->get_color_property(_border_front_color_, false, m_color, offset(m_css_borders.front.color));
 	m_css_borders.back.color    = el->get_color_property(_border_back_color_,  false, m_color, offset(m_css_borders.back.color));
-	m_css_borders.front.style   = (border_style) el->get_enum_property(_border_front_style_,  false, border_style_none, offset(m_css_borders.front.style));
+	m_css_borders.front.color   = el->get_color_property(_border_front_color_, false, m_color, offset(m_css_borders.front.color));
 	m_css_borders.back.style    = (border_style) el->get_enum_property(_border_back_style_,   false, border_style_none, offset(m_css_borders.back.style));
-	m_css_borders.front.width   = el->get_length_property(_border_front_width_, false, border_width_medium_value, offset(m_css_borders.front.width));
+	m_css_borders.front.style   = (border_style) el->get_enum_property(_border_front_style_,  false, border_style_none, offset(m_css_borders.front.style));
 	m_css_borders.back.width 	= el->get_length_property(_border_back_width_,  false, border_width_medium_value, offset(m_css_borders.back.width));
+	m_css_borders.front.width   = el->get_length_property(_border_front_width_, false, border_width_medium_value, offset(m_css_borders.front.width));
 
 	if (m_css_borders.front.style == border_style_none || m_css_borders.front.style == border_style_hidden)
 		m_css_borders.front.width = 0;
 	if (m_css_borders.back.style == border_style_none || m_css_borders.back.style == border_style_hidden)
 		m_css_borders.back.width = 0;
 
-	doc->cvt_units(m_css_borders.front.width,	font_size);
 	doc->cvt_units(m_css_borders.back.width,	font_size);
+	doc->cvt_units(m_css_borders.front.width,	font_size);
 	#endif
 
 	m_css_borders.radius.top_left_x = el->get_length_property(_border_top_left_radius_x_, false, 0, offset(m_css_borders.radius.top_left_x));
@@ -271,11 +271,11 @@ void litehtml::css_properties::compute(const element* el, const document::ptr& d
 	doc->cvt_units(m_css_offsets.bottom, font_size);
 
 	#if H3ML
-	m_css_offsets.front	 = el->get_length_property(_front_,	false, _auto, offset(m_css_offsets.front));
 	m_css_offsets.back   = el->get_length_property(_back_,  false, _auto, offset(m_css_offsets.back));
+	m_css_offsets.front	 = el->get_length_property(_front_,	false, _auto, offset(m_css_offsets.front));
 
-	doc->cvt_units(m_css_offsets.front,  font_size);
 	doc->cvt_units(m_css_offsets.back, 	 font_size);
+	doc->cvt_units(m_css_offsets.front,  font_size);
 	#endif
 
 	m_z_index = el->get_length_property(_z_index_, false, _auto, offset(m_z_index));

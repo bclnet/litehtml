@@ -150,16 +150,16 @@ set(HEADER_LITEHTML
 )
 
 set(TEST_LITEHTML
-    #test/cssTest.cpp
-    #test/mediaQueryTest.cpp
-    #test/codepoint_test.cpp
-    #test/tstring_view_test.cpp
-    #test/url_test.cpp
-    #test/url_path_test.cpp
+    test/cssTest.cpp
+    test/mediaQueryTest.cpp
+    test/codepoint_test.cpp
+    test/tstring_view_test.cpp
+    test/url_test.cpp
+    test/url_path_test.cpp
     test/render_graph_test.cpp
-    #test/render_test.cpp
+    test/render_test.cpp
     containers/graph/graph_container.cpp
-    containers/test/location.cpp
+    containers/test/test_utils.cpp
     containers/test/test_container.cpp
     containers/test/Font.cpp
     containers/test/Bitmap.cpp
@@ -169,17 +169,16 @@ set(TEST_LITEHTML
 set(TEST_LITEHTML_API
     test/apiDom/apiDomNodeTest.cpp
     test/apiHtml/apiHtmlAttributesTest.cpp
-    #test/apiHtml/apiHtmlDocumentsTest.cpp
-    #test/apiWeb/apiDocumentFragmentTest.cpp
-    #test/apiWeb/apiDocumentImplementationTest.cpp
-    #test/apiWeb/apiDocumentTypeTest.cpp
-    #test/apiWeb/apiElementTest.cpp
-    #test/apiWeb/apiGeolocationTest.cpp
-    #test/apiWeb/apiHTMLCollectionTest.cpp
-    #test/apiWeb/apiMediaQueryTest.cpp
-    #test/apiWeb/apiRectTest.cpp
-    #test/apiWeb/apiStorageTest.cpp
-    #test/apiWeb/apiStyleTest.cpp
+    test/apiHtml/apiHtmlDocumentsTest.cpp
+    test/apiWeb/apiWebConsoleTest.cpp
+    test/apiWeb/apiWebFetchTest.cpp
+    test/apiWeb/apiWebFullscreenTest.cpp
+    test/apiWeb/apiWebGeolocationTest.cpp
+    test/apiWeb/apiWebHistoryTest.cpp
+    test/apiWeb/apiWebMediaQueryListTest.cpp
+    test/apiWeb/apiWebStorageTest.cpp
+    test/apiWeb/apiWebTest.cpp
+    test/apiWeb/apiWebValidationTest.cpp
     test/apiWindow/apiWindowConsoleTest.cpp
     test/apiWindow/apiWindowHistoryTest.cpp
     test/apiWindow/apiWindowLocationTest.cpp
@@ -188,6 +187,7 @@ set(TEST_LITEHTML_API
     test/apiWindow/apiWindowScreenTest.cpp
     test/apiTestUtil.cpp
 )
+#list (APPEND TEST_LITEHTML ${TEST_LITEHTML_API})
 
 set(PROJECT_LIB_VERSION ${PROJECT_MAJOR}.${PROJECT_MINOR}.0)
 set(PROJECT_SO_VERSION ${PROJECT_MAJOR})
@@ -209,7 +209,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 target_include_directories(${PROJECT_NAME} PRIVATE include/${PROJECT_NAME})
 
 # Options
-option(H3ML "H3ml build (experimental)" ON)
+option(H3ML "H3ml build (experimental)" OFF)
 if (H3ML)
     target_compile_definitions(${PROJECT_NAME} PUBLIC H3ML)
 endif()

@@ -288,6 +288,9 @@ void litehtml::html_tag::get_content_size( size& sz, int max_width )
 	{
 		sz.width	= 0;
 	}
+	#if H3ML
+	sz.depth = 0;
+	#endif
 }
 
 void litehtml::html_tag::draw(uint_ptr hdc, point p, const position *clip, const std::shared_ptr<render_item> &ri)

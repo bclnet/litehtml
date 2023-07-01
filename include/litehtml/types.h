@@ -34,22 +34,22 @@ namespace litehtml
 		int top;
 		int bottom;
 		#if H3ML
-		int front;
 		int back;
+		int front;
 		#endif
 
 		margins()
 		{
 			left = right = top = bottom = 0;
 			#if H3ML
-			front = back = 0;
+			back = front = 0;
 			#endif
 		}
 
 		int width()		const	{ return left + right; } 
 		int height()	const	{ return top + bottom; } 
 		#if H3ML
-		int depth()		const 	{ return front + back; }
+		int depth()		const 	{ return back + front; }
 		#endif
 	};
 
@@ -184,8 +184,8 @@ namespace litehtml
 		int left()		const		{ return x;				}
 		int top()		const		{ return y;				}
 		#if H3ML
-		int front() 	const 		{ return z; 			}
-		int back() 		const 		{ return z + depth; 	}
+		int back() 		const 		{ return z; 			}
+		int front() 	const 		{ return z + depth; 	}
 		#endif
 
 		void operator+=(const margins& mg)
@@ -195,8 +195,8 @@ namespace litehtml
 			width	+= mg.left + mg.right;
 			height	+= mg.top + mg.bottom;
 			#if H3ML
-			z		-= mg.front;
-			depth 	+= mg.front + mg.back;
+			z		-= mg.back;
+			depth 	+= mg.back + mg.front;
 			#endif
 		}
 		void operator-=(const margins& mg)
@@ -206,8 +206,8 @@ namespace litehtml
 			width	-= mg.left + mg.right;
 			height	-= mg.top + mg.bottom;
 			#if H3ML
-			z		+= mg.front;
-			depth 	-= mg.front + mg.back;
+			z		+= mg.back;
+			depth 	-= mg.back + mg.front;
 			#endif
 		}
 
@@ -256,8 +256,8 @@ namespace litehtml
 				bottom()		>= val->top()		&& 
 				top()			<= val->bottom()
 				#if H3ML
-				&& front() 		<= val->back() 		&&
-				back() 			>= val->front()
+				&& back() 		<= val->front() 	&&
+				front() 		>= val->back()
 				#endif
 				) || (
 				val->left()		<= right()			&& 
@@ -265,8 +265,8 @@ namespace litehtml
 				val->bottom()	>= top()			&& 
 				val->top()		<= bottom()			
 				#if H3ML
-				&& val->front()	<= back() 			&&
-				val->back() 	>= front()
+				&& val->back()	<= front() 			&&
+				val->front() 	>= back()
 				#endif
 				);
 		}
@@ -288,7 +288,7 @@ namespace litehtml
 		{
 			if(p.x >= left() && p.x <= right() && p.y >= top() && p.y <= bottom()
 				#if H3ML
-				&& p.z >= front() && p.z <= back()
+				&& p.z >= back() && p.z <= front()
 				#endif
 			)
 			{

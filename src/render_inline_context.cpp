@@ -91,23 +91,23 @@ int litehtml::render_item_inline_context::_render_content(point p, bool second_p
             m_pos.height = m_line_boxes.back()->bottom();
         }
         #if H3ML
-        if (collapse_front_margin())
-        {
-            int old_front = m_margins.front;
-            m_margins.front = std::max(m_line_boxes.front()->front_margin(), m_margins.front);
-            if (m_margins.front != old_front)
-            {
-                fmt_ctx->update_floats(m_margins.front - old_front, shared_from_this());
-            }
-        }
         if (collapse_back_margin())
         {
-            m_margins.bottom = std::max(m_line_boxes.back()->back_margin(), m_margins.back);
-            m_pos.depth = m_line_boxes.back()->back() - m_line_boxes.back()->back_margin();
+            int old_back = m_margins.back;
+            m_margins.back = std::max(m_line_boxes.back()->back_margin(), m_margins.back);
+            if (m_margins.back != old_back)
+            {
+                fmt_ctx->update_floats(m_margins.back - old_back, shared_from_this());
+            }
+        }
+        if (collapse_front_margin())
+        {
+            m_margins.front = std::max(m_line_boxes.back()->front_margin(), m_margins.front);
+            m_pos.depth = m_line_boxes.back()->front() - m_line_boxes.back()->front_margin();
         }
         else
         {
-            m_pos.depth = m_line_boxes.back()->back();
+            m_pos.depth = m_line_boxes.back()->front();
         }
         #endif
     }
@@ -215,7 +215,7 @@ int litehtml::render_item_inline_context::new_box(const std::unique_ptr<line_box
     line_ctx.left = 0;
     line_ctx.right = self_size.render_width;
     #if H3ML
-    line_ctx.front = 0;
+    line_ctx.back = 0;
     #endif
     line_ctx.fix_top();
 	fmt_ctx->get_line_left_right(line_ctx.top, self_size.render_width, line_ctx.left, line_ctx.right);
@@ -228,7 +228,7 @@ int litehtml::render_item_inline_context::new_box(const std::unique_ptr<line_box
             line_ctx.left = 0;
             line_ctx.right = self_size.render_width;
             #if H3ML
-            line_ctx.front = 0;
+            line_ctx.back = 0;
             #endif
             line_ctx.fix_top();
 			fmt_ctx->get_line_left_right(line_ctx.top, self_size.render_width, line_ctx.left, line_ctx.right);
@@ -254,7 +254,7 @@ int litehtml::render_item_inline_context::new_box(const std::unique_ptr<line_box
 			line_ctx.top,
 			line_ctx.left + first_line_margin + text_indent, line_ctx.right,
             #if H3ML
-            line_ctx.front,
+            line_ctx.back,
             #endif
 			css().get_line_height(),
 			css().get_font_metrics(),
@@ -297,7 +297,7 @@ void litehtml::render_item_inline_context::place_inline(std::unique_ptr<line_box
     line_ctx.left = 0;
     line_ctx.right = self_size.render_width;
     #if H3ML
-    line_ctx.front = 0;
+    line_ctx.back = 0;
     #endif
     line_ctx.fix_top();
 	fmt_ctx->get_line_left_right(line_ctx.top, self_size.render_width, line_ctx.left, line_ctx.right);
@@ -306,10 +306,10 @@ void litehtml::render_item_inline_context::place_inline(std::unique_ptr<line_box
 	{
 		if(item->get_el()->src_el()->is_inline_box())
 		{
-			int min_rendered_width = item->get_el()->render(POINT(line_ctx.left, line_ctx.top, line_ctx.front), self_size.new_width(line_ctx.right), fmt_ctx);
+			int min_rendered_width = item->get_el()->render(POINT(line_ctx.left, line_ctx.top, line_ctx.back), self_size.new_width(line_ctx.right), fmt_ctx);
 			if(min_rendered_width < item->get_el()->width() && item->get_el()->src_el()->css().get_width().is_predefined())
 			{
-				item->get_el()->render(POINT(line_ctx.left, line_ctx.top, line_ctx.front), self_size.new_width(min_rendered_width), fmt_ctx);
+				item->get_el()->render(POINT(line_ctx.left, line_ctx.top, line_ctx.back), self_size.new_width(min_rendered_width), fmt_ctx);
 			}
 			item->set_rendered_min_width(min_rendered_width);
 		} else if(item->get_el()->src_el()->css().get_display() == display_inline_text)
@@ -342,7 +342,7 @@ void litehtml::render_item_inline_context::place_inline(std::unique_ptr<line_box
         line_ctx.left = 0;
         line_ctx.right = self_size.render_width;
         #if H3ML
-        line_ctx.front = 0;
+        line_ctx.back = 0;
         #endif
         line_ctx.fix_top();
 		fmt_ctx->get_line_left_right(line_ctx.top, self_size.render_width, line_ctx.left, line_ctx.right);

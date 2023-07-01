@@ -27,14 +27,14 @@ litehtml::render_item::render_item(std::shared_ptr<element>  _src_el) :
     m_borders.bottom	= doc->to_pixels(src_el()->css().get_borders().bottom.width, fnt_size);
 
     #if H3ML
-    m_margins.front		= doc->to_pixels(src_el()->css().get_margins().front,        fnt_size);
     m_margins.back	    = doc->to_pixels(src_el()->css().get_margins().back,         fnt_size);
+    m_margins.front		= doc->to_pixels(src_el()->css().get_margins().front,        fnt_size);
 
-    m_padding.front		= doc->to_pixels(src_el()->css().get_padding().front,        fnt_size);
     m_padding.back	    = doc->to_pixels(src_el()->css().get_padding().back,         fnt_size);
+    m_padding.front		= doc->to_pixels(src_el()->css().get_padding().front,        fnt_size);
 
-    m_borders.front		= doc->to_pixels(src_el()->css().get_borders().front.width,  fnt_size);
     m_borders.back	    = doc->to_pixels(src_el()->css().get_borders().back.width,   fnt_size);
+    m_borders.front		= doc->to_pixels(src_el()->css().get_borders().front.width,  fnt_size);
     #endif
 }
 
@@ -50,27 +50,27 @@ int litehtml::render_item::render(point p, const containing_block_context& conta
 	int content_left = content_offset_left();
 	int content_top = content_offset_top();
 	#if H3ML
-	int content_front = content_offset_front();
+	int content_back = content_offset_back();
 	#endif
 
 	m_pos.x += content_left;
 	m_pos.y += content_top;
 	#if H3ML
-	m_pos.z += content_front;
+	m_pos.z += content_back;
 	#endif
 
 
 	if(src_el()->is_block_formatting_context() || ! fmt_ctx)
 	{
 		formatting_context fmt;
-		fmt.push_position(POINT(content_left, content_top, content_front));
+		fmt.push_position(POINT(content_left, content_top, content_back));
 		ret = _render(p, containing_block_size, &fmt, second_pass);
 		fmt.apply_relative_shift(containing_block_size);
 	} else
 	{
-		fmt_ctx->push_position(POINT(p.x + content_left, p.y + content_top, p.z + content_front));
+		fmt_ctx->push_position(POINT(p.x + content_left, p.y + content_top, p.z + content_back));
 		ret = _render(p, containing_block_size, fmt_ctx, second_pass);
-		fmt_ctx->pop_position(POINT(p.x + content_left, p.y + content_top, p.z + content_front));
+		fmt_ctx->pop_position(POINT(p.x + content_left, p.y + content_top, p.z + content_back));
 	}
 	return ret;
 }
@@ -93,11 +93,11 @@ void litehtml::render_item::calc_outlines( int parent_width )
     m_padding.bottom	= m_element->css().get_padding().bottom.calc_percent(parent_width);
 
     #if H3ML
-    m_margins.front		= m_element->css().get_margins().front.calc_percent(parent_width);
     m_margins.back	    = m_element->css().get_margins().back.calc_percent(parent_width);
+    m_margins.front		= m_element->css().get_margins().front.calc_percent(parent_width);
 
-    m_padding.front		= m_element->css().get_padding().front.calc_percent(parent_width);
     m_padding.back	    = m_element->css().get_padding().back.calc_percent(parent_width);
+    m_padding.front		= m_element->css().get_padding().front.calc_percent(parent_width);
     #endif
 }
 
@@ -371,7 +371,7 @@ void litehtml::render_item::render_positioned(render_type rt)
                 client_y		= wnd_position.top();
                 #if H3ML
                 containing_block_size.depth		= wnd_position.depth;
-                client_z		= wnd_position.front();
+                client_z		= wnd_position.back();
                 #endif
             } else
             {
@@ -387,8 +387,8 @@ void litehtml::render_item::render_positioned(render_type rt)
             css_length	css_top		= el->src_el()->css().get_offsets().top;
             css_length	css_bottom	= el->src_el()->css().get_offsets().bottom;
             #if H3ML
-			css_length	css_front   = el->src_el()->css().get_offsets().front;
 			css_length	css_back    = el->src_el()->css().get_offsets().back;
+			css_length	css_front   = el->src_el()->css().get_offsets().front;
             #endif
 
             bool need_render = false;
@@ -485,22 +485,22 @@ void litehtml::render_item::render_positioned(render_type rt)
                 }
 
                 #if H3ML
-                if(!css_front.is_predefined() || !css_back.is_predefined())
+                if(!css_back.is_predefined() || !css_front.is_predefined())
 				{
-					if (!css_front.is_predefined() && css_back.is_predefined())
+					if (!css_back.is_predefined() && css_front.is_predefined())
 					{
-						el->m_pos.z = css_front.calc_percent(containing_block_size.depth) + el->content_offset_front();
-					} else if (css_front.is_predefined() && !css_back.is_predefined())
+						el->m_pos.z = css_back.calc_percent(containing_block_size.depth) + el->content_offset_back();
+					} else if (css_back.is_predefined() && !css_front.is_predefined())
 					{
-						el->m_pos.z = containing_block_size.depth - css_back.calc_percent(containing_block_size.depth) - el->m_pos.depth -
-                                el->content_offset_back();
+						el->m_pos.z = containing_block_size.depth - css_front.calc_percent(containing_block_size.depth) - el->m_pos.depth -
+                                el->content_offset_front();
 					} else
 					{
-						el->m_pos.z         = css_front.calc_percent(containing_block_size.depth) + el->content_offset_front();
+						el->m_pos.z         = css_back.calc_percent(containing_block_size.depth) + el->content_offset_back();
 						el->m_pos.depth     = containing_block_size.depth -
-                                css_front.calc_percent(containing_block_size.depth) -
                                 css_back.calc_percent(containing_block_size.depth) -
-                                (el->content_offset_front() + el->content_offset_back());
+                                css_front.calc_percent(containing_block_size.depth) -
+                                (el->content_offset_back() + el->content_offset_front());
 						need_render = true;
 					}
 				}
@@ -560,22 +560,22 @@ void litehtml::render_item::render_positioned(render_type rt)
                 }
 
                 #if H3ML
-                if(!css_front.is_predefined() || !css_back.is_predefined())
+                if(!css_back.is_predefined() || !css_front.is_predefined())
 				{
-					if (!css_front.is_predefined() && css_back.is_predefined())
+					if (!css_back.is_predefined() && css_front.is_predefined())
 					{
-						el->m_pos.z = css_front.calc_percent(containing_block_size.depth) + el->content_offset_front() - m_padding.front;
-					} else if (css_front.is_predefined() && !css_back.is_predefined())
+						el->m_pos.z = css_back.calc_percent(containing_block_size.depth) + el->content_offset_back() - m_padding.back;
+					} else if (css_back.is_predefined() && !css_front.is_predefined())
 					{
-						el->m_pos.z = m_pos.depth + m_padding.back - css_back.calc_percent(containing_block_size.depth) - el->m_pos.depth -
-                                el->content_offset_back();
+						el->m_pos.z = m_pos.depth + m_padding.front - css_front.calc_percent(containing_block_size.depth) - el->m_pos.depth -
+                                el->content_offset_front();
 					} else
 					{
-						el->m_pos.z         = css_front.calc_percent(containing_block_size.depth) + el->content_offset_front() - m_padding.front;
-						el->m_pos.depth     = m_pos.depth + m_padding.front + m_padding.back -
-                                css_front.calc_percent(containing_block_size.depth) -
+						el->m_pos.z         = css_back.calc_percent(containing_block_size.depth) + el->content_offset_back() - m_padding.back;
+						el->m_pos.depth     = m_pos.depth + m_padding.back + m_padding.front -
                                 css_back.calc_percent(containing_block_size.depth) -
-                                (el->content_offset_front() + el->content_offset_back());
+                                css_front.calc_percent(containing_block_size.depth) -
+                                (el->content_offset_back() + el->content_offset_front());
 						if (new_depth != -1)
 						{
 							el->m_pos.z += (el->m_pos.depth - new_depth) / 2;
@@ -668,8 +668,8 @@ void litehtml::render_item::get_redraw_box(litehtml::position& pos, point p /*= 
         int p_top		= std::min(pos.top(), p.y + m_pos.top() - m_padding.top - m_borders.top);
         int p_bottom	= std::max(pos.bottom(), p.y + m_pos.bottom() + m_padding.bottom + m_borders.bottom);
         #if H3ML
-		int p_front     = std::min(pos.front(), p.z + m_pos.front() + m_padding.front + m_borders.front);
-		int p_back      = std::max(pos.back(), p.z + m_pos.back() + m_padding.back + m_borders.back);
+		int p_back      = std::max(pos.back(), p.z + m_pos.back() - m_padding.back - m_borders.back);
+		int p_front     = std::min(pos.front(), p.z + m_pos.front() + m_padding.back + m_borders.back);
         #endif
 
         pos.x = p_left;
@@ -678,7 +678,7 @@ void litehtml::render_item::get_redraw_box(litehtml::position& pos, point p /*= 
         pos.height	= p_bottom - p_top;
         #if H3ML
         pos.z = p_front;
-        pos.depth 	= p_back - p_front;
+        pos.depth 	= p_front - p_back;
         #endif
 
         if(src_el()->css().get_overflow() == overflow_visible)
@@ -728,7 +728,7 @@ void litehtml::render_item::calc_document_size( litehtml::size& sz, litehtml::si
 			content_size.width += content_offset_right();
 			content_size.height += content_offset_bottom();
             #if H3ML
-            content_size.depth += content_offset_back();
+            content_size.depth += content_offset_front();
             #endif
 		}
     }

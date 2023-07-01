@@ -20,9 +20,11 @@ namespace litehtml
 	public:
 		Date();
 		Date(int64_t ticks);
+		static Date now();
 		std::string toLocaleTimeString();
-		std::string toString();
+		//std::string toString();
 	};
+	std::string to_string(Date t);
 
 	/// <summary>
 	/// Math

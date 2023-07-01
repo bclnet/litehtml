@@ -15,8 +15,10 @@ namespace litehtml
 {
 	Date::Date() { }
 	Date::Date(int64_t ticks) { }
+	Date Date::now() { return Date(); }
 	std::string Date::toLocaleTimeString() { return ""; }
-	std::string Date::toString() { return ""; }
+
+	std::string to_string(Date t) { return ""; }
 };
 
 /// <summary>

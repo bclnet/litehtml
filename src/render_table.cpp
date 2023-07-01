@@ -518,8 +518,8 @@ void litehtml::render_item_table_row::get_inline_boxes( position::vector& boxes 
 			pos.height	= el->height() + m_padding.top + m_padding.bottom + m_borders.top + m_borders.bottom;
 
             #if H3ML
-            pos.z       = el->front() - m_padding.front - m_borders.front;
-            pos.depth   = el->depth() + m_padding.front + m_padding.back + m_borders.front + m_borders.back;
+            pos.z       = el->back() - m_padding.back - m_borders.back;
+            pos.depth   = el->depth() + m_padding.back + m_padding.front + m_borders.back + m_borders.front;
             #endif
 
 			boxes.push_back(pos);

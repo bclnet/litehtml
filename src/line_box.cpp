@@ -11,7 +11,7 @@ void litehtml::line_box_item::place_to(point p)
 	m_element->pos().x = p.x + m_element->content_offset_left();
 	m_element->pos().y = p.y + m_element->content_offset_top();
 	#if H3ML
-	m_element->pos().z = p.z + m_element->content_offset_front();
+	m_element->pos().z = p.z + m_element->content_offset_back();
 	#endif
 }
 
@@ -60,7 +60,7 @@ litehtml::lbi_start::lbi_start(const std::shared_ptr<render_item>& element) : li
 	m_pos.height = m_element->src_el()->css().get_font_metrics().height;
 	m_pos.width = m_element->content_offset_left();
 	#if H3ML
-	m_pos.depth = m_element->content_offset_front();
+	m_pos.depth = m_element->content_offset_back();
 	#endif
 }
 
@@ -192,7 +192,7 @@ void litehtml::line_box::add_item(std::unique_ptr<line_box_item> item)
 	}
 	if(add)
 	{
-		item->place_to(POINT(m_left + m_width, m_top, m_front));
+		item->place_to(POINT(m_left + m_width, m_top, m_back));
 		m_width += item->width();
 		m_height = std::max(m_height, item->get_el()->height());
 		m_items.emplace_back(std::move(item));
@@ -661,12 +661,12 @@ int litehtml::line_box::bottom_margin() const
 }
 
 #if H3ML
-int litehtml::line_box::front_margin() const
+int litehtml::line_box::back_margin() const
 {
     return 0;
 }
 
-int litehtml::line_box::back_margin() const
+int litehtml::line_box::front_margin() const
 {
     return 0;
 }

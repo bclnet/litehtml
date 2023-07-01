@@ -521,11 +521,22 @@ namespace litehtml
 
 	/// <summary>
 	/// HTMLIFrameElement
+	/// https://github.com/WebKit/WebKit/blob/main/Source/WebCore/html/HTMLIFrameElement.h
 	/// </summary>
 	class HTMLIFrameElement : public HTMLElement
 	{
 	public:
 		typedef std::shared_ptr<HTMLIFrameElement> ptr;
+
+		/// <summary>
+		/// Gets the content window.
+		/// </summary>
+		Window::ptr contentWindow();
+
+		/// <summary>
+		/// Gets the content document.
+		/// </summary>
+		Document::ptr contentDocument();
 
 		/// <summary>
 		/// Gets or sets the src.
@@ -535,7 +546,24 @@ namespace litehtml
 	};
 
 	/// <summary>
+	/// HTMLImageElement
+	/// https://github.com/WebKit/WebKit/blob/main/Source/WebCore/html/HTMLImageElement.h
+	/// </summary>
+	class HTMLImageElement : public HTMLElement
+	{
+	public:
+		typedef std::shared_ptr<HTMLImageElement> ptr;
+
+		/// <summary>
+		/// Gets or sets the source.
+		/// </summary>
+		string src();
+		void src(string value);
+	};
+
+	/// <summary>
 	/// HTMLInputElement
+	/// https://github.com/WebKit/WebKit/blob/main/Source/WebCore/html/HTMLInputElement.h
 	/// </summary>
 	class HTMLInputElement : public HTMLElement
 	{
@@ -543,10 +571,57 @@ namespace litehtml
 		typedef std::shared_ptr<HTMLInputElement> ptr;
 
 		/// <summary>
+		/// Gets the type.
+		/// </summary>
+		string type();
+
+		/// <summary>
+		/// Gets or sets the checked.
+		/// </summary>
+		bool checked();
+		void checked(bool value);
+
+		/// <summary>
 		/// Gets or sets the value.
 		/// </summary>
 		string value();
 		void value(string value);
+	};
+
+	/// <summary>
+	/// HTMLFormElement
+	/// https://github.com/WebKit/WebKit/blob/main/Source/WebCore/html/HTMLFormElement.h
+	/// </summary>
+	class HTMLFormElement : public HTMLElement
+	{
+	public:
+		typedef std::shared_ptr<HTMLFormElement> ptr;
+
+		/// <summary>
+		/// Gets the type.
+		/// </summary>
+		HTMLCollection elements();
+
+		/// <summary>
+		/// Gets the length.
+		/// </summary>
+		int length();
+	};
+
+	/// <summary>
+	/// HTMLScriptElement
+	/// https://github.com/WebKit/WebKit/blob/main/Source/WebCore/html/HTMLScriptElement.h
+	/// </summary>
+	class HTMLScriptElement : public HTMLElement
+	{
+	public:
+		typedef std::shared_ptr<HTMLScriptElement> ptr;
+
+		/// <summary>
+		/// Gets or sets the text.
+		/// </summary>
+		string text();
+		void text(string value);
 	};
 }
 

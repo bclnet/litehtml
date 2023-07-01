@@ -158,10 +158,10 @@ namespace litehtml
 			bottom_left_x += mg.left;
 			bottom_left_y += mg.bottom;
 			#if H3ML
-			top_left_z += mg.front;
-			top_right_z += mg.front;
-			bottom_right_z += mg.back;
-			bottom_left_z += mg.back;
+			top_left_z += mg.back;
+			top_right_z += mg.back;
+			bottom_right_z += mg.front;
+			bottom_left_z += mg.front;
 			#endif
 			fix_values();
 		}
@@ -176,10 +176,10 @@ namespace litehtml
 			bottom_left_x -= mg.left;
 			bottom_left_y -= mg.bottom;
 			#if H3ML
-			top_left_z -= mg.front;
-			top_right_z -= mg.front;
-			bottom_right_z -= mg.back;
-			bottom_left_z -= mg.back;
+			top_left_z -= mg.back;
+			top_right_z -= mg.back;
+			bottom_right_z -= mg.front;
+			bottom_left_z -= mg.front;
 			#endif
 			fix_values();
 		}
@@ -292,8 +292,8 @@ namespace litehtml
 		css_border			right;
 		css_border			bottom;
 		#if H3ML
-		css_border			front;
 		css_border			back;
+		css_border			front;
 		#endif
 		css_border_radius	radius;
 
@@ -303,7 +303,7 @@ namespace litehtml
 		{
 			return left.width.val() != 0 || right.width.val() != 0 || top.width.val() != 0 || bottom.width.val() != 0
 				#if H3ML
-				|| front.width.val() != 0 || back.width.val() != 0
+				|| back.width.val() != 0 || front.width.val() != 0
 				#endif
 				;
 		}
@@ -315,8 +315,8 @@ namespace litehtml
 			top		= val.top;
 			bottom	= val.bottom;
 			#if H3ML
-			front	= val.front;
 			back	= val.back;
+			front	= val.front;
 			#endif
 			radius	= val.radius;
 		}
@@ -328,8 +328,8 @@ namespace litehtml
 			top		= val.top;
 			bottom	= val.bottom;
 			#if H3ML
-			front	= val.front;
 			back	= val.back;
+			front	= val.front;
 			#endif
 			radius	= val.radius;
 			return *this;
@@ -341,8 +341,8 @@ namespace litehtml
 					", right: " + right.to_string() +
 					", bottom: " + bottom.to_string()
 					#if H3ML
-					+ ", front: " + front.to_string() +
-					", back: " + back.to_string()
+					+ ", back: " + back.to_string() +
+					", front: " + front.to_string()
 					#endif
 					;
 		}
@@ -355,8 +355,8 @@ namespace litehtml
 		border			right;
 		border			bottom;
 		#if H3ML
-		border			front;
 		border			back;
+		border			front;
 		#endif
 		border_radiuses	radius;
 
@@ -369,8 +369,8 @@ namespace litehtml
 			top = val.top;
 			bottom = val.bottom;
 			#if H3ML
-			front = val.front;
 			back = val.back;
+			front = val.front;
 			#endif
 			radius = val.radius;
 		}
@@ -382,8 +382,8 @@ namespace litehtml
 			top = val.top;
 			bottom = val.bottom;
 			#if H3ML
-			front = val.front;
 			back = val.back;
+			front = val.front;
 			#endif
 		}
 
@@ -391,7 +391,7 @@ namespace litehtml
 		{
 			return left.width != 0 || right.width != 0 || top.width != 0 || bottom.width != 0
 				#if H3ML
-				|| front.width != 0 || back.width != 0
+				|| back.width != 0 || front.width != 0
 				#endif
 				;
 		}
@@ -403,8 +403,8 @@ namespace litehtml
 			top = val.top;
 			bottom = val.bottom;
 			#if H3ML
-			front = val.front;
 			back = val.back;
+			front = val.front;
 			#endif
 			radius = val.radius;
 			return *this;
@@ -417,8 +417,8 @@ namespace litehtml
 			top = val.top;
 			bottom = val.bottom;
 			#if H3ML
-			front = val.front;
 			back = val.back;
+			front = val.front;
 			#endif
 			return *this;
 		}
